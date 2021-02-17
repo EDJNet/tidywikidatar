@@ -4,7 +4,6 @@
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param q A character vector of length 1, a wikidata id. Must always start with the capital letter "Q", e.g. "Q5" for "human being".
 #' @param language Language to be used for the search.
-#' @param stop_at_first Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.
 #' @param limit Maximum numbers of responses to be given.
 #' @param cache Logical, defaults to TRUE.
 #' @param wait In seconds, defaults to 1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
@@ -48,16 +47,12 @@ tw_filter <- function(search,
                                                         p = p,
                                                         cache = cache)
 
-
-
         if (is.null(current_value)) {
           tibble::tibble(id = as.character("NA"))
-        } else if (current_value == q) {
-          if (stop_at_first==TRUE) {
-            tibble::tibble(id = current_id)
-          } else {
-            tibble::tibble(id = current_id)
-          }
+        } else if (length(current_value)==0) {
+          tibble::tibble(id = as.character("NA"))
+        } else if (is.element(q, current_value)==TRUE) {
+          tibble::tibble(id = current_id)
         } else {
           tibble::tibble(id = as.character("NA"))
         }

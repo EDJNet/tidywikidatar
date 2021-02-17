@@ -142,6 +142,7 @@ tw_get <- function(id,
       }
     )
     if (is.data.frame(db_result)) {
+      DBI::dbDisconnect(db)
       return(db_result)
     }
   }

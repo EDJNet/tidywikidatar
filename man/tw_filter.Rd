@@ -22,8 +22,6 @@ tw_filter(
 
 \item{q}{A character vector of length 1, a wikidata id. Must always start with the capital letter "Q", e.g. "Q5" for "human being".}
 
-\item{stop_at_first}{Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.}
-
 \item{language}{Language to be used for the search.}
 
 \item{limit}{Maximum numbers of responses to be given.}
