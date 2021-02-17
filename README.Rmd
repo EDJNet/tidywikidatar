@@ -32,3 +32,4 @@ You can install `tidywikidatar` from [Github](https://github.com/giocomai/tidywi
 # install.packages("remotes")
 remotes::install_github("giocomai/tidywikidatar")
 ```
+
