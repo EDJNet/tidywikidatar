@@ -47,6 +47,7 @@ tw_search <- function(search,
       }
     )
     if (is.data.frame(db_result)) {
+      DBI::dbDisconnect(db)
       return(db_result)
     }
   }
