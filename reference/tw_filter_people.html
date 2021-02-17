@@ -112,7 +112,7 @@
     <p>A wrapper of <code><a href='tw_filter.html'>tw_filter()</a></code> that defaults to keep only "instance of" (P31) "human being" (Q5).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_filter_people</span><span class='op'>(</span><span class='va'>search</span>, language <span class='op'>=</span> <span class='st'>"en"</span>, limit <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_filter_people</span><span class='op'>(</span><span class='va'>search</span>, language <span class='op'>=</span> <span class='st'>"en"</span>, limit <span class='op'>=</span> <span class='fl'>10</span>, stop_at_first <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,6 +128,10 @@
     <tr>
       <th>limit</th>
       <td><p>Maximum numbers of responses to be given.</p></td>
+    </tr>
+    <tr>
+      <th>stop_at_first</th>
+      <td><p>Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.</p></td>
     </tr>
     </table>
 
