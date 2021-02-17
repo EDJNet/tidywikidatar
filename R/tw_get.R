@@ -253,13 +253,13 @@ tw_get <- function(id,
 }
 
 
-#' Get label in given language
+#' Get Wikidata label in given language
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
 #' @param language A character vector of length one, defaults to "en", must correspond to a two-letter language code.
 #'
-#' @return
+#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
 #' @export
 #'
 #' @examples
@@ -272,5 +272,25 @@ tw_get_label <- function(id, language = "en", cache = TRUE) {
                   stringr::str_ends(string = property,
                                     pattern = stringr::str_c(language,
                                                              collapse = "|"))) %>%
+    dplyr::pull(value)
+}
+
+
+#' Get Wikidata property
+#'
+#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#'
+#' @return A charachter vector of length 1, corresponding to the value for the given property.
+#' @export
+#'
+#' @examples
+#'
+#'
+tw_get_property <- function(id,
+                            p,
+                            cache = TRUE) {
+  tidywikidatar::tw_get(id = id, cache = cache) %>%
+    dplyr::filter(property == p) %>%
     dplyr::pull(value)
 }
