@@ -3,7 +3,7 @@
 #' @param search A string to be searched in Wikidata
 #' @param language Language to be used for the search
 #' @param limit Maximum numbers of responses to be given.
-#' @param wait In seconds, defaults to 1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
+#' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Logical, defaults to TRUE. If TRUE, search queries are stored in a local sqlite database located in the `wiki_search_db` folder within the local cache folder.
 #'
 #' @return
@@ -19,7 +19,7 @@
 tw_search <- function(search,
                            language = "en",
                            limit = 10,
-                           wait = 1,
+                           wait = 0.1,
                            cache = TRUE) {
   if (is.null(search)) {
     usethis::ui_stop("A search string must be given.")

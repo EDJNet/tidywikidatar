@@ -28,5 +28,4 @@ tw_search("Antonio Vivaldi") \%>\%
   tw_filter_people()
 }
 
-
 }
