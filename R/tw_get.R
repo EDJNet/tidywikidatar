@@ -107,7 +107,7 @@ tw_search <- function(search,
 
 #' Return (almost) all information from a Wikidata item in a tidy format
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
+#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
 #'
 #' @return A data.frame (a tibble) with two columns: property and value
@@ -120,6 +120,11 @@ tw_search <- function(search,
 #'
 tw_get <- function(id,
                          cache = TRUE) {
+
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
+
   if (cache == TRUE) {
     tidywikidatar::tw_create_cache_folder()
     db_folder <- fs::path(
