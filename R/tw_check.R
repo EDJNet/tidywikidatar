@@ -38,4 +38,5 @@ tw_check_search <- function(search,
       cache = TRUE
     )
   }
+  search_result
 }

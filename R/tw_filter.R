@@ -33,6 +33,10 @@ tw_filter <- function(search,
     cache = cache
   )
 
+  if (nrow(search_result)==0) {
+    return(search_result)
+  }
+
   filtered_id <- purrr::map_dfr(
     .x = search_result$id,
     .f =
@@ -102,6 +106,10 @@ tw_filter_first <- function(search,
     wait = wait,
     cache = cache
   )
+
+  if (nrow(search_result)==0) {
+    return(search_result)
+  }
 
   first_match_id <- purrr::detect(
     .x = seq_along(search_result$id),
