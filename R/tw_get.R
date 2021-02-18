@@ -280,13 +280,19 @@ tw_get_label <- function(id, language = "en", cache = TRUE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  tidywikidatar::tw_get(id = id, cache = cache) %>%
+  label <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "label_"),
                   stringr::str_ends(string = property,
                                     pattern = stringr::str_c(language,
                                                              collapse = "|"))) %>%
     dplyr::pull(value)
+
+  if (length(label)==0) {
+    as.character(NA)
+  } else {
+    label
+  }
 }
 
 #' Get Wikidata description in given language
@@ -305,13 +311,18 @@ tw_get_description <- function(id, language = "en", cache = TRUE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  tidywikidatar::tw_get(id = id, cache = cache) %>%
+  description <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "description_"),
                   stringr::str_ends(string = property,
                                     pattern = stringr::str_c(language,
                                                              collapse = "|"))) %>%
     dplyr::pull(value)
+  if (length(description)==0) {
+    as.character(NA)
+  } else {
+    description
+  }
 }
 
 #' Get Wikidata property
@@ -331,9 +342,14 @@ tw_get_property <- function(id,
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  tidywikidatar::tw_get(id = id, cache = cache) %>%
+  property <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(property == p) %>%
     dplyr::pull(value)
+  if (length(property)==0) {
+    as.character(NA)
+  } else {
+    property
+  }
 }
 
 #' Get Wikidata image
@@ -352,10 +368,16 @@ tw_get_image <- function(id,
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  tidywikidatar::tw_get(id = id, cache = cache) %>%
+  link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(property == "P18") %>%
     dplyr::pull(value) %>%
     stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
+
+  if (length(link)==0) {
+    as.character(NA)
+  } else {
+    link
+  }
 }
 
 
@@ -379,6 +401,9 @@ tw_get_wikipedia <- function(id, language = "en", cache = TRUE) {
   base_link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(is.element(el = property, set = base_string)) %>%
     dplyr::pull(value)
-
-  stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
+  if (length(base_link)==0) {
+    as.character(NA)
+  } else {
+    stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
+  }
 }
