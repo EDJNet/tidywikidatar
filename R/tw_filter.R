@@ -122,8 +122,13 @@ tw_filter_first <- function(search,
     }
   )
 
-  search_result %>%
-    dplyr::slice(first_match_id)
+  if (is.null(first_match_id)) {
+    search_result %>%
+      dplyr::slice(0)
+  } else {
+    search_result %>%
+      dplyr::slice(first_match_id)
+  }
 }
 
 #' Filter search result and keep only people
