@@ -7,7 +7,7 @@
 tw_get(id, cache = TRUE)
 }
 \arguments{
-\item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
+\item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
 }

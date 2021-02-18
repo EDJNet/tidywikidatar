@@ -276,6 +276,9 @@ tw_get <- function(id,
 #'
 #'
 tw_get_label <- function(id, language = "en", cache = TRUE) {
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
   tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "label_"),
@@ -298,6 +301,9 @@ tw_get_label <- function(id, language = "en", cache = TRUE) {
 #'
 #'
 tw_get_description <- function(id, language = "en", cache = TRUE) {
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
   tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "description_"),
@@ -321,7 +327,57 @@ tw_get_description <- function(id, language = "en", cache = TRUE) {
 tw_get_property <- function(id,
                             p,
                             cache = TRUE) {
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
   tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(property == p) %>%
     dplyr::pull(value)
+}
+
+#' Get Wikidata image
+#'
+#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#'
+#' @return A charachter vector of length 1, corresponding to the value for the given property.
+#' @export
+#'
+#' @examples
+#'
+#'
+tw_get_image <- function(id,
+                         cache = TRUE) {
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
+  tidywikidatar::tw_get(id = id, cache = cache) %>%
+    dplyr::filter(property == "P18") %>%
+    dplyr::pull(value) %>%
+    stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
+}
+
+
+#' Get Wikidata description in given language
+#'
+#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param language A character vector of length one, defaults to "en", must correspond to a two-letter language code.
+#'
+#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @export
+#'
+#' @examples
+#'
+#'
+tw_get_wikipedia <- function(id, language = "en", cache = TRUE) {
+  if (is.data.frame(id)==TRUE) {
+    id <- id$id
+  }
+  base_string <- stringr::str_c("sitelink_", language, "wiki")
+  base_link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+    dplyr::filter(is.element(el = property, set = base_string)) %>%
+    dplyr::pull(value)
+
+  stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
 }
