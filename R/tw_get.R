@@ -355,26 +355,37 @@ tw_get_property <- function(id,
 #' Get Wikidata image
 #'
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param format A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
 #'
-#' @return A charachter vector of length 1, corresponding to the value for the given property.
+#' @return A charachter vector, corresponding to reference to the image in the requested format.
 #' @export
 #'
 #' @examples
 #'
 #'
 tw_get_image <- function(id,
-                         cache = TRUE) {
+                         cache = TRUE,
+                         format = "filename") {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
   link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
     dplyr::filter(property == "P18") %>%
-    dplyr::pull(value) %>%
-    stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
+    dplyr::pull(value)
 
   if (length(link)==0) {
-    as.character(NA)
+    return(as.character(NA))
+  }
+
+  if (format=="filename") {
+    link
+  } else if  (format=="commons") {
+    link %>%
+      stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
+  } else if (format =="embed") {
+    link %>%
+      stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", .)
   } else {
     link
   }
