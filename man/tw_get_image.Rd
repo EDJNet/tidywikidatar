@@ -4,15 +4,17 @@
 \alias{tw_get_image}
 \title{Get Wikidata image}
 \usage{
-tw_get_image(id, cache = TRUE)
+tw_get_image(id, cache = TRUE, format = "filename")
 }
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
+
+\item{format}{A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
 }
 \value{
-A charachter vector of length 1, corresponding to the value for the given property.
+A charachter vector, corresponding to reference to the image in the requested format.
 }
 \description{
 Get Wikidata image

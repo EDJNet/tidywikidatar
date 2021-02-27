@@ -17,10 +17,10 @@
 #' }
 #'
 tw_search <- function(search,
-                           language = "en",
-                           limit = 10,
-                           wait = 0.1,
-                           cache = TRUE) {
+                      language = "en",
+                      limit = 10,
+                      wait = 0.1,
+                      cache = TRUE) {
   if (is.null(search)) {
     usethis::ui_stop("A search string must be given.")
   }
@@ -110,6 +110,7 @@ tw_search <- function(search,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaultso to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
 #' @return A data.frame (a tibble) with two columns: property and value
 #' @export
@@ -120,7 +121,8 @@ tw_search <- function(search,
 #' }
 #'
 tw_get <- function(id,
-                         cache = TRUE) {
+                   cache = TRUE,
+                   overwrite_cache = FALSE) {
 
   if (is.data.frame(id)==TRUE) {
     id <- id$id
@@ -147,7 +149,7 @@ tw_get <- function(id,
         logical(1L)
       }
     )
-    if (is.data.frame(db_result)) {
+    if (is.data.frame(db_result)&overwrite_cache==FALSE) {
       DBI::dbDisconnect(db)
       return(db_result)
     }
@@ -252,11 +254,19 @@ tw_get <- function(id,
     descriptions_df,
     sitelinks_df
   )
-  if (cache == TRUE) {
+  if (cache == TRUE&overwrite_cache==FALSE) {
     RSQLite::dbWriteTable(
       conn = db,
       name = stringr::str_to_upper(string = id),
       value = everything_df
+    )
+    DBI::dbDisconnect(db)
+  } else if (cache == TRUE&overwrite_cache==TRUE) {
+    RSQLite::dbWriteTable(
+      conn = db,
+      name = stringr::str_to_upper(string = id),
+      value = everything_df,
+      overwrite = TRUE
     )
     DBI::dbDisconnect(db)
   }
