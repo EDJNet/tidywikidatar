@@ -11,7 +11,7 @@ tw_get(id, cache = TRUE, overwrite_cache = FALSE)
 
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
 
-\item{overwrite_cache}{Logical, defaultso to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 }
 \value{
 A data.frame (a tibble) with two columns: property and value

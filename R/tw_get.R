@@ -110,7 +110,7 @@ tw_search <- function(search,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
-#' @param overwrite_cache Logical, defaultso to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
 #' @return A data.frame (a tibble) with two columns: property and value
 #' @export
@@ -278,6 +278,7 @@ tw_get <- function(id,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param language A character vector of length one, defaults to "en", must correspond to a two-letter language code.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -286,11 +287,15 @@ tw_get <- function(id,
 #' @examples
 #'
 #'
-tw_get_label <- function(id, language = "en", cache = TRUE) {
+tw_get_label <- function(id, language = "en",
+                         cache = TRUE,
+                         overwrite_cache = FALSE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  label <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+  label <- tidywikidatar::tw_get(id = id,
+                                 cache = cache,
+                                 overwrite_cache = overwrite_cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "label_"),
                   stringr::str_ends(string = property,
@@ -309,6 +314,7 @@ tw_get_label <- function(id, language = "en", cache = TRUE) {
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param language A character vector of length one, defaults to "en", must correspond to a two-letter language code.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -317,11 +323,16 @@ tw_get_label <- function(id, language = "en", cache = TRUE) {
 #' @examples
 #'
 #'
-tw_get_description <- function(id, language = "en", cache = TRUE) {
+tw_get_description <- function(id,
+                               language = "en",
+                               cache = TRUE,
+                               overwrite_cache = FALSE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  description <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+  description <- tidywikidatar::tw_get(id = id,
+                                       cache = cache,
+                                       overwrite_cache = overwrite_cache) %>%
     dplyr::filter(stringr::str_starts(string = property,
                                       pattern = "description_"),
                   stringr::str_ends(string = property,
@@ -339,6 +350,7 @@ tw_get_description <- function(id, language = "en", cache = TRUE) {
 #'
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
 #' @return A charachter vector of length 1, corresponding to the value for the given property.
 #' @export
@@ -348,11 +360,14 @@ tw_get_description <- function(id, language = "en", cache = TRUE) {
 #'
 tw_get_property <- function(id,
                             p,
-                            cache = TRUE) {
+                            cache = TRUE,
+                            overwrite_cache = FALSE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  property <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+  property <- tidywikidatar::tw_get(id = id,
+                                    cache = cache,
+                                    overwrite_cache = overwrite_cache) %>%
     dplyr::filter(property == p) %>%
     dplyr::pull(value)
   if (length(property)==0) {
@@ -367,6 +382,7 @@ tw_get_property <- function(id,
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param format A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
 #' @return A charachter vector, corresponding to reference to the image in the requested format.
 #' @export
@@ -376,11 +392,14 @@ tw_get_property <- function(id,
 #'
 tw_get_image <- function(id,
                          cache = TRUE,
+                         overwrite_cache = FALSE,
                          format = "filename") {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
-  link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+  link <- tidywikidatar::tw_get(id = id,
+                                cache = cache,
+                                overwrite_cache = overwrite_cache) %>%
     dplyr::filter(property == "P18") %>%
     dplyr::pull(value)
 
@@ -406,6 +425,7 @@ tw_get_image <- function(id,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param language A character vector of length one, defaults to "en", must correspond to a two-letter language code.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -414,12 +434,17 @@ tw_get_image <- function(id,
 #' @examples
 #'
 #'
-tw_get_wikipedia <- function(id, language = "en", cache = TRUE) {
+tw_get_wikipedia <- function(id,
+                             language = "en",
+                             cache = TRUE,
+                             overwrite_cache = FALSE) {
   if (is.data.frame(id)==TRUE) {
     id <- id$id
   }
   base_string <- stringr::str_c("sitelink_", language, "wiki")
-  base_link <- tidywikidatar::tw_get(id = id, cache = cache) %>%
+  base_link <- tidywikidatar::tw_get(id = id,
+                                     cache = cache,
+                                     overwrite_cache = overwrite_cache) %>%
     dplyr::filter(is.element(el = property, set = base_string)) %>%
     dplyr::pull(value)
   if (length(base_link)==0) {

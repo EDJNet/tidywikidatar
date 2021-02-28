@@ -4,12 +4,14 @@
 \alias{tw_get_property}
 \title{Get Wikidata property}
 \usage{
-tw_get_property(id, p, cache = TRUE)
+tw_get_property(id, p, cache = TRUE, overwrite_cache = FALSE)
 }
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
+
+\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 }
 \value{
 A charachter vector of length 1, corresponding to the value for the given property.

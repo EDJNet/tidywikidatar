@@ -4,12 +4,14 @@
 \alias{tw_get_image}
 \title{Get Wikidata image}
 \usage{
-tw_get_image(id, cache = TRUE, format = "filename")
+tw_get_image(id, cache = TRUE, overwrite_cache = FALSE, format = "filename")
 }
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
+
+\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
 \item{format}{A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
 }
