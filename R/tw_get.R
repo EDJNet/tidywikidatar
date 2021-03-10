@@ -102,7 +102,8 @@ tw_search <- function(search,
     DBI::dbDisconnect(db)
   }
   search_response_df %>%
-    dplyr::filter(is.na(id)==FALSE)
+    dplyr::filter(is.na(id)==FALSE) %>%
+    tibble::as_tibble()
 }
 
 
