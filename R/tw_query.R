@@ -11,13 +11,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' query <- list(c(p = "P106", q = "Q1397808"),
 #'               c(p = "P21", q = "Q6581072"))
-#' tw_query(query, return_as_tw_search = FALSE) %>%
-#'   dplyr::transmute(id = stringr::str_extract(item, pattern = "Q[[:digit:]]+$"),
-#'                    label = itemLabel,
-#'                    description = itemDescription)
+#' tw_query(query)
 #' }
 #'
 tw_query <- function(query,
