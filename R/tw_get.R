@@ -207,11 +207,15 @@ tw_get <- function(id,
           value <- stringr::str_c(value_pre$latitude, value_pre$longitude, sep = ",")
         } else if (is.element("id", names(value_pre))) {
           value <- value_pre$id
-        } else{
+        } else if (is.na(value_pre[[1]])==FALSE) {
           value <- value_pre[[1]]
+        } else {
+          value <- as.character("NA")
         }
       } else if (is.character(value_pre)) {
         value <- value_pre
+      } else {
+        value <- as.character("NA")
       }
 
       tibble::tibble(
