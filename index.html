@@ -67,7 +67,7 @@
 <p>The goal of <code>tidywikidatar</code> is to facilitate interaction with Wikidata:</p>
 <ul>
 <li>all responses are transformed into data frames</li>
-<li>by defaults, queries and responses are cached locally in a sqlite database</li>
+<li>by default, queries and responses are cached locally in a sqlite database</li>
 </ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -76,6 +76,182 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"giocomai/tidywikidatar"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="before-you-start" class="section level2">
+<h2 class="hasAnchor">
+<a href="#before-you-start" class="anchor"></a>Before you start</h2>
+<p>This package assumes some familiarity with basic Wikidata concepts. For reference, see <a href="https://www.wikidata.org/wiki/Wikidata:Introduction">the introduction on the official website</a>.</p>
+<p>At the most basic, you should know that every item in Wikidata has an id (it always starts with a Q, something like <code>Q123456</code>). Each item is described by properties (they always start with a P something like <code>P1234</code>).</p>
+<p>So for example, if I am interested in the anthropologist Margert Mead, I will search her name on Wikidata and discover that she is <a href="https://www.wikidata.org/wiki/Q180099"><code>Q180099</code></a>. She is described by many properties. For example, she is “an instance of” (<a href="https://www.wikidata.org/wiki/Property:P31">P31</a>) “<a href="https://www.wikidata.org/wiki/Q180099">Q5</a>”, which means “human”. Her “sex or gender” (<a href="https://www.wikidata.org/wiki/Property:P21">P21</a>) is “<a href="https://www.wikidata.org/wiki/Q6581072">Q180099</a>”, which means, female. By “occupation” (<a href="https://www.wikidata.org/wiki/Property:P106">P106</a>), she was “<a href="https://www.wikidata.org/wiki/Q36180">Q36180</a>”, “<a href="https://www.wikidata.org/wiki/Q4773904">Q4773904</a>”, and “<a href="https://www.wikidata.org/wiki/Q674426">Q674426</a>”, which means, a writer, an anthropologist, and a curator. And so forth.</p>
+<p>As you’ll see, many queries return just another wikidata id, and if you want to know what that means, you’ll need to ask for what that id stands for.</p>
+</div>
+<div id="how-to-use" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-to-use" class="anchor"></a>How to use</h2>
+<p>By default, <code>tidywikidatar</code> caches locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata’s servers. These sqlite databases are by default stored in the current working directory under a <code>tw_data</code> folder. I usually store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can set the cache folder to be used throughout a session with <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span>
+<span class="fu"><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~/R/tw_data/"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "~/R/tw_data/"</span></code></pre></div>
+</div>
+<div id="finding-details-about-something" class="section level2">
+<h2 class="hasAnchor">
+<a href="#finding-details-about-something" class="anchor"></a>Finding details about something</h2>
+<p>Most <code>tidywikidatar</code> functions are built around the idea that you know what you are looking for, and just want to get what Wikidata knows about it, assuming the preferred choice would be among the top results.</p>
+<p>Let’s say I am interested in Margaret Mead, the famous pioneer anthropologist author of “Coming of Age in Samoa”.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
+<span class="co">#&gt;           id                                                      label</span>
+<span class="co">#&gt; 1    Q180099                                              Margaret Mead</span>
+<span class="co">#&gt; 2  Q81015029                                              Margaret mead</span>
+<span class="co">#&gt; 3  Q66701460                                              Margaret Mead</span>
+<span class="co">#&gt; 4  Q85724626                                             Mead &amp; Bateson</span>
+<span class="co">#&gt; 5  Q96077616                                           Margaret Meadows</span>
+<span class="co">#&gt; 6  Q76238541                                           Margaret Meadowe</span>
+<span class="co">#&gt; 7  Q75506638                                           Margaret Meadows</span>
+<span class="co">#&gt; 8  Q75812372                                       Margaret Meade-Waldo</span>
+<span class="co">#&gt; 9   Q6759717                                Margaret Mead Film Festival</span>
+<span class="co">#&gt; 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction</span>
+<span class="co">#&gt;                                         description</span>
+<span class="co">#&gt; 1                           American anthropologist</span>
+<span class="co">#&gt; 2  scientific article published on 01 December 1978</span>
+<span class="co">#&gt; 3  scientific article published on 01 November 1978</span>
+<span class="co">#&gt; 4                             business organisation</span>
+<span class="co">#&gt; 5                                              &lt;NA&gt;</span>
+<span class="co">#&gt; 6                          Peerage person ID=628312</span>
+<span class="co">#&gt; 7                          Peerage person ID=183057</span>
+<span class="co">#&gt; 8                                         died 1954</span>
+<span class="co">#&gt; 9   annual film festival held in New York City, USA</span>
+<span class="co">#&gt; 10                                             &lt;NA&gt;</span></code></pre></div>
+<p>This seems quite straightforward but there are actually a number of things that are returned by searching for “Margaret Mead”.</p>
+<p>If I am running through a list of strings, and, for example, I am actually interested in the most famous person by that name, I can filter result by property, using the standard form. If, for example, I want only the first result that is associated with “an instance of” (P31) - “human” (Q5), I can run:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/tw_filter_first.html">tw_filter_first</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span>
+<span class="co">#&gt;        id         label             description</span>
+<span class="co">#&gt; 1 Q180099 Margaret Mead American anthropologist</span></code></pre></div>
+<p>Where was she born? I can ask directly for P19, place of birth:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, p <span class="op">=</span> <span class="st">"P19"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Q1345"</span></code></pre></div>
+<p>which, as expected, will give me another wikidata id. But what does, “Q1345” stand for? I should ask for its label.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q1345"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Philadelphia"</span></code></pre></div>
+<p>Alright, I know Philadelphia, but if it was a smaller place, perhaps I’d need to ask in which country it is located. So I would ask for the correspondent property, P17.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q1345"</span>, p <span class="op">=</span> <span class="st">"P17"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Q30"</span></code></pre></div>
+<p>Oh, no, another Wikidata id!</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q30"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "United States of America"</span></code></pre></div>
+<p>It takes some time to get used, but I suppose you get the gist of it.</p>
+<p>You can also pipe all of the above, like this:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># search for Margeret Mead</span>
+  <span class="fu"><a href="reference/tw_filter_first.html">tw_filter_first</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># keep only the first result that is of a human</span>
+  <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P19"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># ask for the place of birth</span>
+  <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P17"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># ask for the country where that place of birth is located</span>
+  <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># ask what that id stands for</span>
+<span class="co">#&gt; [1] "United States of America"</span></code></pre></div>
+<p>And here we are, we know in which country Margaret Mead was born.</p>
+<p>This may seems complex, but can be actually quite useful to understand how Wikidata works.</p>
+<p>This functions can also be combined, for example, like this:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">get_bio</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">language</span> <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+    label <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>, language <span class="op">=</span> <span class="va">language</span><span class="op">)</span>,
+    description <span class="op">=</span> <span class="fu"><a href="reference/tw_get_description.html">tw_get_description</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>, language <span class="op">=</span> <span class="va">language</span><span class="op">)</span>,
+    year_of_birth <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>, p <span class="op">=</span> <span class="st">"P569"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+      <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">ymd_hms</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+      <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">year</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, 
+    year_of_death <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>, p <span class="op">=</span> <span class="st">"P570"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+      <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">ymd_hms</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+      <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">year</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+      <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">}</span>
+
+<span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/tw_filter_first.html">tw_filter_first</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   label         description             year_of_birth year_of_death</span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                           &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Margaret Mead American anthropologist          1901          1978</span></code></pre></div>
+<p>I can of course get the response in languages other than English, as long as those are available on Wikidata.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/tw_filter_first.html">tw_filter_first</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">get_bio</span><span class="op">(</span>language <span class="op">=</span> <span class="st">"it"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   label         description              year_of_birth year_of_death</span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                            &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Margaret Mead antropologa statunitense          1901          1978</span></code></pre></div>
+</div>
+<div id="queries" class="section level2">
+<h2 class="hasAnchor">
+<a href="#queries" class="anchor"></a>Queries</h2>
+<p>All of the above works similarly to how we often use websistes such as Wikipedia, or search engines. Wikidata, however, has powerful tools for complex queries. Think something like “give me all of these fields for all items that have this value for this property, but not that other value for that other property”.</p>
+<p>To achieve this, you can run queries, following <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples">instructions on Wikidata.org</a>. From R, you would run those using <code>WikidataQueryServiceR::query_wikidata()</code>. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes.</p>
+<p><code>tidiwikidatar</code> does not currently plan to deal with complex queries. However, at this stage it has a basic function, <code>tw_query</code>, which should instantly make sense for R users.</p>
+<p>Say, for example, you are interested in all women (P21 == Q6581072) who are resistance fighters (P106 == Q6581072).</p>
+<p>You can then make a data frame with two columns (p and q), and some requirements, like this:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">query_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">p</span>, <span class="op">~</span><span class="va">q</span>, 
+                            <span class="st">"P106"</span>, <span class="st">"Q1397808"</span>,
+                            <span class="st">"P21"</span>, <span class="st">"Q6581072"</span><span class="op">)</span>
+
+<span class="co"># if you prefer, you can input the same as a list, like this:</span>
+<span class="co"># query_l &lt;- list(c(p = "P106", q = "Q1397808"),</span>
+<span class="co">#                c(p = "P21", q = "Q6581072"))</span>
+
+<span class="va">query_df</span>
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   p     q       </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 P106  Q1397808</span>
+<span class="co">#&gt; 2 P21   Q6581072</span></code></pre></div>
+<p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all female resistance fighters on Wikidata.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 639 x 3</span>
+<span class="co">#&gt;    id     label                 description                                     </span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                 &lt;chr&gt;                                           </span>
+<span class="co">#&gt;  1 Q66335 Traute Lafrenz        active within the White Rose non-violent resist…</span>
+<span class="co">#&gt;  2 Q69042 Libertas Schulze-Boy… German opponent of the Nazis who belonged to th…</span>
+<span class="co">#&gt;  3 Q69720 Tatiana von Metterni… German patron of the arts of Russian birth      </span>
+<span class="co">#&gt;  4 Q70593 Cato Bontjes van Beek member of the German resistance to Nazism       </span>
+<span class="co">#&gt;  5 Q70670 Elisabeth von Thadden German resistance member (1890-1944)            </span>
+<span class="co">#&gt;  6 Q70772 Hilde Coppi           Antifascist member of resistance                </span>
+<span class="co">#&gt;  7 Q70873 Inge Scholl           German activist                                 </span>
+<span class="co">#&gt;  8 Q71688 Marie-Luise Jahn      German resistance fighter; active within the Wh…</span>
+<span class="co">#&gt;  9 Q72908 Mildred Harnack       American-German literary historian, professor, …</span>
+<span class="co">#&gt; 10 Q74405 Elisabeth Schumacher  German resistance member                        </span>
+<span class="co">#&gt; # … with 629 more rows</span></code></pre></div>
+<p>You can also ask other fields, beyond label and description using the field parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results? You can still use the same commands used above, e.g.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">p</span>, <span class="op">~</span><span class="va">q</span>, 
+                <span class="st">"P106"</span>, <span class="st">"Q1397808"</span>,
+                <span class="st">"P21"</span>, <span class="st">"Q6581072"</span>
+<span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span>
+<span class="co">#&gt; Warning: 1 failed to parse.</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   label               description         year_of_birth year_of_death</span>
+<span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;                       &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Lady Ann Cunningham Scottish noblewoman            NA          1646</span></code></pre></div>
+</div>
+<div id="copyright-and-credits" class="section level2">
+<h2 class="hasAnchor">
+<a href="#copyright-and-credits" class="anchor"></a>Copyright and credits</h2>
+<p>This package has been created by <a href="https://giorgiocomai.eu">Giorgio Comai</a>, data analyst and researcher at <a href="https://balcanicaucaso.org/">OBCT/CCI</a>, within the scope of <a href="https://europeandatajournalism.eu/">EDJNet</a>, the European Data Journalism Network.</p>
+<p>It is distributed under the GPL license.</p>
 </div>
 </div>
   </div>
