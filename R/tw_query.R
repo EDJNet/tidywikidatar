@@ -1,10 +1,6 @@
 #' Perform simple Wikidata queries
 #'
-#' This function aims to facilitate only the most basic type of queries: return which items have the following property pairs.
-#'
-#' For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples
-#'
-#' For complex queries, use `WikidataQueryServiceR::query_wikidata()`
+#' This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use `WikidataQueryServiceR::query_wikidata()`
 #'
 #' @param query A list of named vectors, or a data frame (see example and readme).
 #' @param fields A character vector of Wikidata fields. Ignored if `return_as_tw_search` is set to TRUE (as per default). Defaults to `("item", "itemLabel", "itemDescription")`

@@ -24,12 +24,7 @@ tw_query(
 A data frame
 }
 \description{
-This function aims to facilitate only the most basic type of queries: return which items have the following property pairs.
-}
-\details{
-For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples
-
-For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}
+This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}
 }
 \examples{
 \dontrun {
