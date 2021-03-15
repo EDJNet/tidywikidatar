@@ -275,7 +275,8 @@ tw_get <- function(id,
     )
     DBI::dbDisconnect(db)
   }
-  everything_df
+  everything_df %>%
+    tibble::as_tibble()
 }
 
 
