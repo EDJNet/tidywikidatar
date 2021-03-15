@@ -36,8 +36,8 @@ At the most basic, you should know that every item in Wikidata has an id
 described by properties (they always start with a P something like
 `P1234`).
 
-So for example, if I am interested in the anthropologist Margert Mead, I
-will search her name on Wikidata and discover that she is
+So for example, if I am interested in the anthropologist Margaret Mead,
+I will search her name on Wikidata and discover that she is
 [`Q180099`](https://www.wikidata.org/wiki/Q180099). She is described by
 many properties. For example, she is “an instance of”
 ([P31](https://www.wikidata.org/wiki/Property:P31))
@@ -72,14 +72,22 @@ tw_set_cache_folder(path = "~/R/tw_data/")
 #> [1] "~/R/tw_data/"
 ```
 
+This also means that you can re-run code when offline, as data are
+downloaded from Wikidata’s server only at first run (that is, unless you
+set `cache = FALSE` or `overwrite_cache = TRUE` when calling the
+respective functions).
+
 ## Finding details about something
 
 Most `tidywikidatar` functions are built around the idea that you know
 what you are looking for, and just want to get what Wikidata knows about
 it, assuming the preferred choice would be among the top results.
 
-Let’s say I am interested in Margaret Mead, the famous pioneer
-anthropologist author of “Coming of Age in Samoa”.
+Let’s take this again from the beginning. As I mentioned, I am
+interested in Margaret Mead, the famous pioneer anthropologist author of
+“Coming of Age in Samoa”. This seems quite straightforward but there are
+actually a number of things that are returned by searching for “Margaret
+Mead” that are not the woman herself.
 
 ``` r
 tw_search(search = "Margaret Mead")
@@ -107,9 +115,6 @@ tw_search(search = "Margaret Mead")
 #> 10                                             <NA>
 ```
 
-This seems quite straightforward but there are actually a number of
-things that are returned by searching for “Margaret Mead”.
-
 If I am running through a list of strings, and, for example, I am
 actually interested in the most famous person by that name, I can filter
 result by property, using the standard form. If, for example, I want
@@ -122,6 +127,8 @@ tw_search(search = "Margaret Mead") %>%
 #>        id         label             description
 #> 1 Q180099 Margaret Mead American anthropologist
 ```
+
+and, as expected, I get a single output: my beloved Margaret Mead.
 
 Where was she born? I can ask directly for P19, place of birth:
 
@@ -138,16 +145,17 @@ tw_get_label(id = "Q1345")
 #> [1] "Philadelphia"
 ```
 
-Alright, I know Philadelphia, but if it was a smaller place, perhaps I’d
-need to ask in which country it is located. So I would ask for the
-correspondent property, P17.
+Alright, I know where Philadelphia, but if it was a smaller place,
+perhaps I’d need to ask in which country it is located. So I would ask
+for the correspondent property, P17.
 
 ``` r
 tw_get_property(id = "Q1345", p = "P17")
 #> [1] "Q30"
 ```
 
-Oh, no, another Wikidata id\!
+Oh, no, another Wikidata id\! That’s the way it works… let’s ask for its
+label:
 
 ``` r
 tw_get_label(id = "Q30")
@@ -169,10 +177,11 @@ tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
 
 And here we are, we know in which country Margaret Mead was born.
 
-This may seems complex, but can be actually quite useful to understand
-how Wikidata works.
+The procedure above may seem a bit convoluted, but it is actually quite
+representative of how Wikidata stores information.
 
-This functions can also be combined, for example, like this:
+As you would expect, such functions can also be combined, for example,
+like this:
 
 ``` r
 get_bio <- function(id, language = "en") {
@@ -215,10 +224,11 @@ tw_search(search = "Margaret Mead") %>%
 ## Queries
 
 All of the above works similarly to how we often use websistes such as
-Wikipedia, or search engines. Wikidata, however, has powerful tools for
-complex queries. Think something like “give me all of these fields for
-all items that have this value for this property, but not that other
-value for that other property”.
+Wikipedia, or search engines: we search for something specific to find
+information about it. Wikidata, however, has powerful tools for complex
+queries. Think something like “give me all of these fields for all items
+that have this value for this property, but not that other value for
+that other property”.
 
 To achieve this, you can run queries, following [instructions on
 Wikidata.org](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples).
@@ -255,46 +265,77 @@ query_df
 ```
 
 You can then pass it to `tw_query()`, and get a nicely formatted
-dataframe with all female resistance fighters on Wikidata.
+dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 639 x 3
-#>    id     label                 description                                     
-#>    <chr>  <chr>                 <chr>                                           
-#>  1 Q66335 Traute Lafrenz        active within the White Rose non-violent resist…
-#>  2 Q69042 Libertas Schulze-Boy… German opponent of the Nazis who belonged to th…
-#>  3 Q69720 Tatiana von Metterni… German patron of the arts of Russian birth      
-#>  4 Q70593 Cato Bontjes van Beek member of the German resistance to Nazism       
-#>  5 Q70670 Elisabeth von Thadden German resistance member (1890-1944)            
-#>  6 Q70772 Hilde Coppi           Antifascist member of resistance                
-#>  7 Q70873 Inge Scholl           German activist                                 
-#>  8 Q71688 Marie-Luise Jahn      German resistance fighter; active within the Wh…
-#>  9 Q72908 Mildred Harnack       American-German literary historian, professor, …
-#> 10 Q74405 Elisabeth Schumacher  German resistance member                        
-#> # … with 629 more rows
+#> # A tibble: 641 x 3
+#>    id       label            description                          
+#>    <chr>    <chr>            <chr>                                
+#>  1 Q3333289 Mériem Bouatoura Algerian independence fighter        
+#>  2 Q3427151 Renée Jacqmotte  <NA>                                 
+#>  3 Q3446576 Ruby Summers     <NA>                                 
+#>  4 Q3455497 Régine Krochmal  <NA>                                 
+#>  5 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)
+#>  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) 
+#>  7 Q3506010 Suzanne Moons    <NA>                                 
+#>  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)
+#>  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)
+#> 10 Q3574207 Yvonne Jospa     Belgian resistance member            
+#> # … with 631 more rows
 ```
 
-You can also ask other fields, beyond label and description using the
-field parameter of `tw_query()`. But for this readme, I’ll keep things
-simple. Do you want more information about these results? You can still
-use the same commands used above, e.g.
+Or perhaps, you are interested only in women who are resistance fighters
+who have “France” ([Q142](https://www.wikidata.org/wiki/Q142)) as
+“country of citizenship”
+([P27](https://www.wikidata.org/wiki/Property:P27))? And perhaps you
+want the description in Italian, and if not available in French, and
+only then look for other fallback options?
+
+``` r
+tibble::tribble(~p, ~q, 
+                "P106", "Q1397808", # Occupation: resistance fighter
+                "P21", "Q6581072", # Sex or gender: female
+                "P27", "Q142")  %>% # Country of citizenship: France
+  tw_query(language = c("it", "fr"))
+#> # A tibble: 98 x 3
+#>    id      label                description                                     
+#>    <chr>   <chr>                <chr>                                           
+#>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
+#>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
+#>  3 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
+#>  4 Q30097… Cécile Cerf          résistante française                            
+#>  5 Q30812… Francine Fromond     <NA>                                            
+#>  6 Q31324… Henriette Moriamé    <NA>                                            
+#>  7 Q31760… Jeanne Gaillard      historienne et résistante française             
+#>  8 Q31760… Jeanne Laurent       scrittrice francese                             
+#>  9 Q32919… Marie-José Chombart… <NA>                                            
+#> 10 Q32951… Martha Desrumaux     personnalité politique française                
+#> # … with 88 more rows
+```
+
+You can also ask other fields, beyond label and description, using the
+`field` parameter of `tw_query()`. But for this readme, I’ll keep things
+simple. Do you want more information about these results without
+learning yet another set of Wikidata terminology? You can still use the
+same commands described above, e.g.
 
 ``` r
 tibble::tribble(~p, ~q, 
                 "P106", "Q1397808",
-                "P21", "Q6581072"
+                "P21", "Q6581072",
+                "P27", "Q142"
 ) %>% 
   tw_query() %>% 
   dplyr::slice(1) %>% 
   get_bio()
-#> Warning: All formats failed to parse. No formats found.
-#> Warning: 1 failed to parse.
 #> # A tibble: 1 x 4
-#>   label               description         year_of_birth year_of_death
-#>   <chr>               <chr>                       <dbl>         <dbl>
-#> 1 Lady Ann Cunningham Scottish noblewoman            NA          1646
+#>   label                           description        year_of_birth year_of_death
+#>   <chr>                           <chr>                      <dbl>         <dbl>
+#> 1 Christiane Desroches Noblecourt French egyptologi…          1913          2011
 ```
+
+Keep in mind that Wikidata queries are not cached locally.
 
 ## Copyright and credits
 
