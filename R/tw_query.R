@@ -4,7 +4,7 @@
 #'
 #' @param query A list of named vectors, or a data frame (see example and readme).
 #' @param fields A character vector of Wikidata fields. Ignored if `return_as_tw_search` is set to TRUE (as per default). Defaults to `("item", "itemLabel", "itemDescription")`
-#' @param language Two letter code of preferred language, defaults to "en".
+#' @param language Two letter code of preferred language, defaults to "en". If more than one, can be set in order of preference, e.g. `c("it", "fr", "en")`
 #' @param return_as_tw_search Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other `tw_` functions. If FALSE, a data frame with as many columns as fields.
 #'
 #' @return A data frame
@@ -12,8 +12,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' query <- list(c(p = "P106", q = "Q1397808"),
-#'               c(p = "P21", q = "Q6581072"))
+#' query <- list(
+#'   c(p = "P106", q = "Q1397808"),
+#'   c(p = "P21", q = "Q6581072")
+#' )
 #' tw_query(query)
 #' }
 #'
@@ -24,7 +26,7 @@ tw_query <- function(query,
   if (is.data.frame(query) == FALSE) {
     query_df <- dplyr::bind_rows(query)
   } else {
-    query <- query_df
+    query_df <- query
   }
 
   query_t <- query_df %>%
@@ -36,26 +38,27 @@ tw_query <- function(query,
     "SELECT
              「stringr::str_c(\"?\", stringr::str_c(fields, collapse = \" ?\"))」
              WHERE{?item 「query_t」 .
-             SERVICE wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE],「language」' . }
+             SERVICE wikibase:label { bd:serviceParam wikibase:language '「stringr::str_c(language, collapse = ',')」,[AUTO_LANGUAGE]' . }
              }",
     .open = "「",
-    .close = "」")
+    .close = "」"
+  )
 
   response <- WikidataQueryServiceR::query_wikidata(
     sparql_query = sparql_t,
-    format = "simple")
+    format = "simple"
+  )
 
-  if (return_as_tw_search==TRUE) {
+  if (return_as_tw_search == TRUE) {
     response %>%
       dplyr::transmute(
         id = stringr::str_extract(item,
-                                                 pattern = "Q[[:digit:]]+$"),
-                       label = itemLabel,
-                       description = itemDescription
-        )
+          pattern = "Q[[:digit:]]+$"
+        ),
+        label = itemLabel,
+        description = itemDescription
+      )
   } else {
     tibble::as_tibble(response)
   }
-
-
 }

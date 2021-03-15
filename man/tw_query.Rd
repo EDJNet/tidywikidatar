@@ -16,7 +16,7 @@ tw_query(
 
 \item{fields}{A character vector of Wikidata fields. Ignored if \code{return_as_tw_search} is set to TRUE (as per default). Defaults to \verb{("item", "itemLabel", "itemDescription")}}
 
-\item{language}{Two letter code of preferred language, defaults to "en".}
+\item{language}{Two letter code of preferred language, defaults to "en". If more than one, can be set in order of preference, e.g. \code{c("it", "fr", "en")}}
 
 \item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other \code{tw_} functions. If FALSE, a data frame with as many columns as fields.}
 }
@@ -28,8 +28,10 @@ This function aims to facilitate only the most basic type of queries: return whi
 }
 \examples{
 \dontrun{
-query <- list(c(p = "P106", q = "Q1397808"),
-              c(p = "P21", q = "Q6581072"))
+query <- list(
+  c(p = "P106", q = "Q1397808"),
+  c(p = "P21", q = "Q6581072")
+)
 tw_query(query)
 }
 
