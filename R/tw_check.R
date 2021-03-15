@@ -21,10 +21,10 @@
 #' }
 #'
 tw_check_search <- function(search,
-  language = "en",
-  limit = 10,
-  wait = 0.1,
-  cache = TRUE) {
+                            language = "en",
+                            limit = 10,
+                            wait = 0.1,
+                            cache = TRUE) {
   if (is.data.frame(search) == TRUE) {
     search_result <- search
   } else if (length(search) > 1) {

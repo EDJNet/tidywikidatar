@@ -68,7 +68,7 @@ tw_search <- function(search,
     )
   }
   )
-  if (length(search_response)==0) {
+  if (length(search_response) == 0) {
     search_response_df <- tibble::tibble(
       id = NA,
       label = NA,
@@ -102,7 +102,7 @@ tw_search <- function(search,
     DBI::dbDisconnect(db)
   }
   search_response_df %>%
-    dplyr::filter(is.na(id)==FALSE) %>%
+    dplyr::filter(is.na(id) == FALSE) %>%
     tibble::as_tibble()
 }
 
@@ -124,8 +124,7 @@ tw_search <- function(search,
 tw_get <- function(id,
                    cache = TRUE,
                    overwrite_cache = FALSE) {
-
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
@@ -150,7 +149,7 @@ tw_get <- function(id,
         logical(1L)
       }
     )
-    if (is.data.frame(db_result)&overwrite_cache==FALSE) {
+    if (is.data.frame(db_result) & overwrite_cache == FALSE) {
       DBI::dbDisconnect(db)
       return(db_result)
     }
@@ -158,9 +157,9 @@ tw_get <- function(id,
 
 
   item <- tryCatch(WikidataR::get_item(id = id),
-                   error = function(e) {
-                     return(tibble::tibble(id = NA))
-                   }
+    error = function(e) {
+      return(tibble::tibble(id = NA))
+    }
   )
   labels <- item %>% purrr::pluck(1, "labels")
 
@@ -208,7 +207,7 @@ tw_get <- function(id,
           value <- stringr::str_c(value_pre$latitude, value_pre$longitude, sep = ",")
         } else if (is.element("id", names(value_pre))) {
           value <- value_pre$id
-        } else if (is.na(value_pre[[1]])==FALSE) {
+        } else if (is.na(value_pre[[1]]) == FALSE) {
           value <- value_pre[[1]]
         } else {
           value <- as.character("NA")
@@ -259,14 +258,14 @@ tw_get <- function(id,
     descriptions_df,
     sitelinks_df
   )
-  if (cache == TRUE&overwrite_cache==FALSE) {
+  if (cache == TRUE & overwrite_cache == FALSE) {
     RSQLite::dbWriteTable(
       conn = db,
       name = stringr::str_to_upper(string = id),
       value = everything_df
     )
     DBI::dbDisconnect(db)
-  } else if (cache == TRUE&overwrite_cache==TRUE) {
+  } else if (cache == TRUE & overwrite_cache == TRUE) {
     RSQLite::dbWriteTable(
       conn = db,
       name = stringr::str_to_upper(string = id),
@@ -292,24 +291,32 @@ tw_get <- function(id,
 #'
 #' @examples
 #'
-#'
 tw_get_label <- function(id, language = "en",
                          cache = TRUE,
                          overwrite_cache = FALSE) {
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  label <- tidywikidatar::tw_get(id = id,
-                                 cache = cache,
-                                 overwrite_cache = overwrite_cache) %>%
-    dplyr::filter(stringr::str_starts(string = property,
-                                      pattern = "label_"),
-                  stringr::str_ends(string = property,
-                                    pattern = stringr::str_c(language,
-                                                             collapse = "|"))) %>%
+  label <- tidywikidatar::tw_get(
+    id = id,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  ) %>%
+    dplyr::filter(
+      stringr::str_starts(
+        string = property,
+        pattern = "label_"
+      ),
+      stringr::str_ends(
+        string = property,
+        pattern = stringr::str_c(language,
+          collapse = "|"
+        )
+      )
+    ) %>%
     dplyr::pull(value)
 
-  if (length(label)==0) {
+  if (length(label) == 0) {
     as.character(NA)
   } else {
     label
@@ -328,24 +335,32 @@ tw_get_label <- function(id, language = "en",
 #'
 #' @examples
 #'
-#'
 tw_get_description <- function(id,
                                language = "en",
                                cache = TRUE,
                                overwrite_cache = FALSE) {
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  description <- tidywikidatar::tw_get(id = id,
-                                       cache = cache,
-                                       overwrite_cache = overwrite_cache) %>%
-    dplyr::filter(stringr::str_starts(string = property,
-                                      pattern = "description_"),
-                  stringr::str_ends(string = property,
-                                    pattern = stringr::str_c(language,
-                                                             collapse = "|"))) %>%
+  description <- tidywikidatar::tw_get(
+    id = id,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  ) %>%
+    dplyr::filter(
+      stringr::str_starts(
+        string = property,
+        pattern = "description_"
+      ),
+      stringr::str_ends(
+        string = property,
+        pattern = stringr::str_c(language,
+          collapse = "|"
+        )
+      )
+    ) %>%
     dplyr::pull(value)
-  if (length(description)==0) {
+  if (length(description) == 0) {
     as.character(NA)
   } else {
     description
@@ -363,20 +378,21 @@ tw_get_description <- function(id,
 #'
 #' @examples
 #'
-#'
 tw_get_property <- function(id,
                             p,
                             cache = TRUE,
                             overwrite_cache = FALSE) {
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  property <- tidywikidatar::tw_get(id = id,
-                                    cache = cache,
-                                    overwrite_cache = overwrite_cache) %>%
+  property <- tidywikidatar::tw_get(
+    id = id,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  ) %>%
     dplyr::filter(property == p) %>%
     dplyr::pull(value)
-  if (length(property)==0) {
+  if (length(property) == 0) {
     as.character(NA)
   } else {
     property
@@ -395,30 +411,31 @@ tw_get_property <- function(id,
 #'
 #' @examples
 #'
-#'
 tw_get_image <- function(id,
                          cache = TRUE,
                          overwrite_cache = FALSE,
                          format = "filename") {
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  link <- tidywikidatar::tw_get(id = id,
-                                cache = cache,
-                                overwrite_cache = overwrite_cache) %>%
+  link <- tidywikidatar::tw_get(
+    id = id,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  ) %>%
     dplyr::filter(property == "P18") %>%
     dplyr::pull(value)
 
-  if (length(link)==0) {
+  if (length(link) == 0) {
     return(as.character(NA))
   }
 
-  if (format=="filename") {
+  if (format == "filename") {
     link
-  } else if  (format=="commons") {
+  } else if (format == "commons") {
     link %>%
       stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
-  } else if (format =="embed") {
+  } else if (format == "embed") {
     link %>%
       stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", .)
   } else {
@@ -439,21 +456,22 @@ tw_get_image <- function(id,
 #'
 #' @examples
 #'
-#'
 tw_get_wikipedia <- function(id,
                              language = "en",
                              cache = TRUE,
                              overwrite_cache = FALSE) {
-  if (is.data.frame(id)==TRUE) {
+  if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
   base_string <- stringr::str_c("sitelink_", language, "wiki")
-  base_link <- tidywikidatar::tw_get(id = id,
-                                     cache = cache,
-                                     overwrite_cache = overwrite_cache) %>%
+  base_link <- tidywikidatar::tw_get(
+    id = id,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  ) %>%
     dplyr::filter(is.element(el = property, set = base_string)) %>%
     dplyr::pull(value)
-  if (length(base_link)==0) {
+  if (length(base_link) == 0) {
     as.character(NA)
   } else {
     stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)

@@ -33,7 +33,7 @@ tw_filter <- function(search,
     cache = cache
   )
 
-  if (nrow(search_result)==0) {
+  if (nrow(search_result) == 0) {
     return(search_result)
   }
 
@@ -107,7 +107,7 @@ tw_filter_first <- function(search,
     cache = cache
   )
 
-  if (nrow(search_result)==0) {
+  if (nrow(search_result) == 0) {
     return(search_result)
   }
 
