@@ -57,17 +57,20 @@ for.
 
 ## How to use
 
-By default, `tidywikidatar` caches locally responses (both searches and
-details about specific items) in a sqlite database to reduce load on
+`tidywikidatar` makes it easy to cache locally responses (both searches
+and details about specific items) in a sqlite database to reduce load on
 Wikidata’s servers. These sqlite databases are by default stored in the
-current working directory under a `tw_data` folder. I usually store them
-in a folder where they can be retrieved easily even when working on
-different projects, but this is obviously a matter of personal taste.
-You can set the cache folder to be used throughout a session with
-`tw_set_cache_folder()`.
+current working directory under a `tw_data` folder. It may be useful to
+store them in a folder where they can be retrieved easily even when
+working on different projects, but this is obviously a matter of
+personal taste. You can enable caching for the current session with
+`tw_enable_cache()` and set the cache folder to be used throughout a
+session with `tw_set_cache_folder()`. The first lines of a script using
+`tidywikidatar` would often look like this:
 
 ``` r
 library("tidywikidatar")
+tw_enable_cache()
 tw_set_cache_folder(path = "~/R/tw_data/")
 #> [1] "~/R/tw_data/"
 ```
@@ -75,7 +78,8 @@ tw_set_cache_folder(path = "~/R/tw_data/")
 This also means that you can re-run code when offline, as data are
 downloaded from Wikidata’s server only at first run (that is, unless you
 set `cache = FALSE` or `overwrite_cache = TRUE` when calling the
-respective functions).
+respective functions, or disable caching for the current session with
+`tw_disable_cache()`).
 
 ## Finding details about something
 
@@ -270,18 +274,18 @@ dataframe with all women who are resistance fighters on Wikidata.
 ``` r
 tw_query(query = query_df)
 #> # A tibble: 641 x 3
-#>    id       label            description                          
-#>    <chr>    <chr>            <chr>                                
-#>  1 Q3333289 Mériem Bouatoura Algerian independence fighter        
-#>  2 Q3427151 Renée Jacqmotte  <NA>                                 
-#>  3 Q3446576 Ruby Summers     <NA>                                 
-#>  4 Q3455497 Régine Krochmal  <NA>                                 
-#>  5 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)
-#>  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) 
-#>  7 Q3506010 Suzanne Moons    <NA>                                 
-#>  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)
-#>  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)
-#> 10 Q3574207 Yvonne Jospa     Belgian resistance member            
+#>    id        label                 description                                  
+#>    <chr>     <chr>                 <chr>                                        
+#>  1 Q13731905 Immigje Kiers         <NA>                                         
+#>  2 Q14261106 Mira Fuchrer          participant in the Warsaw Ghetto Uprising    
+#>  3 Q14329015 Sara Cato Meyer       Dutch resistance fighter and activist (1890-…
+#>  4 Q14954701 Mona Louise Parsons   Canadian actress                             
+#>  5 Q15210941 Marina Shafrova-Maru… <NA>                                         
+#>  6 Q15439679 Lucie Pflug           German politician                            
+#>  7 Q15638299 Belinde M. Thöne-Sie… <NA>                                         
+#>  8 Q15638333 Ingeborg Kahlenberg   Dutch resistance fighter and photographer (1…
+#>  9 Q15713781 Gertrud Classen       German sculptor                              
+#> 10 Q15811259 Maria Fischer         <NA>                                         
 #> # … with 631 more rows
 ```
 
@@ -303,14 +307,14 @@ tibble::tribble(~p, ~q,
 #>    <chr>   <chr>                <chr>                                           
 #>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
 #>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
-#>  3 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
-#>  4 Q30097… Cécile Cerf          résistante française                            
-#>  5 Q30812… Francine Fromond     <NA>                                            
-#>  6 Q31324… Henriette Moriamé    <NA>                                            
-#>  7 Q31760… Jeanne Gaillard      historienne et résistante française             
-#>  8 Q31760… Jeanne Laurent       scrittrice francese                             
-#>  9 Q32919… Marie-José Chombart… <NA>                                            
-#> 10 Q32951… Martha Desrumaux     personnalité politique française                
+#>  3 Q52577… Denise Laroque       <NA>                                            
+#>  4 Q35740… Yvette Farnoux       résistante française                            
+#>  5 Q35741… Yvonne Abbas         résistante française                            
+#>  6 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
+#>  7 Q30097… Cécile Cerf          résistante française                            
+#>  8 Q30812… Francine Fromond     <NA>                                            
+#>  9 Q31324… Henriette Moriamé    <NA>                                            
+#> 10 Q31760… Jeanne Gaillard      historienne et résistante française             
 #> # … with 88 more rows
 ```
 

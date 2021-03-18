@@ -57,3 +57,52 @@ tw_set_cache_folder <- function(path = NULL) {
 #' tw_get_cache_folder()
 #' @export
 tw_get_cache_folder <- tw_set_cache_folder
+
+
+#' Enable caching for the current session
+#'
+#' @return Nothing, used for its side effects.
+#' @export
+
+#' @examples
+#' \dontrun{
+#' tw_enable_cache()
+#' }
+tw_enable_cache <- function() {
+  Sys.setenv(tw_cache = TRUE)
+}
+
+
+#' Disable caching for the current session
+#'
+#' @return Nothing, used for its side effects.
+#' @export
+
+#' @examples
+#' \dontrun{
+#' tw_disable_cache()
+#' }
+tw_disable_cache <- function() {
+  Sys.setenv(tw_cache = FALSE)
+}
+
+#' Enable caching for the current session
+#'
+#' @return Nothing, used for its side effects.
+#' @export
+
+#' @examples
+#' \dontrun{
+#' tw_check_cache()
+#' }
+tw_check_cache <- function(cache = NULL) {
+  if (is.null(cache) == FALSE) {
+    return(as.logical(cache))
+  }
+  current_cache <- Sys.getenv("tw_cache")
+  if (current_cache == "") {
+    as.logical(FALSE)
+  } else {
+    as.logical(current_cache)
+  }
+}

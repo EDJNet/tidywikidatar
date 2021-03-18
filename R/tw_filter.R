@@ -5,7 +5,7 @@
 #' @param q A character vector of length 1, a wikidata id. Must always start with the capital letter "Q", e.g. "Q5" for "human being".
 #' @param language Language to be used for the search.
 #' @param limit Maximum numbers of responses to be given.
-#' @param cache Logical, defaults to TRUE.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #'
 #' @return A data frame with three columns, `id`, `label`, and `description`, filtered by the above criteria.
@@ -24,13 +24,13 @@ tw_filter <- function(search,
                       language = "en",
                       limit = 10,
                       wait = 0.1,
-                      cache = TRUE) {
+                      cache = NULL) {
   search_result <- tidywikidatar::tw_check_search(
     search = search,
     language = language,
     limit = limit,
     wait = wait,
-    cache = cache
+    cache = tw_check_cache(cache)
   )
 
   if (nrow(search_result) == 0) {
@@ -44,7 +44,7 @@ tw_filter <- function(search,
         current_value <- tidywikidatar::tw_get_property(
           id = current_id,
           p = p,
-          cache = cache
+          cache = tw_check_cache(cache)
         )
 
         if (is.null(current_value)) {
@@ -76,7 +76,7 @@ tw_filter <- function(search,
 #' @param q A character vector of length 1, a wikidata id. Must always start with the capital letter "Q", e.g. "Q5" for "human being".
 #' @param language Language to be used for the search.
 #' @param limit Maximum numbers of responses to be given.
-#' @param cache Logical, defaults to TRUE.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #'
 #' @return A data frame with one row and three columns, `id`, `label`, and `description`, filtered by the above criteria.
@@ -98,13 +98,13 @@ tw_filter_first <- function(search,
                             language = "en",
                             limit = 10,
                             wait = 0.1,
-                            cache = TRUE) {
+                            cache = NULL) {
   search_result <- tidywikidatar::tw_check_search(
     search = search,
     language = language,
     limit = limit,
     wait = wait,
-    cache = cache
+    cache = tw_check_cache(cache)
   )
 
   if (nrow(search_result) == 0) {

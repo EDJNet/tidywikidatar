@@ -11,7 +11,7 @@ tw_filter_first(
   language = "en",
   limit = 10,
   wait = 0.1,
-  cache = TRUE
+  cache = NULL
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ tw_filter_first(
 
 \item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
 
-\item{cache}{Logical, defaults to TRUE.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}}
 }
 \value{
 A data frame with one row and three columns, \code{id}, \code{label}, and \code{description}, filtered by the above criteria.

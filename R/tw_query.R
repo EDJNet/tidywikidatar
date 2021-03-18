@@ -38,7 +38,8 @@ tw_query <- function(query,
              {stringr::str_c(\"?\", stringr::str_c(fields, collapse = \" ?\"))}
              WHERE{{?item {query_t} .
              SERVICE wikibase:label {{ bd:serviceParam wikibase:language '{stringr::str_c(language, collapse = ',')},[AUTO_LANGUAGE]' . }}
-             }}")
+             }}"
+  )
 
   response <- WikidataQueryServiceR::query_wikidata(
     sparql_query = sparql_t,

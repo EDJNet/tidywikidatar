@@ -4,7 +4,7 @@
 \alias{tw_search}
 \title{Search string in Wikidata and return Wikidata id, label, and description.}
 \usage{
-tw_search(search, language = "en", limit = 10, wait = 0.1, cache = TRUE)
+tw_search(search, language = "en", limit = 10, wait = 0.1, cache = NULL)
 }
 \arguments{
 \item{search}{A string to be searched in Wikidata}
@@ -15,7 +15,7 @@ tw_search(search, language = "en", limit = 10, wait = 0.1, cache = TRUE)
 
 \item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
 
-\item{cache}{Logical, defaults to TRUE. If TRUE, search queries are stored in a local sqlite database located in the \code{wiki_search_db} folder within the local cache folder.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 }
 \value{
 

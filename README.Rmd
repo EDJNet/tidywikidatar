@@ -45,14 +45,15 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 
 ## How to use
 
-By default, `tidywikidatar` caches locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. I usually store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can set the cache folder to be used throughout a session with `tw_set_cache_folder()`.
+`tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()` and set the cache folder to be used throughout a session with `tw_set_cache_folder()`. The first lines of a script using `tidywikidatar` would often look like this:
 
 ```{r}
 library("tidywikidatar")
+tw_enable_cache()
 tw_set_cache_folder(path = "~/R/tw_data/")
 ```
 
-This also means that you can re-run code when offline, as data are downloaded from Wikidata's server only at first run (that is, unless you set `cache = FALSE` or `overwrite_cache = TRUE` when calling the respective functions).
+This also means that you can re-run code when offline, as data are downloaded from Wikidata's server only at first run (that is, unless you set `cache = FALSE` or `overwrite_cache = TRUE` when calling the respective functions, or disable caching for the current session with `tw_disable_cache()`).
 
 ## Finding details about something
 

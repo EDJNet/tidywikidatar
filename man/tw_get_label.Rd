@@ -4,14 +4,14 @@
 \alias{tw_get_label}
 \title{Get Wikidata label in given language}
 \usage{
-tw_get_label(id, language = "en", cache = TRUE, overwrite_cache = FALSE)
+tw_get_label(id, language = "en", cache = NULL, overwrite_cache = FALSE)
 }
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
 
 \item{language}{A character vector of length one, defaults to "en", must correspond to a two-letter language code.}
 
-\item{cache}{Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 }
@@ -22,6 +22,5 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get Wikidata label in given language
 }
 \examples{
-
 
 }
