@@ -92,8 +92,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span>
 <span class="fu"><a href="reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~/R/tw_data/"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "~/R/tw_data/"</span></code></pre></div>
+<span class="fu"><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path_expand.html">path_home_r</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"R"</span>, <span class="st">"tw_data"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>This also means that you can re-run code when offline, as data are downloaded from Wikidata’s server only at first run (that is, unless you set <code>cache = FALSE</code> or <code>overwrite_cache = TRUE</code> when calling the respective functions, or disable caching for the current session with <code><a href="reference/tw_disable_cache.html">tw_disable_cache()</a></code>).</p>
 </div>
 <div id="finding-details-about-something" class="section level2">
