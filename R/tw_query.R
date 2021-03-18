@@ -33,16 +33,12 @@ tw_query <- function(query,
     glue::glue_data("wdt:{p} wd:{q}") %>%
     stringr::str_c(collapse = ";\n")
 
-
   sparql_t <- glue::glue(
     "SELECT
-             「stringr::str_c(\"?\", stringr::str_c(fields, collapse = \" ?\"))」
-             WHERE{?item 「query_t」 .
-             SERVICE wikibase:label { bd:serviceParam wikibase:language '「stringr::str_c(language, collapse = ',')」,[AUTO_LANGUAGE]' . }
-             }",
-    .open = "「",
-    .close = "」"
-  )
+             {stringr::str_c(\"?\", stringr::str_c(fields, collapse = \" ?\"))}
+             WHERE{{?item {query_t} .
+             SERVICE wikibase:label {{ bd:serviceParam wikibase:language '{stringr::str_c(language, collapse = ',')},[AUTO_LANGUAGE]' . }}
+             }}")
 
   response <- WikidataQueryServiceR::query_wikidata(
     sparql_query = sparql_t,
