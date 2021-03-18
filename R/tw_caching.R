@@ -49,7 +49,7 @@ tw_set_cache_folder <- function(path = NULL) {
   if (path == "") {
     path <- fs::path("tw_data")
   }
-  path
+  invisible(path)
 }
 
 #' @rdname tw_set_cache_folder

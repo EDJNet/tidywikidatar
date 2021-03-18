@@ -71,8 +71,7 @@ session with `tw_set_cache_folder()`. The first lines of a script using
 ``` r
 library("tidywikidatar")
 tw_enable_cache()
-tw_set_cache_folder(path = "~/R/tw_data/")
-#> [1] "~/R/tw_data/"
+tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
 ```
 
 This also means that you can re-run code when offline, as data are

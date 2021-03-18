@@ -50,7 +50,7 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 ```{r}
 library("tidywikidatar")
 tw_enable_cache()
-tw_set_cache_folder(path = "~/R/tw_data/")
+tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
 ```
 
 This also means that you can re-run code when offline, as data are downloaded from Wikidata's server only at first run (that is, unless you set `cache = FALSE` or `overwrite_cache = TRUE` when calling the respective functions, or disable caching for the current session with `tw_disable_cache()`).
