@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
       </span>
     </div>
 
@@ -88,12 +88,13 @@
 <div id="how-to-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-use" class="anchor"></a>How to use</h2>
-<p>By default, <code>tidywikidatar</code> caches locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata’s servers. These sqlite databases are by default stored in the current working directory under a <code>tw_data</code> folder. I usually store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can set the cache folder to be used throughout a session with <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code>.</p>
+<p><code>tidywikidatar</code> makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata’s servers. These sqlite databases are by default stored in the current working directory under a <code>tw_data</code> folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with <code><a href="reference/tw_enable_cache.html">tw_enable_cache()</a></code> and set the cache folder to be used throughout a session with <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code>. The first lines of a script using <code>tidywikidatar</code> would often look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span>
+<span class="fu"><a href="reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~/R/tw_data/"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "~/R/tw_data/"</span></code></pre></div>
-<p>This also means that you can re-run code when offline, as data are downloaded from Wikidata’s server only at first run (that is, unless you set <code>cache = FALSE</code> or <code>overwrite_cache = TRUE</code> when calling the respective functions).</p>
+<p>This also means that you can re-run code when offline, as data are downloaded from Wikidata’s server only at first run (that is, unless you set <code>cache = FALSE</code> or <code>overwrite_cache = TRUE</code> when calling the respective functions, or disable caching for the current session with <code><a href="reference/tw_disable_cache.html">tw_disable_cache()</a></code>).</p>
 </div>
 <div id="finding-details-about-something" class="section level2">
 <h2 class="hasAnchor">
@@ -219,18 +220,18 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 641 x 3</span>
-<span class="co">#&gt;    id       label            description                          </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;                                </span>
-<span class="co">#&gt;  1 Q3333289 Mériem Bouatoura Algerian independence fighter        </span>
-<span class="co">#&gt;  2 Q3427151 Renée Jacqmotte  &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  3 Q3446576 Ruby Summers     &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  4 Q3455497 Régine Krochmal  &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  5 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)</span>
-<span class="co">#&gt;  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) </span>
-<span class="co">#&gt;  7 Q3506010 Suzanne Moons    &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)</span>
-<span class="co">#&gt;  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)</span>
-<span class="co">#&gt; 10 Q3574207 Yvonne Jospa     Belgian resistance member            </span>
+<span class="co">#&gt;    id        label                 description                                  </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                 &lt;chr&gt;                                        </span>
+<span class="co">#&gt;  1 Q13731905 Immigje Kiers         &lt;NA&gt;                                         </span>
+<span class="co">#&gt;  2 Q14261106 Mira Fuchrer          participant in the Warsaw Ghetto Uprising    </span>
+<span class="co">#&gt;  3 Q14329015 Sara Cato Meyer       Dutch resistance fighter and activist (1890-…</span>
+<span class="co">#&gt;  4 Q14954701 Mona Louise Parsons   Canadian actress                             </span>
+<span class="co">#&gt;  5 Q15210941 Marina Shafrova-Maru… &lt;NA&gt;                                         </span>
+<span class="co">#&gt;  6 Q15439679 Lucie Pflug           German politician                            </span>
+<span class="co">#&gt;  7 Q15638299 Belinde M. Thöne-Sie… &lt;NA&gt;                                         </span>
+<span class="co">#&gt;  8 Q15638333 Ingeborg Kahlenberg   Dutch resistance fighter and photographer (1…</span>
+<span class="co">#&gt;  9 Q15713781 Gertrud Classen       German sculptor                              </span>
+<span class="co">#&gt; 10 Q15811259 Maria Fischer         &lt;NA&gt;                                         </span>
 <span class="co">#&gt; # … with 631 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -244,14 +245,14 @@
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                &lt;chr&gt;                                           </span>
 <span class="co">#&gt;  1 Q270319 Christiane Desroche… egittologa e archeologa francese                </span>
 <span class="co">#&gt;  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     </span>
-<span class="co">#&gt;  3 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…</span>
-<span class="co">#&gt;  4 Q30097… Cécile Cerf          résistante française                            </span>
-<span class="co">#&gt;  5 Q30812… Francine Fromond     &lt;NA&gt;                                            </span>
-<span class="co">#&gt;  6 Q31324… Henriette Moriamé    &lt;NA&gt;                                            </span>
-<span class="co">#&gt;  7 Q31760… Jeanne Gaillard      historienne et résistante française             </span>
-<span class="co">#&gt;  8 Q31760… Jeanne Laurent       scrittrice francese                             </span>
-<span class="co">#&gt;  9 Q32919… Marie-José Chombart… &lt;NA&gt;                                            </span>
-<span class="co">#&gt; 10 Q32951… Martha Desrumaux     personnalité politique française                </span>
+<span class="co">#&gt;  3 Q52577… Denise Laroque       &lt;NA&gt;                                            </span>
+<span class="co">#&gt;  4 Q35740… Yvette Farnoux       résistante française                            </span>
+<span class="co">#&gt;  5 Q35741… Yvonne Abbas         résistante française                            </span>
+<span class="co">#&gt;  6 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…</span>
+<span class="co">#&gt;  7 Q30097… Cécile Cerf          résistante française                            </span>
+<span class="co">#&gt;  8 Q30812… Francine Fromond     &lt;NA&gt;                                            </span>
+<span class="co">#&gt;  9 Q31324… Henriette Moriamé    &lt;NA&gt;                                            </span>
+<span class="co">#&gt; 10 Q31760… Jeanne Gaillard      historienne et résistante française             </span>
 <span class="co">#&gt; # … with 88 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">

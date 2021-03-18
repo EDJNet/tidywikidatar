@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@
     <p>Return (almost) all information from a Wikidata item in a tidy format</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_get</span><span class='op'>(</span><span class='va'>id</span>, cache <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_get</span><span class='op'>(</span><span class='va'>id</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span>, overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,7 +123,7 @@
     </tr>
     <tr>
       <th>cache</th>
-      <td><p>Logical, defaults to TRUE. If TRUE, it stores all retrieved data in a local sqlite database.</p></td>
+      <td><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href='tw_enable_cache.html'>tw_enable_cache()</a></code> or <code><a href='tw_disable_cache.html'>tw_disable_cache()</a></code>.</p></td>
     </tr>
     <tr>
       <th>overwrite_cache</th>
