@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Enable caching for the current session — tw_check_cache • tidywikidatar</title>
+<title>Check caching status in the current session, and override it upon request — tw_check_cache • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Enable caching for the current session — tw_check_cache" />
-<meta property="og:description" content="Enable caching for the current session" />
+<meta property="og:title" content="Check caching status in the current session, and override it upon request — tw_check_cache" />
+<meta property="og:description" content="Mostly used internally in functins, exported for reference." />
 
 
 
@@ -103,13 +103,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Enable caching for the current session</h1>
+    <h1>Check caching status in the current session, and override it upon request</h1>
     
     <div class="hidden name"><code>tw_check_cache.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Enable caching for the current session</p>
+    <p>Mostly used internally in functins, exported for reference.</p>
     </div>
 
     <pre class="usage"><span class='fu'>tw_check_cache</span><span class='op'>(</span>cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -117,7 +117,10 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Nothing, used for its side effects.</p>
+    <p>Either TRUE or FALSE, depending on current cache settings.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

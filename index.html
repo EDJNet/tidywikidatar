@@ -196,7 +196,7 @@
 <h2 class="hasAnchor">
 <a href="#queries" class="anchor"></a>Queries</h2>
 <p>All of the above works similarly to how we often use websistes such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like “give me all of these fields for all items that have this value for this property, but not that other value for that other property”.</p>
-<p>To achieve this, you can run queries, following <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples">instructions on Wikidata.org</a>. From R, you would run those using <code>WikidataQueryServiceR::query_wikidata()</code>. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes.</p>
+<p>To achieve this, you can run queries, following <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples">instructions on Wikidata.org</a>. From R, you would run those using <code><a href="https://rdrr.io/pkg/WikidataQueryServiceR/man/query_wikidata.html">WikidataQueryServiceR::query_wikidata()</a></code>. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes.</p>
 <p><code>tidiwikidatar</code> does not currently plan to deal with complex queries. However, at this stage it has a basic function, <code>tw_query</code>, which should instantly make sense for R users.</p>
 <p>Say, for example, you are interested in all women (P21 == Q6581072) who are resistance fighters (P106 == Q6581072).</p>
 <p>You can then make a data frame with two columns (p and q), and some requirements, like this:</p>
