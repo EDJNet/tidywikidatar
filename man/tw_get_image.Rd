@@ -22,5 +22,8 @@ A charachter vector, corresponding to reference to the image in the requested fo
 Get Wikidata image
 }
 \examples{
+\dontrun{
+tw_get_image(id = "Q228822")
+}
 
 }

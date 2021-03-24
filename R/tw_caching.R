@@ -2,12 +2,12 @@
 #'
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for interactive sessions).
 #'
-#' @return
+#' @return Nothing, used for its side effects.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' tw_create_cache_folder
+#' tw_create_cache_folder()
 #' }
 tw_create_cache_folder <- function(ask = TRUE) {
   if (fs::file_exists(tidywikidatar::tw_get_cache_folder()) == FALSE) {

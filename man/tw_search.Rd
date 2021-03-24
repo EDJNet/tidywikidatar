@@ -18,7 +18,7 @@ tw_search(search, language = "en", limit = 10, wait = 0.1, cache = NULL)
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 }
 \value{
-
+A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).
 }
 \description{
 Search string in Wikidata and return Wikidata id, label, and description.

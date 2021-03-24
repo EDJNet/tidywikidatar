@@ -6,7 +6,7 @@
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #'
-#' @return
+#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).
 #' @export
 #'
 #' @examples
@@ -291,7 +291,13 @@ tw_get <- function(id,
 #'
 #' @examples
 #'
-tw_get_label <- function(id, language = "en",
+#' \dontrun{
+#' tw_get_label(id = "Q228822")
+#' }
+#'
+
+tw_get_label <- function(id,
+                         language = "en",
                          cache = NULL,
                          overwrite_cache = FALSE) {
   if (is.data.frame(id) == TRUE) {
@@ -334,7 +340,9 @@ tw_get_label <- function(id, language = "en",
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
+#' tw_get_description(id = "Q228822")
+#' }
 tw_get_description <- function(id,
                                language = "en",
                                cache = NULL,
@@ -379,6 +387,10 @@ tw_get_description <- function(id,
 #'
 #' @examples
 #'
+#' \dontrun{
+#' tw_get_property(id = "Q228822")
+#' }
+#'
 tw_get_property <- function(id,
                             p,
                             cache = NULL,
@@ -411,6 +423,9 @@ tw_get_property <- function(id,
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' tw_get_image(id = "Q228822")
+#' }
 #'
 tw_get_image <- function(id,
                          cache = NULL,
@@ -454,6 +469,10 @@ tw_get_image <- function(id,
 #' @export
 #'
 #' @examples
+#'
+#' \dontrun{
+#' tw_get_wikipedia(id = "Q228822")
+#' }
 #'
 tw_get_wikipedia <- function(id,
                              language = "en",

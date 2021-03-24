@@ -23,4 +23,8 @@ Get Wikidata property
 }
 \examples{
 
+\dontrun{
+tw_get_property(id = "Q228822")
+}
+
 }

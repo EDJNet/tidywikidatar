@@ -22,5 +22,7 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get Wikidata description in given language
 }
 \examples{
-
+\dontrun{
+tw_get_description(id = "Q228822")
+}
 }

@@ -23,4 +23,8 @@ Get Wikidata label in given language
 }
 \examples{
 
+\dontrun{
+tw_get_label(id = "Q228822")
+}
+
 }

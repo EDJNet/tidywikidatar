@@ -10,13 +10,13 @@ tw_create_cache_folder(ask = TRUE)
 \item{ask}{Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for interactive sessions).}
 }
 \value{
-
+Nothing, used for its side effects.
 }
 \description{
 Creates the cache folder where \code{streetnames} caches data.
 }
 \examples{
 \dontrun{
-tw_create_cache_folder
+tw_create_cache_folder()
 }
 }
