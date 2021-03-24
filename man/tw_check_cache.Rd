@@ -6,14 +6,14 @@
 \usage{
 tw_check_cache(cache = NULL)
 }
+\arguments{
+\item{cache}{Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.}
+}
 \value{
 Either TRUE or FALSE, depending on current cache settings.
 }
 \description{
 Mostly used internally in functins, exported for reference.
-}
-\details{
-cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.
 }
 \examples{
 \dontrun{

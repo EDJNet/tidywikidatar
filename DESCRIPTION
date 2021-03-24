@@ -28,7 +28,9 @@ Imports:
     purrr,
     usethis,
     WikidataQueryServiceR,
-    fs
+    fs,
+    rlang (>= 0.1.2)
 Suggests: 
+    roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

@@ -49,11 +49,11 @@ tw_query <- function(query,
   if (return_as_tw_search == TRUE) {
     response %>%
       dplyr::transmute(
-        id = stringr::str_extract(item,
+        id = stringr::str_extract(.data$item,
           pattern = "Q[[:digit:]]+$"
         ),
-        label = itemLabel,
-        description = itemDescription
+        label = .data$itemLabel,
+        description = .data$itemDescription
       )
   } else {
     tibble::as_tibble(response)

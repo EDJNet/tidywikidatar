@@ -25,7 +25,6 @@ tw_search <- function(search,
     usethis::ui_stop("A search string must be given.")
   }
 
-
   if (tw_check_cache(cache) == TRUE) {
     tidywikidatar::tw_create_cache_folder()
     db_folder <- fs::path(
@@ -49,7 +48,7 @@ tw_search <- function(search,
     )
     if (is.data.frame(db_result)) {
       DBI::dbDisconnect(db)
-      return(db_result %>% dplyr::filter(is.na(id) == FALSE))
+      return(db_result %>% dplyr::filter(is.na(.data$id) == FALSE))
     }
   }
 
@@ -103,7 +102,7 @@ tw_search <- function(search,
     DBI::dbDisconnect(db)
   }
   search_response_df %>%
-    dplyr::filter(is.na(id) == FALSE) %>%
+    dplyr::filter(is.na(.data$id) == FALSE) %>%
     tibble::as_tibble()
 }
 
@@ -305,17 +304,17 @@ tw_get_label <- function(id, language = "en",
   ) %>%
     dplyr::filter(
       stringr::str_starts(
-        string = property,
+        string = .data$property,
         pattern = "label_"
       ),
       stringr::str_ends(
-        string = property,
+        string = .data$property,
         pattern = stringr::str_c(language,
           collapse = "|"
         )
       )
     ) %>%
-    dplyr::pull(value)
+    dplyr::pull(.data$value)
 
   if (length(label) == 0) {
     as.character(NA)
@@ -350,17 +349,17 @@ tw_get_description <- function(id,
   ) %>%
     dplyr::filter(
       stringr::str_starts(
-        string = property,
+        string = .data$property,
         pattern = "description_"
       ),
       stringr::str_ends(
-        string = property,
+        string = .data$property,
         pattern = stringr::str_c(language,
           collapse = "|"
         )
       )
     ) %>%
-    dplyr::pull(value)
+    dplyr::pull(.data$value)
   if (length(description) == 0) {
     as.character(NA)
   } else {
@@ -393,7 +392,7 @@ tw_get_property <- function(id,
     overwrite_cache = overwrite_cache
   ) %>%
     dplyr::filter(property == p) %>%
-    dplyr::pull(value)
+    dplyr::pull(.data$value)
   if (length(property) == 0) {
     as.character(NA)
   } else {
@@ -425,8 +424,8 @@ tw_get_image <- function(id,
     cache = tw_check_cache(cache),
     overwrite_cache = overwrite_cache
   ) %>%
-    dplyr::filter(property == "P18") %>%
-    dplyr::pull(value)
+    dplyr::filter(.data$property == "P18") %>%
+    dplyr::pull(.data$value)
 
   if (length(link) == 0) {
     return(as.character(NA))
@@ -435,11 +434,9 @@ tw_get_image <- function(id,
   if (format == "filename") {
     link
   } else if (format == "commons") {
-    link %>%
-      stringr::str_c("https://commons.wikimedia.org/wiki/File:", .)
+     stringr::str_c("https://commons.wikimedia.org/wiki/File:", link)
   } else if (format == "embed") {
-    link %>%
-      stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", .)
+    stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", link)
   } else {
     link
   }
@@ -471,8 +468,8 @@ tw_get_wikipedia <- function(id,
     cache = tw_check_cache(cache),
     overwrite_cache = overwrite_cache
   ) %>%
-    dplyr::filter(is.element(el = property, set = base_string)) %>%
-    dplyr::pull(value)
+    dplyr::filter(is.element(el = .data$property, set = base_string)) %>%
+    dplyr::pull(.data$value)
   if (length(base_link) == 0) {
     as.character(NA)
   } else {
