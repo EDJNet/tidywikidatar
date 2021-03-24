@@ -2,15 +2,18 @@
 % Please edit documentation in R/tw_caching.R
 \name{tw_check_cache}
 \alias{tw_check_cache}
-\title{Enable caching for the current session}
+\title{Check caching status in the current session, and override it upon request}
 \usage{
 tw_check_cache(cache = NULL)
 }
 \value{
-Nothing, used for its side effects.
+Either TRUE or FALSE, depending on current cache settings.
 }
 \description{
-Enable caching for the current session
+Mostly used internally in functins, exported for reference.
+}
+\details{
+cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.
 }
 \examples{
 \dontrun{

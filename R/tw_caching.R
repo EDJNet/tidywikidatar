@@ -86,9 +86,13 @@ tw_disable_cache <- function() {
   Sys.setenv(tw_cache = FALSE)
 }
 
-#' Enable caching for the current session
+#' Check caching status in the current session, and override it upon request
 #'
-#' @return Nothing, used for its side effects.
+#' Mostly used internally in functins, exported for reference.
+#'
+#' cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.
+#'
+#' @return Either TRUE or FALSE, depending on current cache settings.
 #' @export
 
 #' @examples

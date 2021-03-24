@@ -9,6 +9,8 @@ tw_get_property(id, p, cache = NULL, overwrite_cache = FALSE)
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
+\item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
