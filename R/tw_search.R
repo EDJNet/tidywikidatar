@@ -53,7 +53,9 @@ tw_search <- function(search,
     )
     if (is.data.frame(db_result) & overwrite_cache == FALSE) {
       DBI::dbDisconnect(db)
-      return(db_result %>% dplyr::filter(is.na(.data$id) == FALSE))
+      return(db_result %>%
+               dplyr::filter(is.na(.data$id) == FALSE) %>%
+               tibble::as_tibble())
     }
   }
 
