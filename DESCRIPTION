@@ -9,7 +9,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-0515-9542")), 
       person(given = "EDJNet",
              role = "fnd"))
-Description: This package makes it easy to query wikidata, get tidy data frames in response, and cache data in a local sqlite database.
+Description: This package makes it easy to query Wikidata, get tidy data frames in response, and cache data in a local sqlite database.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
