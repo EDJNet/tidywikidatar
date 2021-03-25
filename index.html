@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Explore Wikidata through Tidy Data Frames">
-<meta property="og:description" content="This package makes it easy to query wikidata, get tidy data frames in response, and cache data in a local sqlite database.">
+<meta property="og:description" content="This package makes it easy to query Wikidata, get tidy data frames in response, and cache data in a local sqlite database.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -67,7 +67,7 @@
 <p>The goal of <code>tidywikidatar</code> is to facilitate interaction with Wikidata:</p>
 <ul>
 <li>all responses are transformed into data frames or simple character vectors</li>
-<li>by default, queries and responses are cached locally in a sqlite database</li>
+<li>by default, responses are cached locally in a sqlite database</li>
 </ul>
 <p>If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find <code>tidywikidatar</code> useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use <a href="https://github.com/Ironholds/WikidataR"><code>WikidataR</code></a>, Wikimedia’s own <a href="https://github.com/wikimedia/WikidataQueryServiceR"><code>WikidataQueryServiceR</code></a> (under the hood, <code>tidywikidatar</code> is largely based on those packages).</p>
 <div id="installation" class="section level2">
@@ -104,19 +104,28 @@
 <p>Let’s take this again from the beginning. As I mentioned, I am interested in Margaret Mead, the famous pioneer anthropologist author of “Coming of Age in Samoa”. This seems quite straightforward but there are actually a number of things that are returned by searching for “Margaret Mead” that are not the woman herself.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 10 x 3</span>
-<span class="co">#&gt;    id       label                               description                     </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;                               &lt;chr&gt;                           </span>
-<span class="co">#&gt;  1 Q180099  Margaret Mead                       American anthropologist         </span>
-<span class="co">#&gt;  2 Q810150… Margaret mead                       scientific article published on…</span>
-<span class="co">#&gt;  3 Q667014… Margaret Mead                       scientific article published on…</span>
-<span class="co">#&gt;  4 Q857246… Mead &amp; Bateson                      business organisation           </span>
-<span class="co">#&gt;  5 Q960776… Margaret Meadows                    &lt;NA&gt;                            </span>
-<span class="co">#&gt;  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        </span>
-<span class="co">#&gt;  7 Q755066… Margaret Meadows                    Peerage person ID=183057        </span>
-<span class="co">#&gt;  8 Q758123… Margaret Meade-Waldo                died 1954                       </span>
-<span class="co">#&gt;  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…</span>
-<span class="co">#&gt; 10 Q558970… Margaret Mead and Samoa: Coming of… &lt;NA&gt;</span></code></pre></div>
+<span class="co">#&gt;           id                                                      label</span>
+<span class="co">#&gt; 1    Q180099                                              Margaret Mead</span>
+<span class="co">#&gt; 2  Q81015029                                              Margaret mead</span>
+<span class="co">#&gt; 3  Q66701460                                              Margaret Mead</span>
+<span class="co">#&gt; 4  Q85724626                                             Mead &amp; Bateson</span>
+<span class="co">#&gt; 5  Q96077616                                           Margaret Meadows</span>
+<span class="co">#&gt; 6  Q76238541                                           Margaret Meadowe</span>
+<span class="co">#&gt; 7  Q75506638                                           Margaret Meadows</span>
+<span class="co">#&gt; 8  Q75812372                                       Margaret Meade-Waldo</span>
+<span class="co">#&gt; 9   Q6759717                                Margaret Mead Film Festival</span>
+<span class="co">#&gt; 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction</span>
+<span class="co">#&gt;                                         description</span>
+<span class="co">#&gt; 1                           American anthropologist</span>
+<span class="co">#&gt; 2  scientific article published on 01 December 1978</span>
+<span class="co">#&gt; 3  scientific article published on 01 November 1978</span>
+<span class="co">#&gt; 4                             business organisation</span>
+<span class="co">#&gt; 5                                              &lt;NA&gt;</span>
+<span class="co">#&gt; 6                          Peerage person ID=628312</span>
+<span class="co">#&gt; 7                          Peerage person ID=183057</span>
+<span class="co">#&gt; 8                                         died 1954</span>
+<span class="co">#&gt; 9   annual film festival held in New York City, USA</span>
+<span class="co">#&gt; 10                                             &lt;NA&gt;</span></code></pre></div>
 <p>If I am running through a list of strings, and, for example, I am actually interested in the most famous person by that name, I can filter result by property, using the standard form. If, for example, I want only the first result that is associated with “an instance of” (P31) - “human” (Q5), I can run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -455,18 +464,18 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 645 x 3</span>
-<span class="co">#&gt;    id        label                       description                            </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                       &lt;chr&gt;                                  </span>
-<span class="co">#&gt;  1 Q15970412 Raymonde Tillon             French politician                      </span>
-<span class="co">#&gt;  2 Q15980188 Elsie Maréchal              Belgian resistance member              </span>
-<span class="co">#&gt;  3 Q15990506 Berta Daniel                German photographer                    </span>
-<span class="co">#&gt;  4 Q16010508 Helga Stene                 &lt;NA&gt;                                   </span>
-<span class="co">#&gt;  5 Q16015753 Janny Brandes-Brilleslijper Dutch Holocaust survivor               </span>
-<span class="co">#&gt;  6 Q16224246 Elvire De Greef             member of the Comet line in World War …</span>
-<span class="co">#&gt;  7 Q16246535 Régine Karlin               &lt;NA&gt;                                   </span>
-<span class="co">#&gt;  8 Q16262713 Simone Schloss              &lt;NA&gt;                                   </span>
-<span class="co">#&gt;  9 Q16262717 Fernande Volral             &lt;NA&gt;                                   </span>
-<span class="co">#&gt; 10 Q16262749 Laurette Demaret            &lt;NA&gt;                                   </span>
+<span class="co">#&gt;    id     label              description                                        </span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;chr&gt;                                              </span>
+<span class="co">#&gt;  1 Q77526 Olga Benário Pres… German-Brazilian Communist militant (1908-1942)    </span>
+<span class="co">#&gt;  2 Q77934 Liane Berkowitz    German resistance fighter                          </span>
+<span class="co">#&gt;  3 Q84416 Maria Terwiel      German resistance member                           </span>
+<span class="co">#&gt;  4 Q84960 Greta Kuckhoff     German Resistance member, president of the state b…</span>
+<span class="co">#&gt;  5 Q85201 Maria von Maltzan  German resistance member                           </span>
+<span class="co">#&gt;  6 Q85949 Marion Yorck von … German resistance fighter                          </span>
+<span class="co">#&gt;  7 Q87358 Johanna Kirchner   German opponent of Nazism                          </span>
+<span class="co">#&gt;  8 Q87804 Eva-Maria Buch     German resistance fighter                          </span>
+<span class="co">#&gt;  9 Q88113 Lina Haag          activist                                           </span>
+<span class="co">#&gt; 10 Q90794 Charlotte Bischoff German Resistance fighter                          </span>
 <span class="co">#&gt; # … with 635 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -478,18 +487,18 @@
 <span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># Country of citizenship: France</span>
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"it"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 101 x 3</span>
-<span class="co">#&gt;    id      label                description                                     </span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                &lt;chr&gt;                                           </span>
-<span class="co">#&gt;  1 Q270319 Christiane Desroche… egittologa e archeologa francese                </span>
-<span class="co">#&gt;  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     </span>
-<span class="co">#&gt;  3 Q35740… Yvette Farnoux       résistante française                            </span>
-<span class="co">#&gt;  4 Q35741… Yvonne Abbas         résistante française                            </span>
-<span class="co">#&gt;  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…</span>
-<span class="co">#&gt;  6 Q30097… Cécile Cerf          résistante française                            </span>
-<span class="co">#&gt;  7 Q30812… Francine Fromond     &lt;NA&gt;                                            </span>
-<span class="co">#&gt;  8 Q31324… Henriette Moriamé    &lt;NA&gt;                                            </span>
-<span class="co">#&gt;  9 Q31760… Jeanne Gaillard      historienne et résistante française             </span>
-<span class="co">#&gt; 10 Q31760… Jeanne Laurent       scrittrice francese                             </span>
+<span class="co">#&gt;    id       label               description                                     </span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;               &lt;chr&gt;                                           </span>
+<span class="co">#&gt;  1 Q270319  Christiane Desroch… egittologa e archeologa francese                </span>
+<span class="co">#&gt;  2 Q283654  Marija Skobcova     suora e santa russa, vittima dell'Olocausto     </span>
+<span class="co">#&gt;  3 Q422187… Yvette Grollet-Bri… aviatrice française                             </span>
+<span class="co">#&gt;  4 Q422916… Alice Vansteenberg… résistante française                            </span>
+<span class="co">#&gt;  5 Q428872… Marie-Thérèse de P… &lt;NA&gt;                                            </span>
+<span class="co">#&gt;  6 Q470757… Anne-Marie Bigot    juste parmi les Nations                         </span>
+<span class="co">#&gt;  7 Q471078… Madeleine Clément   juste parmi les Nations                         </span>
+<span class="co">#&gt;  8 Q506730… Claude Michel       déportée de la Résistance française aux camps d…</span>
+<span class="co">#&gt;  9 Q511312… Madeleine Jeudi     juste parmi les Nations                         </span>
+<span class="co">#&gt; 10 Q2696536 Yolande Beekman     espionne et agente secret des Special Operation…</span>
 <span class="co">#&gt; # … with 91 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
