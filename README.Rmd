@@ -16,14 +16,15 @@ knitr::opts_chunk$set(
 # tidywikidatar
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/giocomai/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/giocomai/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
-- all responses are transformed into data frames
+- all responses are transformed into data frames or simple character vectors
 - by default, queries and responses are cached locally in a sqlite database
+
+If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/Ironholds/WikidataR), Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
 
 ## Installation
 
@@ -52,6 +53,7 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
+tw_create_cache_folder(ask = FALSE)
 ```
 
 This also means that you can re-run code when offline, as data are downloaded from Wikidata's server only at first run (that is, unless you set `cache = FALSE` or `overwrite_cache = TRUE` when calling the respective functions, or disable caching for the current session with `tw_disable_cache()`).
@@ -70,9 +72,8 @@ tw_search(search = "Margaret Mead")
 If I am running through a list of strings, and, for example, I am actually interested in the most famous person by that name, I can filter result by property, using the standard form. If, for example, I want only the first result that is associated with "an instance of" (P31) - "human" (Q5), I can run:
 
 ```{r}
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
-
 ```
 
 and, as expected, I get a single output: my beloved Margaret Mead.
@@ -124,18 +125,18 @@ get_bio <- function(id, language = "en") {
   tibble::tibble(
     label = tw_get_label(id = id, language = language),
     description = tw_get_description(id = id, language = language),
-    year_of_birth = tw_get_property(id = id, p = "P569") %>% 
-      lubridate::ymd_hms() %>% 
+    year_of_birth = tw_get_property(id = id, p = "P569") %>%
+      lubridate::ymd_hms() %>%
       lubridate::year() %>%
-      head(1), 
-    year_of_death = tw_get_property(id = id, p = "P570") %>% 
-      lubridate::ymd_hms() %>% 
-      lubridate::year() %>% 
+      head(1),
+    year_of_death = tw_get_property(id = id, p = "P570") %>%
+      lubridate::ymd_hms() %>%
+      lubridate::year() %>%
       head(1)
   )
 }
 
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio()
 ```
@@ -143,10 +144,94 @@ tw_search(search = "Margaret Mead") %>%
 I can of course get the response in languages other than English, as long as those are available on Wikidata.
 
 ```{r}
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio(language = "it")
 ```
+
+## Qualifiers
+
+In most cases, things are quite straightforward: each item has one or more values for a given property. 
+
+However, some properties have additional qualifiers.
+
+As an example, let's look at someone whose life is seemlingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+
+If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property:P39)), we find the following:
+
+
+```{r}
+
+purrr::map_chr(
+  .x = tw_get_property(id = "Q2391857", p = "P39"),
+  .f = tw_get_label
+)
+```
+
+He has been more than once "member of the European Parliament", and once "President of the European Parliament". But this is not all that Wikidata knows about it: each of these properties comes with qualifiers. 
+
+
+```{r}
+qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
+qualifiers_df
+```
+
+As usual, Wikidata presents everything as combinations of properties and values. Let's translate each of these to their respective label, and separate each set of information we have about the "positions held" by Mr. Sassoli:
+
+```{r}
+qualifiers_labelled_df <- tibble::tibble(
+  id = purrr::map_chr(
+    .x = qualifiers_df$id,
+    .f = function(x) {
+      tw_get_label(
+        id = x,
+        language = "en"
+      )
+    }
+  ),
+  property = purrr::map_chr(
+    .x = qualifiers_df$property,
+    .f = function(x) {
+      tw_get_property_label(
+        property = x,
+        language = "en"
+      )
+    }
+  ),
+  value = purrr::map_chr(
+    .x = qualifiers_df$value,
+    .f = function(x) {
+      if (stringr::str_starts(
+        string = x,
+        pattern = "Q"
+      )) {
+        tw_get_label(
+          id = x,
+          language = "en"
+        )
+      } else {
+        stringr::str_extract(
+          string = x,
+          pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
+        )
+      }
+    }
+  ),
+  set = qualifiers_df$set
+)
+
+
+
+qualifiers_labelled_df %>%
+  dplyr::group_by(set) %>%
+  dplyr::group_walk(.f = ~ print(.[[1]])) %>%
+  knitr::kable()
+```
+
+That's quite a lot of useful detail. The construction of the request can be quite complicated, but keep in mind that if you do this programmatically you will likely use this for filtering a specific piece of information based on a combination of properties, and you will only less frequently need to extract all available information.
+
+Fundamentally, you won't be touching anything that is not a vector or a tidy data frame, which is ultimately a key goal of `tidywikidatar`: make use of the wealth of information stored by Wikidata from R without having to deal with either nested lists or SPARQL queries.
+
 
 ## Queries
 
@@ -161,9 +246,11 @@ Say, for example, you are interested in all women (P21 == Q6581072) who are resi
 You can then make a data frame with two columns (p and q), and some requirements, like this:
 
 ```{r}
-query_df <- tibble::tribble(~p, ~q, 
-                            "P106", "Q1397808",
-                            "P21", "Q6581072")
+query_df <- tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808",
+  "P21", "Q6581072"
+)
 
 # if you prefer, you can input the same as a list, like this:
 # query_l <- list(c(p = "P106", q = "Q1397808"),
@@ -181,18 +268,15 @@ tw_query(query = query_df)
 
 Or perhaps, you are interested only in women who are resistance fighters who have "France" ([Q142](https://www.wikidata.org/wiki/Q142)) as "country of citizenship" ([P27](https://www.wikidata.org/wiki/Property:P27))? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?
 
-```{r include=FALSE, echo=FALSE}
-Sys.sleep(3)
-```
-
 
 ```{r}
-tibble::tribble(~p, ~q, 
-                "P106", "Q1397808", # Occupation: resistance fighter
-                "P21", "Q6581072", # Sex or gender: female
-                "P27", "Q142")  %>% # Country of citizenship: France
+tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808", # Occupation: resistance fighter
+  "P21", "Q6581072", # Sex or gender: female
+  "P27", "Q142"
+) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-
 ```
 
 
@@ -201,21 +285,38 @@ You can also ask other fields, beyond label and description, using the `field` p
 
 
 ```{r}
-tibble::tribble(~p, ~q, 
-                "P106", "Q1397808",
-                "P21", "Q6581072",
-                "P27", "Q142"
-) %>% 
-  tw_query() %>% 
-  dplyr::slice(1) %>% 
+tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808",
+  "P21", "Q6581072",
+  "P27", "Q142"
+) %>%
+  tw_query() %>%
+  dplyr::slice(1) %>%
   get_bio()
 ```
 
 Keep in mind that Wikidata queries are not cached locally. 
 
 
+## How caching works
+
+`tidywikidatar` tries to reduce load on Wikidata's server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by `tw_set_cache_folder()` (by default, in the current working directory) when cache is enabled (typically, with `tw_enable_cache()` at the beginning of a session).
+
+To reduce the size of local files, if data are requested in a specific language, then only data in that language are stored locally. 
+
+The easiest way to reset the cache is simply to delete the cache folder.
+
+Results are stored in different databases by language, and function used (`tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example, store data in different files). 
+
+`tw_query()` is never cached.
+
+## Known issues
+
+- `tw_search()` always returns label and description in English (to be fixed)
+
 ## Copyright and credits
 
 This package has been created by [Giorgio Comai](https://giorgiocomai.eu), data analyst and researcher at [OBCT/CCI](https://balcanicaucaso.org/), within the scope of [EDJNet](https://europeandatajournalism.eu/), the European Data Journalism Network.
 
-It is distributed under the GPL license. 
+It is distributed under the MIT license. 

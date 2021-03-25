@@ -5,16 +5,24 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/giocomai/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/giocomai/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
-  - all responses are transformed into data frames
+  - all responses are transformed into data frames or simple character
+    vectors
   - by default, queries and responses are cached locally in a sqlite
     database
+
+If you want to benefit of the wealth of information stored by Wikidata,
+but you do not like SPARQL queries and nested lists, then you may find
+`tidywikidatar` useful. If you prefer working with nested lists and
+SPARQL queries, or if you plan to build more complex queries, then you
+should probably use
+[`WikidataR`](https://github.com/Ironholds/WikidataR), Wikimedia’s own
+[`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR)
+(under the hood, `tidywikidatar` is largely based on those packages).
 
 ## Installation
 
@@ -73,6 +81,7 @@ session with `tw_set_cache_folder()`. The first lines of a script using
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
+tw_create_cache_folder(ask = FALSE)
 ```
 
 This also means that you can re-run code when offline, as data are
@@ -95,28 +104,19 @@ Mead” that are not the woman herself.
 
 ``` r
 tw_search(search = "Margaret Mead")
-#>           id                                                      label
-#> 1    Q180099                                              Margaret Mead
-#> 2  Q81015029                                              Margaret mead
-#> 3  Q66701460                                              Margaret Mead
-#> 4  Q85724626                                             Mead & Bateson
-#> 5  Q96077616                                           Margaret Meadows
-#> 6  Q76238541                                           Margaret Meadowe
-#> 7  Q75506638                                           Margaret Meadows
-#> 8  Q75812372                                       Margaret Meade-Waldo
-#> 9   Q6759717                                Margaret Mead Film Festival
-#> 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction
-#>                                         description
-#> 1                           American anthropologist
-#> 2  scientific article published on 01 December 1978
-#> 3  scientific article published on 01 November 1978
-#> 4                             business organisation
-#> 5                                              <NA>
-#> 6                          Peerage person ID=628312
-#> 7                          Peerage person ID=183057
-#> 8                                         died 1954
-#> 9   annual film festival held in New York City, USA
-#> 10                                             <NA>
+#> # A tibble: 10 x 3
+#>    id       label                               description                     
+#>    <chr>    <chr>                               <chr>                           
+#>  1 Q180099  Margaret Mead                       American anthropologist         
+#>  2 Q810150… Margaret mead                       scientific article published on…
+#>  3 Q667014… Margaret Mead                       scientific article published on…
+#>  4 Q857246… Mead & Bateson                      business organisation           
+#>  5 Q960776… Margaret Meadows                    <NA>                            
+#>  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        
+#>  7 Q755066… Margaret Meadows                    Peerage person ID=183057        
+#>  8 Q758123… Margaret Meade-Waldo                died 1954                       
+#>  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…
+#> 10 Q558970… Margaret Mead and Samoa: Coming of… <NA>
 ```
 
 If I am running through a list of strings, and, for example, I am
@@ -126,7 +126,7 @@ only the first result that is associated with “an instance of” (P31) -
 “human” (Q5), I can run:
 
 ``` r
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
 #>        id         label             description
 #> 1 Q180099 Margaret Mead American anthropologist
@@ -192,18 +192,18 @@ get_bio <- function(id, language = "en") {
   tibble::tibble(
     label = tw_get_label(id = id, language = language),
     description = tw_get_description(id = id, language = language),
-    year_of_birth = tw_get_property(id = id, p = "P569") %>% 
-      lubridate::ymd_hms() %>% 
+    year_of_birth = tw_get_property(id = id, p = "P569") %>%
+      lubridate::ymd_hms() %>%
       lubridate::year() %>%
-      head(1), 
-    year_of_death = tw_get_property(id = id, p = "P570") %>% 
-      lubridate::ymd_hms() %>% 
-      lubridate::year() %>% 
+      head(1),
+    year_of_death = tw_get_property(id = id, p = "P570") %>%
+      lubridate::ymd_hms() %>%
+      lubridate::year() %>%
       head(1)
   )
 }
 
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio()
 #> # A tibble: 1 x 4
@@ -216,7 +216,7 @@ I can of course get the response in languages other than English, as
 long as those are available on Wikidata.
 
 ``` r
-tw_search(search = "Margaret Mead") %>% 
+tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio(language = "it")
 #> # A tibble: 1 x 4
@@ -224,6 +224,160 @@ tw_search(search = "Margaret Mead") %>%
 #>   <chr>         <chr>                            <dbl>         <dbl>
 #> 1 Margaret Mead antropologa statunitense          1901          1978
 ```
+
+## Qualifiers
+
+In most cases, things are quite straightforward: each item has one or
+more values for a given property.
+
+However, some properties have additional qualifiers.
+
+As an example, let’s look at someone whose life is seemlingly less
+adventurous than that of Margaret Mead, but whose Wikidata page has
+properties with a more interesting combination of qualifiers: the
+current president of the European Parliament David Sassoli
+([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+
+If we look at his “positions held”
+([P39](https://www.wikidata.org/wiki/Property:P39)), we find the
+following:
+
+``` r
+
+purrr::map_chr(
+  .x = tw_get_property(id = "Q2391857", p = "P39"),
+  .f = tw_get_label
+)
+#> [1] "member of the European Parliament"   
+#> [2] "President of the European Parliament"
+#> [3] "member of the European Parliament"   
+#> [4] "member of the European Parliament"
+```
+
+He has been more than once “member of the European Parliament”, and once
+“President of the European Parliament”. But this is not all that
+Wikidata knows about it: each of these properties comes with qualifiers.
+
+``` r
+qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
+qualifiers_df
+#> # A tibble: 21 x 4
+#>    id      property value                   set
+#>    <chr>   <chr>    <chr>                 <int>
+#>  1 Q27169  P2937    Q17315694                 1
+#>  2 Q27169  P580     +2014-07-01T00:00:00Z     1
+#>  3 Q27169  P4100    Q507343                   1
+#>  4 Q27169  P768     Q3677909                  1
+#>  5 Q27169  P1268    Q47729                    1
+#>  6 Q27169  P2715    Q1376095                  1
+#>  7 Q740126 P580     +2019-07-03T00:00:00Z     2
+#>  8 Q740126 P1365    Q440710                   2
+#>  9 Q27169  P2937    Q4644021                  3
+#> 10 Q27169  P580     +2009-07-14T00:00:00Z     3
+#> # … with 11 more rows
+```
+
+As usual, Wikidata presents everything as combinations of properties and
+values. Let’s translate each of these to their respective label, and
+separate each set of information we have about the “positions held” by
+Mr. Sassoli:
+
+``` r
+qualifiers_labelled_df <- tibble::tibble(
+  id = purrr::map_chr(
+    .x = qualifiers_df$id,
+    .f = function(x) {
+      tw_get_label(
+        id = x,
+        language = "en"
+      )
+    }
+  ),
+  property = purrr::map_chr(
+    .x = qualifiers_df$property,
+    .f = function(x) {
+      tw_get_property_label(
+        property = x,
+        language = "en"
+      )
+    }
+  ),
+  value = purrr::map_chr(
+    .x = qualifiers_df$value,
+    .f = function(x) {
+      if (stringr::str_starts(
+        string = x,
+        pattern = "Q"
+      )) {
+        tw_get_label(
+          id = x,
+          language = "en"
+        )
+      } else {
+        stringr::str_extract(
+          string = x,
+          pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
+        )
+      }
+    }
+  ),
+  set = qualifiers_df$set
+)
+
+
+
+qualifiers_labelled_df %>%
+  dplyr::group_by(set) %>%
+  dplyr::group_walk(.f = ~ print(.[[1]])) %>%
+  knitr::kable()
+#> [1] "member of the European Parliament" "member of the European Parliament"
+#> [3] "member of the European Parliament" "member of the European Parliament"
+#> [5] "member of the European Parliament" "member of the European Parliament"
+#> [1] "President of the European Parliament"
+#> [2] "President of the European Parliament"
+#> [1] "member of the European Parliament" "member of the European Parliament"
+#> [3] "member of the European Parliament" "member of the European Parliament"
+#> [5] "member of the European Parliament" "member of the European Parliament"
+#> [7] "member of the European Parliament"
+#> [1] "member of the European Parliament" "member of the European Parliament"
+#> [3] "member of the European Parliament" "member of the European Parliament"
+#> [5] "member of the European Parliament" "member of the European Parliament"
+```
+
+| id                                   | property            | value                                            | set |
+| :----------------------------------- | :------------------ | :----------------------------------------------- | --: |
+| member of the European Parliament    | parliamentary term  | Eighth European Parliament                       |   1 |
+| member of the European Parliament    | start time          | 2014-07-01                                       |   1 |
+| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   1 |
+| member of the European Parliament    | electoral district  | Central Italy                                    |   1 |
+| member of the European Parliament    | represents          | Democratic Party                                 |   1 |
+| member of the European Parliament    | elected in          | 2014 European Parliament election                |   1 |
+| President of the European Parliament | start time          | 2019-07-03                                       |   2 |
+| President of the European Parliament | replaces            | Antonio Tajani                                   |   2 |
+| member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   3 |
+| member of the European Parliament    | start time          | 2009-07-14                                       |   3 |
+| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
+| member of the European Parliament    | electoral district  | Central Italy                                    |   3 |
+| member of the European Parliament    | represents          | Democratic Party                                 |   3 |
+| member of the European Parliament    | elected in          | 2009 European Parliament election                |   3 |
+| member of the European Parliament    | end time            | 2014-06-30                                       |   3 |
+| member of the European Parliament    | parliamentary term  | Ninth European Parliament                        |   4 |
+| member of the European Parliament    | start time          | 2019-07-02                                       |   4 |
+| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   4 |
+| member of the European Parliament    | electoral district  | Italy                                            |   4 |
+| member of the European Parliament    | represents          | Democratic Party                                 |   4 |
+| member of the European Parliament    | elected in          | 2019 European Parliament election                |   4 |
+
+That’s quite a lot of useful detail. The construction of the request can
+be quite complicated, but keep in mind that if you do this
+programmatically you will likely use this for filtering a specific piece
+of information based on a combination of properties, and you will only
+less frequently need to extract all available information.
+
+Fundamentally, you won’t be touching anything that is not a vector or a
+tidy data frame, which is ultimately a key goal of `tidywikidatar`: make
+use of the wealth of information stored by Wikidata from R without
+having to deal with either nested lists or SPARQL queries.
 
 ## Queries
 
@@ -252,9 +406,11 @@ You can then make a data frame with two columns (p and q), and some
 requirements, like this:
 
 ``` r
-query_df <- tibble::tribble(~p, ~q, 
-                            "P106", "Q1397808",
-                            "P21", "Q6581072")
+query_df <- tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808",
+  "P21", "Q6581072"
+)
 
 # if you prefer, you can input the same as a list, like this:
 # query_l <- list(c(p = "P106", q = "Q1397808"),
@@ -273,20 +429,20 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 641 x 3
-#>    id        label                 description                                  
-#>    <chr>     <chr>                 <chr>                                        
-#>  1 Q13731905 Immigje Kiers         <NA>                                         
-#>  2 Q14261106 Mira Fuchrer          participant in the Warsaw Ghetto Uprising    
-#>  3 Q14329015 Sara Cato Meyer       Dutch resistance fighter and activist (1890-…
-#>  4 Q14954701 Mona Louise Parsons   Canadian actress                             
-#>  5 Q15210941 Marina Shafrova-Maru… <NA>                                         
-#>  6 Q15439679 Lucie Pflug           German politician                            
-#>  7 Q15638299 Belinde M. Thöne-Sie… <NA>                                         
-#>  8 Q15638333 Ingeborg Kahlenberg   Dutch resistance fighter and photographer (1…
-#>  9 Q15713781 Gertrud Classen       German sculptor                              
-#> 10 Q15811259 Maria Fischer         <NA>                                         
-#> # … with 631 more rows
+#> # A tibble: 645 x 3
+#>    id        label                       description                            
+#>    <chr>     <chr>                       <chr>                                  
+#>  1 Q15970412 Raymonde Tillon             French politician                      
+#>  2 Q15980188 Elsie Maréchal              Belgian resistance member              
+#>  3 Q15990506 Berta Daniel                German photographer                    
+#>  4 Q16010508 Helga Stene                 <NA>                                   
+#>  5 Q16015753 Janny Brandes-Brilleslijper Dutch Holocaust survivor               
+#>  6 Q16224246 Elvire De Greef             member of the Comet line in World War …
+#>  7 Q16246535 Régine Karlin               <NA>                                   
+#>  8 Q16262713 Simone Schloss              <NA>                                   
+#>  9 Q16262717 Fernande Volral             <NA>                                   
+#> 10 Q16262749 Laurette Demaret            <NA>                                   
+#> # … with 635 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -297,25 +453,27 @@ want the description in Italian, and if not available in French, and
 only then look for other fallback options?
 
 ``` r
-tibble::tribble(~p, ~q, 
-                "P106", "Q1397808", # Occupation: resistance fighter
-                "P21", "Q6581072", # Sex or gender: female
-                "P27", "Q142")  %>% # Country of citizenship: France
+tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808", # Occupation: resistance fighter
+  "P21", "Q6581072", # Sex or gender: female
+  "P27", "Q142"
+) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> # A tibble: 98 x 3
+#> # A tibble: 101 x 3
 #>    id      label                description                                     
 #>    <chr>   <chr>                <chr>                                           
 #>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
 #>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
-#>  3 Q52577… Denise Laroque       <NA>                                            
-#>  4 Q35740… Yvette Farnoux       résistante française                            
-#>  5 Q35741… Yvonne Abbas         résistante française                            
-#>  6 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
-#>  7 Q30097… Cécile Cerf          résistante française                            
-#>  8 Q30812… Francine Fromond     <NA>                                            
-#>  9 Q31324… Henriette Moriamé    <NA>                                            
-#> 10 Q31760… Jeanne Gaillard      historienne et résistante française             
-#> # … with 88 more rows
+#>  3 Q35740… Yvette Farnoux       résistante française                            
+#>  4 Q35741… Yvonne Abbas         résistante française                            
+#>  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
+#>  6 Q30097… Cécile Cerf          résistante française                            
+#>  7 Q30812… Francine Fromond     <NA>                                            
+#>  8 Q31324… Henriette Moriamé    <NA>                                            
+#>  9 Q31760… Jeanne Gaillard      historienne et résistante française             
+#> 10 Q31760… Jeanne Laurent       scrittrice francese                             
+#> # … with 91 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -325,13 +483,14 @@ learning yet another set of Wikidata terminology? You can still use the
 same commands described above, e.g.
 
 ``` r
-tibble::tribble(~p, ~q, 
-                "P106", "Q1397808",
-                "P21", "Q6581072",
-                "P27", "Q142"
-) %>% 
-  tw_query() %>% 
-  dplyr::slice(1) %>% 
+tibble::tribble(
+  ~p, ~q,
+  "P106", "Q1397808",
+  "P21", "Q6581072",
+  "P27", "Q142"
+) %>%
+  tw_query() %>%
+  dplyr::slice(1) %>%
   get_bio()
 #> # A tibble: 1 x 4
 #>   label                           description        year_of_birth year_of_death
@@ -341,6 +500,30 @@ tibble::tribble(~p, ~q,
 
 Keep in mind that Wikidata queries are not cached locally.
 
+## How caching works
+
+`tidywikidatar` tries to reduce load on Wikidata’s server and speeding
+up re-processing of scripts by caching data locally in sqlite databases.
+They are stored locally in the folder defined by `tw_set_cache_folder()`
+(by default, in the current working directory) when cache is enabled
+(typically, with `tw_enable_cache()` at the beginning of a session).
+
+To reduce the size of local files, if data are requested in a specific
+language, then only data in that language are stored locally.
+
+The easiest way to reset the cache is simply to delete the cache folder.
+
+Results are stored in different databases by language, and function used
+(`tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example,
+store data in different files).
+
+`tw_query()` is never cached.
+
+## Known issues
+
+  - `tw_search()` always returns label and description in English (to be
+    fixed)
+
 ## Copyright and credits
 
 This package has been created by [Giorgio
@@ -349,4 +532,4 @@ Comai](https://giorgiocomai.eu), data analyst and researcher at
 [EDJNet](https://europeandatajournalism.eu/), the European Data
 Journalism Network.
 
-It is distributed under the GPL license.
+It is distributed under the MIT license.

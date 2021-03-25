@@ -51,7 +51,7 @@ tw_search <- function(search,
         logical(1L)
       }
     )
-    if (is.data.frame(db_result)&overwrite_cache == FALSE) {
+    if (is.data.frame(db_result) & overwrite_cache == FALSE) {
       DBI::dbDisconnect(db)
       return(db_result %>% dplyr::filter(is.na(.data$id) == FALSE))
     }
@@ -73,10 +73,11 @@ tw_search <- function(search,
           label = NA,
           description = NA
         )
-      })
+      }
+    )
   } else if (type == "property") {
     search_response <- tryCatch(
-      WikidataR::find_item(
+      WikidataR::find_property(
         search_term = search,
         language = language,
         limit = limit
@@ -106,9 +107,11 @@ tw_search <- function(search,
       .f = function(x) {
         tibble::tibble(
           id = x %>% purrr::pluck("id"),
-          label = dplyr::if_else(condition = is.null(x %>% purrr::pluck("label")),
-                                 true = as.character(NA),
-                                 false = x %>% purrr::pluck("label")),
+          label = dplyr::if_else(
+            condition = is.null(x %>% purrr::pluck("label")),
+            true = as.character(NA),
+            false = x %>% purrr::pluck("label")
+          ),
           description = dplyr::if_else(
             condition = is.null(x %>% purrr::pluck("description")),
             true = as.character(NA),
@@ -165,13 +168,15 @@ tw_search_item <- function(search,
                            wait = 0.1,
                            cache = NULL,
                            overwrite_cache = FALSE) {
-  tw_search(search = search,
-            type = "item",
-            language = language,
-            limit = limit,
-            wait = wait,
-            cache = cache,
-            overwrite_cache = overwrite_cache)
+  tw_search(
+    search = search,
+    type = "item",
+    language = language,
+    limit = limit,
+    wait = wait,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  )
 }
 
 
@@ -202,14 +207,13 @@ tw_search_property <- function(search,
                                wait = 0.1,
                                cache = NULL,
                                overwrite_cache = FALSE) {
-  tw_search(search = search,
-            type = "property",
-            language = language,
-            limit = limit,
-            wait = wait,
-            cache = cache,
-            overwrite_cache = overwrite_cache)
+  tw_search(
+    search = search,
+    type = "property",
+    language = language,
+    limit = limit,
+    wait = wait,
+    cache = cache,
+    overwrite_cache = overwrite_cache
+  )
 }
-
-
-

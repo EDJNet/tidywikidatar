@@ -44,7 +44,7 @@ tw_get <- function(id,
     )
     if (is.data.frame(db_result) & overwrite_cache == FALSE) {
       DBI::dbDisconnect(db)
-      return(db_result)
+      return(db_result %>% tibble::as_tibble())
     }
   }
 
@@ -54,6 +54,8 @@ tw_get <- function(id,
       return(tibble::tibble(id = NA))
     }
   )
+
+
   labels <- item %>% purrr::pluck(1, "labels")
 
   labels_df <- purrr::map_dfr(
@@ -66,30 +68,38 @@ tw_get <- function(id,
     }
   )
 
-  if (language=="all_available") {
+  if (language == "all_available") {
     # do nothing
   } else {
     labels_df <- labels_df %>%
-      dplyr::filter(property == stringr::str_c("label_", language))
+      dplyr::filter(.data$property == stringr::str_c("label_", language))
   }
 
   aliases <- item %>% purrr::pluck(1, "aliases")
 
-  aliases_df <- purrr::map_dfr(
-    .x = aliases,
-    function(current_alias_l) {
-      tibble::tibble(
-        property = paste0("alias_", current_alias_l$language),
-        value = current_alias_l$value
-      )
-    }
-  )
-
-  if (language=="all_available") {
-    # do nothing
+  if (is.null(aliases)) {
+    aliases_df <- tibble::tibble(
+      property = as.character(NA),
+      values = as.character(NA)
+    ) %>%
+      tidyr::drop_na()
   } else {
-    aliases_df <- aliases_df %>%
-      dplyr::filter(property == stringr::str_c("alias_", language))
+    aliases_df <- purrr::map_dfr(
+      .x = aliases,
+      function(current_alias_l) {
+        tibble::tibble(
+          property = paste0("alias_", current_alias_l$language),
+          value = current_alias_l$value
+        )
+      }
+    )
+
+    if (language == "all_available") {
+      # do nothing
+    } else {
+      aliases_df <- aliases_df %>%
+        dplyr::filter(.data$property == stringr::str_c("alias_", language))
+    }
   }
 
   descriptions <- item %>% purrr::pluck(1, "descriptions")
@@ -104,11 +114,11 @@ tw_get <- function(id,
     }
   )
 
-  if (language=="all_available") {
+  if (language == "all_available") {
     # do nothing
   } else {
     descriptions_df <- descriptions_df %>%
-      dplyr::filter(property == stringr::str_c("description_", language))
+      dplyr::filter(.data$property == stringr::str_c("description_", language))
   }
 
 
@@ -209,7 +219,6 @@ tw_get <- function(id,
 #' tw_get_label(id = "Q228822")
 #' }
 #'
-
 tw_get_label <- function(id,
                          language = "en",
                          cache = NULL,
@@ -243,6 +252,10 @@ tw_get_label <- function(id,
     label
   }
 }
+
+
+
+
 
 #' Get Wikidata description in given language
 #'
@@ -284,6 +297,84 @@ tw_get_description <- function(id,
       )
     ) %>%
     dplyr::pull(.data$value)
+  if (length(description) == 0) {
+    as.character(NA)
+  } else {
+    description
+  }
+}
+
+#' Get label of a Wikidata property in a given language
+#'
+#' @param property A characther vector of length 1, must start with P, e.g. "P31".
+#' @param language A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#'
+#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' tw_get_property_label(id = "P31")
+#' }
+#'
+tw_get_property_label <- function(property,
+                                  language = "en",
+                                  cache = NULL,
+                                  overwrite_cache = FALSE) {
+  if (is.data.frame(property) == TRUE) {
+    property <- property$id
+  }
+  label <- tidywikidatar::tw_search_property(
+    search = property,
+    cache = tw_check_cache(cache),
+    language = language,
+    overwrite_cache = overwrite_cache
+  ) %>%
+    dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
+    dplyr::pull(.data$label)
+
+  if (length(label) == 0) {
+    as.character(NA)
+  } else {
+    label
+  }
+}
+
+#' Get description of a Wikidata property in a given language
+#'
+#' @param property A characther vector of length 1, must start with P, e.g. "P31".
+#' @param language A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#'
+#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @export
+#'
+#' @examples
+#'
+#' \dontrun{
+#' tw_get_property_description(id = "P31")
+#' }
+#'
+tw_get_property_description <- function(property,
+                                        language = "en",
+                                        cache = NULL,
+                                        overwrite_cache = FALSE) {
+  if (is.data.frame(property) == TRUE) {
+    property <- property$id
+  }
+  description <- tidywikidatar::tw_search_property(
+    search = property,
+    cache = tw_check_cache(cache),
+    language = language,
+    overwrite_cache = overwrite_cache
+  ) %>%
+    dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
+    dplyr::pull(.data$description)
+
   if (length(description) == 0) {
     as.character(NA)
   } else {

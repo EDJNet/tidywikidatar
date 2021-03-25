@@ -1,6 +1,6 @@
 Package: tidywikidatar
 Title: Interact with Wikidata and get tidy data frames in response
-Version: 0.0.0.9005
+Version: 0.0.0.9006
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",
@@ -10,7 +10,7 @@ Authors@R:
       person(given = "EDJNet",
              role = "fnd"))
 Description: tidywikidatar makes it easy to query wikidata, get tidy data frames in response, and cache data in a local sqlite database.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
