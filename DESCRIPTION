@@ -1,15 +1,15 @@
 Package: tidywikidatar
-Title: Interact with Wikidata and get tidy data frames in response
+Title: Explore Wikidata through Tidy Data Frames
 Version: 0.0.0.9006
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",
-             role = c("aut", "cre"),
+             role = c("aut", "cre", "cph"),
              email = "g@giorgiocomai.eu",
              comment = c(ORCID = "0000-0002-0515-9542")), 
       person(given = "EDJNet",
              role = "fnd"))
-Description: tidywikidatar makes it easy to query wikidata, get tidy data frames in response, and cache data in a local sqlite database.
+Description: This package makes it easy to query wikidata, get tidy data frames in response, and cache data in a local sqlite database.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -31,6 +31,8 @@ Imports:
     fs,
     rlang (>= 0.1.2)
 Suggests: 
+    spelling,
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Language: en-US
