@@ -4,7 +4,7 @@
 #'
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
-#' @param language Language to be used for the search
+#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -16,7 +16,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' tw_search(search = "Mihai Eminescu")
+#' tw_search(search = "Sylvia Pankhurst")
 #' }
 #'
 tw_search <- function(search,
@@ -144,7 +144,7 @@ tw_search <- function(search,
 #' This search returns only items, use `tw_search_property()` for properties.
 #'
 #' @param search A string to be searched in Wikidata
-#' @param language Language to be used for the search
+#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -156,7 +156,7 @@ tw_search <- function(search,
 #' @examples
 #'
 #' \dontrun{
-#' tw_search_item(search = "Mihai Eminescu")
+#' tw_search_item(search = "Sylvia Pankhurst")
 #' }
 #'
 tw_search_item <- function(search,
@@ -180,8 +180,8 @@ tw_search_item <- function(search,
 #'
 #' This search returns only properties, use `tw_search_items()` for properties.
 #'
-#' @param search A string to be searched in Wikidata
-#' @param language Language to be used for the search
+#' @param search A string to be searched in Wikidata.
+#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.

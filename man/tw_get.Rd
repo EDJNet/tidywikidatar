@@ -4,10 +4,12 @@
 \alias{tw_get}
 \title{Return (almost) all information from a Wikidata item in a tidy format}
 \usage{
-tw_get(id, cache = NULL, overwrite_cache = FALSE)
+tw_get(id, language = "all_available", cache = NULL, overwrite_cache = FALSE)
 }
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
+
+\item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
@@ -21,7 +23,7 @@ Return (almost) all information from a Wikidata item in a tidy format
 }
 \examples{
 \dontrun{
-tw_get("Q254")
+tw_get("Q220480")
 }
 
 }

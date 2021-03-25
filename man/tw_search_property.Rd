@@ -14,9 +14,9 @@ tw_search_property(
 )
 }
 \arguments{
-\item{search}{A string to be searched in Wikidata}
+\item{search}{A string to be searched in Wikidata.}
 
-\item{language}{Language to be used for the search}
+\item{language}{Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{limit}{Maximum numbers of responses to be given.}
 

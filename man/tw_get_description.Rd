@@ -9,14 +9,14 @@ tw_get_description(id, language = "en", cache = NULL, overwrite_cache = FALSE)
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
 
-\item{language}{A character vector of length one, defaults to "en", must correspond to a two-letter language code.}
+\item{language}{A character vector of length one, defaults to "en". For a full list of available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 }
 \value{
-A charachter vector of length 1, with the Wikidata label in the requested languae.
+A charachter vector of length 1, with the Wikidata description in the requested languae.
 }
 \description{
 Get Wikidata description in given language

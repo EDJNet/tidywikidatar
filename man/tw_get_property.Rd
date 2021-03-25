@@ -2,14 +2,22 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_get_property}
 \alias{tw_get_property}
-\title{Get Wikidata property}
+\title{Get Wikidata property of an item}
 \usage{
-tw_get_property(id, p, cache = NULL, overwrite_cache = FALSE)
+tw_get_property(
+  id,
+  p,
+  language = "all_available",
+  cache = NULL,
+  overwrite_cache = FALSE
+)
 }
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+
+\item{language}{Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
@@ -19,7 +27,7 @@ tw_get_property(id, p, cache = NULL, overwrite_cache = FALSE)
 A charachter vector of length 1, corresponding to the value for the given property.
 }
 \description{
-Get Wikidata property
+Get Wikidata property of an item
 }
 \examples{
 
