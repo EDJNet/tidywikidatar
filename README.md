@@ -12,8 +12,7 @@ The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
   - all responses are transformed into data frames or simple character
     vectors
-  - by default, queries and responses are cached locally in a sqlite
-    database
+  - by default, responses are cached locally in a sqlite database
 
 If you want to benefit of the wealth of information stored by Wikidata,
 but you do not like SPARQL queries and nested lists, then you may find
@@ -104,19 +103,28 @@ Mead” that are not the woman herself.
 
 ``` r
 tw_search(search = "Margaret Mead")
-#> # A tibble: 10 x 3
-#>    id       label                               description                     
-#>    <chr>    <chr>                               <chr>                           
-#>  1 Q180099  Margaret Mead                       American anthropologist         
-#>  2 Q810150… Margaret mead                       scientific article published on…
-#>  3 Q667014… Margaret Mead                       scientific article published on…
-#>  4 Q857246… Mead & Bateson                      business organisation           
-#>  5 Q960776… Margaret Meadows                    <NA>                            
-#>  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        
-#>  7 Q755066… Margaret Meadows                    Peerage person ID=183057        
-#>  8 Q758123… Margaret Meade-Waldo                died 1954                       
-#>  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…
-#> 10 Q558970… Margaret Mead and Samoa: Coming of… <NA>
+#>           id                                                      label
+#> 1    Q180099                                              Margaret Mead
+#> 2  Q81015029                                              Margaret mead
+#> 3  Q66701460                                              Margaret Mead
+#> 4  Q85724626                                             Mead & Bateson
+#> 5  Q96077616                                           Margaret Meadows
+#> 6  Q76238541                                           Margaret Meadowe
+#> 7  Q75506638                                           Margaret Meadows
+#> 8  Q75812372                                       Margaret Meade-Waldo
+#> 9   Q6759717                                Margaret Mead Film Festival
+#> 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction
+#>                                         description
+#> 1                           American anthropologist
+#> 2  scientific article published on 01 December 1978
+#> 3  scientific article published on 01 November 1978
+#> 4                             business organisation
+#> 5                                              <NA>
+#> 6                          Peerage person ID=628312
+#> 7                          Peerage person ID=183057
+#> 8                                         died 1954
+#> 9   annual film festival held in New York City, USA
+#> 10                                             <NA>
 ```
 
 If I am running through a list of strings, and, for example, I am
@@ -430,18 +438,18 @@ dataframe with all women who are resistance fighters on Wikidata.
 ``` r
 tw_query(query = query_df)
 #> # A tibble: 645 x 3
-#>    id        label                       description                            
-#>    <chr>     <chr>                       <chr>                                  
-#>  1 Q15970412 Raymonde Tillon             French politician                      
-#>  2 Q15980188 Elsie Maréchal              Belgian resistance member              
-#>  3 Q15990506 Berta Daniel                German photographer                    
-#>  4 Q16010508 Helga Stene                 <NA>                                   
-#>  5 Q16015753 Janny Brandes-Brilleslijper Dutch Holocaust survivor               
-#>  6 Q16224246 Elvire De Greef             member of the Comet line in World War …
-#>  7 Q16246535 Régine Karlin               <NA>                                   
-#>  8 Q16262713 Simone Schloss              <NA>                                   
-#>  9 Q16262717 Fernande Volral             <NA>                                   
-#> 10 Q16262749 Laurette Demaret            <NA>                                   
+#>    id     label              description                                        
+#>    <chr>  <chr>              <chr>                                              
+#>  1 Q77526 Olga Benário Pres… German-Brazilian Communist militant (1908-1942)    
+#>  2 Q77934 Liane Berkowitz    German resistance fighter                          
+#>  3 Q84416 Maria Terwiel      German resistance member                           
+#>  4 Q84960 Greta Kuckhoff     German Resistance member, president of the state b…
+#>  5 Q85201 Maria von Maltzan  German resistance member                           
+#>  6 Q85949 Marion Yorck von … German resistance fighter                          
+#>  7 Q87358 Johanna Kirchner   German opponent of Nazism                          
+#>  8 Q87804 Eva-Maria Buch     German resistance fighter                          
+#>  9 Q88113 Lina Haag          activist                                           
+#> 10 Q90794 Charlotte Bischoff German Resistance fighter                          
 #> # … with 635 more rows
 ```
 
@@ -461,18 +469,18 @@ tibble::tribble(
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
 #> # A tibble: 101 x 3
-#>    id      label                description                                     
-#>    <chr>   <chr>                <chr>                                           
-#>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
-#>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
-#>  3 Q35740… Yvette Farnoux       résistante française                            
-#>  4 Q35741… Yvonne Abbas         résistante française                            
-#>  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
-#>  6 Q30097… Cécile Cerf          résistante française                            
-#>  7 Q30812… Francine Fromond     <NA>                                            
-#>  8 Q31324… Henriette Moriamé    <NA>                                            
-#>  9 Q31760… Jeanne Gaillard      historienne et résistante française             
-#> 10 Q31760… Jeanne Laurent       scrittrice francese                             
+#>    id       label               description                                     
+#>    <chr>    <chr>               <chr>                                           
+#>  1 Q270319  Christiane Desroch… egittologa e archeologa francese                
+#>  2 Q283654  Marija Skobcova     suora e santa russa, vittima dell'Olocausto     
+#>  3 Q422187… Yvette Grollet-Bri… aviatrice française                             
+#>  4 Q422916… Alice Vansteenberg… résistante française                            
+#>  5 Q428872… Marie-Thérèse de P… <NA>                                            
+#>  6 Q470757… Anne-Marie Bigot    juste parmi les Nations                         
+#>  7 Q471078… Madeleine Clément   juste parmi les Nations                         
+#>  8 Q506730… Claude Michel       déportée de la Résistance française aux camps d…
+#>  9 Q511312… Madeleine Jeudi     juste parmi les Nations                         
+#> 10 Q2696536 Yolande Beekman     espionne et agente secret des Special Operation…
 #> # … with 91 more rows
 ```
 
