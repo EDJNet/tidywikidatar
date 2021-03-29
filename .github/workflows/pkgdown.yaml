@@ -24,6 +24,9 @@ jobs:
       - name: install libgit2-dev
         run: sudo apt-get install libgit2-dev
 
+      - name: install harfbuzz
+        run: sudo apt-get install libharfbuzz-dev libfribidi-dev
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -50,6 +53,5 @@ jobs:
 
       - name: Deploy package
         run: |
-          install.packages("pkgdown")
           pkgdown::deploy_to_branch(new_process = FALSE)
         shell: Rscript {0}
