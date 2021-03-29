@@ -28,11 +28,12 @@ This function aims to facilitate only the most basic type of queries: return whi
 }
 \examples{
 \donttest{
-query <- list(
-  c(p = "P106", q = "Q1397808"),
-  c(p = "P21", q = "Q6581072")
-)
-tw_query(query)
+if (interactive()) {
+  query <- list(
+    c(p = "P106", q = "Q1397808"),
+    c(p = "P21", q = "Q6581072")
+  )
+  tw_query(query)
 }
-
+}
 }

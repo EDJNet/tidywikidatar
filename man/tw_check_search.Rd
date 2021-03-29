@@ -24,12 +24,10 @@ A data frame with three columns, \code{id}, \code{label}, and \code{description}
 Mostly used as a convenience function inside other functions to have consistent inputs.
 }
 \examples{
-
 \donttest{
-
-tw_check_search("Antonio Vivaldi")
-
-tw_search("Antonio Vivaldi") \%>\% tw_check_search()
+if (interactive()) {
+  tw_check_search("Sylvia Pankhurst")
+  tw_check_search(tw_search("Sylvia Pankhurst"))
 }
-
+}
 }

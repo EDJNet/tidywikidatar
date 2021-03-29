@@ -17,6 +17,8 @@ Mostly used internally in functins, exported for reference.
 }
 \examples{
 \donttest{
-tw_check_cache()
+if (interactive()) {
+  tw_check_cache()
+}
 }
 }

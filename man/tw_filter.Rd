@@ -28,10 +28,10 @@ A data frame with three columns, \code{id}, \code{label}, and \code{description}
 Filter search result and keep only items with matching property and Q id
 }
 \examples{
-
 \donttest{
-tw_search("Antonio Vivaldi") \%>\%
-  tw_filter(p = "P31", q = "Q5")
+if (interactive()) {
+  tw_search("Antonio Vivaldi") \%>\%
+    tw_filter(p = "P31", q = "Q5")
 }
-
+}
 }

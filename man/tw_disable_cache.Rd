@@ -14,6 +14,8 @@ Disable caching for the current session
 }
 \examples{
 \donttest{
-tw_disable_cache()
+if (interactive()) {
+  tw_disable_cache()
+}
 }
 }

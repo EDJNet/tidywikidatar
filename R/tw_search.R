@@ -14,11 +14,11 @@
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search(search = "Sylvia Pankhurst")
+#' if (interactive()) {
+#'   tw_search(search = "Sylvia Pankhurst")
 #' }
-#'
+#' }
 tw_search <- function(search,
                       type = "item",
                       language = "en",
@@ -54,8 +54,8 @@ tw_search <- function(search,
     if (is.data.frame(db_result) & overwrite_cache == FALSE) {
       DBI::dbDisconnect(db)
       return(db_result %>%
-               dplyr::filter(is.na(.data$id) == FALSE) %>%
-               tibble::as_tibble())
+        dplyr::filter(is.na(.data$id) == FALSE) %>%
+        tibble::as_tibble())
     }
   }
 
@@ -159,9 +159,10 @@ tw_search <- function(search,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search_item(search = "Sylvia Pankhurst")
+#' if (interactive()) {
+#'   tw_search_item(search = "Sylvia Pankhurst")
+#' }
 #' }
 #'
 tw_search_item <- function(search,
@@ -198,9 +199,10 @@ tw_search_item <- function(search,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search_property(search = "gender")
+#' if (interactive()) {
+#'   tw_search_property(search = "gender")
+#' }
 #' }
 #'
 tw_search_property <- function(search,

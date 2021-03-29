@@ -10,9 +10,10 @@
 #'
 #' @examples
 #' \donttest{
-#' tw_get("Q220480")
+#' if (interactive()) {
+#'   tw_get("Q220480")
 #' }
-#'
+#' }
 tw_get <- function(id,
                    language = "all_available",
                    cache = NULL,
@@ -214,11 +215,11 @@ tw_get <- function(id,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_get_label(id = "Q228822")
+#' if (interactive()) {
+#'   tw_get_label(id = "Q228822")
 #' }
-#'
+#' }
 tw_get_label <- function(id,
                          language = "en",
                          cache = NULL,
@@ -269,7 +270,9 @@ tw_get_label <- function(id,
 #'
 #' @examples
 #' \donttest{
-#' tw_get_description(id = "Q228822")
+#' if (interactive()) {
+#'   tw_get_description(id = "Q228822")
+#' }
 #' }
 tw_get_description <- function(id,
                                language = "en",
@@ -315,9 +318,10 @@ tw_get_description <- function(id,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_get_property_label(id = "P31")
+#' if (interactive()) {
+#'   tw_get_property_label(id = "P31")
+#' }
 #' }
 #'
 tw_get_property_label <- function(property,
@@ -354,9 +358,10 @@ tw_get_property_label <- function(property,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_get_property_description(id = "P31")
+#' if (interactive()) {
+#'   tw_get_property_description(id = "P31")
+#' }
 #' }
 #'
 tw_get_property_description <- function(property,
@@ -394,9 +399,10 @@ tw_get_property_description <- function(property,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_get_property(id = "Q228822")
+#' if (interactive()) {
+#'   tw_get_property(id = "Q228822")
+#' }
 #' }
 #'
 tw_get_property <- function(id,
@@ -435,7 +441,9 @@ tw_get_property <- function(id,
 #'
 #' @examples
 #' \donttest{
-#' tw_get_image(id = "Q228822")
+#' if (interactive()) {
+#'   tw_get_image(id = "Q228822")
+#' }
 #' }
 #'
 tw_get_image <- function(id,
@@ -482,9 +490,10 @@ tw_get_image <- function(id,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_get_wikipedia(id = "Q228822")
+#' if (interactive()) {
+#'   tw_get_wikipedia(id = "Q228822")
+#' }
 #' }
 #'
 tw_get_wikipedia <- function(id,

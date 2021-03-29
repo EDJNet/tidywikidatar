@@ -23,7 +23,8 @@ Return (almost) all information from a Wikidata item in a tidy format
 }
 \examples{
 \donttest{
-tw_get("Q220480")
+if (interactive()) {
+  tw_get("Q220480")
 }
-
+}
 }

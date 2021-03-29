@@ -30,9 +30,10 @@ A charachter vector of length 1, corresponding to the value for the given proper
 Get Wikidata property of an item
 }
 \examples{
-
 \donttest{
-tw_get_property(id = "Q228822")
+if (interactive()) {
+  tw_get_property(id = "Q228822")
+}
 }
 
 }

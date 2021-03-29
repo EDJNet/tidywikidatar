@@ -22,9 +22,10 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get Wikidata description in given language
 }
 \examples{
-
 \donttest{
-tw_get_wikipedia(id = "Q228822")
+if (interactive()) {
+  tw_get_wikipedia(id = "Q228822")
+}
 }
 
 }

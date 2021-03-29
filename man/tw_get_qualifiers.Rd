@@ -31,7 +31,9 @@ Get Wikidata qualifiers for a given property of a given item
 }
 \examples{
 \donttest{
-tw_get_qualifiers(id = "Q2391857", p = "P39")
+if (interactive()) {
+  tw_get_qualifiers(id = "Q2391857", p = "P39")
+}
 }
 
 }

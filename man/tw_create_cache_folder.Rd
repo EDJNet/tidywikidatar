@@ -17,6 +17,8 @@ Creates the cache folder where \code{streetnames} caches data.
 }
 \examples{
 \donttest{
-tw_create_cache_folder()
+if (interactive()) {
+  tw_create_cache_folder()
+}
 }
 }

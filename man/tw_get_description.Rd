@@ -23,6 +23,8 @@ Get Wikidata description in given language
 }
 \examples{
 \donttest{
-tw_get_description(id = "Q228822")
+if (interactive()) {
+  tw_get_description(id = "Q228822")
+}
 }
 }

@@ -8,7 +8,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-20.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -17,6 +17,12 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
 
       - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: install libcurl4
+        run: sudo apt-get install libcurl4-openssl-dev
+
+      - name: install libgit2-dev
+        run: sudo apt-get install libgit2-dev
 
       - name: Query dependencies
         run: |

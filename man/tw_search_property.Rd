@@ -33,9 +33,10 @@ A data frame (a tibble) with three columns (id, label, and description), and as 
 This search returns only properties, use \code{tw_search_items()} for properties.
 }
 \examples{
-
 \donttest{
-tw_search_property(search = "gender")
+if (interactive()) {
+  tw_search_property(search = "gender")
+}
 }
 
 }

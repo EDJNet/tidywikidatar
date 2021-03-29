@@ -12,12 +12,12 @@
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search("Antonio Vivaldi") %>%
-#'   tw_filter(p = "P31", q = "Q5")
+#' if (interactive()) {
+#'   tw_search("Antonio Vivaldi") %>%
+#'     tw_filter(p = "P31", q = "Q5")
 #' }
-#'
+#' }
 tw_filter <- function(search,
                       p,
                       q,
@@ -83,13 +83,14 @@ tw_filter <- function(search,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search_first("Napoleon") %>%
-#'   tw_filter(p = "P31", q = "Q5")
+#' if (interactive()) {
+#'   tw_search_first("Napoleon") %>%
+#'     tw_filter(p = "P31", q = "Q5")
 #'
-#' tw_search_first("Napoleon") %>%
-#'   tw_filter_first(p = "P31", q = "Q5")
+#'   tw_search_first("Napoleon") %>%
+#'     tw_filter_first(p = "P31", q = "Q5")
+#' }
 #' }
 #'
 tw_filter_first <- function(search,
@@ -144,12 +145,12 @@ tw_filter_first <- function(search,
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#' tw_search("Antonio Vivaldi") %>%
-#'   tw_filter_people()
+#' if (interactive()) {
+#'   tw_search("Antonio Vivaldi") %>%
+#'     tw_filter_people()
 #' }
-#'
+#' }
 tw_filter_people <- function(search,
                              language = "en",
                              limit = 10,

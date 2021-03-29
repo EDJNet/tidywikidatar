@@ -20,7 +20,9 @@ Consider using a folder out of your current project directory, e.g. \code{tw_set
 }
 \examples{
 \donttest{
-tw_set_cache_folder("~/R/tw_data/")
+if (interactive()) {
+  tw_set_cache_folder("~/R/tw_data/")
+}
 }
 tw_get_cache_folder()
 }

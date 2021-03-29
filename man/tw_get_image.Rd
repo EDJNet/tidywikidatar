@@ -31,7 +31,9 @@ Get Wikidata image
 }
 \examples{
 \donttest{
-tw_get_image(id = "Q228822")
+if (interactive()) {
+  tw_get_image(id = "Q228822")
+}
 }
 
 }

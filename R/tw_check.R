@@ -12,14 +12,12 @@
 #' @export
 #'
 #' @examples
-#'
 #' \donttest{
-#'
-#' tw_check_search("Antonio Vivaldi")
-#'
-#' tw_search("Antonio Vivaldi") %>% tw_check_search()
+#' if (interactive()) {
+#'   tw_check_search("Sylvia Pankhurst")
+#'   tw_check_search(tw_search("Sylvia Pankhurst"))
 #' }
-#'
+#' }
 tw_check_search <- function(search,
                             language = "en",
                             limit = 10,

@@ -27,9 +27,10 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get label of a Wikidata property in a given language
 }
 \examples{
-
 \donttest{
-tw_get_property_label(id = "P31")
+if (interactive()) {
+  tw_get_property_label(id = "P31")
+}
 }
 
 }

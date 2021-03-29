@@ -7,7 +7,9 @@
 #'
 #' @examples
 #' \donttest{
-#' tw_create_cache_folder()
+#' if (interactive()) {
+#'   tw_create_cache_folder()
+#' }
 #' }
 tw_create_cache_folder <- function(ask = TRUE) {
   if (fs::file_exists(tidywikidatar::tw_get_cache_folder()) == FALSE) {
@@ -38,7 +40,9 @@ tw_create_cache_folder <- function(ask = TRUE) {
 
 #' @examples
 #' \donttest{
-#' tw_set_cache_folder("~/R/tw_data/")
+#' if (interactive()) {
+#'   tw_set_cache_folder("~/R/tw_data/")
+#' }
 #' }
 tw_set_cache_folder <- function(path = NULL) {
   if (is.null(path)) {
@@ -66,7 +70,9 @@ tw_get_cache_folder <- tw_set_cache_folder
 
 #' @examples
 #' \donttest{
-#' tw_enable_cache()
+#' if (interactive()) {
+#'   tw_enable_cache()
+#' }
 #' }
 tw_enable_cache <- function() {
   Sys.setenv(tw_cache = TRUE)
@@ -80,7 +86,9 @@ tw_enable_cache <- function() {
 
 #' @examples
 #' \donttest{
-#' tw_disable_cache()
+#' if (interactive()) {
+#'   tw_disable_cache()
+#' }
 #' }
 tw_disable_cache <- function() {
   Sys.setenv(tw_cache = FALSE)
@@ -97,7 +105,9 @@ tw_disable_cache <- function() {
 
 #' @examples
 #' \donttest{
-#' tw_check_cache()
+#' if (interactive()) {
+#'   tw_check_cache()
+#' }
 #' }
 tw_check_cache <- function(cache = NULL) {
   if (is.null(cache) == FALSE) {
