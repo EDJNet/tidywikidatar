@@ -1,5 +1,5 @@
 Package: tidywikidatar
-Title: Explore Wikidata through Tidy Data Frames
+Title: Explore Wikidata Through Tidy Data Frames
 Version: 0.1
 Authors@R: 
     c(person(given = "Giorgio",
@@ -36,3 +36,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Language: en-US
+URL: https://edjnet.github.io/tidywikidatar
