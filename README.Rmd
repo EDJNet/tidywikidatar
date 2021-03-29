@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # tidywikidatar
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/ EDJNet/tidywikidatar/actions)
+[![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -28,11 +28,11 @@ If you want to benefit of the wealth of information stored by Wikidata, but you 
 
 ## Installation
 
-You can install `tidywikidatar` from [Github](https://github.com/ EDJNet/tidywikidatar) with:
+You can install `tidywikidatar` from [Github](https://github.com/EDJNet/tidywikidatar) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github(" EDJNet/tidywikidatar")
+remotes::install_github("EDJNet/tidywikidatar")
 ```
 
 ## Before you start

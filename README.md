@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/%20EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/%20EDJNet/tidywikidatar/actions)
+[![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -26,7 +26,7 @@ should probably use
 ## Installation
 
 You can install `tidywikidatar` from
-[Github](https://github.com/%20EDJNet/tidywikidatar) with:
+[Github](https://github.com/EDJNet/tidywikidatar) with:
 
 ``` r
 # install.packages("remotes")
