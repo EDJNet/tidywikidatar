@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/giocomai/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/giocomai/tidywikidatar/actions)
+[![R-CMD-check](https://github.com/%20EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/%20EDJNet/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -26,11 +26,11 @@ should probably use
 ## Installation
 
 You can install `tidywikidatar` from
-[Github](https://github.com/giocomai/tidywikidatar) with:
+[Github](https://github.com/%20EDJNet/tidywikidatar) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("giocomai/tidywikidatar")
+remotes::install_github(" EDJNet/tidywikidatar")
 ```
 
 ## Before you start
@@ -291,6 +291,9 @@ separate each set of information we have about the “positions held” by
 Mr. Sassoli:
 
 ``` r
+
+
+
 qualifiers_labelled_df <- tibble::tibble(
   id = purrr::map_chr(
     .x = qualifiers_df$id,
@@ -336,20 +339,7 @@ qualifiers_labelled_df <- tibble::tibble(
 
 qualifiers_labelled_df %>%
   dplyr::group_by(set) %>%
-  dplyr::group_walk(.f = ~ print(.[[1]])) %>%
   knitr::kable()
-#> [1] "member of the European Parliament" "member of the European Parliament"
-#> [3] "member of the European Parliament" "member of the European Parliament"
-#> [5] "member of the European Parliament" "member of the European Parliament"
-#> [1] "President of the European Parliament"
-#> [2] "President of the European Parliament"
-#> [1] "member of the European Parliament" "member of the European Parliament"
-#> [3] "member of the European Parliament" "member of the European Parliament"
-#> [5] "member of the European Parliament" "member of the European Parliament"
-#> [7] "member of the European Parliament"
-#> [1] "member of the European Parliament" "member of the European Parliament"
-#> [3] "member of the European Parliament" "member of the European Parliament"
-#> [5] "member of the European Parliament" "member of the European Parliament"
 ```
 
 | id                                   | property            | value                                            | set |
@@ -438,18 +428,18 @@ dataframe with all women who are resistance fighters on Wikidata.
 ``` r
 tw_query(query = query_df)
 #> # A tibble: 645 x 3
-#>    id     label              description                                        
-#>    <chr>  <chr>              <chr>                                              
-#>  1 Q77526 Olga Benário Pres… German-Brazilian Communist militant (1908-1942)    
-#>  2 Q77934 Liane Berkowitz    German resistance fighter                          
-#>  3 Q84416 Maria Terwiel      German resistance member                           
-#>  4 Q84960 Greta Kuckhoff     German Resistance member, president of the state b…
-#>  5 Q85201 Maria von Maltzan  German resistance member                           
-#>  6 Q85949 Marion Yorck von … German resistance fighter                          
-#>  7 Q87358 Johanna Kirchner   German opponent of Nazism                          
-#>  8 Q87804 Eva-Maria Buch     German resistance fighter                          
-#>  9 Q88113 Lina Haag          activist                                           
-#> 10 Q90794 Charlotte Bischoff German Resistance fighter                          
+#>    id      label             description                                        
+#>    <chr>   <chr>             <chr>                                              
+#>  1 Q25892… Betty Trompetter  <NA>                                               
+#>  2 Q25922… Adhe Tapontsang   Tibetan refugee                                    
+#>  3 Q26024… Yvonne Useldinger Luxembourgian politician (1921-2009)               
+#>  4 Q26092… Tina Strobos      Dutch physician and psychiatrist; rescuer of Holoc…
+#>  5 Q26193… Dinie Aikema      <NA>                                               
+#>  6 Q26353… Anda Kerkhoven    <NA>                                               
+#>  7 Q26395… Jet Berdenis van… <NA>                                               
+#>  8 Q26469… Alice Wosikowski  German politician                                  
+#>  9 Q26603… Nina Baumgarten   <NA>                                               
+#> 10 Q26965… Ada van Rossem    Dutch resistance fighter (1915-2000)               
 #> # … with 635 more rows
 ```
 
@@ -469,18 +459,18 @@ tibble::tribble(
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
 #> # A tibble: 101 x 3
-#>    id       label               description                                     
-#>    <chr>    <chr>               <chr>                                           
-#>  1 Q270319  Christiane Desroch… egittologa e archeologa francese                
-#>  2 Q283654  Marija Skobcova     suora e santa russa, vittima dell'Olocausto     
-#>  3 Q422187… Yvette Grollet-Bri… aviatrice française                             
-#>  4 Q422916… Alice Vansteenberg… résistante française                            
-#>  5 Q428872… Marie-Thérèse de P… <NA>                                            
-#>  6 Q470757… Anne-Marie Bigot    juste parmi les Nations                         
-#>  7 Q471078… Madeleine Clément   juste parmi les Nations                         
-#>  8 Q506730… Claude Michel       déportée de la Résistance française aux camps d…
-#>  9 Q511312… Madeleine Jeudi     juste parmi les Nations                         
-#> 10 Q2696536 Yolande Beekman     espionne et agente secret des Special Operation…
+#>    id      label                description                                     
+#>    <chr>   <chr>                <chr>                                           
+#>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
+#>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
+#>  3 Q35740… Yvette Farnoux       résistante française                            
+#>  4 Q35741… Yvonne Abbas         résistante française                            
+#>  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
+#>  6 Q30097… Cécile Cerf          résistante française                            
+#>  7 Q30812… Francine Fromond     <NA>                                            
+#>  8 Q31324… Henriette Moriamé    <NA>                                            
+#>  9 Q31760… Jeanne Gaillard      historienne et résistante française             
+#> 10 Q31760… Jeanne Laurent       scrittrice francese                             
 #> # … with 91 more rows
 ```
 
@@ -513,7 +503,7 @@ Keep in mind that Wikidata queries are not cached locally.
 `tidywikidatar` tries to reduce load on Wikidata’s server and speeding
 up re-processing of scripts by caching data locally in sqlite databases.
 They are stored locally in the folder defined by `tw_set_cache_folder()`
-(by default, in the current working directory) when cache is enabled
+- by default, in the current working directory - when cache is enabled
 (typically, with `tw_enable_cache()` at the beginning of a session).
 
 To reduce the size of local files, if data are requested in a specific
@@ -521,9 +511,9 @@ language, then only data in that language are stored locally.
 
 The easiest way to reset the cache is simply to delete the cache folder.
 
-Results are stored in different databases by language, and function used
-(`tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example,
-store data in different files).
+Results are stored in different databases by language, and function
+used; `tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example,
+store data in different files.
 
 `tw_query()` is never cached.
 

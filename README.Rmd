@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # tidywikidatar
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/giocomai/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/giocomai/tidywikidatar/actions)
+[![R-CMD-check](https://github.com/ EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/ EDJNet/tidywikidatar/actions)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -28,11 +28,11 @@ If you want to benefit of the wealth of information stored by Wikidata, but you 
 
 ## Installation
 
-You can install `tidywikidatar` from [Github](https://github.com/giocomai/tidywikidatar) with:
+You can install `tidywikidatar` from [Github](https://github.com/ EDJNet/tidywikidatar) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("giocomai/tidywikidatar")
+remotes::install_github(" EDJNet/tidywikidatar")
 ```
 
 ## Before you start
@@ -179,6 +179,9 @@ qualifiers_df
 As usual, Wikidata presents everything as combinations of properties and values. Let's translate each of these to their respective label, and separate each set of information we have about the "positions held" by Mr. Sassoli:
 
 ```{r}
+
+
+
 qualifiers_labelled_df <- tibble::tibble(
   id = purrr::map_chr(
     .x = qualifiers_df$id,
@@ -224,9 +227,9 @@ qualifiers_labelled_df <- tibble::tibble(
 
 qualifiers_labelled_df %>%
   dplyr::group_by(set) %>%
-  dplyr::group_walk(.f = ~ print(.[[1]])) %>%
   knitr::kable()
 ```
+
 
 That's quite a lot of useful detail. The construction of the request can be quite complicated, but keep in mind that if you do this programmatically you will likely use this for filtering a specific piece of information based on a combination of properties, and you will only less frequently need to extract all available information.
 
@@ -301,13 +304,13 @@ Keep in mind that Wikidata queries are not cached locally.
 
 ## How caching works
 
-`tidywikidatar` tries to reduce load on Wikidata's server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by `tw_set_cache_folder()` (by default, in the current working directory) when cache is enabled (typically, with `tw_enable_cache()` at the beginning of a session).
+`tidywikidatar` tries to reduce load on Wikidata's server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by `tw_set_cache_folder()` - by default, in the current working directory - when cache is enabled (typically, with `tw_enable_cache()` at the beginning of a session).
 
 To reduce the size of local files, if data are requested in a specific language, then only data in that language are stored locally. 
 
 The easiest way to reset the cache is simply to delete the cache folder.
 
-Results are stored in different databases by language, and function used (`tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example, store data in different files). 
+Results are stored in different databases by language, and function used; `tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example, store data in different files.
 
 `tw_query()` is never cached.
 
