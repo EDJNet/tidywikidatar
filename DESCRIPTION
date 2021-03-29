@@ -1,5 +1,5 @@
 Package: tidywikidatar
-Title: Explore Wikidata Through Tidy Data Frames
+Title: Explore 'Wikidata' Through Tidy Data Frames
 Version: 0.1
 Authors@R: 
     c(person(given = "Giorgio",
