@@ -19,7 +19,7 @@ The path to the caching folder, if previously set; the same path as given to the
 Consider using a folder out of your current project directory, e.g. \code{tw_set_cache_folder("~/R/tw_data/")}: you will be able to use the same cache in different projects, and prevent cached files from being sync-ed if you use services such as Nextcloud or Dropbox.
 }
 \examples{
-\dontrun{
+\donttest{
 tw_set_cache_folder("~/R/tw_data/")
 }
 tw_get_cache_folder()

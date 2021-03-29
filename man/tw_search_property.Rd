@@ -34,7 +34,7 @@ This search returns only properties, use \code{tw_search_items()} for properties
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_search_property(search = "gender")
 }
 

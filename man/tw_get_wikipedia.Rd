@@ -23,7 +23,7 @@ Get Wikidata description in given language
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_get_wikipedia(id = "Q228822")
 }
 

@@ -13,7 +13,7 @@ Nothing, used for its side effects.
 Enable caching for the current session
 }
 \examples{
-\dontrun{
+\donttest{
 tw_enable_cache()
 }
 }

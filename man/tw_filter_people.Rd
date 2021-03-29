@@ -23,7 +23,7 @@ A wrapper of \code{tw_filter()} that defaults to keep only "instance of" (P31) "
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_search("Antonio Vivaldi") \%>\%
   tw_filter_people()
 }

@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_create_cache_folder()
 #' }
 tw_create_cache_folder <- function(ask = TRUE) {
@@ -37,7 +37,7 @@ tw_create_cache_folder <- function(ask = TRUE) {
 #' @export
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_set_cache_folder("~/R/tw_data/")
 #' }
 tw_set_cache_folder <- function(path = NULL) {
@@ -65,7 +65,7 @@ tw_get_cache_folder <- tw_set_cache_folder
 #' @export
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_enable_cache()
 #' }
 tw_enable_cache <- function() {
@@ -79,7 +79,7 @@ tw_enable_cache <- function() {
 #' @export
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_disable_cache()
 #' }
 tw_disable_cache <- function() {
@@ -96,7 +96,7 @@ tw_disable_cache <- function() {
 #' @export
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_check_cache()
 #' }
 tw_check_cache <- function(cache = NULL) {

@@ -25,7 +25,7 @@ Mostly used as a convenience function inside other functions to have consistent 
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 tw_check_search("Antonio Vivaldi")
 

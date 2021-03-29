@@ -31,7 +31,7 @@ Get Wikidata property of an item
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_get_property(id = "Q228822")
 }
 

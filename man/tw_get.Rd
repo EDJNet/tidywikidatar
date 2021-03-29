@@ -22,7 +22,7 @@ A data.frame (a tibble) with two columns: property and value
 Return (almost) all information from a Wikidata item in a tidy format
 }
 \examples{
-\dontrun{
+\donttest{
 tw_get("Q220480")
 }
 

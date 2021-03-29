@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' query <- list(
 #'   c(p = "P106", q = "Q1397808"),
 #'   c(p = "P21", q = "Q6581072")

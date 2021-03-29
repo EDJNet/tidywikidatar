@@ -30,7 +30,7 @@ A data frame (a tibble) with three columns: \code{property}, \code{value}, and \
 Get Wikidata qualifiers for a given property of a given item
 }
 \examples{
-\dontrun{
+\donttest{
 tw_get_qualifiers(id = "Q2391857", p = "P39")
 }
 

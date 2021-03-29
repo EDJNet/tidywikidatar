@@ -13,7 +13,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search("Antonio Vivaldi") %>%
 #'   tw_filter(p = "P31", q = "Q5")
 #' }
@@ -84,7 +84,7 @@ tw_filter <- function(search,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search_first("Napoleon") %>%
 #'   tw_filter(p = "P31", q = "Q5")
 #'
@@ -145,7 +145,7 @@ tw_filter_first <- function(search,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search("Antonio Vivaldi") %>%
 #'   tw_filter_people()
 #' }

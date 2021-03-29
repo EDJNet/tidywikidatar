@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search(search = "Sylvia Pankhurst")
 #' }
 #'
@@ -160,7 +160,7 @@ tw_search <- function(search,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search_item(search = "Sylvia Pankhurst")
 #' }
 #'
@@ -199,7 +199,7 @@ tw_search_item <- function(search,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_search_property(search = "gender")
 #' }
 #'

@@ -13,7 +13,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' tw_check_search("Antonio Vivaldi")
 #'

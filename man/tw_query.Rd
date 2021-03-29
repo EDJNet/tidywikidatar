@@ -27,7 +27,7 @@ A data frame
 This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}
 }
 \examples{
-\dontrun{
+\donttest{
 query <- list(
   c(p = "P106", q = "Q1397808"),
   c(p = "P21", q = "Q6581072")

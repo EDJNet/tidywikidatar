@@ -29,7 +29,7 @@ Filter search result and keep only items with matching property and Q id
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_search("Antonio Vivaldi") \%>\%
   tw_filter(p = "P31", q = "Q5")
 }

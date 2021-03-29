@@ -22,7 +22,7 @@ A charachter vector of length 1, with the Wikidata description in the requested 
 Get Wikidata description in given language
 }
 \examples{
-\dontrun{
+\donttest{
 tw_get_description(id = "Q228822")
 }
 }

@@ -28,7 +28,7 @@ Get description of a Wikidata property in a given language
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_get_property_description(id = "P31")
 }
 

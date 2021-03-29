@@ -16,7 +16,7 @@ Nothing, used for its side effects.
 Creates the cache folder where \code{streetnames} caches data.
 }
 \examples{
-\dontrun{
+\donttest{
 tw_create_cache_folder()
 }
 }

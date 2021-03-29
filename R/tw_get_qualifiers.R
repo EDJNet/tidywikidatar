@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_get_qualifiers(id = "Q2391857", p = "P39")
 #' }
 #'

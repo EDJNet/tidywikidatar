@@ -37,7 +37,7 @@ This search returns only items, use \code{tw_search_property()} for properties.
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_search(search = "Sylvia Pankhurst")
 }
 

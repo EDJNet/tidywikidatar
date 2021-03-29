@@ -28,7 +28,7 @@ Get label of a Wikidata property in a given language
 }
 \examples{
 
-\dontrun{
+\donttest{
 tw_get_property_label(id = "P31")
 }
 

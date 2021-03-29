@@ -16,7 +16,7 @@ Either TRUE or FALSE, depending on current cache settings.
 Mostly used internally in functins, exported for reference.
 }
 \examples{
-\dontrun{
+\donttest{
 tw_check_cache()
 }
 }

@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_get("Q220480")
 #' }
 #'
@@ -215,7 +215,7 @@ tw_get <- function(id,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_get_label(id = "Q228822")
 #' }
 #'
@@ -268,7 +268,7 @@ tw_get_label <- function(id,
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_get_description(id = "Q228822")
 #' }
 tw_get_description <- function(id,
@@ -316,7 +316,7 @@ tw_get_description <- function(id,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_get_property_label(id = "P31")
 #' }
 #'
@@ -355,7 +355,7 @@ tw_get_property_label <- function(property,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_get_property_description(id = "P31")
 #' }
 #'
@@ -395,7 +395,7 @@ tw_get_property_description <- function(property,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_get_property(id = "Q228822")
 #' }
 #'
@@ -434,7 +434,7 @@ tw_get_property <- function(id,
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tw_get_image(id = "Q228822")
 #' }
 #'
@@ -483,7 +483,7 @@ tw_get_image <- function(id,
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' tw_get_wikipedia(id = "Q228822")
 #' }
 #'
