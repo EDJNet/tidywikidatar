@@ -2,5 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-03-25T16:10Z
+last_built: 2021-03-29T17:21Z
+urls:
+  reference: https://edjnet.github.io/tidywikidatar/reference
+  article: https://edjnet.github.io/tidywikidatar/articles
 

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore Wikidata through Tidy Data Frames • tidywikidatar</title>
+<title>Explore Wikidata Through Tidy Data Frames • tidywikidatar</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Explore Wikidata through Tidy Data Frames">
-<meta property="og:description" content="This package makes it easy to query Wikidata, get tidy data frames in response, and cache data in a local sqlite database.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Explore Wikidata Through Tidy Data Frames">
+<meta property="og:description" content="Query Wikidata with ease, get tidy data frames in response, and cache data in a local sqlite database.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -45,6 +45,9 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -73,10 +76,10 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install <code>tidywikidatar</code> from <a href="https://github.com/giocomai/tidywikidatar">Github</a> with:</p>
+<p>You can install <code>tidywikidatar</code> from <a href="https://github.com/EDJNet/tidywikidatar">Github</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"giocomai/tidywikidatar"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">" EDJNet/tidywikidatar"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="before-you-start" class="section level2">
 <h2 class="hasAnchor">
@@ -91,7 +94,7 @@
 <a href="#how-to-use" class="anchor"></a>How to use</h2>
 <p><code>tidywikidatar</code> makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata’s servers. These sqlite databases are by default stored in the current working directory under a <code>tw_data</code> folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with <code><a href="reference/tw_enable_cache.html">tw_enable_cache()</a></code> and set the cache folder to be used throughout a session with <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code>. The first lines of a script using <code>tidywikidatar</code> would often look like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://edjnet.github.io/tidywikidatar/">"tidywikidatar"</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path_expand.html">path_home_r</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"R"</span>, <span class="st">"tw_data"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="reference/tw_create_cache_folder.html">tw_create_cache_folder</a></span><span class="op">(</span>ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -231,7 +234,10 @@
 <span class="co">#&gt; # … with 11 more rows</span></code></pre></div>
 <p>As usual, Wikidata presents everything as combinations of properties and values. Let’s translate each of these to their respective label, and separate each set of information we have about the “positions held” by Mr. Sassoli:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">qualifiers_labelled_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+<code class="sourceCode R">
+
+
+<span class="va">qualifiers_labelled_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
   id <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_chr</a></span><span class="op">(</span>
     .x <span class="op">=</span> <span class="va">qualifiers_df</span><span class="op">$</span><span class="va">id</span>,
     .f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
@@ -276,20 +282,7 @@
 
 <span class="va">qualifiers_labelled_df</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">set</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html">group_walk</a></span><span class="op">(</span>.f <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [3] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [5] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [1] "President of the European Parliament"</span>
-<span class="co">#&gt; [2] "President of the European Parliament"</span>
-<span class="co">#&gt; [1] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [3] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [5] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [7] "member of the European Parliament"</span>
-<span class="co">#&gt; [1] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [3] "member of the European Parliament" "member of the European Parliament"</span>
-<span class="co">#&gt; [5] "member of the European Parliament" "member of the European Parliament"</span></code></pre></div>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -464,18 +457,18 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 645 x 3</span>
-<span class="co">#&gt;    id     label              description                                        </span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;              &lt;chr&gt;                                              </span>
-<span class="co">#&gt;  1 Q77526 Olga Benário Pres… German-Brazilian Communist militant (1908-1942)    </span>
-<span class="co">#&gt;  2 Q77934 Liane Berkowitz    German resistance fighter                          </span>
-<span class="co">#&gt;  3 Q84416 Maria Terwiel      German resistance member                           </span>
-<span class="co">#&gt;  4 Q84960 Greta Kuckhoff     German Resistance member, president of the state b…</span>
-<span class="co">#&gt;  5 Q85201 Maria von Maltzan  German resistance member                           </span>
-<span class="co">#&gt;  6 Q85949 Marion Yorck von … German resistance fighter                          </span>
-<span class="co">#&gt;  7 Q87358 Johanna Kirchner   German opponent of Nazism                          </span>
-<span class="co">#&gt;  8 Q87804 Eva-Maria Buch     German resistance fighter                          </span>
-<span class="co">#&gt;  9 Q88113 Lina Haag          activist                                           </span>
-<span class="co">#&gt; 10 Q90794 Charlotte Bischoff German Resistance fighter                          </span>
+<span class="co">#&gt;    id      label             description                                        </span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                                              </span>
+<span class="co">#&gt;  1 Q25892… Betty Trompetter  &lt;NA&gt;                                               </span>
+<span class="co">#&gt;  2 Q25922… Adhe Tapontsang   Tibetan refugee                                    </span>
+<span class="co">#&gt;  3 Q26024… Yvonne Useldinger Luxembourgian politician (1921-2009)               </span>
+<span class="co">#&gt;  4 Q26092… Tina Strobos      Dutch physician and psychiatrist; rescuer of Holoc…</span>
+<span class="co">#&gt;  5 Q26193… Dinie Aikema      &lt;NA&gt;                                               </span>
+<span class="co">#&gt;  6 Q26353… Anda Kerkhoven    &lt;NA&gt;                                               </span>
+<span class="co">#&gt;  7 Q26395… Jet Berdenis van… &lt;NA&gt;                                               </span>
+<span class="co">#&gt;  8 Q26469… Alice Wosikowski  German politician                                  </span>
+<span class="co">#&gt;  9 Q26603… Nina Baumgarten   &lt;NA&gt;                                               </span>
+<span class="co">#&gt; 10 Q26965… Ada van Rossem    Dutch resistance fighter (1915-2000)               </span>
 <span class="co">#&gt; # … with 635 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -487,18 +480,18 @@
 <span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># Country of citizenship: France</span>
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"it"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 101 x 3</span>
-<span class="co">#&gt;    id       label               description                                     </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;               &lt;chr&gt;                                           </span>
-<span class="co">#&gt;  1 Q270319  Christiane Desroch… egittologa e archeologa francese                </span>
-<span class="co">#&gt;  2 Q283654  Marija Skobcova     suora e santa russa, vittima dell'Olocausto     </span>
-<span class="co">#&gt;  3 Q422187… Yvette Grollet-Bri… aviatrice française                             </span>
-<span class="co">#&gt;  4 Q422916… Alice Vansteenberg… résistante française                            </span>
-<span class="co">#&gt;  5 Q428872… Marie-Thérèse de P… &lt;NA&gt;                                            </span>
-<span class="co">#&gt;  6 Q470757… Anne-Marie Bigot    juste parmi les Nations                         </span>
-<span class="co">#&gt;  7 Q471078… Madeleine Clément   juste parmi les Nations                         </span>
-<span class="co">#&gt;  8 Q506730… Claude Michel       déportée de la Résistance française aux camps d…</span>
-<span class="co">#&gt;  9 Q511312… Madeleine Jeudi     juste parmi les Nations                         </span>
-<span class="co">#&gt; 10 Q2696536 Yolande Beekman     espionne et agente secret des Special Operation…</span>
+<span class="co">#&gt;    id      label                description                                     </span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                &lt;chr&gt;                                           </span>
+<span class="co">#&gt;  1 Q270319 Christiane Desroche… egittologa e archeologa francese                </span>
+<span class="co">#&gt;  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     </span>
+<span class="co">#&gt;  3 Q35740… Yvette Farnoux       résistante française                            </span>
+<span class="co">#&gt;  4 Q35741… Yvonne Abbas         résistante française                            </span>
+<span class="co">#&gt;  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…</span>
+<span class="co">#&gt;  6 Q30097… Cécile Cerf          résistante française                            </span>
+<span class="co">#&gt;  7 Q30812… Francine Fromond     &lt;NA&gt;                                            </span>
+<span class="co">#&gt;  8 Q31324… Henriette Moriamé    &lt;NA&gt;                                            </span>
+<span class="co">#&gt;  9 Q31760… Jeanne Gaillard      historienne et résistante française             </span>
+<span class="co">#&gt; 10 Q31760… Jeanne Laurent       scrittrice francese                             </span>
 <span class="co">#&gt; # … with 91 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -520,10 +513,13 @@
 <div id="how-caching-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-caching-works" class="anchor"></a>How caching works</h2>
-<p><code>tidywikidatar</code> tries to reduce load on Wikidata’s server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code> (by default, in the current working directory) when cache is enabled (typically, with <code><a href="reference/tw_enable_cache.html">tw_enable_cache()</a></code> at the beginning of a session).</p>
+<p><code>tidywikidatar</code> tries to reduce load on Wikidata’s server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by <code><a href="reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code></p>
+<ul>
+<li>by default, in the current working directory - when cache is enabled (typically, with <code><a href="reference/tw_enable_cache.html">tw_enable_cache()</a></code> at the beginning of a session).</li>
+</ul>
 <p>To reduce the size of local files, if data are requested in a specific language, then only data in that language are stored locally.</p>
 <p>The easiest way to reset the cache is simply to delete the cache folder.</p>
-<p>Results are stored in different databases by language, and function used (<code><a href="reference/tw_search.html">tw_search()</a></code>, <code><a href="reference/tw_get.html">tw_get()</a></code>, and <code><a href="reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code>, for example, store data in different files).</p>
+<p>Results are stored in different databases by language, and function used; <code><a href="reference/tw_search.html">tw_search()</a></code>, <code><a href="reference/tw_get.html">tw_get()</a></code>, and <code><a href="reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code>, for example, store data in different files.</p>
 <p><code><a href="reference/tw_query.html">tw_query()</a></code> is never cached.</p>
 </div>
 <div id="known-issues" class="section level2">
@@ -562,7 +558,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/giocomai/tidywikidatar/actions"><img src="https://github.com/giocomai/tidywikidatar/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/EDJNet/tidywikidatar/actions"><img src="https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>
