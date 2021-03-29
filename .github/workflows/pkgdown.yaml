@@ -13,6 +13,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+      - run: git config user.name "GitHub Actions" && git config user.email "actions@users.noreply.github.com"
 
       - uses: r-lib/actions/setup-r@v1
 
