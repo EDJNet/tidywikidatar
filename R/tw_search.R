@@ -34,7 +34,7 @@ tw_search <- function(search,
     tidywikidatar::tw_create_cache_folder()
     db_folder <- fs::path(
       tidywikidatar::tw_get_cache_folder(),
-      stringr::str_c("wiki_search_", type, "db")
+      stringr::str_c("wiki_search_", type, "_db")
     )
     fs::dir_create(db_folder)
     db_file <- fs::path(

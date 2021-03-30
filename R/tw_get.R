@@ -31,7 +31,7 @@ tw_get <- function(id,
     fs::dir_create(db_folder)
     db_file <- fs::path(
       db_folder,
-      stringr::str_c("wiki_item_db", language, ".sqlite")
+      stringr::str_c("wiki_item_db_", language, ".sqlite")
     )
     db <- DBI::dbConnect(drv = RSQLite::SQLite(), db_file)
     db_result <- tryCatch(
