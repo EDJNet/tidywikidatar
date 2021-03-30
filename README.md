@@ -21,7 +21,7 @@ but you do not like SPARQL queries and nested lists, then you may find
 `tidywikidatar` useful. If you prefer working with nested lists and
 SPARQL queries, or if you plan to build more complex queries, then you
 should probably use
-[`WikidataR`](https://github.com/Ironholds/WikidataR), Wikimedia’s own
+[`WikidataR`](https://github.com/Ironholds/WikidataR) or Wikimedia’s own
 [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR)
 (under the hood, `tidywikidatar` is largely based on those packages).
 
