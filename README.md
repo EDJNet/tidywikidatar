@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://CRAN.R-project.org/package=tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -30,7 +32,7 @@ You can install `tidywikidatar` from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github(" EDJNet/tidywikidatar")
+remotes::install_github("EDJNet/tidywikidatar")
 ```
 
 ## Before you start
