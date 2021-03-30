@@ -136,7 +136,9 @@ only the first result that is associated with “an instance of” (P31) -
 ``` r
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
-#>        id         label             description
+#> # A tibble: 1 x 3
+#>   id      label         description            
+#>   <chr>   <chr>         <chr>                  
 #> 1 Q180099 Margaret Mead American anthropologist
 ```
 
