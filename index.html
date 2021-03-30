@@ -133,7 +133,9 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/tw_filter_first.html">tw_filter_first</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span>
-<span class="co">#&gt;        id         label             description</span>
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;   id      label         description            </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;                  </span>
 <span class="co">#&gt; 1 Q180099 Margaret Mead American anthropologist</span></code></pre></div>
 <p>and, as expected, I get a single output: my beloved Margaret Mead.</p>
 <p>Where was she born? I can ask directly for P19, place of birth:</p>
