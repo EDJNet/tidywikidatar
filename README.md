@@ -14,7 +14,7 @@ The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
   - all responses are transformed into data frames or simple character
     vectors
-  - by default, responses are cached locally in a sqlite database
+  - it is easy to enable efficient caching in a local sqlite database
 
 If you want to benefit of the wealth of information stored by Wikidata,
 but you do not like SPARQL queries and nested lists, then you may find
