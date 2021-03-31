@@ -105,23 +105,30 @@ tw_get <- function(id,
 
   descriptions <- item %>% purrr::pluck(1, "descriptions")
 
-  descriptions_df <- purrr::map_dfr(
-    .x = descriptions,
-    function(current_description_l) {
-      tibble::tibble(
-        property = paste0("description_", current_description_l$language),
-        value = current_description_l$value
-      )
-    }
-  )
-
-  if (language == "all_available") {
-    # do nothing
+  if (is.null(descriptions)) {
+    descriptions_df <- tibble::tibble(
+      property = as.character(NA),
+      values = as.character(NA)
+    ) %>%
+      tidyr::drop_na()
   } else {
-    descriptions_df <- descriptions_df %>%
-      dplyr::filter(.data$property == stringr::str_c("description_", language))
-  }
+    descriptions_df <- purrr::map_dfr(
+      .x = descriptions,
+      function(current_description_l) {
+        tibble::tibble(
+          property = paste0("description_", current_description_l$language),
+          value = current_description_l$value
+        )
+      }
+    )
 
+    if (language == "all_available") {
+      # do nothing
+    } else {
+      descriptions_df <- descriptions_df %>%
+        dplyr::filter(.data$property == stringr::str_c("description_", language))
+    }
+  }
 
   claims <- item %>% purrr::pluck(1, "claims")
 
