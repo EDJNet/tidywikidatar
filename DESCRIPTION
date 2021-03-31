@@ -9,7 +9,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-0515-9542")), 
       person(given = "EDJNet",
              role = "fnd"))
-Description: Query 'Wikidata' with ease, get tidy data frames in response, and cache data in a local 'sqlite' database.
+Description: Query 'Wikidata' API <https://wikidata.org/> with ease, get tidy data frames in response, and cache data in a local 'SQLite' database.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
