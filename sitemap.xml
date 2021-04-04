@@ -13,6 +13,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache_folder.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_search.html</loc>
   </url>
   <url>
@@ -35,6 +38,12 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_file.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
@@ -74,5 +83,8 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_folder.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_item_to_cache.html</loc>
   </url>
 </urlset>
