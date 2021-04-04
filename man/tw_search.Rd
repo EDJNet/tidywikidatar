@@ -9,7 +9,7 @@ tw_search(
   type = "item",
   language = "en",
   limit = 10,
-  wait = 0.1,
+  wait = 0,
   cache = NULL,
   overwrite_cache = FALSE
 )
@@ -23,7 +23,7 @@ tw_search(
 
 \item{limit}{Maximum numbers of responses to be given.}
 
-\item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 

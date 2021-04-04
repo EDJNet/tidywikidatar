@@ -1,7 +1,8 @@
 #' Return (almost) all information from a Wikidata item in a tidy format
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
+#' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
@@ -16,39 +17,24 @@
 #' }
 tw_get <- function(id,
                    language = "all_available",
+                   wait = 0,
                    cache = NULL,
                    overwrite_cache = FALSE) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
-  if (tw_check_cache(cache) == TRUE) {
-    tidywikidatar::tw_create_cache_folder()
-    db_folder <- fs::path(
-      tidywikidatar::tw_get_cache_folder(),
-      "wiki_item_db"
+  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+    db_result <- tw_get_cached_item(
+      id = id,
+      language = language
     )
-    fs::dir_create(db_folder)
-    db_file <- fs::path(
-      db_folder,
-      stringr::str_c("wiki_item_db_", language, ".sqlite")
-    )
-    db <- DBI::dbConnect(drv = RSQLite::SQLite(), db_file)
-    db_result <- tryCatch(
-      DBI::dbReadTable(
-        conn = db,
-        name = stringr::str_to_upper(id)
-      ),
-      error = function(e) {
-        logical(1L)
-      }
-    )
-    if (is.data.frame(db_result) & overwrite_cache == FALSE) {
-      DBI::dbDisconnect(db)
-      return(db_result %>% tibble::as_tibble())
+    if (is.data.frame(db_result)) {
+      return(db_result)
     }
   }
 
+  Sys.sleep(time = wait)
 
   item <- tryCatch(WikidataR::get_item(id = id),
     error = function(e) {
@@ -57,7 +43,8 @@ tw_get <- function(id,
   )
 
 
-  labels <- item %>% purrr::pluck(1, "labels")
+  labels <- item %>%
+    purrr::pluck(1, "labels")
 
   labels_df <- purrr::map_dfr(
     .x = labels,
@@ -189,25 +176,18 @@ tw_get <- function(id,
     claims_df,
     descriptions_df,
     sitelinks_df
-  )
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
-    RSQLite::dbWriteTable(
-      conn = db,
-      name = stringr::str_to_upper(string = id),
-      value = everything_df
-    )
-    DBI::dbDisconnect(db)
-  } else if (tw_check_cache(cache) == TRUE & overwrite_cache == TRUE) {
-    RSQLite::dbWriteTable(
-      conn = db,
-      name = stringr::str_to_upper(string = id),
-      value = everything_df,
-      overwrite = TRUE
-    )
-    DBI::dbDisconnect(db)
-  }
-  everything_df %>%
+  ) %>%
     tibble::as_tibble()
+
+  if (tw_check_cache(cache) == TRUE) {
+    tw_write_item_to_cache(
+      id = id,
+      item_df = everything_df,
+      language = language,
+      overwrite_cache = overwrite_cache
+    )
+  }
+  everything_df
 }
 
 

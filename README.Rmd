@@ -40,7 +40,7 @@ remotes::install_github("EDJNet/tidywikidatar")
 
 This package assumes some familiarity with basic Wikidata concepts. For reference, see [the introduction on the official website](https://www.wikidata.org/wiki/Wikidata:Introduction).
 
-At the most basic, you should know that every item in Wikidata has an id (it always starts with a Q, something like `Q123456`). Each item is described by properties (they always start with a P something like `P1234`). 
+At the most basic, you should know that every item in Wikidata has an id (it always starts with a Q, something like `Q123456`). Each item is described by properties (they always start with a P, something like `P1234`). 
 
 So for example, if I am interested in the anthropologist Margaret Mead, I will search her name on Wikidata and discover that she is [`Q180099`](https://www.wikidata.org/wiki/Q180099). She is described by many properties. For example, she is "an instance of" ([P31](https://www.wikidata.org/wiki/Property:P31)) "[Q5](https://www.wikidata.org/wiki/Q180099)", which means "human". Her "sex or gender" ([P21](https://www.wikidata.org/wiki/Property:P21)) is "[Q180099](https://www.wikidata.org/wiki/Q6581072)", which means, female. By "occupation" ([P106](https://www.wikidata.org/wiki/Property:P106)), she was "[Q36180](https://www.wikidata.org/wiki/Q36180)", "[Q4773904](https://www.wikidata.org/wiki/Q4773904)", and "[Q674426](https://www.wikidata.org/wiki/Q674426)", which means, a writer, an anthropologist, and a curator. And so forth.
 

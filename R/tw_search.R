@@ -6,7 +6,7 @@
 #' @param type Defaults to "item". Either "item" or "property".
 #' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
-#' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
 #'
@@ -23,7 +23,7 @@ tw_search <- function(search,
                       type = "item",
                       language = "en",
                       limit = 10,
-                      wait = 0.1,
+                      wait = 0,
                       cache = NULL,
                       overwrite_cache = FALSE) {
   if (is.null(search)) {

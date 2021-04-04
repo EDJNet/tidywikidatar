@@ -120,3 +120,37 @@ tw_check_cache <- function(cache = NULL) {
     as.logical(current_cache)
   }
 }
+
+#' Checks if cache folder exists, if not returns an informative message
+#'
+#' @return If the cache folder exists, returns TRUE. Otherwise throws an error.
+#' @export
+#'
+#' @examples
+#'
+#' # If cache folder does not exist, it throws an error
+#' tryCatch(tw_check_cache_folder(),
+#'   error = function(e) {
+#'     return(e)
+#'   }
+#' )
+#'
+#' # Create cache folder
+#' tw_set_cache_folder(path = fs::path(
+#'   tempdir(),
+#'   "tw_cache_folder"
+#' ))
+#' tw_create_cache_folder(ask = FALSE)
+#'
+#' tw_check_cache_folder()
+tw_check_cache_folder <- function() {
+  if (fs::file_exists(tw_get_cache_folder()) == FALSE) {
+    usethis::ui_stop(paste(
+      "Cache folder does not exist. Set it with",
+      usethis::ui_code("tw_get_cache_folder()"),
+      "and create it with",
+      usethis::ui_code("tw_create_cache_folder()")
+    ))
+  }
+  TRUE
+}
