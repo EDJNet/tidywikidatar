@@ -115,7 +115,7 @@
     <p>Filter search result and keep only items with matching property and Q id</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_filter</span><span class='op'>(</span><span class='va'>search</span>, <span class='va'>p</span>, <span class='va'>q</span>, language <span class='op'>=</span> <span class='st'>"en"</span>, limit <span class='op'>=</span> <span class='fl'>10</span>, wait <span class='op'>=</span> <span class='fl'>0.1</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_filter</span><span class='op'>(</span><span class='va'>search</span>, <span class='va'>p</span>, <span class='va'>q</span>, language <span class='op'>=</span> <span class='st'>"en"</span>, limit <span class='op'>=</span> <span class='fl'>10</span>, wait <span class='op'>=</span> <span class='fl'>0</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,7 +142,7 @@
     </tr>
     <tr>
       <th>wait</th>
-      <td><p>In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.</p></td>
+      <td><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></td>
     </tr>
     <tr>
       <th>cache</th>

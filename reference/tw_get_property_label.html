@@ -119,7 +119,8 @@
   <span class='va'>property</span>,
   language <span class='op'>=</span> <span class='st'>"en"</span>,
   cache <span class='op'>=</span> <span class='cn'>NULL</span>,
-  overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>
+  overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  wait <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -140,6 +141,10 @@
     <tr>
       <th>overwrite_cache</th>
       <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></td>
     </tr>
     </table>
 

@@ -120,7 +120,8 @@
   cache <span class='op'>=</span> <span class='cn'>NULL</span>,
   language <span class='op'>=</span> <span class='va'>language</span>,
   overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  format <span class='op'>=</span> <span class='st'>"filename"</span>
+  format <span class='op'>=</span> <span class='st'>"filename"</span>,
+  wait <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,6 +146,10 @@
     <tr>
       <th>format</th>
       <td><p>A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></td>
     </tr>
     </table>
 
