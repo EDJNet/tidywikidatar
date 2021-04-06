@@ -8,7 +8,8 @@ tw_get_property_label(
   property,
   language = "en",
   cache = NULL,
-  overwrite_cache = FALSE
+  overwrite_cache = FALSE,
+  wait = 0
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ tw_get_property_label(
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
 A charachter vector of length 1, with the Wikidata label in the requested languae.

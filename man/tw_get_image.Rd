@@ -9,7 +9,8 @@ tw_get_image(
   cache = NULL,
   language = language,
   overwrite_cache = FALSE,
-  format = "filename"
+  format = "filename",
+  wait = 0
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ tw_get_image(
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
 \item{format}{A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
 A charachter vector, corresponding to reference to the image in the requested format.

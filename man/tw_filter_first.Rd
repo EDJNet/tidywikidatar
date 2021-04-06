@@ -10,7 +10,7 @@ tw_filter_first(
   q,
   language = "en",
   limit = 10,
-  wait = 0.1,
+  wait = 0,
   cache = NULL
 )
 }
@@ -25,7 +25,7 @@ tw_filter_first(
 
 \item{limit}{Maximum numbers of responses to be given.}
 
-\item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}}
 }
@@ -38,10 +38,8 @@ Same as \code{tw_filter()}, but consistently returns data frames with a single r
 \examples{
 \donttest{
 if (interactive()) {
-  tw_search_first("Napoleon") \%>\%
-    tw_filter(p = "P31", q = "Q5")
 
-  tw_search_first("Napoleon") \%>\%
+  tw_search("Napoleon") \%>\%
     tw_filter_first(p = "P31", q = "Q5")
 }
 }

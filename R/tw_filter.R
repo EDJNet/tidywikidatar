@@ -6,7 +6,7 @@
 #' @param language Language to be used for the search.
 #' @param limit Maximum numbers of responses to be given.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data frame with three columns, `id`, `label`, and `description`, filtered by the above criteria.
 #' @export
@@ -23,7 +23,7 @@ tw_filter <- function(search,
                       q,
                       language = "en",
                       limit = 10,
-                      wait = 0.1,
+                      wait = 0,
                       cache = NULL) {
   search_result <- tidywikidatar::tw_check_search(
     search = search,
@@ -44,7 +44,8 @@ tw_filter <- function(search,
         current_value <- tidywikidatar::tw_get_property(
           id = current_id,
           p = p,
-          cache = tw_check_cache(cache)
+          cache = tw_check_cache(cache),
+          wait = wait
         )
 
         if (is.null(current_value)) {
@@ -77,7 +78,7 @@ tw_filter <- function(search,
 #' @param language Language to be used for the search.
 #' @param limit Maximum numbers of responses to be given.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`
-#' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data frame with one row and three columns, `id`, `label`, and `description`, filtered by the above criteria.
 #' @export
@@ -85,10 +86,8 @@ tw_filter <- function(search,
 #' @examples
 #' \donttest{
 #' if (interactive()) {
-#'   tw_search_first("Napoleon") %>%
-#'     tw_filter(p = "P31", q = "Q5")
 #'
-#'   tw_search_first("Napoleon") %>%
+#'   tw_search("Napoleon") %>%
 #'     tw_filter_first(p = "P31", q = "Q5")
 #' }
 #' }
@@ -98,7 +97,7 @@ tw_filter_first <- function(search,
                             q,
                             language = "en",
                             limit = 10,
-                            wait = 0.1,
+                            wait = 0,
                             cache = NULL) {
   search_result <- tidywikidatar::tw_check_search(
     search = search,
@@ -140,6 +139,7 @@ tw_filter_first <- function(search,
 #' @param language Language to be used for the search.
 #' @param stop_at_first Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.
 #' @param limit Maximum numbers of responses to be given.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data frame with three columns, `id`, `label`, and `description`; all rows refer to a human being.
 #' @export
@@ -147,21 +147,26 @@ tw_filter_first <- function(search,
 #' @examples
 #' \donttest{
 #' if (interactive()) {
-#'   tw_search("Antonio Vivaldi") %>%
+#'
+#'   tw_search("Ruth Benedict")
+#'
+#'   tw_search("Ruth Benedict") %>%
 #'     tw_filter_people()
 #' }
 #' }
 tw_filter_people <- function(search,
                              language = "en",
                              limit = 10,
-                             stop_at_first = TRUE) {
+                             stop_at_first = TRUE,
+                             wait = 0) {
   if (stop_at_first == TRUE) {
     tidywikidatar::tw_filter_first(
       search = search,
       p = "P31",
       q = "Q5",
       language = language,
-      limit = 10
+      limit = limit,
+      wait = wait
     )
   } else {
     tidywikidatar::tw_filter(
@@ -169,7 +174,8 @@ tw_filter_people <- function(search,
       p = "P31",
       q = "Q5",
       language = language,
-      limit = 10
+      limit = limit,
+      wait = wait
     )
   }
 }
