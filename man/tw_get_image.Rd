@@ -44,7 +44,7 @@ tw_get_image(
 tw_get_image(
   c(
     "Q180099",
-    "Q228822",
+    "Q228822"
   ),
   format = "commons"
 )
