@@ -6,8 +6,8 @@
 \usage{
 tw_get_image(
   id,
+  language = "all_available",
   cache = NULL,
-  language = language,
   overwrite_cache = FALSE,
   format = "filename",
   wait = 0
@@ -16,9 +16,9 @@ tw_get_image(
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
-
 \item{language}{Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
@@ -33,10 +33,19 @@ A charachter vector, corresponding to reference to the image in the requested fo
 Get Wikidata image
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_image(id = "Q228822")
-}
-}
+tw_get_image(
+  c(
+    "Q180099",
+    "Q228822"
+  ),
+  format = "filename"
+)
 
+tw_get_image(
+  c(
+    "Q180099",
+    "Q228822",
+  ),
+  format = "commons"
+)
 }

@@ -30,9 +30,11 @@ A charachter vector of length 1, with the Wikidata description in the requested 
 Get Wikidata description in given language
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_description(id = "Q228822")
-}
-}
+tw_get_description(
+  id = c(
+    "Q180099",
+    "Q228822"
+  ),
+  language = "en"
+)
 }

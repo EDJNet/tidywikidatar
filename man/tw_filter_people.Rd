@@ -30,13 +30,8 @@ A data frame with three columns, \code{id}, \code{label}, and \code{description}
 A wrapper of \code{tw_filter()} that defaults to keep only "instance of" (P31) "human being" (Q5).
 }
 \examples{
-\donttest{
-if (interactive()) {
+tw_search("Ruth Benedict")
 
-  tw_search("Ruth Benedict")
-
-  tw_search("Ruth Benedict") \%>\%
+tw_search("Ruth Benedict") \%>\%
     tw_filter_people()
-}
-}
 }

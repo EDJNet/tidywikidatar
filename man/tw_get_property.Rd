@@ -33,10 +33,9 @@ A charachter vector of length 1, corresponding to the value for the given proper
 Get Wikidata property of an item
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_property(id = "Q228822")
-}
-}
+# Who were the doctoral advisors - P184 - of Margaret Mead - Q180099
+advisors <- tw_get_property(id = "Q180099", p = "P184")
+advisors
 
+tw_get_label(advisors)
 }

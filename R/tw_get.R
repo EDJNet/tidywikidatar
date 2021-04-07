@@ -1,4 +1,4 @@
-#' Return (almost) all information from a Wikidata item in a tidy format
+#' Return (most) information from a Wikidata item in a tidy format
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
@@ -10,11 +10,10 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get("Q220480")
-#' }
-#' }
+#' tw_get(
+#'   id = "Q180099",
+#'   language = "en"
+#' )
 tw_get <- function(id,
                    language = "all_available",
                    cache = NULL,
@@ -199,15 +198,18 @@ tw_get <- function(id,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @return A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested languae.
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_label(id = "Q228822")
-#' }
-#' }
+#'
+#' tw_get_label(
+#'   id = c(
+#'     "Q180099",
+#'     "Q228822"
+#'   ),
+#'   language = "en"
+#' )
 tw_get_label <- function(id,
                          language = "en",
                          cache = NULL,
@@ -216,34 +218,48 @@ tw_get_label <- function(id,
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  label <- tidywikidatar::tw_get(
-    id = id,
-    cache = tw_check_cache(cache),
-    language = language,
-    overwrite_cache = overwrite_cache,
-    wait = wait
-  ) %>%
-    dplyr::filter(
-      stringr::str_starts(
-        string = .data$property,
-        pattern = "label_"
-      ),
-      stringr::str_ends(
-        string = .data$property,
-        pattern = stringr::str_c(language,
-          collapse = "|"
+  if (length(id) > 1) {
+    purrr::map_chr(
+      .x = id,
+      .f = function(x) {
+        tw_get_label(
+          id = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
         )
-      )
-    ) %>%
-    dplyr::pull(.data$value)
-
-  if (length(label) == 0) {
-    as.character(NA)
+      }
+    )
   } else {
-    label
+    label <- tidywikidatar::tw_get(
+      id = id,
+      cache = tw_check_cache(cache),
+      language = language,
+      overwrite_cache = overwrite_cache,
+      wait = wait
+    ) %>%
+      dplyr::filter(
+        stringr::str_starts(
+          string = .data$property,
+          pattern = "label_"
+        ),
+        stringr::str_ends(
+          string = .data$property,
+          pattern = stringr::str_c(language,
+            collapse = "|"
+          )
+        )
+      ) %>%
+      dplyr::pull(.data$value)
+
+    if (length(label) == 0) {
+      as.character(NA)
+    } else {
+      label
+    }
   }
 }
-
 
 
 
@@ -260,11 +276,13 @@ tw_get_label <- function(id,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_description(id = "Q228822")
-#' }
-#' }
+#' tw_get_description(
+#'   id = c(
+#'     "Q180099",
+#'     "Q228822"
+#'   ),
+#'   language = "en"
+#' )
 tw_get_description <- function(id,
                                language = "en",
                                cache = NULL,
@@ -273,30 +291,45 @@ tw_get_description <- function(id,
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  description <- tidywikidatar::tw_get(
-    id = id,
-    language = language,
-    cache = tw_check_cache(cache),
-    overwrite_cache = overwrite_cache,
-    wait = wait
-  ) %>%
-    dplyr::filter(
-      stringr::str_starts(
-        string = .data$property,
-        pattern = "description_"
-      ),
-      stringr::str_ends(
-        string = .data$property,
-        pattern = stringr::str_c(language,
-          collapse = "|"
+  if (length(id) > 1) {
+    purrr::map_chr(
+      .x = id,
+      .f = function(x) {
+        tw_get_description(
+          id = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
         )
-      )
-    ) %>%
-    dplyr::pull(.data$value)
-  if (length(description) == 0) {
-    as.character(NA)
+      }
+    )
   } else {
-    description
+    description <- tidywikidatar::tw_get(
+      id = id,
+      language = language,
+      cache = tw_check_cache(cache),
+      overwrite_cache = overwrite_cache,
+      wait = wait
+    ) %>%
+      dplyr::filter(
+        stringr::str_starts(
+          string = .data$property,
+          pattern = "description_"
+        ),
+        stringr::str_ends(
+          string = .data$property,
+          pattern = stringr::str_c(language,
+            collapse = "|"
+          )
+        )
+      ) %>%
+      dplyr::pull(.data$value)
+    if (length(description) == 0) {
+      as.character(NA)
+    } else {
+      description
+    }
   }
 }
 
@@ -399,12 +432,11 @@ tw_get_property_description <- function(property,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_property(id = "Q228822")
-#' }
-#' }
+#' # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099
+#' advisors <- tw_get_property(id = "Q180099", p = "P184")
+#' advisors
 #'
+#' tw_get_label(advisors)
 tw_get_property <- function(id,
                             p,
                             language = "all_available",
@@ -443,48 +475,73 @@ tw_get_property <- function(id,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_image(id = "Q228822")
-#' }
-#' }
+#' tw_get_image(
+#'   c(
+#'     "Q180099",
+#'     "Q228822"
+#'   ),
+#'   format = "filename"
+#' )
 #'
+#' tw_get_image(
+#'   c(
+#'     "Q180099",
+#'     "Q228822",
+#'   ),
+#'   format = "commons"
+#' )
 tw_get_image <- function(id,
+                         language = "all_available",
                          cache = NULL,
-                         language = language,
                          overwrite_cache = FALSE,
                          format = "filename",
                          wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  link <- tidywikidatar::tw_get(
-    id = id,
-    cache = tw_check_cache(cache),
-    overwrite_cache = overwrite_cache,
-    language = language,
-    wait = wait
-  ) %>%
-    dplyr::filter(.data$property == "P18") %>%
-    dplyr::pull(.data$value)
-
-  if (length(link) == 0) {
-    return(as.character(NA))
-  }
-
-  if (format == "filename") {
-    link
-  } else if (format == "commons") {
-    stringr::str_c("https://commons.wikimedia.org/wiki/File:", link)
-  } else if (format == "embed") {
-    stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", link)
+  if (length(id) > 1) {
+    purrr::map_chr(
+      .x = id,
+      .f = function(x) {
+        tw_get_image(
+          id = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          format = format,
+          wait = wait
+        )
+      }
+    )
   } else {
-    link
+    link <- tidywikidatar::tw_get(
+      id = id,
+      cache = tw_check_cache(cache),
+      overwrite_cache = overwrite_cache,
+      language = language,
+      wait = wait
+    ) %>%
+      dplyr::filter(.data$property == "P18") %>%
+      dplyr::pull(.data$value)
+
+    if (length(link) == 0) {
+      return(as.character(NA))
+    }
+
+    if (format == "filename") {
+      link
+    } else if (format == "commons") {
+      stringr::str_c("https://commons.wikimedia.org/wiki/File:", link)
+    } else if (format == "embed") {
+      stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", link)
+    } else {
+      link
+    }
   }
 }
 
 
-#' Get Wikidata description in given language
+#' Get Wikipedia article in given language
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -496,12 +553,7 @@ tw_get_image <- function(id,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_wikipedia(id = "Q228822")
-#' }
-#' }
-#'
+#' tw_get_wikipedia(id = "Q180099")
 tw_get_wikipedia <- function(id,
                              language = "en",
                              cache = NULL,
@@ -510,19 +562,34 @@ tw_get_wikipedia <- function(id,
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  base_string <- stringr::str_c("sitelink_", language, "wiki")
-  base_link <- tidywikidatar::tw_get(
-    id = id,
-    cache = tw_check_cache(cache),
-    overwrite_cache = overwrite_cache,
-    language = language,
-    wait = wait
-  ) %>%
-    dplyr::filter(is.element(el = .data$property, set = base_string)) %>%
-    dplyr::pull(.data$value)
-  if (length(base_link) == 0) {
-    as.character(NA)
+  if (length(id) > 1) {
+    purrr::map_chr(
+      .x = id,
+      .f = function(x) {
+        tw_get_wikipedia(
+          id = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
+        )
+      }
+    )
   } else {
-    stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
+    base_string <- stringr::str_c("sitelink_", language, "wiki")
+    base_link <- tidywikidatar::tw_get(
+      id = id,
+      cache = tw_check_cache(cache),
+      overwrite_cache = overwrite_cache,
+      language = language,
+      wait = wait
+    ) %>%
+      dplyr::filter(is.element(el = .data$property, set = base_string)) %>%
+      dplyr::pull(.data$value)
+    if (length(base_link) == 0) {
+      as.character(NA)
+    } else {
+      stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
+    }
   }
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_get_wikipedia}
 \alias{tw_get_wikipedia}
-\title{Get Wikidata description in given language}
+\title{Get Wikipedia article in given language}
 \usage{
 tw_get_wikipedia(
   id,
@@ -27,13 +27,8 @@ tw_get_wikipedia(
 A charachter vector of length 1, with the Wikidata label in the requested languae.
 }
 \description{
-Get Wikidata description in given language
+Get Wikipedia article in given language
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_wikipedia(id = "Q228822")
-}
-}
-
+tw_get_wikipedia(id = "Q180099")
 }

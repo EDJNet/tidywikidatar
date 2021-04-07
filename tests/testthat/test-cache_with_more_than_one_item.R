@@ -10,15 +10,19 @@ test_that("tw_check_cached_items() works as expected", {
     invisible(tw_get(id = "Q184992", language = "en"))
 
     # check if these other items are in cache
-    items_in_cache <- tw_check_cached_items(id = c("Q180099",
-                                                   "Q228822",
-                                                   "Q76857"),
-                                            language = "en")
+    items_in_cache <- tw_check_cached_items(
+      id = c(
+        "Q180099",
+        "Q228822",
+        "Q76857"
+      ),
+      language = "en"
+    )
     # it should return only the two items from the current list of id
     # but not other item already in cache
     items_in_cache
-
-  }, expected = c("Q180099",
-                  "Q228822"))
-
+  }, expected = c(
+    "Q180099",
+    "Q228822"
+  ))
 })

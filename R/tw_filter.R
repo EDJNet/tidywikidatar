@@ -12,12 +12,8 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_search("Antonio Vivaldi") %>%
-#'     tw_filter(p = "P31", q = "Q5")
-#' }
-#' }
+#' tw_search("Margaret Mead") %>%
+#'   tw_filter(p = "P31", q = "Q5")
 tw_filter <- function(search,
                       p,
                       q,
@@ -84,13 +80,8 @@ tw_filter <- function(search,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'
-#'   tw_search("Napoleon") %>%
+#'   tw_search("Margaret Mead") %>%
 #'     tw_filter_first(p = "P31", q = "Q5")
-#' }
-#' }
 #'
 tw_filter_first <- function(search,
                             p,
@@ -145,15 +136,10 @@ tw_filter_first <- function(search,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
+#' tw_search("Ruth Benedict")
 #'
-#'   tw_search("Ruth Benedict")
-#'
-#'   tw_search("Ruth Benedict") %>%
+#' tw_search("Ruth Benedict") %>%
 #'     tw_filter_people()
-#' }
-#' }
 tw_filter_people <- function(search,
                              language = "en",
                              limit = 10,

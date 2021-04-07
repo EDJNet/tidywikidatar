@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_get}
 \alias{tw_get}
-\title{Return (almost) all information from a Wikidata item in a tidy format}
+\title{Return (most) information from a Wikidata item in a tidy format}
 \usage{
 tw_get(
   id,
@@ -27,12 +27,11 @@ tw_get(
 A data.frame (a tibble) with two columns: property and value
 }
 \description{
-Return (almost) all information from a Wikidata item in a tidy format
+Return (most) information from a Wikidata item in a tidy format
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get("Q220480")
-}
-}
+tw_get(
+  id = "Q180099",
+  language = "en"
+)
 }

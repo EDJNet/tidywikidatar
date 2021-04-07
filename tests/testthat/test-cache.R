@@ -65,4 +65,3 @@ test_that("items are stored and retrieved from cache correctly", {
     is.null(df_from_api)
   })
 })
-

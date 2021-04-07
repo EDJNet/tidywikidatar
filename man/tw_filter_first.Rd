@@ -36,12 +36,7 @@ A data frame with one row and three columns, \code{id}, \code{label}, and \code{
 Same as \code{tw_filter()}, but consistently returns data frames with a single row.
 }
 \examples{
-\donttest{
-if (interactive()) {
-
-  tw_search("Napoleon") \%>\%
+  tw_search("Margaret Mead") \%>\%
     tw_filter_first(p = "P31", q = "Q5")
-}
-}
 
 }
