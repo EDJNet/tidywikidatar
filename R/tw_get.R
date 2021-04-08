@@ -399,7 +399,7 @@ tw_get_property_label <- function(property,
 #' @export
 #'
 #' @examples
-#' tw_get_property_description(id = "P31")
+#' tw_get_property_description(property = "P31")
 tw_get_property_description <- function(property,
                                         language = "en",
                                         cache = NULL,
