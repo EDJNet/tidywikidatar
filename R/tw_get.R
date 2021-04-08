@@ -41,14 +41,19 @@ tw_get <- function(id,
     }
   )
 
-  if (is.element("redirect", item %>%
-    purrr::pluck(1) %>%
-    names())) {
-    id <- item %>% purrr::pluck(1, "redirect")
-    item <- tryCatch(WikidataR::get_item(id = id),
-      error = function(e) {
-        return(tibble::tibble(id = NA))
-      }
+  if (is.element(
+    el = "redirect",
+    set = item %>%
+      purrr::pluck(1) %>%
+      names())) {
+    id <- item %>%
+      purrr::pluck(1, "redirect")
+    return(
+      tw_get(id = id,
+             language = language,
+             cache = cache,
+             overwrite_cache = overwrite_cache,
+             wait = wait)
     )
   }
 
