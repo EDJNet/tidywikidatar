@@ -14,9 +14,9 @@ tw_get_property(
 )
 }
 \arguments{
-\item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
-\item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
 
 \item{language}{Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -27,7 +27,7 @@ tw_get_property(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A charachter vector of length 1, corresponding to the value for the given property.
+A charachter vector, corresponding to the value for the given property.
 }
 \description{
 Get Wikidata property of an item
@@ -38,4 +38,21 @@ advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
 
 tw_get_label(advisors)
+
+# It is also possible to get one property for many id
+
+tw_get_property(
+  id = c(
+    "Q180099",
+    "Q228822"
+  ),
+  p = "P31"
+)
+
+# Or many properties for a single id
+
+tw_get_property(
+  id = "Q180099",
+  p = c("P21", "P31")
+)
 }

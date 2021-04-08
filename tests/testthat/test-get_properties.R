@@ -1,3 +1,30 @@
+test_that("check if property are returned correctly when more than 1 id and one property", {
+  expect_equal(object = {
+    tw_get_property(
+      id = c(
+        "Q180099",
+        "Q228822"
+      ),
+      p = "P31"
+    )
+  }, expected = c(
+    c("Q5", "Q5")
+  ))
+})
+
+test_that("check if property are returned correctly when 1 id and more than one property", {
+  expect_equal(object = {
+    tw_get_property(
+      id = "Q180099",
+      p = c("P21", "P31")
+    )
+  }, expected = c(
+    c("Q6581072", "Q5")
+  ))
+})
+
+
+
 
 test_that("check if property labels are returned correctly", {
   expect_equal(object = {

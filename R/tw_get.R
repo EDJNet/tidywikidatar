@@ -443,14 +443,14 @@ tw_get_property_description <- function(property,
 
 #' Get Wikidata property of an item
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
+#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, corresponding to the value for the given property.
+#' @return A charachter vector, corresponding to the value for the given property.
 #' @export
 #'
 #' @examples
@@ -459,6 +459,23 @@ tw_get_property_description <- function(property,
 #' advisors
 #'
 #' tw_get_label(advisors)
+#'
+#' # It is also possible to get one property for many id
+#'
+#' tw_get_property(
+#'   id = c(
+#'     "Q180099",
+#'     "Q228822"
+#'   ),
+#'   p = "P31"
+#' )
+#'
+#' # Or many properties for a single id
+#'
+#' tw_get_property(
+#'   id = "Q180099",
+#'   p = c("P21", "P31")
+#' )
 tw_get_property <- function(id,
                             p,
                             language = "all_available",
@@ -468,19 +485,36 @@ tw_get_property <- function(id,
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
-  property <- tidywikidatar::tw_get(
-    id = id,
-    cache = tw_check_cache(cache),
-    overwrite_cache = overwrite_cache,
-    language = language,
-    wait = wait
-  ) %>%
-    dplyr::filter(property == p) %>%
-    dplyr::pull(.data$value)
-  if (length(property) == 0) {
-    as.character(NA)
+  if (length(id) > 1 | length(p) > 1) {
+    purrr::map2_chr(
+      .x = id,
+      .y = p,
+      .f = function(x, y) {
+        tw_get_property(
+          id = x,
+          p = y,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
+        )
+      }
+    )
   } else {
-    property
+    property <- tidywikidatar::tw_get(
+      id = id,
+      cache = tw_check_cache(cache),
+      overwrite_cache = overwrite_cache,
+      language = language,
+      wait = wait
+    ) %>%
+      dplyr::filter(property == p) %>%
+      dplyr::pull(.data$value)
+    if (length(property) == 0) {
+      as.character(NA)
+    } else {
+      property
+    }
   }
 }
 
