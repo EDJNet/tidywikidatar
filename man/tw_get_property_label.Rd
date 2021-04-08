@@ -13,7 +13,7 @@ tw_get_property_label(
 )
 }
 \arguments{
-\item{property}{A characther vector of length 1, must start with P, e.g. "P31".}
+\item{property}{A characther vector. Each element must start with P, e.g. "P31".}
 
 \item{language}{A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -30,10 +30,5 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get label of a Wikidata property in a given language
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_property_label(id = "P31")
-}
-}
-
+tw_get_property_label(property = "P31")
 }

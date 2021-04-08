@@ -30,10 +30,5 @@ A charachter vector of length 1, with the Wikidata label in the requested langua
 Get description of a Wikidata property in a given language
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_property_description(id = "P31")
-}
-}
-
+tw_get_property_description(id = "P31")
 }

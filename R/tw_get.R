@@ -335,7 +335,7 @@ tw_get_description <- function(id,
 
 #' Get label of a Wikidata property in a given language
 #'
-#' @param property A characther vector of length 1, must start with P, e.g. "P31".
+#' @param property A characther vector. Each element must start with P, e.g. "P31".
 #' @param language A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
@@ -345,12 +345,7 @@ tw_get_description <- function(id,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_property_label(id = "P31")
-#' }
-#' }
-#'
+#' tw_get_property_label(property = "P31")
 tw_get_property_label <- function(property,
                                   language = "en",
                                   cache = NULL,
@@ -359,20 +354,36 @@ tw_get_property_label <- function(property,
   if (is.data.frame(property) == TRUE) {
     property <- property$id
   }
-  label <- tidywikidatar::tw_search_property(
-    search = property,
-    cache = tw_check_cache(cache),
-    language = language,
-    overwrite_cache = overwrite_cache,
-    wait = wait
-  ) %>%
-    dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
-    dplyr::pull(.data$label)
 
-  if (length(label) == 0) {
-    as.character(NA)
+  if (length(property) > 1) {
+    purrr::map_chr(
+      .x = property,
+      .f = function(x) {
+        tw_get_property_label(
+          property = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
+        )
+      }
+    )
   } else {
-    label
+    label <- tw_search_property(
+      search = property,
+      cache = tw_check_cache(cache),
+      language = language,
+      overwrite_cache = overwrite_cache,
+      wait = wait
+    ) %>%
+      dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
+      dplyr::pull(.data$label)
+
+    if (length(label) == 0) {
+      as.character(NA)
+    } else {
+      label
+    }
   }
 }
 
@@ -388,12 +399,7 @@ tw_get_property_label <- function(property,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_get_property_description(id = "P31")
-#' }
-#' }
-#'
+#' tw_get_property_description(id = "P31")
 tw_get_property_description <- function(property,
                                         language = "en",
                                         cache = NULL,
@@ -402,20 +408,36 @@ tw_get_property_description <- function(property,
   if (is.data.frame(property) == TRUE) {
     property <- property$id
   }
-  description <- tidywikidatar::tw_search_property(
-    search = property,
-    cache = tw_check_cache(cache),
-    language = language,
-    overwrite_cache = overwrite_cache,
-    wait = wait
-  ) %>%
-    dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
-    dplyr::pull(.data$description)
 
-  if (length(description) == 0) {
-    as.character(NA)
+  if (length(property) > 1) {
+    purrr::map_chr(
+      .x = property,
+      .f = function(x) {
+        tw_get_property_description(
+          property = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
+        )
+      }
+    )
   } else {
-    description
+    description <- tidywikidatar::tw_search_property(
+      search = property,
+      cache = tw_check_cache(cache),
+      language = language,
+      overwrite_cache = overwrite_cache,
+      wait = wait
+    ) %>%
+      dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
+      dplyr::pull(.data$description)
+
+    if (length(description) == 0) {
+      as.character(NA)
+    } else {
+      description
+    }
   }
 }
 

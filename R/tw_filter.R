@@ -80,9 +80,8 @@ tw_filter <- function(search,
 #' @export
 #'
 #' @examples
-#'   tw_search("Margaret Mead") %>%
-#'     tw_filter_first(p = "P31", q = "Q5")
-#'
+#' tw_search("Margaret Mead") %>%
+#'   tw_filter_first(p = "P31", q = "Q5")
 tw_filter_first <- function(search,
                             p,
                             q,
@@ -139,7 +138,7 @@ tw_filter_first <- function(search,
 #' tw_search("Ruth Benedict")
 #'
 #' tw_search("Ruth Benedict") %>%
-#'     tw_filter_people()
+#'   tw_filter_people()
 tw_filter_people <- function(search,
                              language = "en",
                              limit = 10,

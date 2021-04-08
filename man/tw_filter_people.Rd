@@ -33,5 +33,5 @@ A wrapper of \code{tw_filter()} that defaults to keep only "instance of" (P31) "
 tw_search("Ruth Benedict")
 
 tw_search("Ruth Benedict") \%>\%
-    tw_filter_people()
+  tw_filter_people()
 }
