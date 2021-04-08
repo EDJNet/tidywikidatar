@@ -41,6 +41,16 @@ tw_get <- function(id,
     }
   )
 
+  if (is.element("redirect", item %>%
+    purrr::pluck(1) %>%
+    names())) {
+    id <- item %>% purrr::pluck(1, "redirect")
+    item <- tryCatch(WikidataR::get_item(id = id),
+      error = function(e) {
+        return(tibble::tibble(id = NA))
+      }
+    )
+  }
 
   labels <- item %>%
     purrr::pluck(1, "labels")
