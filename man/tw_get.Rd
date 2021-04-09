@@ -9,7 +9,8 @@ tw_get(
   language = "all_available",
   cache = NULL,
   overwrite_cache = FALSE,
-  wait = 0
+  wait = 0,
+  include_id = FALSE
 )
 }
 \arguments{
@@ -22,9 +23,11 @@ tw_get(
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{include_id}{Logical, defaults to FALSE. If TRUE, output includes a column with the wikidata id of the item.}
 }
 \value{
-A data.frame (a tibble) with two columns: property and value
+A data.frame (a tibble) with two columns: property and value; a tibble with three columns (including id), if include_id is set to TRUE
 }
 \description{
 Return (most) information from a Wikidata item in a tidy format

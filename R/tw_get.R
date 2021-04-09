@@ -5,8 +5,9 @@
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param include_id Logical, defaults to FALSE. If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data.frame (a tibble) with two columns: property and value
+#' @return A data.frame (a tibble) with two columns: property and value; a tibble with three columns (including id), if include_id is set to TRUE
 #' @export
 #'
 #' @examples
@@ -18,7 +19,8 @@ tw_get <- function(id,
                    language = "all_available",
                    cache = NULL,
                    overwrite_cache = FALSE,
-                   wait = 0) {
+                   wait = 0,
+                   include_id = FALSE) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -201,7 +203,12 @@ tw_get <- function(id,
       overwrite_cache = overwrite_cache
     )
   }
-  everything_df
+  if (include_id==TRUE) {
+    everything_df %>%
+      dplyr::transmute(id = id, property, value)
+  } else {
+    everything_df
+  }
 }
 
 
