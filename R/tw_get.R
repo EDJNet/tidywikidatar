@@ -5,9 +5,9 @@
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param include_id Logical, defaults to FALSE. If TRUE, output includes a column with the wikidata id of the item.
+#' @param include_id Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data.frame (a tibble) with two columns: property and value; a tibble with three columns (including id), if include_id is set to TRUE
+#' @return A data.frame (a tibble) a tibble with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.
 #' @export
 #'
 #' @examples
@@ -20,80 +20,83 @@ tw_get <- function(id,
                    cache = NULL,
                    overwrite_cache = FALSE,
                    wait = 0,
-                   include_id = FALSE) {
+                   include_id = TRUE) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
-    db_result <- tw_get_cached_item(
-      id = id,
-      language = language
+  if (length(id) > 1) {
+    purrr::map_dfr(
+      .x = id,
+      .f = function(x) {
+        tw_get(
+          id = x,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait,
+          include_id = include_id
+        )
+      }
     )
-    if (is.data.frame(db_result)) {
-      return(db_result)
+  } else {
+    if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+      db_result <- tw_get_cached_item(
+        id = id,
+        language = language
+      )
+      if (is.data.frame(db_result)) {
+        if (isTRUE(include_id)) {
+          return(db_result %>%
+            tibble::as_tibble() %>%
+            dplyr::transmute(
+              id = id,
+              property,
+              value
+            ))
+        } else {
+          return(db_result %>%
+            tibble::as_tibble())
+        }
+      }
     }
-  }
 
-  Sys.sleep(time = wait)
+    Sys.sleep(time = wait)
 
-  item <- tryCatch(WikidataR::get_item(id = id),
-    error = function(e) {
-      return(tibble::tibble(id = NA))
-    }
-  )
-
-  if (is.element(
-    el = "redirect",
-    set = item %>%
-      purrr::pluck(1) %>%
-      names())) {
-    id <- item %>%
-      purrr::pluck(1, "redirect")
-    return(
-      tw_get(id = id,
-             language = language,
-             cache = cache,
-             overwrite_cache = overwrite_cache,
-             wait = wait)
+    item <- tryCatch(WikidataR::get_item(id = id),
+      error = function(e) {
+        return(tibble::tibble(id = NA))
+      }
     )
-  }
 
-  labels <- item %>%
-    purrr::pluck(1, "labels")
-
-  labels_df <- purrr::map_dfr(
-    .x = labels,
-    function(current_label_l) {
-      tibble::tibble(
-        property = paste0("label_", current_label_l$language),
-        value = current_label_l$value
+    if (is.element(
+      el = "redirect",
+      set = item %>%
+        purrr::pluck(1) %>%
+        names()
+    )) {
+      id <- item %>%
+        purrr::pluck(1, "redirect")
+      return(
+        tw_get(
+          id = id,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          wait = wait
+        )
       )
     }
-  )
 
-  if (language == "all_available") {
-    # do nothing
-  } else {
-    labels_df <- labels_df %>%
-      dplyr::filter(.data$property == stringr::str_c("label_", language))
-  }
+    labels <- item %>%
+      purrr::pluck(1, "labels")
 
-  aliases <- item %>% purrr::pluck(1, "aliases")
-
-  if (is.null(aliases)) {
-    aliases_df <- tibble::tibble(
-      property = as.character(NA),
-      values = as.character(NA)
-    ) %>%
-      tidyr::drop_na()
-  } else {
-    aliases_df <- purrr::map_dfr(
-      .x = aliases,
-      function(current_alias_l) {
+    labels_df <- purrr::map_dfr(
+      .x = labels,
+      function(current_label_l) {
         tibble::tibble(
-          property = paste0("alias_", current_alias_l$language),
-          value = current_alias_l$value
+          property = paste0("label_", current_label_l$language),
+          value = current_label_l$value
         )
       }
     )
@@ -101,113 +104,144 @@ tw_get <- function(id,
     if (language == "all_available") {
       # do nothing
     } else {
-      aliases_df <- aliases_df %>%
-        dplyr::filter(.data$property == stringr::str_c("alias_", language))
+      labels_df <- labels_df %>%
+        dplyr::filter(.data$property == stringr::str_c("label_", language))
     }
-  }
 
-  descriptions <- item %>% purrr::pluck(1, "descriptions")
+    aliases <- item %>% purrr::pluck(1, "aliases")
 
-  if (is.null(descriptions)) {
-    descriptions_df <- tibble::tibble(
-      property = as.character(NA),
-      values = as.character(NA)
-    ) %>%
-      tidyr::drop_na()
-  } else {
-    descriptions_df <- purrr::map_dfr(
-      .x = descriptions,
-      function(current_description_l) {
-        tibble::tibble(
-          property = paste0("description_", current_description_l$language),
-          value = current_description_l$value
-        )
-      }
-    )
-
-    if (language == "all_available") {
-      # do nothing
+    if (is.null(aliases)) {
+      aliases_df <- tibble::tibble(
+        property = as.character(NA),
+        values = as.character(NA)
+      ) %>%
+        tidyr::drop_na()
     } else {
-      descriptions_df <- descriptions_df %>%
-        dplyr::filter(.data$property == stringr::str_c("description_", language))
+      aliases_df <- purrr::map_dfr(
+        .x = aliases,
+        function(current_alias_l) {
+          tibble::tibble(
+            property = paste0("alias_", current_alias_l$language),
+            value = current_alias_l$value
+          )
+        }
+      )
+
+      if (language == "all_available") {
+        # do nothing
+      } else {
+        aliases_df <- aliases_df %>%
+          dplyr::filter(.data$property == stringr::str_c("alias_", language))
+      }
     }
-  }
 
-  claims <- item %>% purrr::pluck(1, "claims")
+    descriptions <- item %>% purrr::pluck(1, "descriptions")
 
-  claims_df <- purrr::map_dfr(
-    .x = claims,
-    .f = function(current_claim_l) {
-      property <- current_claim_l$mainsnak$property
+    if (is.null(descriptions)) {
+      descriptions_df <- tibble::tibble(
+        property = as.character(NA),
+        values = as.character(NA)
+      ) %>%
+        tidyr::drop_na()
+    } else {
+      descriptions_df <- purrr::map_dfr(
+        .x = descriptions,
+        function(current_description_l) {
+          tibble::tibble(
+            property = paste0("description_", current_description_l$language),
+            value = current_description_l$value
+          )
+        }
+      )
 
-      value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][["value"]]
+      if (language == "all_available") {
+        # do nothing
+      } else {
+        descriptions_df <- descriptions_df %>%
+          dplyr::filter(.data$property == stringr::str_c("description_", language))
+      }
+    }
 
-      if (is.null(value_pre)) {
-        value <- as.character("NA")
-      } else if (is.data.frame(value_pre)) {
-        if (is.element("time", names(value_pre))) {
-          value <- value_pre$time
-        } else if (is.element("text", names(value_pre))) {
-          value <- value_pre$text
-        } else if (is.element("amount", names(value_pre))) {
-          value <- value_pre$amount
-        } else if (is.element("latitude", names(value_pre))) {
-          value <- stringr::str_c(value_pre$latitude, value_pre$longitude, sep = ",")
-        } else if (is.element("id", names(value_pre))) {
-          value <- value_pre$id
-        } else if (is.na(value_pre[[1]]) == FALSE) {
-          value <- value_pre[[1]]
+    claims <- item %>% purrr::pluck(1, "claims")
+
+    claims_df <- purrr::map_dfr(
+      .x = claims,
+      .f = function(current_claim_l) {
+        property <- current_claim_l$mainsnak$property
+
+        value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][["value"]]
+
+        if (is.null(value_pre)) {
+          value <- as.character("NA")
+        } else if (is.data.frame(value_pre)) {
+          if (is.element("time", names(value_pre))) {
+            value <- value_pre$time
+          } else if (is.element("text", names(value_pre))) {
+            value <- value_pre$text
+          } else if (is.element("amount", names(value_pre))) {
+            value <- value_pre$amount
+          } else if (is.element("latitude", names(value_pre))) {
+            value <- stringr::str_c(value_pre$latitude, value_pre$longitude, sep = ",")
+          } else if (is.element("id", names(value_pre))) {
+            value <- value_pre$id
+          } else if (is.na(value_pre[[1]]) == FALSE) {
+            value <- value_pre[[1]]
+          } else {
+            value <- as.character("NA")
+          }
+        } else if (is.character(value_pre)) {
+          value <- value_pre
         } else {
           value <- as.character("NA")
         }
-      } else if (is.character(value_pre)) {
-        value <- value_pre
-      } else {
-        value <- as.character("NA")
+
+        tibble::tibble(
+          property = property,
+          value = value
+        )
       }
-
-      tibble::tibble(
-        property = property,
-        value = value
-      )
-    }
-  )
-
-
-  sitelinks <- item %>% purrr::pluck(1, "sitelinks")
-
-  sitelinks_df <- purrr::map_dfr(
-    .x = sitelinks,
-    function(current_sitelink_l) {
-      tibble::tibble(
-        property = paste0("sitelink_", current_sitelink_l$site),
-        value = current_sitelink_l$title
-      )
-    }
-  )
-
-  everything_df <- dplyr::bind_rows(
-    labels_df,
-    aliases_df,
-    claims_df,
-    descriptions_df,
-    sitelinks_df
-  ) %>%
-    tibble::as_tibble()
-
-  if (tw_check_cache(cache) == TRUE) {
-    tw_write_item_to_cache(
-      id = id,
-      item_df = everything_df,
-      language = language,
-      overwrite_cache = overwrite_cache
     )
-  }
-  if (include_id==TRUE) {
-    everything_df %>%
-      dplyr::transmute(id = id, property, value)
-  } else {
-    everything_df
+
+
+    sitelinks <- item %>% purrr::pluck(1, "sitelinks")
+
+    sitelinks_df <- purrr::map_dfr(
+      .x = sitelinks,
+      function(current_sitelink_l) {
+        tibble::tibble(
+          property = paste0("sitelink_", current_sitelink_l$site),
+          value = current_sitelink_l$title
+        )
+      }
+    )
+
+    everything_df <- dplyr::bind_rows(
+      labels_df,
+      aliases_df,
+      claims_df,
+      descriptions_df,
+      sitelinks_df
+    ) %>%
+      tibble::as_tibble()
+
+    if (tw_check_cache(cache) == TRUE) {
+      tw_write_item_to_cache(
+        id = id,
+        item_df = everything_df,
+        language = language,
+        overwrite_cache = overwrite_cache
+      )
+    }
+    if (include_id == TRUE) {
+      everything_df %>%
+        dplyr::transmute(
+          id = id,
+          property,
+          value
+        )
+    } else {
+      everything_df
+    }
   }
 }
 

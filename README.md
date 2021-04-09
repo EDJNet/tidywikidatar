@@ -43,7 +43,7 @@ website](https://www.wikidata.org/wiki/Wikidata:Introduction).
 
 At the most basic, you should know that every item in Wikidata has an id
 (it always starts with a Q, something like `Q123456`). Each item is
-described by properties (they always start with a P something like
+described by properties (they always start with a P, something like
 `P1234`).
 
 So for example, if I am interested in the anthropologist Margaret Mead,
@@ -105,28 +105,19 @@ Mead” that are not the woman herself.
 
 ``` r
 tw_search(search = "Margaret Mead")
-#>           id                                                      label
-#> 1    Q180099                                              Margaret Mead
-#> 2  Q81015029                                              Margaret mead
-#> 3  Q66701460                                              Margaret Mead
-#> 4  Q85724626                                             Mead & Bateson
-#> 5  Q96077616                                           Margaret Meadows
-#> 6  Q76238541                                           Margaret Meadowe
-#> 7  Q75506638                                           Margaret Meadows
-#> 8  Q75812372                                       Margaret Meade-Waldo
-#> 9   Q6759717                                Margaret Mead Film Festival
-#> 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction
-#>                                         description
-#> 1                           American anthropologist
-#> 2  scientific article published on 01 December 1978
-#> 3  scientific article published on 01 November 1978
-#> 4                             business organisation
-#> 5                                              <NA>
-#> 6                          Peerage person ID=628312
-#> 7                          Peerage person ID=183057
-#> 8                                         died 1954
-#> 9   annual film festival held in New York City, USA
-#> 10                                             <NA>
+#> # A tibble: 10 x 3
+#>    id       label                               description                     
+#>    <chr>    <chr>                               <chr>                           
+#>  1 Q180099  Margaret Mead                       American anthropologist         
+#>  2 Q810150… Margaret mead                       scientific article published on…
+#>  3 Q667014… Margaret Mead                       scientific article published on…
+#>  4 Q857246… Mead & Bateson                      business organisation           
+#>  5 Q960776… Margaret Meadows                    <NA>                            
+#>  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        
+#>  7 Q755066… Margaret Meadows                    Peerage person ID=183057        
+#>  8 Q758123… Margaret Meade-Waldo                died 1954                       
+#>  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…
+#> 10 Q558970… Margaret Mead and Samoa: Coming of… <NA>
 ```
 
 If I am running through a list of strings, and, for example, I am
@@ -431,20 +422,20 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 645 x 3
-#>    id      label             description                                        
-#>    <chr>   <chr>             <chr>                                              
-#>  1 Q25892… Betty Trompetter  <NA>                                               
-#>  2 Q25922… Adhe Tapontsang   Tibetan refugee                                    
-#>  3 Q26024… Yvonne Useldinger Luxembourgian politician (1921-2009)               
-#>  4 Q26092… Tina Strobos      Dutch physician and psychiatrist; rescuer of Holoc…
-#>  5 Q26193… Dinie Aikema      <NA>                                               
-#>  6 Q26353… Anda Kerkhoven    <NA>                                               
-#>  7 Q26395… Jet Berdenis van… <NA>                                               
-#>  8 Q26469… Alice Wosikowski  German politician                                  
-#>  9 Q26603… Nina Baumgarten   <NA>                                               
-#> 10 Q26965… Ada van Rossem    Dutch resistance fighter (1915-2000)               
-#> # … with 635 more rows
+#> # A tibble: 651 x 3
+#>    id      label            description                                         
+#>    <chr>   <chr>            <chr>                                               
+#>  1 Q304262 Hannie van Leeu… Dutch politician (1926-2018)                        
+#>  2 Q324718 Martha Dodd      American spy for the Soviet Union                   
+#>  3 Q354512 Adele Stürzl     Austrian politician, member of the Austrian resista…
+#>  4 Q441439 Henriette Rolan… Dutch politician, editor (1869-1952)                
+#>  5 Q443262 Lozen            Apache prophetess and warrior                       
+#>  6 Q448486 Hannie Schaft    Dutch communist resistance fighter and martyr       
+#>  7 Q451631 Françoise Rosay  actress (1891-1974)                                 
+#>  8 Q452272 Charlotte Delbo  French writer and resistance fighter (1913-1985)    
+#>  9 Q457505 Danielle Casano… French resistance member (1909-1943)                
+#> 10 Q459656 Suzanne Spaak    Belgian anti-Nazi resistance worker and counterinte…
+#> # … with 641 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters

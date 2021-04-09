@@ -10,7 +10,7 @@ tw_get(
   cache = NULL,
   overwrite_cache = FALSE,
   wait = 0,
-  include_id = FALSE
+  include_id = TRUE
 )
 }
 \arguments{
@@ -24,10 +24,10 @@ tw_get(
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
-\item{include_id}{Logical, defaults to FALSE. If TRUE, output includes a column with the wikidata id of the item.}
+\item{include_id}{Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.}
 }
 \value{
-A data.frame (a tibble) with two columns: property and value; a tibble with three columns (including id), if include_id is set to TRUE
+A data.frame (a tibble) a tibble with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.
 }
 \description{
 Return (most) information from a Wikidata item in a tidy format
