@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9003</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 <h2 class="hasAnchor">
 <a href="#before-you-start" class="anchor"></a>Before you start</h2>
 <p>This package assumes some familiarity with basic Wikidata concepts. For reference, see <a href="https://www.wikidata.org/wiki/Wikidata:Introduction">the introduction on the official website</a>.</p>
-<p>At the most basic, you should know that every item in Wikidata has an id (it always starts with a Q, something like <code>Q123456</code>). Each item is described by properties (they always start with a P something like <code>P1234</code>).</p>
+<p>At the most basic, you should know that every item in Wikidata has an id (it always starts with a Q, something like <code>Q123456</code>). Each item is described by properties (they always start with a P, something like <code>P1234</code>).</p>
 <p>So for example, if I am interested in the anthropologist Margaret Mead, I will search her name on Wikidata and discover that she is <a href="https://www.wikidata.org/wiki/Q180099"><code>Q180099</code></a>. She is described by many properties. For example, she is “an instance of” (<a href="https://www.wikidata.org/wiki/Property:P31">P31</a>) “<a href="https://www.wikidata.org/wiki/Q180099">Q5</a>”, which means “human”. Her “sex or gender” (<a href="https://www.wikidata.org/wiki/Property:P21">P21</a>) is “<a href="https://www.wikidata.org/wiki/Q6581072">Q180099</a>”, which means, female. By “occupation” (<a href="https://www.wikidata.org/wiki/Property:P106">P106</a>), she was “<a href="https://www.wikidata.org/wiki/Q36180">Q36180</a>”, “<a href="https://www.wikidata.org/wiki/Q4773904">Q4773904</a>”, and “<a href="https://www.wikidata.org/wiki/Q674426">Q674426</a>”, which means, a writer, an anthropologist, and a curator. And so forth.</p>
 <p>As you’ll see, many queries return just another wikidata id, and if you want to know what that means, you’ll need to ask for what that id stands for.</p>
 </div>
@@ -107,28 +107,19 @@
 <p>Let’s take this again from the beginning. As I mentioned, I am interested in Margaret Mead, the famous pioneer anthropologist author of “Coming of Age in Samoa”. This seems quite straightforward but there are actually a number of things that are returned by searching for “Margaret Mead” that are not the woman herself.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
-<span class="co">#&gt;           id                                                      label</span>
-<span class="co">#&gt; 1    Q180099                                              Margaret Mead</span>
-<span class="co">#&gt; 2  Q81015029                                              Margaret mead</span>
-<span class="co">#&gt; 3  Q66701460                                              Margaret Mead</span>
-<span class="co">#&gt; 4  Q85724626                                             Mead &amp; Bateson</span>
-<span class="co">#&gt; 5  Q96077616                                           Margaret Meadows</span>
-<span class="co">#&gt; 6  Q76238541                                           Margaret Meadowe</span>
-<span class="co">#&gt; 7  Q75506638                                           Margaret Meadows</span>
-<span class="co">#&gt; 8  Q75812372                                       Margaret Meade-Waldo</span>
-<span class="co">#&gt; 9   Q6759717                                Margaret Mead Film Festival</span>
-<span class="co">#&gt; 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction</span>
-<span class="co">#&gt;                                         description</span>
-<span class="co">#&gt; 1                           American anthropologist</span>
-<span class="co">#&gt; 2  scientific article published on 01 December 1978</span>
-<span class="co">#&gt; 3  scientific article published on 01 November 1978</span>
-<span class="co">#&gt; 4                             business organisation</span>
-<span class="co">#&gt; 5                                              &lt;NA&gt;</span>
-<span class="co">#&gt; 6                          Peerage person ID=628312</span>
-<span class="co">#&gt; 7                          Peerage person ID=183057</span>
-<span class="co">#&gt; 8                                         died 1954</span>
-<span class="co">#&gt; 9   annual film festival held in New York City, USA</span>
-<span class="co">#&gt; 10                                             &lt;NA&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt;    id       label                               description                     </span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;                               &lt;chr&gt;                           </span>
+<span class="co">#&gt;  1 Q180099  Margaret Mead                       American anthropologist         </span>
+<span class="co">#&gt;  2 Q810150… Margaret mead                       scientific article published on…</span>
+<span class="co">#&gt;  3 Q667014… Margaret Mead                       scientific article published on…</span>
+<span class="co">#&gt;  4 Q857246… Mead &amp; Bateson                      business organisation           </span>
+<span class="co">#&gt;  5 Q960776… Margaret Meadows                    &lt;NA&gt;                            </span>
+<span class="co">#&gt;  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        </span>
+<span class="co">#&gt;  7 Q755066… Margaret Meadows                    Peerage person ID=183057        </span>
+<span class="co">#&gt;  8 Q758123… Margaret Meade-Waldo                died 1954                       </span>
+<span class="co">#&gt;  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…</span>
+<span class="co">#&gt; 10 Q558970… Margaret Mead and Samoa: Coming of… &lt;NA&gt;</span></code></pre></div>
 <p>If I am running through a list of strings, and, for example, I am actually interested in the most famous person by that name, I can filter result by property, using the standard form. If, for example, I want only the first result that is associated with “an instance of” (P31) - “human” (Q5), I can run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -458,20 +449,20 @@
 <p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 645 x 3</span>
-<span class="co">#&gt;    id      label             description                                        </span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                                              </span>
-<span class="co">#&gt;  1 Q25892… Betty Trompetter  &lt;NA&gt;                                               </span>
-<span class="co">#&gt;  2 Q25922… Adhe Tapontsang   Tibetan refugee                                    </span>
-<span class="co">#&gt;  3 Q26024… Yvonne Useldinger Luxembourgian politician (1921-2009)               </span>
-<span class="co">#&gt;  4 Q26092… Tina Strobos      Dutch physician and psychiatrist; rescuer of Holoc…</span>
-<span class="co">#&gt;  5 Q26193… Dinie Aikema      &lt;NA&gt;                                               </span>
-<span class="co">#&gt;  6 Q26353… Anda Kerkhoven    &lt;NA&gt;                                               </span>
-<span class="co">#&gt;  7 Q26395… Jet Berdenis van… &lt;NA&gt;                                               </span>
-<span class="co">#&gt;  8 Q26469… Alice Wosikowski  German politician                                  </span>
-<span class="co">#&gt;  9 Q26603… Nina Baumgarten   &lt;NA&gt;                                               </span>
-<span class="co">#&gt; 10 Q26965… Ada van Rossem    Dutch resistance fighter (1915-2000)               </span>
-<span class="co">#&gt; # … with 635 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 651 x 3</span>
+<span class="co">#&gt;    id      label            description                                         </span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;                                               </span>
+<span class="co">#&gt;  1 Q304262 Hannie van Leeu… Dutch politician (1926-2018)                        </span>
+<span class="co">#&gt;  2 Q324718 Martha Dodd      American spy for the Soviet Union                   </span>
+<span class="co">#&gt;  3 Q354512 Adele Stürzl     Austrian politician, member of the Austrian resista…</span>
+<span class="co">#&gt;  4 Q441439 Henriette Rolan… Dutch politician, editor (1869-1952)                </span>
+<span class="co">#&gt;  5 Q443262 Lozen            Apache prophetess and warrior                       </span>
+<span class="co">#&gt;  6 Q448486 Hannie Schaft    Dutch communist resistance fighter and martyr       </span>
+<span class="co">#&gt;  7 Q451631 Françoise Rosay  actress (1891-1974)                                 </span>
+<span class="co">#&gt;  8 Q452272 Charlotte Delbo  French writer and resistance fighter (1913-1985)    </span>
+<span class="co">#&gt;  9 Q457505 Danielle Casano… French resistance member (1909-1943)                </span>
+<span class="co">#&gt; 10 Q459656 Suzanne Spaak    Belgian anti-Nazi resistance worker and counterinte…</span>
+<span class="co">#&gt; # … with 641 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
