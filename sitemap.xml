@@ -49,6 +49,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qualifiers.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
   </url>
   <url>
@@ -89,5 +92,8 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_item_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qualifiers_to_cache.html</loc>
   </url>
 </urlset>
