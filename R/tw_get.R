@@ -506,7 +506,7 @@ tw_get_property_description <- function(property,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector, corresponding to the value for the given property.
+#' @return A tibble, corresponding to the value for the given property.
 #' @export
 #'
 #' @examples
@@ -542,7 +542,7 @@ tw_get_property <- function(id,
     id <- id$id
   }
   if (length(id) > 1 | length(p) > 1) {
-    purrr::map2_chr(
+    purrr::map2_dfr(
       .x = id,
       .y = p,
       .f = function(x, y) {
@@ -564,10 +564,9 @@ tw_get_property <- function(id,
       language = language,
       wait = wait
     ) %>%
-      dplyr::filter(property == p) %>%
-      dplyr::pull(.data$value)
-    if (length(property) == 0) {
-      as.character(NA)
+      dplyr::filter(property == p)
+    if (nrow(property) == 0) {
+      NULL
     } else {
       property
     }

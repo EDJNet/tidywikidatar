@@ -141,7 +141,10 @@ Where was she born? I can ask directly for P19, place of birth:
 
 ``` r
 tw_get_property(id = "Q180099", p = "P19")
-#> [1] "Q1345"
+#> # A tibble: 1 x 3
+#>   id      property value
+#>   <chr>   <chr>    <chr>
+#> 1 Q180099 P19      Q1345
 ```
 
 which, as expected, will give me another wikidata id. But what does,
@@ -158,7 +161,10 @@ for the correspondent property, P17.
 
 ``` r
 tw_get_property(id = "Q1345", p = "P17")
-#> [1] "Q30"
+#> # A tibble: 1 x 3
+#>   id    property value
+#>   <chr> <chr>    <chr>
+#> 1 Q1345 P17      Q30
 ```
 
 Oh, no, another Wikidata id\! That’s the way it works… let’s ask for its
@@ -177,9 +183,10 @@ You can also pipe all of the above, like this:
 tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_filter_first(p = "P31", q = "Q5") %>% # keep only the first result that is of a human
   tw_get_property(p = "P19") %>% # ask for the place of birth
+  dplyr::pull(value) %>% # take its result and
   tw_get_property(p = "P17") %>% # ask for the country where that place of birth is located
   tw_get_label() # ask what that id stands for
-#> [1] "United States of America"
+#> [1] "Philadelphia"
 ```
 
 And here we are, we know in which country Margaret Mead was born.
@@ -196,13 +203,15 @@ get_bio <- function(id, language = "en") {
     label = tw_get_label(id = id, language = language),
     description = tw_get_description(id = id, language = language),
     year_of_birth = tw_get_property(id = id, p = "P569") %>%
+      dplyr::pull(value) %>%
+      head(1) %>%
       lubridate::ymd_hms() %>%
-      lubridate::year() %>%
-      head(1),
+      lubridate::year(),
     year_of_death = tw_get_property(id = id, p = "P570") %>%
+      dplyr::pull(value) %>%
+      head(1) %>%
       lubridate::ymd_hms() %>%
-      lubridate::year() %>%
-      head(1)
+      lubridate::year()
   )
 }
 
@@ -228,6 +237,49 @@ tw_search(search = "Margaret Mead") %>%
 #> 1 Margaret Mead antropologa statunitense          1901          1978
 ```
 
+## Vectorised operations
+
+More examples regarding vectorised operations, and streamlined queries
+over long lists of ids will be available in a dedicated vignette in a
+future version.
+
+In the meantime, let us just say that if we wanted to have a list of all
+the “awards received”
+([P166](https://www.wikidata.org/wiki/Property:P166) by Margaret Mead,
+and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
+Hurston, we can achieve that in a single call:
+
+``` r
+
+tw_get_property(
+  id = c("Q180099", "Q228822", "Q220480"),
+  p = "P166",
+  language = "en"
+) %>%
+  dplyr::mutate(
+    id = tw_get_label(id),
+    property = tw_get_property_label(property),
+    value = tw_get_label(value)
+  )
+#> # A tibble: 14 x 3
+#>    id                property       value                                       
+#>    <chr>             <chr>          <chr>                                       
+#>  1 Margaret Mead     award received Presidential Medal of Freedom               
+#>  2 Margaret Mead     award received Kalinga Prize                               
+#>  3 Margaret Mead     award received William Procter Prize for Scientific Achiev…
+#>  4 Margaret Mead     award received National Women's Hall of Fame               
+#>  5 Margaret Mead     award received AAAS Fellow                                 
+#>  6 Ruth Benedict     award received National Women's Hall of Fame               
+#>  7 Ruth Benedict     award received AAAS Fellow                                 
+#>  8 Ruth Benedict     award received Doctor of Philosophy                        
+#>  9 Zora Neale Hurst… award received Guggenheim Fellowship                       
+#> 10 Zora Neale Hurst… award received National Women's Hall of Fame               
+#> 11 Zora Neale Hurst… award received Florida Women's Hall of Fame                
+#> 12 Zora Neale Hurst… award received Florida Artists Hall of Fame                
+#> 13 Zora Neale Hurst… award received Anisfield-Wolf Book Awards                  
+#> 14 Zora Neale Hurst… award received Guggenheim Fellowship
+```
+
 ## Qualifiers
 
 In most cases, things are quite straightforward: each item has one or
@@ -248,7 +300,7 @@ following:
 ``` r
 
 purrr::map_chr(
-  .x = tw_get_property(id = "Q2391857", p = "P39"),
+  .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
 )
 #> [1] "member of the European Parliament"   
@@ -264,19 +316,19 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 21 x 4
-#>    id      property value                   set
-#>    <chr>   <chr>    <chr>                 <int>
-#>  1 Q27169  P2937    Q17315694                 1
-#>  2 Q27169  P580     +2014-07-01T00:00:00Z     1
-#>  3 Q27169  P4100    Q507343                   1
-#>  4 Q27169  P768     Q3677909                  1
-#>  5 Q27169  P1268    Q47729                    1
-#>  6 Q27169  P2715    Q1376095                  1
-#>  7 Q740126 P580     +2019-07-03T00:00:00Z     2
-#>  8 Q740126 P1365    Q440710                   2
-#>  9 Q27169  P2937    Q4644021                  3
-#> 10 Q27169  P580     +2009-07-14T00:00:00Z     3
+#> # A tibble: 21 x 6
+#>    id       property qualifier_id qualifier_property value                   set
+#>    <chr>    <chr>    <chr>        <chr>              <chr>                 <int>
+#>  1 Q2391857 P39      Q27169       P2937              Q17315694                 1
+#>  2 Q2391857 P39      Q27169       P580               +2014-07-01T00:00:00Z     1
+#>  3 Q2391857 P39      Q27169       P4100              Q507343                   1
+#>  4 Q2391857 P39      Q27169       P768               Q3677909                  1
+#>  5 Q2391857 P39      Q27169       P1268              Q47729                    1
+#>  6 Q2391857 P39      Q27169       P2715              Q1376095                  1
+#>  7 Q2391857 P39      Q740126      P580               +2019-07-03T00:00:00Z     2
+#>  8 Q2391857 P39      Q740126      P1365              Q440710                   2
+#>  9 Q2391857 P39      Q27169       P2937              Q4644021                  3
+#> 10 Q2391857 P39      Q27169       P580               +2009-07-14T00:00:00Z     3
 #> # … with 11 more rows
 ```
 
@@ -286,80 +338,62 @@ separate each set of information we have about the “positions held” by
 Mr. Sassoli:
 
 ``` r
-
-
-
-qualifiers_labelled_df <- tibble::tibble(
-  id = purrr::map_chr(
-    .x = qualifiers_df$id,
-    .f = function(x) {
-      tw_get_label(
-        id = x,
-        language = "en"
-      )
-    }
-  ),
-  property = purrr::map_chr(
-    .x = qualifiers_df$property,
-    .f = function(x) {
-      tw_get_property_label(
-        property = x,
-        language = "en"
-      )
-    }
-  ),
-  value = purrr::map_chr(
-    .x = qualifiers_df$value,
-    .f = function(x) {
-      if (stringr::str_starts(
-        string = x,
-        pattern = "Q"
-      )) {
-        tw_get_label(
-          id = x,
-          language = "en"
-        )
-      } else {
-        stringr::str_extract(
+qualifiers_labelled_df <- qualifiers_df %>%
+  dplyr::transmute(
+    who = tw_get_label(id = id, language = "en"),
+    did = tw_get_property_label(property = property, language = "en"),
+    what = tw_get_label(id = qualifier_id, language = "en"),
+    how = tw_get_property_label(property = qualifier_property, language = "en"),
+    value = purrr::map_chr(
+      .x = value,
+      .f = function(x) {
+        if (stringr::str_starts(
           string = x,
-          pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
-        )
+          pattern = "Q"
+        )) {
+          tw_get_label(
+            id = x,
+            language = "en"
+          )
+        } else {
+          stringr::str_extract(
+            string = x,
+            pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
+          )
+        }
       }
-    }
-  ),
-  set = qualifiers_df$set
-)
-
-
+    ),
+    set = set
+  )
 
 qualifiers_labelled_df %>%
   dplyr::group_by(set) %>%
   knitr::kable()
 ```
 
-| id                                   | property            | value                                            | set |
-| :----------------------------------- | :------------------ | :----------------------------------------------- | --: |
-| member of the European Parliament    | parliamentary term  | Eighth European Parliament                       |   1 |
-| member of the European Parliament    | start time          | 2014-07-01                                       |   1 |
-| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   1 |
-| member of the European Parliament    | electoral district  | Central Italy                                    |   1 |
-| member of the European Parliament    | represents          | Democratic Party                                 |   1 |
-| member of the European Parliament    | elected in          | 2014 European Parliament election                |   1 |
-| President of the European Parliament | start time          | 2019-07-03                                       |   2 |
-| President of the European Parliament | replaces            | Antonio Tajani                                   |   2 |
-| member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   3 |
-| member of the European Parliament    | start time          | 2009-07-14                                       |   3 |
-| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
-| member of the European Parliament    | electoral district  | Central Italy                                    |   3 |
-| member of the European Parliament    | represents          | Democratic Party                                 |   3 |
-| member of the European Parliament    | elected in          | 2009 European Parliament election                |   3 |
-| member of the European Parliament    | end time            | 2014-06-30                                       |   3 |
-| member of the European Parliament    | parliamentary term  | Ninth European Parliament                        |   4 |
-| member of the European Parliament    | start time          | 2019-07-02                                       |   4 |
-| member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   4 |
-| member of the European Parliament    | electoral district  | Italy                                            |   4 |
-| member of the European Parliament    | represents          | Democratic Party                                 |   4 |
-| member of the European Parliament    | elected in          | 2019 European Parliament election                |   4 |
+| who           | did           | what                                 | how                 | value                                            | set |
+| :------------ | :------------ | :----------------------------------- | :------------------ | :----------------------------------------------- | --: |
+| David Sassoli | position held | member of the European Parliament    | parliamentary term  | Eighth European Parliament                       |   1 |
+| David Sassoli | position held | member of the European Parliament    | start time          | 2014-07-01                                       |   1 |
+| David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   1 |
+| David Sassoli | position held | member of the European Parliament    | electoral district  | Central Italy                                    |   1 |
+| David Sassoli | position held | member of the European Parliament    | represents          | Democratic Party                                 |   1 |
+| David Sassoli | position held | member of the European Parliament    | elected in          | 2014 European Parliament election                |   1 |
+| David Sassoli | position held | President of the European Parliament | start time          | 2019-07-03                                       |   2 |
+| David Sassoli | position held | President of the European Parliament | replaces            | Antonio Tajani                                   |   2 |
+| David Sassoli | position held | member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   3 |
+| David Sassoli | position held | member of the European Parliament    | start time          | 2009-07-14                                       |   3 |
+| David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
+| David Sassoli | position held | member of the European Parliament    | electoral district  | Central Italy                                    |   3 |
+| David Sassoli | position held | member of the European Parliament    | represents          | Democratic Party                                 |   3 |
+| David Sassoli | position held | member of the European Parliament    | elected in          | 2009 European Parliament election                |   3 |
+| David Sassoli | position held | member of the European Parliament    | end time            | 2014-06-30                                       |   3 |
+| David Sassoli | position held | member of the European Parliament    | parliamentary term  | Ninth European Parliament                        |   4 |
+| David Sassoli | position held | member of the European Parliament    | start time          | 2019-07-02                                       |   4 |
+| David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   4 |
+| David Sassoli | position held | member of the European Parliament    | electoral district  | Italy                                            |   4 |
+| David Sassoli | position held | member of the European Parliament    | represents          | Democratic Party                                 |   4 |
+| David Sassoli | position held | member of the European Parliament    | elected in          | 2019 European Parliament election                |   4 |
 
 That’s quite a lot of useful detail. The construction of the request can
 be quite complicated, but keep in mind that if you do this

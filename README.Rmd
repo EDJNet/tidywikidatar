@@ -111,6 +111,7 @@ You can also pipe all of the above, like this:
 tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_filter_first(p = "P31", q = "Q5") %>% # keep only the first result that is of a human
   tw_get_property(p = "P19") %>% # ask for the place of birth
+  dplyr::pull(value) %>% # take its result and
   tw_get_property(p = "P17") %>% # ask for the country where that place of birth is located
   tw_get_label() # ask what that id stands for
 ```
@@ -127,13 +128,15 @@ get_bio <- function(id, language = "en") {
     label = tw_get_label(id = id, language = language),
     description = tw_get_description(id = id, language = language),
     year_of_birth = tw_get_property(id = id, p = "P569") %>%
+      dplyr::pull(value) %>%
+      head(1) %>%
       lubridate::ymd_hms() %>%
-      lubridate::year() %>%
-      head(1),
+      lubridate::year(),
     year_of_death = tw_get_property(id = id, p = "P570") %>%
+      dplyr::pull(value) %>%
+      head(1) %>%
       lubridate::ymd_hms() %>%
-      lubridate::year() %>%
-      head(1)
+      lubridate::year()
   )
 }
 
@@ -150,6 +153,28 @@ tw_search(search = "Margaret Mead") %>%
   get_bio(language = "it")
 ```
 
+## Vectorised operations
+
+More examples regarding vectorised operations, and streamlined queries over long lists of ids will be available in a dedicated vignette in a future version.
+
+In the meantime, let us just say that if we wanted to have a list of all the "awards received" ([P166](https://www.wikidata.org/wiki/Property:P166)) by Margaret Mead, and fellow anthropologists and folklorists Ruth Benedict and Zora Neale Hurston, we can achieve that in a single call:
+
+
+```{r}
+
+tw_get_property(
+  id = c("Q180099", "Q228822", "Q220480"),
+  p = "P166",
+  language = "en"
+) %>%
+  dplyr::mutate(
+    id = tw_get_label(id),
+    property = tw_get_property_label(property),
+    value = tw_get_label(value)
+  )
+```
+
+
 ## Qualifiers
 
 In most cases, things are quite straightforward: each item has one or more values for a given property. 
@@ -164,7 +189,7 @@ If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property
 ```{r}
 
 purrr::map_chr(
-  .x = tw_get_property(id = "Q2391857", p = "P39"),
+  .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
 )
 ```
@@ -180,51 +205,33 @@ qualifiers_df
 As usual, Wikidata presents everything as combinations of properties and values. Let's translate each of these to their respective label, and separate each set of information we have about the "positions held" by Mr. Sassoli:
 
 ```{r}
-
-
-
-qualifiers_labelled_df <- tibble::tibble(
-  id = purrr::map_chr(
-    .x = qualifiers_df$id,
-    .f = function(x) {
-      tw_get_label(
-        id = x,
-        language = "en"
-      )
-    }
-  ),
-  property = purrr::map_chr(
-    .x = qualifiers_df$property,
-    .f = function(x) {
-      tw_get_property_label(
-        property = x,
-        language = "en"
-      )
-    }
-  ),
-  value = purrr::map_chr(
-    .x = qualifiers_df$value,
-    .f = function(x) {
-      if (stringr::str_starts(
-        string = x,
-        pattern = "Q"
-      )) {
-        tw_get_label(
-          id = x,
-          language = "en"
-        )
-      } else {
-        stringr::str_extract(
+qualifiers_labelled_df <- qualifiers_df %>%
+  dplyr::transmute(
+    who = tw_get_label(id = id, language = "en"),
+    did = tw_get_property_label(property = property, language = "en"),
+    what = tw_get_label(id = qualifier_id, language = "en"),
+    how = tw_get_property_label(property = qualifier_property, language = "en"),
+    value = purrr::map_chr(
+      .x = value,
+      .f = function(x) {
+        if (stringr::str_starts(
           string = x,
-          pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
-        )
+          pattern = "Q"
+        )) {
+          tw_get_label(
+            id = x,
+            language = "en"
+          )
+        } else {
+          stringr::str_extract(
+            string = x,
+            pattern = "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
+          )
+        }
       }
-    }
-  ),
-  set = qualifiers_df$set
-)
-
-
+    ),
+    set = set
+  )
 
 qualifiers_labelled_df %>%
   dplyr::group_by(set) %>%

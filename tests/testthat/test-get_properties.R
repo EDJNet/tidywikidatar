@@ -6,7 +6,7 @@ test_that("check if property are returned correctly when more than 1 id and one 
         "Q228822"
       ),
       p = "P31"
-    )
+    ) %>% dplyr::pull(value)
   }, expected = c(
     c("Q5", "Q5")
   ))
@@ -17,7 +17,8 @@ test_that("check if property are returned correctly when 1 id and more than one 
     tw_get_property(
       id = "Q180099",
       p = c("P21", "P31")
-    )
+    ) %>%
+      dplyr::pull(value)
   }, expected = c(
     c("Q6581072", "Q5")
   ))
