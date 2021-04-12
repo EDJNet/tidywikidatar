@@ -2,12 +2,12 @@
 % Please edit documentation in R/tw_get_cached_item.R
 \name{tw_get_cache_file}
 \alias{tw_get_cache_file}
-\title{Gets location of item cache file}
+\title{Gets location of cache file}
 \usage{
 tw_get_cache_file(type = "item", language = "all_available")
 }
 \arguments{
-\item{type}{Defaults to "item". Type of cache file to output. Valid values used by \code{tidywikidatar} include "item", "search".}
+\item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search", and "qualifier".}
 
 \item{language}{Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }
@@ -15,7 +15,7 @@ tw_get_cache_file(type = "item", language = "all_available")
 A character vector of length one with location of item cache file.
 }
 \description{
-Gets location of item cache file
+Gets location of cache file
 }
 \examples{
 

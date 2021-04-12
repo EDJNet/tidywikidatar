@@ -14,7 +14,7 @@ tw_write_item_to_cache(
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
-\item{item_df}{A data frame with two columns typically generated with \code{tw_get()}.}
+\item{item_df}{A data frame with two columns typically generated with \code{tw_get(include_id = FALSE)}.}
 
 \item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 

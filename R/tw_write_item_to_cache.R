@@ -3,7 +3,7 @@
 #' Writes item to cache. Typically used internally, but exported to enable custom caching solutions.
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
-#' @param item_df A data frame with two columns typically generated with `tw_get()`.
+#' @param item_df A data frame with two columns typically generated with `tw_get(include_id = FALSE)`.
 #' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'

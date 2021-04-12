@@ -9,7 +9,8 @@ tw_get_qualifiers(
   p,
   language = "all_available",
   cache = NULL,
-  overwrite_cache = FALSE
+  overwrite_cache = FALSE,
+  include_id_and_p = TRUE
 )
 }
 \arguments{
@@ -22,18 +23,16 @@ tw_get_qualifiers(
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+
+\item{include_id_and_p}{Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.}
 }
 \value{
-A data frame (a tibble) with three columns: \code{property}, \code{value}, and \code{set} (to distinguish sets of data when a property is present more than once)
+A data frame (a tibble) with five columns: \code{id} for the input id, \code{qualifier_id}, \code{property}, \code{value}, and \code{set} (to distinguish sets of data when a property is present more than once)
 }
 \description{
 Get Wikidata qualifiers for a given property of a given item
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_get_qualifiers(id = "Q2391857", p = "P39")
-}
-}
+tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
 
 }

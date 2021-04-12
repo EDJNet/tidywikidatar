@@ -12,3 +12,4 @@ test_that("check if labels are returned correctly when more than one id given", 
     "Ruth Benedict"
   ))
 })
+

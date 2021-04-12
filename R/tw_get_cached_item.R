@@ -49,9 +49,9 @@ tw_get_cached_item <- function(id,
 
 
 
-#' Gets location of item cache file
+#' Gets location of cache file
 #'
-#' @param type Defaults to "item". Type of cache file to output. Valid values used by `tidywikidatar` include "item", "search".
+#' @param type Defaults to "item". Type of cache file to output. Values typically used by `tidywikidatar` include "item", "search", and "qualifier".
 #' @param language Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
 #' @return A character vector of length one with location of item cache file.
