@@ -220,7 +220,7 @@ tw_get_cached_qualifiers <- function(id,
 #' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #'
-#' @return Silently returns qualifiers_df, same as input. Mostly used internally for its side effects.
+#' @return Silently returns the same data frame provided as input. Mostly used internally for its side effects.
 #'
 #' @export
 #'

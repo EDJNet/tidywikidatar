@@ -24,7 +24,7 @@ tw_write_qualifiers_to_cache(
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 }
 \value{
-Silently returns qualifiers_df, same as input. Mostly used internally for its side effects.
+Silently returns the same data frame provided as input. Mostly used internally for its side effects.
 }
 \description{
 Mostly to be used internally by \code{tidywikidatar}, use with caution to keep caching consistent.

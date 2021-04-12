@@ -275,18 +275,41 @@ tw_get_label <- function(id,
     id <- id$id
   }
   if (length(id) > 1) {
-    purrr::map_chr(
-      .x = id,
-      .f = function(x) {
-        tw_get_label(
-          id = x,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          wait = wait
-        )
-      }
-    )
+    if (length(unique(id))<length(id)) {
+      pre_processed <- tibble::tibble(id = id)
+
+      unique_processed <- purrr::map_dfr(
+        .x = unique(id),
+        .f = function(x) {
+          tibble::tibble(id = x,
+                         label = tw_get_label(
+                           id = x,
+                           language = language,
+                           cache = cache,
+                           overwrite_cache = overwrite_cache,
+                           wait = wait
+                         ) %>%
+                           as.character())
+        }
+      )
+      pre_processed %>%
+        dplyr::left_join(y = unique_processed,
+                         by = "id") %>%
+        dplyr::pull(.data$label)
+    } else {
+      purrr::map_chr(
+        .x = id,
+        .f = function(x) {
+          tw_get_label(
+            id = x,
+            language = language,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            wait = wait
+          )
+        }
+      )
+    }
   } else {
     label <- tidywikidatar::tw_get(
       id = id,
