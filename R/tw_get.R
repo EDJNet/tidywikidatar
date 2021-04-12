@@ -51,8 +51,8 @@ tw_get <- function(id,
             tibble::as_tibble() %>%
             dplyr::transmute(
               id = id,
-              property,
-              value
+              .data$property,
+              .data$value
             ))
         } else {
           return(db_result %>%
@@ -236,8 +236,8 @@ tw_get <- function(id,
       everything_df %>%
         dplyr::transmute(
           id = id,
-          property,
-          value
+          .data$property,
+          .data$value
         )
     } else {
       everything_df

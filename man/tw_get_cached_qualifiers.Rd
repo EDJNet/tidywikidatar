@@ -28,7 +28,7 @@ tw_create_cache_folder(ask = FALSE)
 
 df_from_api <- tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
 
-df_from_cache <- tw_get_cached_qualifier(
+df_from_cache <- tw_get_cached_qualifiers(
   id = "Q180099",
   p = "P26",
   language = "en"

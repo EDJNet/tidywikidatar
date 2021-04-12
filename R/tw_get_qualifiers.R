@@ -52,7 +52,7 @@ tw_get_qualifiers <- function(id,
               id = id,
               property = p
             ) %>%
-            dplyr::select(id, property, dplyr::everything()))
+            dplyr::select(.data$id, .data$property, dplyr::everything()))
         } else {
           return(db_result %>%
             tibble::as_tibble())
@@ -134,7 +134,11 @@ tw_get_qualifiers <- function(id,
           id = id,
           property = p
         ) %>%
-        dplyr::select(id, property, dplyr::everything())
+        dplyr::select(
+          .data$id,
+          .data$property,
+          dplyr::everything()
+        )
     } else {
       qualifiers_df %>%
         tibble::as_tibble()
@@ -162,7 +166,7 @@ tw_get_qualifiers <- function(id,
 #'
 #' df_from_api <- tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
 #'
-#' df_from_cache <- tw_get_cached_qualifier(
+#' df_from_cache <- tw_get_cached_qualifiers(
 #'   id = "Q180099",
 #'   p = "P26",
 #'   language = "en"

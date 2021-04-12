@@ -27,7 +27,7 @@ tw_get_property(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A charachter vector, corresponding to the value for the given property.
+A tibble, corresponding to the value for the given property.
 }
 \description{
 Get Wikidata property of an item
