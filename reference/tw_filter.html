@@ -155,16 +155,12 @@
     <p>A data frame with three columns, <code>id</code>, <code>label</code>, and <code>description</code>, filtered by the above criteria.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='tw_search.html'>tw_search</a></span><span class='op'>(</span><span class='st'>"Margaret Mead"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='tw_search.html'>tw_search</a></span><span class='op'>(</span><span class='st'>"Margaret Mead"</span>, limit <span class='op'>=</span> <span class='fl'>3</span>, cache <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>tw_filter</span><span class='op'>(</span>p <span class='op'>=</span> <span class='st'>"P31"</span>, q <span class='op'>=</span> <span class='st'>"Q5"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt;   id        label                description             
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Q180099   Margaret Mead        American anthropologist 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Q96077616 Margaret Meadows     </span><span style='color: #BB0000;'>NA</span><span>                      
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Q76238541 Margaret Meadowe     Peerage person ID=628312
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Q75506638 Margaret Meadows     Peerage person ID=183057
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Q75812372 Margaret Meade-Waldo died 1954               </div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
+#&gt;   id      label         description            
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Q180099 Margaret Mead American anthropologist</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
