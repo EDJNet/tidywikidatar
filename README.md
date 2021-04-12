@@ -237,15 +237,15 @@ tw_search(search = "Margaret Mead") %>%
 #> 1 Margaret Mead antropologa statunitense          1901          1978
 ```
 
-## Vectorised operations
+## Serial operations
 
-More examples regarding vectorised operations, and streamlined queries
-over long lists of ids will be available in a dedicated vignette in a
-future version.
+More examples regarding serial operations, and streamlined queries over
+long lists of ids will be available in a dedicated vignette in a future
+version.
 
 In the meantime, let us just say that if we wanted to have a list of all
 the “awards received”
-([P166](https://www.wikidata.org/wiki/Property:P166) by Margaret Mead,
+([P166](https://www.wikidata.org/wiki/Property:P166)) by Margaret Mead,
 and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
 Hurston, we can achieve that in a single call:
 
