@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' tw_search("Margaret Mead") %>%
+#' tw_search("Margaret Mead", limit = 3, cache = FALSE) %>%
 #'   tw_filter(p = "P31", q = "Q5")
 tw_filter <- function(search,
                       p,
