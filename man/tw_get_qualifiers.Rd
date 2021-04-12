@@ -10,6 +10,7 @@ tw_get_qualifiers(
   language = "all_available",
   cache = NULL,
   overwrite_cache = FALSE,
+  wait = 0,
   include_id_and_p = TRUE
 )
 }
@@ -34,5 +35,4 @@ Get Wikidata qualifiers for a given property of a given item
 }
 \examples{
 tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
-
 }

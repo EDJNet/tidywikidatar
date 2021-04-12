@@ -108,7 +108,7 @@ tw_get_qualifiers <- function(id,
             }
             tibble::tibble(
               qualifier_id = qualifier_parent,
-              property = p,
+              qualifier_property = p,
               value = value,
               set = i
             )

@@ -31,14 +31,17 @@ Mostly to be used internally by \code{tidywikidatar}, use with caution to keep c
 }
 \examples{
 
-q_df <- tw_get_qualifiers(id = "Q180099",
-                  p = "P26",
-                  language = "en",
-                  cache = FALSE,
-                  include_id = FALSE)
-tw_write_qualifiers_to_cache(id = "Q180099",
-                             p = "P26",
-                             qualifiers_df = q_df,
-                             language = "en")
-
+q_df <- tw_get_qualifiers(
+  id = "Q180099",
+  p = "P26",
+  language = "en",
+  cache = FALSE,
+  include_id = FALSE
+)
+tw_write_qualifiers_to_cache(
+  id = "Q180099",
+  p = "P26",
+  qualifiers_df = q_df,
+  language = "en"
+)
 }
