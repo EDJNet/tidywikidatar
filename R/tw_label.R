@@ -50,6 +50,17 @@ tw_label <- function(df,
     )
   }
 
+  if (is.element("qualifier_property", colnames(df))) {
+    df[["qualifier_property"]] <- tw_get_property_label(
+      property = df[["qualifier_property"]],
+      language = language,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      wait = wait
+    )
+  }
+
+
   if (isTRUE(value)) {
     if (is.element("value", colnames(df))) {
       df[["value"]] <- purrr::map_chr(
