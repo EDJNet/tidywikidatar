@@ -76,6 +76,13 @@ test_that("check if descriptions are returned more efficiently when same id give
 
 test_that("check if property labels are returned more efficiently when same id given", {
   expect_lt(object = {
+    tw_get_property_label(
+      property = c(
+        "P31"
+      ),
+      language = "en"
+    )
+
     before <- Sys.time()
     tw_get_property_label(
       property = c(
