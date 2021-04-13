@@ -275,26 +275,30 @@ tw_get_label <- function(id,
     id <- id$id
   }
   if (length(id) > 1) {
-    if (length(unique(id))<length(id)) {
+    if (length(unique(id)) < length(id)) {
       pre_processed <- tibble::tibble(id = id)
 
       unique_processed <- purrr::map_dfr(
         .x = unique(id),
         .f = function(x) {
-          tibble::tibble(id = x,
-                         label = tw_get_label(
-                           id = x,
-                           language = language,
-                           cache = cache,
-                           overwrite_cache = overwrite_cache,
-                           wait = wait
-                         ) %>%
-                           as.character())
+          tibble::tibble(
+            id = x,
+            label = tw_get_label(
+              id = x,
+              language = language,
+              cache = cache,
+              overwrite_cache = overwrite_cache,
+              wait = wait
+            ) %>%
+              as.character()
+          )
         }
       )
       pre_processed %>%
-        dplyr::left_join(y = unique_processed,
-                         by = "id") %>%
+        dplyr::left_join(
+          y = unique_processed,
+          by = "id"
+        ) %>%
         dplyr::pull(.data$label)
     } else {
       purrr::map_chr(
@@ -371,18 +375,45 @@ tw_get_description <- function(id,
     id <- id$id
   }
   if (length(id) > 1) {
-    purrr::map_chr(
-      .x = id,
-      .f = function(x) {
-        tw_get_description(
-          id = x,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          wait = wait
-        )
-      }
-    )
+    if (length(unique(id)) < length(id)) {
+      pre_processed <- tibble::tibble(id = id)
+
+      unique_processed <- purrr::map_dfr(
+        .x = unique(id),
+        .f = function(x) {
+          tibble::tibble(
+            id = x,
+            description = tw_get_description(
+              id = x,
+              language = language,
+              cache = cache,
+              overwrite_cache = overwrite_cache,
+              wait = wait
+            ) %>%
+              as.character()
+          )
+        }
+      )
+      pre_processed %>%
+        dplyr::left_join(
+          y = unique_processed,
+          by = "id"
+        ) %>%
+        dplyr::pull(.data$description)
+    } else {
+      purrr::map_chr(
+        .x = id,
+        .f = function(x) {
+          tw_get_description(
+            id = x,
+            language = language,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            wait = wait
+          )
+        }
+      )
+    }
   } else {
     description <- tidywikidatar::tw_get(
       id = id,
@@ -435,18 +466,45 @@ tw_get_property_label <- function(property,
   }
 
   if (length(property) > 1) {
-    purrr::map_chr(
-      .x = property,
-      .f = function(x) {
-        tw_get_property_label(
-          property = x,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          wait = wait
-        )
-      }
-    )
+    if (length(unique(property)) < length(property)) {
+      pre_processed <- tibble::tibble(property = property)
+
+      unique_processed <- purrr::map_dfr(
+        .x = unique(property),
+        .f = function(x) {
+          tibble::tibble(
+            property = x,
+            label = tw_get_property_label(
+              property = x,
+              language = language,
+              cache = cache,
+              overwrite_cache = overwrite_cache,
+              wait = wait
+            ) %>%
+              as.character()
+          )
+        }
+      )
+      pre_processed %>%
+        dplyr::left_join(
+          y = unique_processed,
+          by = "property"
+        ) %>%
+        dplyr::pull(.data$label)
+    } else {
+      purrr::map_chr(
+        .x = property,
+        .f = function(x) {
+          tw_get_property_label(
+            property = x,
+            language = language,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            wait = wait
+          )
+        }
+      )
+    }
   } else {
     label <- tw_search_property(
       search = property,
