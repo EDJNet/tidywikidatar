@@ -73,6 +73,10 @@ tw_get_qualifiers <- function(id,
     qualifiers <- claims[[p]] %>%
       tibble::as_tibble()
 
+    if (is.element("qualifiers", colnames(qualifiers))==FALSE) {
+      return(NULL)
+    }
+
     qualifiers_df <- purrr::map_dfr(
       .x = 1:nrow(qualifiers),
       function(i) {
