@@ -255,12 +255,38 @@ tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) %>%
-  dplyr::mutate(
-    id = tw_get_label(id),
-    property = tw_get_property_label(property),
-    value = tw_get_label(value)
-  )
+) 
+#> # A tibble: 14 x 3
+#>    id      property value    
+#>    <chr>   <chr>    <chr>    
+#>  1 Q180099 P166     Q17144   
+#>  2 Q180099 P166     Q782022  
+#>  3 Q180099 P166     Q8017107 
+#>  4 Q180099 P166     Q1967852 
+#>  5 Q180099 P166     Q52382875
+#>  6 Q228822 P166     Q1967852 
+#>  7 Q228822 P166     Q52382875
+#>  8 Q228822 P166     Q752297  
+#>  9 Q220480 P166     Q1316544 
+#> 10 Q220480 P166     Q1967852 
+#> 11 Q220480 P166     Q5461701 
+#> 12 Q220480 P166     Q5461189 
+#> 13 Q220480 P166     Q4765305 
+#> 14 Q220480 P166     Q1316544
+```
+
+Again, Wikidata ids. We can of course get their relative labels using
+the functions outlined above, but `tidywikidatar` has a convenience
+function - `tw_label()` that will achieve what you want in most such
+cases.
+
+``` r
+tw_get_property(
+  id = c("Q180099", "Q228822", "Q220480"),
+  p = "P166",
+  language = "en"
+) %>% 
+  tw_label()
 #> # A tibble: 14 x 3
 #>    id                property       value                                       
 #>    <chr>             <chr>          <chr>                                       

@@ -166,12 +166,17 @@ tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) %>%
-  dplyr::mutate(
-    id = tw_get_label(id),
-    property = tw_get_property_label(property),
-    value = tw_get_label(value)
-  )
+) 
+```
+Again, Wikidata ids. We can of course get their relative labels using the functions outlined above, but `tidywikidatar` has a convenience function - `tw_label()` that will achieve what you want in most such cases. 
+
+```{r}
+tw_get_property(
+  id = c("Q180099", "Q228822", "Q220480"),
+  p = "P166",
+  language = "en"
+) %>% 
+  tw_label()
 ```
 
 
