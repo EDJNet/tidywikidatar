@@ -42,6 +42,7 @@ tw_search <- function(search,
       stringr::str_c(language, ".sqlite")
     )
     db <- DBI::dbConnect(drv = RSQLite::SQLite(), db_file)
+    RSQLite::sqliteSetBusyHandler(dbObj = db, handler = 5000)
     db_result <- tryCatch(
       DBI::dbReadTable(
         conn = db,

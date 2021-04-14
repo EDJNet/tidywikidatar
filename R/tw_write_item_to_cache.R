@@ -50,6 +50,7 @@ tw_write_item_to_cache <- function(id,
     drv = RSQLite::SQLite(),
     db_file
   )
+  RSQLite::sqliteSetBusyHandler(dbObj = db, handler = 5000)
 
   if (overwrite_cache == FALSE) {
     RSQLite::dbWriteTable(
