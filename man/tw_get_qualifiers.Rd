@@ -33,7 +33,7 @@ tw_get_qualifiers(
 A data frame (a tibble) with five columns: \code{id} for the input id, \code{qualifier_id}, \code{property}, \code{value}, and \code{set} (to distinguish sets of data when a property is present more than once)
 }
 \description{
-Get Wikidata qualifiers for a given property of a given item
+N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
 }
 \examples{
 tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")

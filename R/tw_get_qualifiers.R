@@ -1,5 +1,7 @@
 #' Get Wikidata qualifiers for a given property of a given item
 #'
+#' N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
+#'
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
@@ -80,12 +82,20 @@ tw_get_qualifiers <- function(id,
     qualifiers_df <- purrr::map_dfr(
       .x = 1:nrow(qualifiers),
       function(i) {
-        qualifier_parent <- qualifiers %>%
+        qualifier_parent_pre <- qualifiers %>%
           dplyr::slice(i) %>%
           dplyr::pull(.data$mainsnak) %>%
           dplyr::pull(.data$datavalue) %>%
-          dplyr::pull(.data$value) %>%
-          dplyr::pull(.data$id)
+          dplyr::pull(.data$value)
+
+        if (is.element("id", colnames(qualifier_parent_pre))) {
+          qualifier_parent <- qualifier_parent_pre %>%
+            dplyr::pull(.data$id)
+        } else {
+          qualifier_parent <- qualifier_parent_pre %>%
+            dplyr::pull(1)
+        }
+
 
         qualifiers_set <- qualifiers %>%
           dplyr::slice(i) %>%
