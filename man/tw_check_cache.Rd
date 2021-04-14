@@ -13,7 +13,7 @@ tw_check_cache(cache = NULL)
 Either TRUE or FALSE, depending on current cache settings.
 }
 \description{
-Mostly used internally in functins, exported for reference.
+Mostly used internally in functions, exported for reference.
 }
 \examples{
 \donttest{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_caching.R
 \name{tw_create_cache_folder}
 \alias{tw_create_cache_folder}
-\title{Creates the cache folder where \code{streetnames} caches data.}
+\title{Creates the base cache folder where \code{tidywikidatar} caches data.}
 \usage{
 tw_create_cache_folder(ask = TRUE)
 }
@@ -13,7 +13,7 @@ tw_create_cache_folder(ask = TRUE)
 Nothing, used for its side effects.
 }
 \description{
-Creates the cache folder where \code{streetnames} caches data.
+Creates the base cache folder where \code{tidywikidatar} caches data.
 }
 \examples{
 \donttest{

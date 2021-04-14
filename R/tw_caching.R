@@ -1,4 +1,4 @@
-#' Creates the cache folder where `streetnames` caches data.
+#' Creates the base cache folder where `tidywikidatar` caches data.
 #'
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for interactive sessions).
 #'
@@ -41,7 +41,7 @@ tw_create_cache_folder <- function(ask = TRUE) {
 #' @examples
 #' \donttest{
 #' if (interactive()) {
-#'   tw_set_cache_folder("~/R/tw_data/")
+#'   tw_set_cache_folder(fs::path(fs::path_home_r(), "R", "tw_data"))
 #' }
 #' }
 tw_set_cache_folder <- function(path = NULL) {
@@ -96,7 +96,7 @@ tw_disable_cache <- function() {
 
 #' Check caching status in the current session, and override it upon request
 #'
-#' Mostly used internally in functins, exported for reference.
+#' Mostly used internally in functions, exported for reference.
 #'
 #' @param cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.
 #'

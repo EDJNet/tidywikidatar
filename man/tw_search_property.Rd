@@ -8,7 +8,7 @@ tw_search_property(
   search,
   language = "en",
   limit = 10,
-  wait = 0.1,
+  wait = 0,
   cache = NULL,
   overwrite_cache = FALSE
 )
@@ -33,10 +33,5 @@ A data frame (a tibble) with three columns (id, label, and description), and as 
 This search returns only properties, use \code{tw_search_items()} for properties.
 }
 \examples{
-\donttest{
-if (interactive()) {
-  tw_search_property(search = "gender")
-}
-}
-
+tw_search_property(search = "gender")
 }

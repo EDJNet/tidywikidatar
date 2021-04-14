@@ -21,7 +21,7 @@ Consider using a folder out of your current project directory, e.g. \code{tw_set
 \examples{
 \donttest{
 if (interactive()) {
-  tw_set_cache_folder("~/R/tw_data/")
+  tw_set_cache_folder(fs::path(fs::path_home_r(), "R", "tw_data"))
 }
 }
 tw_get_cache_folder()

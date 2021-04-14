@@ -14,11 +14,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_search(search = "Sylvia Pankhurst")
-#' }
-#' }
+#' tw_search(search = "Sylvia Pankhurst")
 tw_search <- function(search,
                       type = "item",
                       language = "en",
@@ -160,16 +156,11 @@ tw_search <- function(search,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_search_item(search = "Sylvia Pankhurst")
-#' }
-#' }
-#'
+#' tw_search_item(search = "Sylvia Pankhurst")
 tw_search_item <- function(search,
                            language = "en",
                            limit = 10,
-                           wait = 0.1,
+                           wait = 0,
                            cache = NULL,
                            overwrite_cache = FALSE) {
   tw_search(
@@ -200,16 +191,11 @@ tw_search_item <- function(search,
 #' @export
 #'
 #' @examples
-#' \donttest{
-#' if (interactive()) {
-#'   tw_search_property(search = "gender")
-#' }
-#' }
-#'
+#' tw_search_property(search = "gender")
 tw_search_property <- function(search,
                                language = "en",
                                limit = 10,
-                               wait = 0.1,
+                               wait = 0,
                                cache = NULL,
                                overwrite_cache = FALSE) {
   tw_search(

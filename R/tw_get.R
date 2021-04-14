@@ -315,7 +315,7 @@ tw_get_label <- function(id,
       )
     }
   } else {
-    if (stringr::str_starts(string = id, pattern = "Q[[:digit:]]+")==FALSE) {
+    if (stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
       label <- id
     } else {
       label <- tidywikidatar::tw_get(
@@ -333,7 +333,7 @@ tw_get_label <- function(id,
           stringr::str_ends(
             string = .data$property,
             pattern = stringr::str_c(language,
-                                     collapse = "|"
+              collapse = "|"
             )
           )
         ) %>%
@@ -595,7 +595,7 @@ tw_get_property_description <- function(property,
 #' @export
 #'
 #' @examples
-#' # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099
+#' # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 #' advisors <- tw_get_property(id = "Q180099", p = "P184")
 #' advisors
 #'

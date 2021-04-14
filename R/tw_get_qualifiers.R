@@ -75,7 +75,7 @@ tw_get_qualifiers <- function(id,
     qualifiers <- claims[[p]] %>%
       tibble::as_tibble()
 
-    if (is.element("qualifiers", colnames(qualifiers))==FALSE) {
+    if (is.element("qualifiers", colnames(qualifiers)) == FALSE) {
       return(NULL)
     }
 

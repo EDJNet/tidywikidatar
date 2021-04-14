@@ -33,7 +33,7 @@ A tibble, corresponding to the value for the given property.
 Get Wikidata property of an item
 }
 \examples{
-# Who were the doctoral advisors - P184 - of Margaret Mead - Q180099
+# Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
 
