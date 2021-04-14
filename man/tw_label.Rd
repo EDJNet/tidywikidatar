@@ -27,7 +27,7 @@ tw_label(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-
+A data frame, with the same shape as the input df, but with labels instead of identifiers.
 }
 \description{
 Gets labels for all columns with names such as "id" and "property".
