@@ -315,26 +315,30 @@ tw_get_label <- function(id,
       )
     }
   } else {
-    label <- tidywikidatar::tw_get(
-      id = id,
-      cache = tw_check_cache(cache),
-      language = language,
-      overwrite_cache = overwrite_cache,
-      wait = wait
-    ) %>%
-      dplyr::filter(
-        stringr::str_starts(
-          string = .data$property,
-          pattern = "label_"
-        ),
-        stringr::str_ends(
-          string = .data$property,
-          pattern = stringr::str_c(language,
-            collapse = "|"
-          )
-        )
+    if (stringr::str_starts(string = id, pattern = "Q[[:digit:]]+")==FALSE) {
+      label <- id
+    } else {
+      label <- tidywikidatar::tw_get(
+        id = id,
+        cache = tw_check_cache(cache),
+        language = language,
+        overwrite_cache = overwrite_cache,
+        wait = wait
       ) %>%
-      dplyr::pull(.data$value)
+        dplyr::filter(
+          stringr::str_starts(
+            string = .data$property,
+            pattern = "label_"
+          ),
+          stringr::str_ends(
+            string = .data$property,
+            pattern = stringr::str_c(language,
+                                     collapse = "|"
+            )
+          )
+        ) %>%
+        dplyr::pull(.data$value)
+    }
 
     if (length(label) == 0) {
       as.character(NA)
