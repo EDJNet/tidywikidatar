@@ -315,7 +315,7 @@ tw_get_label <- function(id,
       )
     }
   } else {
-    if (stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
+    if (is.na(id)|stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
       label <- id
     } else {
       label <- tidywikidatar::tw_get(
@@ -642,18 +642,22 @@ tw_get_property <- function(id,
       }
     )
   } else {
-    property <- tidywikidatar::tw_get(
-      id = id,
-      cache = tw_check_cache(cache),
-      overwrite_cache = overwrite_cache,
-      language = language,
-      wait = wait
-    ) %>%
-      dplyr::filter(property == p)
-    if (nrow(property) == 0) {
+    if (is.na(id)) {
       NULL
     } else {
-      property
+      property <- tidywikidatar::tw_get(
+        id = id,
+        cache = tw_check_cache(cache),
+        overwrite_cache = overwrite_cache,
+        language = language,
+        wait = wait
+      ) %>%
+        dplyr::filter(property == p)
+      if (nrow(property) == 0) {
+        NULL
+      } else {
+        property
+      }
     }
   }
 }
