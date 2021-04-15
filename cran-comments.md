@@ -5,10 +5,6 @@
 * rhub::check_for_cran()
 * devtools::check_win_devel()
 
-## Additional details
-* adjusted description in line with suggestions after previous submissions
-* examples are now run
-* more tests
 
 ## R CMD check results
 
@@ -16,3 +12,8 @@
 
 * This is a new release.
 * New submission
+
+## Additional details
+* adjusted description in line with suggestions after previous submission
+* examples are now run
+* more tests
