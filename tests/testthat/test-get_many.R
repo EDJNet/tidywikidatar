@@ -24,23 +24,15 @@ test_that("check if labels are returned more efficiently when same id given", {
     )
     before <- Sys.time()
     tw_get_label(
-      id = c(
-        "Q180099",
-        "Q180099",
-        "Q180099"
-      ),
+      id = rep(x = "Q180099", 10),
       language = "en"
     )
     after <- Sys.time()
     after - before
   }, expected = {
     before <- Sys.time()
-
-    purrr::map_chr(.x = c(
-      "Q180099",
-      "Q180099",
-      "Q180099"
-    ), .f = function(x) {
+    purrr::map_chr(.x = rep(x = "Q180099", 10),
+                   .f = function(x) {
       tw_get_label(
         id = x,
         language = "en"
