@@ -572,6 +572,18 @@ store data in different files.
 
 `tw_query()` is never cached.
 
+## Limitations
+
+`tidywikidatar` strives to strike a balance between ease of use and full
+access to information available on Wikidata. This means that, for
+examples, dates are returned as simple text strings, without
+accompanying details such as calendar (e.g. Julian or Gregorian) and
+precision (e.g. precise just to the level of century). Some amounts are
+returned as numeric strings, without the accompanying unit of
+measurement. The user should be aware of such issues in their own use
+cases, and consider using other packages if such matters are determinant
+for them.
+
 ## Known issues
 
   - `tw_search()` always returns label and description in English (to be
