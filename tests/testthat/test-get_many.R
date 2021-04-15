@@ -46,12 +46,13 @@ test_that("check if labels are returned more efficiently when same id given", {
 
 test_that("check if descriptions are returned more efficiently when same id given", {
   expect_lt(object = {
+    tw_get_description(
+      id = "Q180099",
+      language = "en"
+    )
     before <- Sys.time()
     tw_get_description(
-      id = c(
-        "Q180099",
-        "Q180099"
-      ),
+      id = rep(x = "Q180099", 10),
       language = "en"
     )
     after <- Sys.time()
@@ -59,10 +60,7 @@ test_that("check if descriptions are returned more efficiently when same id give
   }, expected = {
     before <- Sys.time()
 
-    purrr::map_chr(.x = c(
-      "Q180099",
-      "Q180099"
-    ), .f = function(x) {
+    purrr::map_chr(.x = rep(x = "Q180099", 10), .f = function(x) {
       tw_get_description(
         id = x,
         language = "en"
