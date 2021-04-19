@@ -15,7 +15,7 @@ test_that("check if labels are returned correctly when more than one id given", 
 
 
 test_that("check if labels are returned more efficiently when same id given", {
-  expect_lt(object = {
+  expect_gt(object = {
     tw_get_label(
       id = c(
         "Q180099"
@@ -23,24 +23,26 @@ test_that("check if labels are returned more efficiently when same id given", {
       language = "en"
     )
     before <- Sys.time()
+    purrr::map_chr(.x = rep(x = "Q180099", 10),
+                   .f = function(x) {
+                     tw_get_label(
+                       id = x,
+                       language = "en"
+                     )
+                   })
+
+    after <- Sys.time()
+    after - before
+
+  }, expected = {
+    before <- Sys.time()
     tw_get_label(
       id = rep(x = "Q180099", 10),
       language = "en"
     )
     after <- Sys.time()
     after - before
-  }, expected = {
-    before <- Sys.time()
-    purrr::map_chr(.x = rep(x = "Q180099", 10),
-                   .f = function(x) {
-      tw_get_label(
-        id = x,
-        language = "en"
-      )
-    })
 
-    after <- Sys.time()
-    after - before
   })
 })
 
