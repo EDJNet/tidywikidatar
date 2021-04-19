@@ -27,7 +27,14 @@ should probably use
 
 ## Installation
 
-You can install `tidywikidatar` from
+You can install the released version of `tidywikidatar` from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("tidywikidatar")
+```
+
+You can install the development version from
 [Github](https://github.com/EDJNet/tidywikidatar) with:
 
 ``` r
