@@ -42,6 +42,23 @@ You can install the development version from [Github](https://github.com/EDJNet/
 remotes::install_github("EDJNet/tidywikidatar")
 ```
 
+Until [this issue](https://github.com/r-dbi/RSQLite/issues/369) in the `RSQlite` package will be fixed, Rstudio users are advised to run the following line in order to prevent continous activities in the connections pane (as all options, it remains set only for the current session).
+
+``` r
+options(connectionObserver = NULL)
+```
+
+## Limitations and known issues
+
+`tidywikidatar` strives to strike a balance between ease of use and full access to information available on Wikidata. This means that, for examples, dates are returned as simple text strings, without accompanying details such as calendar (e.g. Julian or Gregorian) and precision (e.g. precise just to the level of century). Some amounts are returned as numeric strings, without the accompanying unit of measurement. The user should be aware of such issues in their own use cases, and consider using other packages if such matters are determinant for them. 
+
+`tidywikidatar` is most useful in particular for the exploratory analysis of relatively small numbers of wikidata items (dozens or hundreds), but becomes quickly less efficient when asking for many properties or thousands of items. Functions will take their time, but will eventually complete. Some performance improvements may come with future versions of `tidywikidatar`, but for larger batches of data (large number of items/many properties), well formed queries will remain more efficient. 
+
+### Known issues
+
+- `tw_search()` always returns label and description in English (to be fixed)
+
+
 ## Before you start
 
 This package assumes some familiarity with basic Wikidata concepts. For reference, see [the introduction on the official website](https://www.wikidata.org/wiki/Wikidata:Introduction).
@@ -333,13 +350,6 @@ Results are stored in different databases by language, and function used; `tw_se
 
 `tw_query()` is never cached.
 
-## Limitations
-
-`tidywikidatar` strives to strike a balance between ease of use and full access to information available on Wikidata. This means that, for examples, dates are returned as simple text strings, without accompanying details such as calendar (e.g. Julian or Gregorian) and precision (e.g. precise just to the level of century). Some amounts are returned as numeric strings, without the accompanying unit of measurement. The user should be aware of such issues in their own use cases, and consider using other packages if such matters are determinant for them. 
-
-## Known issues
-
-- `tw_search()` always returns label and description in English (to be fixed)
 
 ## Copyright and credits
 
