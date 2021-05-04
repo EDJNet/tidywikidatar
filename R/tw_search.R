@@ -68,9 +68,9 @@ tw_search <- function(search,
       error = function(e) {
         warning(e)
         tibble::tibble(
-          id = NA,
-          label = NA,
-          description = NA
+          id = as.character(NA),
+          label = as.character(NA),
+          description = as.character(NA)
         )
       }
     )
@@ -84,9 +84,9 @@ tw_search <- function(search,
       error = function(e) {
         warning(e)
         tibble::tibble(
-          id = NA,
-          label = NA,
-          description = NA
+          id = as.character(NA),
+          label = as.character(NA),
+          description = as.character(NA)
         )
       }
     )
@@ -94,9 +94,9 @@ tw_search <- function(search,
 
   if (length(search_response) == 0) {
     search_response_df <- tibble::tibble(
-      id = NA,
-      label = NA,
-      description = NA
+      id = as.character(NA),
+      label = as.character(NA),
+      description = as.character(NA)
     )
   } else if (tibble::is_tibble(search_response) == TRUE) {
     search_response_df <- search_response
