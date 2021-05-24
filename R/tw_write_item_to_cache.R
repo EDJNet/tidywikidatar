@@ -2,10 +2,10 @@
 #'
 #' Writes item to cache. Typically used internally, but exported to enable custom caching solutions.
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param item_df A data frame with two columns typically generated with `tw_get(include_id = FALSE)`.
 #' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -37,34 +37,38 @@
 #' )
 #'
 #' is.null(df_from_cache) # expect a data frame, same as df_from_api
-tw_write_item_to_cache <- function(id,
-                                   item_df,
-                                   language = "all_available",
-                                   overwrite_cache = FALSE) {
-  tw_check_cache_folder()
-  db_file <- tw_get_cache_file(
-    type = "item",
-    language = language
-  )
-  db <- DBI::dbConnect(
-    drv = RSQLite::SQLite(),
-    db_file
-  )
-  RSQLite::sqliteSetBusyHandler(dbObj = db, handler = 5000)
+tw_write_item_to_cache <- function(item_df,
+                                   language = NULL,
+                                   overwrite_cache = FALSE,
+                                   cache_connection = NULL) {
 
-  if (overwrite_cache == FALSE) {
-    RSQLite::dbWriteTable(
-      conn = db,
-      name = stringr::str_to_upper(string = id),
-      value = item_df
-    )
-  } else {
-    RSQLite::dbWriteTable(
-      conn = db,
-      name = stringr::str_to_upper(string = id),
-      value = item_df,
-      overwrite = TRUE
-    )
+  if (is.null(language)==FALSE) {
+    language <- tw_get_language()
   }
+
+  db <- tw_connect_to_cache(connection = cache_connection)
+
+  table_name <- stringr::str_c("tw_item_", language)
+
+  if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+    # do nothing: if table does not exist, previous data cannot be there
+  } else {
+    if (overwrite_cache == TRUE) {
+
+      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
+                                  id = unique(item_df$id),
+                                  table_name = table_name,
+                                  .con = db
+      )
+      result <- DBI::dbExecute(conn = db,
+                               statement = statement)
+    }
+  }
+
+  DBI::dbWriteTable(db,
+                    name = table_name,
+                    value = item_df,
+                    append = TRUE)
+
   DBI::dbDisconnect(db)
 }

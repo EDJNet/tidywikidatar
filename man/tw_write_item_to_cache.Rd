@@ -5,20 +5,20 @@
 \title{Writes item to cache}
 \usage{
 tw_write_item_to_cache(
-  id,
   item_df,
-  language = "all_available",
-  overwrite_cache = FALSE
+  language = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL
 )
 }
 \arguments{
-\item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
-
 \item{item_df}{A data frame with two columns typically generated with \code{tw_get(include_id = FALSE)}.}
 
 \item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 }
 \value{
 Nothing, used for its side effects.
