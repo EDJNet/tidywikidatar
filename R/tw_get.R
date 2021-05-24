@@ -219,6 +219,14 @@ tw_get <- function(id,
       }
     )
 
+    if (language == "all_available") {
+      # do nothing
+    } else {
+      sitelinks_df <- sitelinks_df %>%
+        dplyr::filter((.data$property == stringr::str_c("sitelink_", language, "wiki"))|(.data$property == stringr::str_c("sitelink_", language, "wikiquote"))|(.data$property == stringr::str_c("sitelink_", language, "wikisource"))|(.data$property == "sitelink_commonswiki"))
+    }
+
+
     everything_df <- dplyr::bind_rows(
       labels_df,
       aliases_df,
