@@ -6,7 +6,7 @@
 \usage{
 tw_get(
   id,
-  language = "all_available",
+  language = NULL,
   cache = NULL,
   overwrite_cache = FALSE,
   wait = 0,
@@ -16,8 +16,6 @@ tw_get(
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
-\item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
-
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
@@ -25,6 +23,8 @@ tw_get(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
 \item{include_id}{Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.}
+
+\item{A}{character vector of length one. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". Use "all_available" to retrieve data in all available languages. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }
 \value{
 A data.frame (a tibble) a tibble with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.

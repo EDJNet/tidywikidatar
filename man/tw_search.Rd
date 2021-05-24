@@ -7,7 +7,7 @@
 tw_search(
   search,
   type = "item",
-  language = "en",
+  language = NULL,
   limit = 10,
   wait = 0,
   cache = NULL,
@@ -19,7 +19,7 @@ tw_search(
 
 \item{type}{Defaults to "item". Either "item" or "property".}
 
-\item{language}{Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{limit}{Maximum numbers of responses to be given.}
 

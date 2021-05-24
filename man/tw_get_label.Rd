@@ -6,7 +6,7 @@
 \usage{
 tw_get_label(
   id,
-  language = "en",
+  language = NULL,
   cache = NULL,
   overwrite_cache = FALSE,
   wait = 0
@@ -15,7 +15,7 @@ tw_get_label(
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
 
-\item{language}{A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{A character vector of length one. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 

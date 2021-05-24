@@ -6,7 +6,7 @@
 \usage{
 tw_search_property(
   search,
-  language = "en",
+  language = NULL,
   limit = 10,
   wait = 0,
   cache = NULL,
@@ -16,7 +16,7 @@ tw_search_property(
 \arguments{
 \item{search}{A string to be searched in Wikidata.}
 
-\item{language}{Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{limit}{Maximum numbers of responses to be given.}
 

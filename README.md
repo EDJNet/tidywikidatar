@@ -42,16 +42,6 @@ version from [Github](https://github.com/EDJNet/tidywikidatar) with:
 remotes::install_github("EDJNet/tidywikidatar")
 ```
 
-Until [this issue](https://github.com/r-dbi/RSQLite/issues/369) in the
-`RSQlite` package will be fixed, Rstudio users are advised to run the
-following line in order to prevent continous activities in the
-connections pane (as all options, it remains set only for the current
-session).
-
-``` r
-options(connectionObserver = NULL)
-```
-
 ## Limitations and known issues
 
 `tidywikidatar` strives to strike a balance between ease of use and full
@@ -117,14 +107,16 @@ current working directory under a `tw_data` folder. It may be useful to
 store them in a folder where they can be retrieved easily even when
 working on different projects, but this is obviously a matter of
 personal taste. You can enable caching for the current session with
-`tw_enable_cache()` and set the cache folder to be used throughout a
-session with `tw_set_cache_folder()`. The first lines of a script using
-`tidywikidatar` would often look like this:
+`tw_enable_cache()`, set the cache folder to be used throughout a
+session with `tw_set_cache_folder()`, and set the language used by all
+functions (if not set, it defaults to English). The first lines of a
+script using `tidywikidatar` would often look like this:
 
 ``` r
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
+tw_set_language(language = "en")
 tw_create_cache_folder(ask = FALSE)
 ```
 
@@ -525,7 +517,7 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 651 x 3
+#> # A tibble: 662 x 3
 #>    id      label            description                                         
 #>    <chr>   <chr>            <chr>                                               
 #>  1 Q304262 Hannie van Leeu… Dutch politician (1926-2018)                        
@@ -538,7 +530,7 @@ tw_query(query = query_df)
 #>  8 Q452272 Charlotte Delbo  French writer and resistance fighter (1913-1985)    
 #>  9 Q457505 Danielle Casano… French resistance member (1909-1943)                
 #> 10 Q459656 Suzanne Spaak    Belgian anti-Nazi resistance worker and counterinte…
-#> # … with 641 more rows
+#> # … with 652 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -556,20 +548,20 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> # A tibble: 101 x 3
-#>    id      label                description                                     
-#>    <chr>   <chr>                <chr>                                           
-#>  1 Q270319 Christiane Desroche… egittologa e archeologa francese                
-#>  2 Q283654 Marija Skobcova      suora e santa russa, vittima dell'Olocausto     
-#>  3 Q35740… Yvette Farnoux       résistante française                            
-#>  4 Q35741… Yvonne Abbas         résistante française                            
-#>  5 Q26965… Yolande Beekman      espionne et agente secret des Special Operation…
-#>  6 Q30097… Cécile Cerf          résistante française                            
-#>  7 Q30812… Francine Fromond     <NA>                                            
-#>  8 Q31324… Henriette Moriamé    <NA>                                            
-#>  9 Q31760… Jeanne Gaillard      historienne et résistante française             
-#> 10 Q31760… Jeanne Laurent       scrittrice francese                             
-#> # … with 91 more rows
+#> # A tibble: 112 x 3
+#>    id        label                      description                             
+#>    <chr>     <chr>                      <chr>                                   
+#>  1 Q270319   Christiane Desroches Nobl… egittologa e archeologa francese        
+#>  2 Q283654   Marija Skobcova            suora e santa russa, vittima dell'Oloca…
+#>  3 Q15970412 Raymonde Tillon            femme politique française               
+#>  4 Q16262713 Simone Schloss             résistante communiste française         
+#>  5 Q18121470 Antoinette d'Harcourt      poétesse et résistante française        
+#>  6 Q19300907 Lucette Pla-Justafré       enseignante et personnalité politique f…
+#>  7 Q19631204 Cécile Rol-Tanguy          résistante française                    
+#>  8 Q20895003 Hélène Jakubowicz          résistante française                    
+#>  9 Q21009704 Madeleine Passot           résistante communiste française         
+#> 10 Q21069334 Mireille Albrecht          fille de la résistante Berty Albrecht   
+#> # … with 102 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the

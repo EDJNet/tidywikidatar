@@ -4,7 +4,7 @@
 #'
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
-#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -17,13 +17,17 @@
 #' tw_search(search = "Sylvia Pankhurst")
 tw_search <- function(search,
                       type = "item",
-                      language = "en",
+                      language = NULL,
                       limit = 10,
                       wait = 0,
                       cache = NULL,
                       overwrite_cache = FALSE) {
   if (is.null(search)) {
     usethis::ui_stop("A search string must be given.")
+  }
+
+  if (is.null(language)==FALSE) {
+    language <- tw_get_language()
   }
 
   if (tw_check_cache(cache) == TRUE) {
@@ -146,7 +150,7 @@ tw_search <- function(search,
 #' This search returns only items, use `tw_search_property()` for properties.
 #'
 #' @param search A string to be searched in Wikidata
-#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -158,7 +162,7 @@ tw_search <- function(search,
 #' @examples
 #' tw_search_item(search = "Sylvia Pankhurst")
 tw_search_item <- function(search,
-                           language = "en",
+                           language = NULL,
                            limit = 10,
                            wait = 0,
                            cache = NULL,
@@ -181,7 +185,7 @@ tw_search_item <- function(search,
 #' This search returns only properties, use `tw_search_items()` for properties.
 #'
 #' @param search A string to be searched in Wikidata.
-#' @param language Language to be used for the search. For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -193,7 +197,7 @@ tw_search_item <- function(search,
 #' @examples
 #' tw_search_property(search = "gender")
 tw_search_property <- function(search,
-                               language = "en",
+                               language = NULL,
                                limit = 10,
                                wait = 0,
                                cache = NULL,
