@@ -42,11 +42,6 @@ For the latest fixes and improvements, you can install the development version f
 remotes::install_github("EDJNet/tidywikidatar")
 ```
 
-Until [this issue](https://github.com/r-dbi/RSQLite/issues/369) in the `RSQlite` package will be fixed, Rstudio users are advised to run the following line in order to prevent continous activities in the connections pane (as all options, it remains set only for the current session).
-
-``` r
-options(connectionObserver = NULL)
-```
 
 ## Limitations and known issues
 
