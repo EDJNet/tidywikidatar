@@ -3,7 +3,7 @@
 #' Writes item to cache. Typically used internally, but exported to enable custom caching solutions.
 #'
 #' @param item_df A data frame with two columns typically generated with `tw_get(include_id = FALSE)`.
-#' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #'
@@ -38,17 +38,13 @@
 #'
 #' is.null(df_from_cache) # expect a data frame, same as df_from_api
 tw_write_item_to_cache <- function(item_df,
-                                   language = NULL,
+                                   language = tidywikidatar::tw_get_language(),
                                    overwrite_cache = FALSE,
                                    cache_connection = NULL) {
 
-  if (is.null(language)==FALSE) {
-    language <- tw_get_language()
-  }
-
   db <- tw_connect_to_cache(connection = cache_connection)
 
-  table_name <- stringr::str_c("tw_item_", language)
+  table_name <- tw_get_cache_table_name(type = "item", language = language)
 
   if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
     # do nothing: if table does not exist, previous data cannot be there

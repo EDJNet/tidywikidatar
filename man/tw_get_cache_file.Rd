@@ -4,7 +4,7 @@
 \alias{tw_get_cache_file}
 \title{Gets location of cache file}
 \usage{
-tw_get_cache_file(type = "item", language = "all_available")
+tw_get_cache_file(type = "item", language = tidywikidatar::tw_get_language())
 }
 \arguments{
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search", and "qualifier".}

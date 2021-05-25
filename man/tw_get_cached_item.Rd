@@ -4,12 +4,18 @@
 \alias{tw_get_cached_item}
 \title{Retrieve cached item}
 \usage{
-tw_get_cached_item(id, language = "all_available")
+tw_get_cached_item(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache_connection = NULL
+)
 }
 \arguments{
 \item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
 \item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 }
 \value{
 If data present in cache, returns a data frame with cached data.

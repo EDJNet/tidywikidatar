@@ -6,7 +6,7 @@
 \usage{
 tw_write_item_to_cache(
   item_df,
-  language = NULL,
+  language = tidywikidatar::tw_get_language(),
   overwrite_cache = FALSE,
   cache_connection = NULL
 )
@@ -14,7 +14,7 @@ tw_write_item_to_cache(
 \arguments{
 \item{item_df}{A data frame with two columns typically generated with \code{tw_get(include_id = FALSE)}.}
 
-\item{language}{Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.}
 
