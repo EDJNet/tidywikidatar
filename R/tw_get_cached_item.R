@@ -31,6 +31,7 @@ tw_get_cached_item <- function(id,
                                         language = language)
 
   if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+    DBI::dbDisconnect(db)
     return(tibble::tibble(id = as.character(NA),
                           property = as.character(NA),
                           value = as.character(NA)) %>%

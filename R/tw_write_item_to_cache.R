@@ -26,7 +26,6 @@
 #' is.null(df_from_cache) # expect TRUE, as nothing has yet been stored in cache
 #'
 #' tw_write_item_to_cache(
-#'   id = "Q180099",
 #'   item_df = df_from_api,
 #'   language = "en"
 #' )

@@ -34,7 +34,7 @@ tw_get_single <- function(id,
       language = language,
       cache_connection = cache_connection
     )
-    if (is.data.frame(db_result)) {
+    if (is.data.frame(db_result)&nrow(db_result>0)) {
         return(db_result %>%
                  tibble::as_tibble())
     }
@@ -214,7 +214,6 @@ tw_get_single <- function(id,
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_item_to_cache(
-      id = id,
       item_df = everything_df,
       language = language,
       overwrite_cache = overwrite_cache,
