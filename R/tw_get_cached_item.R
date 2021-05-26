@@ -1,7 +1,7 @@
 #' Retrieve cached item
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
-#' @param language Defaults to "all_available". By default, returns dataset with labels in all available languages. If given, only in the chosen language. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #'
 #' @return If data present in cache, returns a data frame with cached data.
@@ -24,7 +24,8 @@ tw_get_cached_item <- function(id,
                                language = tidywikidatar::tw_get_language(),
                                cache_connection = NULL) {
 
-  db <- tw_connect_to_cache(connection = cache_connection)
+  db <- tw_connect_to_cache(connection = cache_connection,
+                            language = language)
 
   table_name <- tw_get_cache_table_name(type = "item",
                                         language = language)
@@ -63,7 +64,7 @@ tw_get_cached_item <- function(id,
 #' Gets location of cache file
 #'
 #' @param type Defaults to "item". Type of cache file to output. Values typically used by `tidywikidatar` include "item", "search", and "qualifier".
-#' @param language Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
 #' @return A character vector of length one with location of item cache file.
 #' @export
@@ -106,7 +107,8 @@ tw_get_cache_table_name <- function(type = "item",
 #' Check if given items are present in cache
 #'
 #' @param id A characther vector. Each element must start with Q, and correspond to a Wikidata identifier.
-#' @param language Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #'
 #' @return A character vector with IDs of items present in cache. If no item found in cache, returns NULL.
 #' @export
@@ -135,31 +137,13 @@ tw_get_cache_table_name <- function(type = "item",
 #' # but not other item already in cache
 #' items_in_cache
 tw_check_cached_items <- function(id,
-                                  language = "all_available") {
-  if (is.data.frame(id) == TRUE) {
-    id <- id$id
-  }
-  tw_check_cache_folder()
+                                  language = tidywikidatar::tw_get_language(),
+                                  cache_connection = NULL) {
 
-  db_file <- tw_get_cache_file(
-    type = "item",
-    language = language
-  )
+  tw_get_cached_item(id = id,
+                     language = language,
+                     cache_connection = cache_connection) %>%
+    dplyr::distinct(id) %>%
+    dplyr::pull(id)
 
-  db <- DBI::dbConnect(
-    drv = RSQLite::SQLite(),
-    db_file
-  )
-  db_result <- tryCatch(
-    DBI::dbListTables(
-      conn = db
-    ),
-    error = function(e) {
-      NULL
-    }
-  )
-  DBI::dbDisconnect(db)
-  if (is.null(db_result) == FALSE) {
-    return(db_result[is.element(db_result, id)])
-  }
 }

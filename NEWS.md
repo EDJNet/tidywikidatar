@@ -9,3 +9,10 @@
 * more efficient when input includes repeated id
 * better documentation and testing
 
+# tidywikidatar 0.3.0
+
+* much more efficient caching
+* introduces compatibility with other caching backends via DBI
+* introduces progress bars with tw_get
+* tests fail without throwing errors if Wikidata server cannot be reached
+

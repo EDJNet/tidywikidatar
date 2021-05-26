@@ -42,7 +42,7 @@ tw_write_item_to_cache <- function(item_df,
                                    overwrite_cache = FALSE,
                                    cache_connection = NULL) {
 
-  db <- tw_connect_to_cache(connection = cache_connection)
+  db <- tw_connect_to_cache(connection = cache_connection, language = language)
 
   table_name <- tw_get_cache_table_name(type = "item", language = language)
 

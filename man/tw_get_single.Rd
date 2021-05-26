@@ -10,8 +10,7 @@ tw_get_single(
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
-  wait = 0,
-  include_id = TRUE
+  wait = 0
 )
 }
 \arguments{
@@ -26,11 +25,9 @@ tw_get_single(
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
-
-\item{include_id}{Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.}
 }
 \value{
-A data.frame (a tibble) with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.
+A data.frame (a tibble) with three columns (id, property, and value).
 }
 \description{
 Return (most) information from a Wikidata item in a tidy format

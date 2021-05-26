@@ -6,9 +6,8 @@
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param include_id Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data.frame (a tibble) with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.
+#' @return A data.frame (a tibble) with three columns (id, property, and value).
 #' @export
 #'
 #' @examples
@@ -21,8 +20,7 @@ tw_get_single <- function(id,
                           cache = NULL,
                           overwrite_cache = FALSE,
                           cache_connection = NULL,
-                          wait = 0,
-                          include_id = TRUE) {
+                          wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -30,25 +28,15 @@ tw_get_single <- function(id,
     stop("`tw_get_single` requires `id` of length 1.")
   }
 
-
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_item(
       id = id,
-      language = language
+      language = language,
+      cache_connection = cache_connection
     )
     if (is.data.frame(db_result)) {
-      if (isTRUE(include_id)) {
-        return(db_result %>%
-                 tibble::as_tibble() %>%
-                 dplyr::transmute(
-                   id = id,
-                   .data$property,
-                   .data$value
-                 ))
-      } else {
         return(db_result %>%
                  tibble::as_tibble())
-      }
     }
   }
 
@@ -74,6 +62,7 @@ tw_get_single <- function(id,
         language = language,
         cache = cache,
         overwrite_cache = overwrite_cache,
+        cache_connection = cache_connection,
         wait = wait
       )
     )
@@ -228,20 +217,11 @@ tw_get_single <- function(id,
       id = id,
       item_df = everything_df,
       language = language,
-      overwrite_cache = overwrite_cache
+      overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection
     )
   }
-  if (include_id == TRUE) {
-    everything_df %>%
-      dplyr::transmute(
-        id = id,
-        .data$property,
-        .data$value
-      )
-  } else {
-    everything_df
-  }
-
+  everything_df
 }
 
 #' Return (most) information from a Wikidata item in a tidy format
@@ -252,9 +232,8 @@ tw_get_single <- function(id,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param include_id Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data.frame (a tibble) with three columns, if include_id is set to TRUE (default). A tibble with two columns (property and value) if include_id is set to FALSE.
+#' @return A data.frame (a tibble) with three columns (id, property, and value).
 #' @export
 #'
 #' @examples
@@ -267,8 +246,7 @@ tw_get <- function(id,
                    cache = NULL,
                    overwrite_cache = FALSE,
                    cache_connection = NULL,
-                   wait = 0,
-                   include_id = TRUE) {
+                   wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -282,22 +260,22 @@ tw_get <- function(id,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
-      wait = wait,
-      include_id = include_id
+      wait = wait
     )
   } else if (length(id)>1) {
     if (overwrite_cache==TRUE | tw_check_cache(cache) == FALSE) {
+      pb <- progress::progress_bar$new(total = length(id))
       return(purrr::map_dfr(
         .x = id,
         .f = function(x) {
+          pb$tick()
           tw_get_single(
             id = x,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
-            wait = wait,
-            include_id = include_id
+            wait = wait
           )
         }
       ))
@@ -316,17 +294,18 @@ tw_get <- function(id,
         return(items_from_cache_df %>%
                  dplyr::right_join(tibble(id = id), by = "id"))
       } else if (length(id_items_not_in_cache)>0) {
+        pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
         items_not_in_cache_df <- purrr::map_dfr(
           .x = id_items_not_in_cache,
           .f = function(x) {
+            pb$tick()
             tw_get_single(
               id = x,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = cache_connection,
-              wait = wait,
-              include_id = include_id
+              wait = wait
             )
           }
         )
@@ -342,9 +321,10 @@ tw_get <- function(id,
 #' Get Wikidata label in given language
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
-#' @param language A character vector of length one. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested languae.
@@ -360,25 +340,23 @@ tw_get <- function(id,
 #'   language = "en"
 #' )
 tw_get_label <- function(id,
-                         language = NULL,
+                         language = tidywikidatar::tw_get_language(),
                          cache = NULL,
                          overwrite_cache = FALSE,
+                         cache_connection = NULL,
                          wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
-  if (is.null(language)==FALSE) {
-    language <- tw_get_language()
-  }
-
   if (length(id) > 1) {
     if (length(unique(id)) < length(id)) {
       pre_processed <- tibble::tibble(id = id)
-
+      pb <- progress::progress_bar$new(total = length(unique(id)))
       unique_processed <- purrr::map_dfr(
         .x = unique(id),
         .f = function(x) {
+          pb$tick()
           tibble::tibble(
             id = x,
             label = tw_get_label(
@@ -386,6 +364,7 @@ tw_get_label <- function(id,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
+              cache_connection = cache_connection,
               wait = wait
             ) %>%
               as.character()
@@ -399,14 +378,17 @@ tw_get_label <- function(id,
         ) %>%
         dplyr::pull(.data$label)
     } else {
+      pb <- progress::progress_bar$new(total = length(id))
       purrr::map_chr(
         .x = id,
         .f = function(x) {
+          pb$tick()
           tw_get_label(
             id = x,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
+            cache_connection = cache_connection,
             wait = wait
           )
         }
@@ -418,9 +400,10 @@ tw_get_label <- function(id,
     } else {
       label <- tidywikidatar::tw_get(
         id = id,
-        cache = tw_check_cache(cache),
+        cache = cache,
         language = language,
         overwrite_cache = overwrite_cache,
+        cache_connection = cache_connection,
         wait = wait
       ) %>%
         dplyr::filter(
@@ -454,7 +437,8 @@ tw_get_label <- function(id,
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param language A character vector of length one, defaults to "en". For a full list of available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of length 1, with the Wikidata description in the requested languae.
@@ -469,9 +453,10 @@ tw_get_label <- function(id,
 #'   language = "en"
 #' )
 tw_get_description <- function(id,
-                               language = "en",
+                               language = tidywikidatar::tw_get_language(),
                                cache = NULL,
                                overwrite_cache = FALSE,
+                               cache_connection = cache_connection,
                                wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -490,6 +475,7 @@ tw_get_description <- function(id,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
+              cache_connection = cache_connection,
               wait = wait
             ) %>%
               as.character()
@@ -511,6 +497,7 @@ tw_get_description <- function(id,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
+            cache_connection = cache_connection,
             wait = wait
           )
         }
@@ -522,6 +509,7 @@ tw_get_description <- function(id,
       language = language,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       wait = wait
     ) %>%
       dplyr::filter(
@@ -548,9 +536,10 @@ tw_get_description <- function(id,
 #' Get label of a Wikidata property in a given language
 #'
 #' @param property A characther vector. Each element must start with P, e.g. "P31".
-#' @param language A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -559,9 +548,10 @@ tw_get_description <- function(id,
 #' @examples
 #' tw_get_property_label(property = "P31")
 tw_get_property_label <- function(property,
-                                  language = "en",
+                                  language = tidywikidatar::tw_get_language(),
                                   cache = NULL,
                                   overwrite_cache = FALSE,
+                                  cache_connection = NULL,
                                   wait = 0) {
   if (is.data.frame(property) == TRUE) {
     property <- property$id
@@ -581,6 +571,7 @@ tw_get_property_label <- function(property,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
+              cache_connection = cache_connection,
               wait = wait
             ) %>%
               as.character()
@@ -602,6 +593,7 @@ tw_get_property_label <- function(property,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
+            cache_connection = cache_connection,
             wait = wait
           )
         }
@@ -613,6 +605,7 @@ tw_get_property_label <- function(property,
       cache = tw_check_cache(cache),
       language = language,
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       wait = wait
     ) %>%
       dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
@@ -629,9 +622,10 @@ tw_get_property_label <- function(property,
 #' Get description of a Wikidata property in a given language
 #'
 #' @param property A characther vector of length 1, must start with P, e.g. "P31".
-#' @param language A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -640,9 +634,10 @@ tw_get_property_label <- function(property,
 #' @examples
 #' tw_get_property_description(property = "P31")
 tw_get_property_description <- function(property,
-                                        language = "en",
+                                        language = tidywikidatar::tw_get_language(),
                                         cache = NULL,
                                         overwrite_cache = FALSE,
+                                        cache_connection = NULL,
                                         wait = 0) {
   if (is.data.frame(property) == TRUE) {
     property <- property$id
@@ -657,6 +652,7 @@ tw_get_property_description <- function(property,
           language = language,
           cache = cache,
           overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
           wait = wait
         )
       }
@@ -684,10 +680,11 @@ tw_get_property_description <- function(property,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
@@ -718,10 +715,11 @@ tw_get_property_description <- function(property,
 #' )
 tw_get_property <- function(id,
                             p,
-                            language = "all_available",
+                            language = tidywikidatar::tw_get_language(),
                             id_df = NULL,
                             cache = NULL,
                             overwrite_cache = FALSE,
+                            cache_connection = NULL,
                             wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -738,6 +736,7 @@ tw_get_property <- function(id,
           id_df = NULL,
           cache = cache,
           overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
           wait = wait
         )
       }
@@ -752,6 +751,7 @@ tw_get_property <- function(id,
                              id_df = id_df,
                              cache = cache,
                              overwrite_cache = overwrite_cache,
+                             cache_connection = cache_connection,
                              wait = wait)
     }
   }
@@ -761,10 +761,11 @@ tw_get_property <- function(id,
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
@@ -777,16 +778,18 @@ tw_get_property <- function(id,
 
 tw_get_property_single <- function(id,
                                    p,
-                                   language = "all_available",
+                                   language = tidywikidatar::tw_get_language(),
                                    id_df = NULL,
                                    cache = NULL,
                                    overwrite_cache = FALSE,
+                                   cache_connection = cache_connection,
                                    wait = 0) {
   if (is.null(id_df)) {
     id_df <- tidywikidatar::tw_get(
       id = id,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       language = language,
       wait = wait
     )
@@ -807,9 +810,10 @@ tw_get_property_single <- function(id,
 #'
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param format A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
-#' @param language Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector, corresponding to reference to the image in the requested format.
@@ -832,9 +836,10 @@ tw_get_property_single <- function(id,
 #'   format = "commons"
 #' )
 tw_get_image <- function(id,
-                         language = "all_available",
+                         language = tidywikidatar::tw_get_language(),
                          cache = NULL,
                          overwrite_cache = FALSE,
+                         cache_connection = NULL,
                          format = "filename",
                          wait = 0) {
   if (is.data.frame(id) == TRUE) {
@@ -849,6 +854,7 @@ tw_get_image <- function(id,
           language = language,
           cache = cache,
           overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
           format = format,
           wait = wait
         )
@@ -859,6 +865,7 @@ tw_get_image <- function(id,
       id = id,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       language = language,
       wait = wait
     ) %>%
@@ -887,7 +894,8 @@ tw_get_image <- function(id,
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param language A character vector of length one, defaults to "en". For a full list of available languages, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -896,9 +904,10 @@ tw_get_image <- function(id,
 #' @examples
 #' tw_get_wikipedia(id = "Q180099")
 tw_get_wikipedia <- function(id,
-                             language = "en",
+                             language = tidywikidatar::tw_get_language(),
                              cache = NULL,
                              overwrite_cache = FALSE,
+                             cache_connection = NULL,
                              wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -912,6 +921,7 @@ tw_get_wikipedia <- function(id,
           language = language,
           cache = cache,
           overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
           wait = wait
         )
       }
@@ -922,6 +932,7 @@ tw_get_wikipedia <- function(id,
       id = id,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       language = language,
       wait = wait
     ) %>%
