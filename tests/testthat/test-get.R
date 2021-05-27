@@ -1,14 +1,14 @@
+library("testthat")
 test_that("check if tw_get returns tibble with three columns and meaningful number of rows", {
   expect_equal(object = {
     item <- tw_get(
       id = "Q180099",
-      language = "en",
-      include_id = TRUE
+      language = "en"
     )
 
     list(
       ncol = ncol(item),
-      nrow = nrow(item) > 200
+      nrow = nrow(item) > 100
     )
   }, expected = list(
     ncol = 3,
@@ -23,13 +23,12 @@ test_that("check if tw_get works when more than one id as input", {
         "Q180099",
         "Q228822"
       ),
-      language = "en",
-      include_id = TRUE
+      language = "en"
     )
 
     list(
       ncol = ncol(item),
-      nrow = nrow(item) > 400,
+      nrow = nrow(item) > 200,
       unique_id = length(unique(item$id))
     )
   }, expected = list(

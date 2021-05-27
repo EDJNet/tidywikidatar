@@ -25,7 +25,7 @@ tw_get_single <- function(id,
     id <- id$id
   }
   if (length(id) > 1) {
-    stop("`tw_get_single` requires `id` of length 1.")
+    stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
   }
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
@@ -210,7 +210,8 @@ tw_get_single <- function(id,
     descriptions_df,
     sitelinks_df
   ) %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::transmute(id = id, .data$property, .data$value)
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_item_to_cache(
