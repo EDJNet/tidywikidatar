@@ -7,7 +7,7 @@
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A data.frame (a tibble) with three columns (id, property, and value).
+#' @return A data.frame (a tibble) with three columns (id, property, and value). If item not found or trouble connecting with the server, an data frame with three columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
 #' @export
 #'
 #' @examples
@@ -44,9 +44,20 @@ tw_get_single <- function(id,
 
   item <- tryCatch(WikidataR::get_item(id = id),
                    error = function(e) {
-                     return(tibble::tibble(id = NA))
+                    as.character(e[[1]])
                    }
   )
+
+  if (is.character(item)) {
+    usethis::ui_oops(item)
+    output <- tibble::tibble(id = as.character(NA),
+                             property = as.character(NA),
+                             value = as.character(NA)) %>%
+      dplyr::slice(0)
+    attr(output, "warning") <- item
+    return(output)
+  }
+
 
   if (is.element(
     el = "redirect",
@@ -238,7 +249,7 @@ tw_get_single <- function(id,
 #'
 #' @examples
 #' tw_get(
-#'   id = "Q180099",
+#'   id = c("Q180099","Q228822"),
 #'   language = "en"
 #' )
 tw_get <- function(id,
