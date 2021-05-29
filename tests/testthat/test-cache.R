@@ -24,7 +24,6 @@ test_that(
       expected = {
         fs::path(
           tempdir(),
-          "tw_item_db",
           "tw_item_db_en.sqlite"
         )
       }
@@ -40,19 +39,14 @@ test_that("items are stored and retrieved from cache correctly", {
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
-    df_from_api <- tw_get(
+    tw_get(
       id = "Q180099",
       language = "en"
     )
 
-    df_from_cache <- tw_get_cached_item(
-      id = "Q180099",
-      language = "en"
-    )
-  }, expected = tw_get(
+  }, expected = tw_get_cached_item(
     id = "Q180099",
-    language = "en",
-    include_id = FALSE
+    language = "en"
   ))
 
   expect_false(object = {

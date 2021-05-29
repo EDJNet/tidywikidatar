@@ -6,11 +6,13 @@
 \usage{
 tw_search_property(
   search,
-  language = NULL,
+  language = tidywikidatar::tw_get_language(),
   limit = 10,
+  include_search = include_search,
   wait = 0,
   cache = NULL,
-  overwrite_cache = FALSE
+  overwrite_cache = FALSE,
+  cache_connection = NULL
 )
 }
 \arguments{
@@ -20,11 +22,15 @@ tw_search_property(
 
 \item{limit}{Maximum numbers of responses to be given.}
 
+\item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
+
 \item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 }
 \value{
 A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).

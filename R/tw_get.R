@@ -34,7 +34,7 @@ tw_get_single <- function(id,
       language = language,
       cache_connection = cache_connection
     )
-    if (is.data.frame(db_result)&nrow(db_result>0)) {
+    if (is.data.frame(db_result)&nrow(db_result)>0) {
         return(db_result %>%
                  tibble::as_tibble())
     }

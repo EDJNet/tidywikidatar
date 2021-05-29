@@ -34,7 +34,7 @@ Return (most) information from a Wikidata item in a tidy format
 }
 \examples{
 tw_get(
-  id = "Q180099",
+  id = c("Q180099","Q228822"),
   language = "en"
 )
 }
