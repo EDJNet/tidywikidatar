@@ -303,7 +303,7 @@ tw_get <- function(id,
 
       if (length(id_items_not_in_cache)==0) {
         return(items_from_cache_df %>%
-                 dplyr::right_join(tibble(id = id), by = "id"))
+                 dplyr::right_join(tibble::tibble(id = id), by = "id"))
       } else if (length(id_items_not_in_cache)>0) {
         pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
         items_not_in_cache_df <- purrr::map_dfr(
