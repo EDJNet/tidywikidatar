@@ -323,7 +323,7 @@ tw_get <- function(id,
 
         dplyr::bind_rows(items_from_cache_df,
                          items_not_in_cache_df) %>%
-          dplyr::right_join(tibble(id = id), by = "id")
+          dplyr::right_join(tibble::tibble(id = id), by = "id")
       }
     }
   }
