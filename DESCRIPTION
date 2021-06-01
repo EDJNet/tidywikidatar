@@ -1,6 +1,6 @@
 Package: tidywikidatar
 Title: Explore 'Wikidata' Through Tidy Data Frames
-Version: 0.2.0.9003
+Version: 0.2.0.9004
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",

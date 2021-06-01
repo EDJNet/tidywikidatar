@@ -1,4 +1,5 @@
 test_that("check if labels are returned correctly when more than one id given", {
+  testthat::skip_if_offline()
   expect_equal(object = {
     tw_get_label(
       id = c(
@@ -15,7 +16,9 @@ test_that("check if labels are returned correctly when more than one id given", 
 
 
 test_that("check if labels are returned more efficiently when same id given", {
+  testthat::skip_on_cran() # not run due to inconsistent results on cran
   expect_gt(object = {
+    tw_disable_cache()
     tw_get_label(
       id = c(
         "Q180099"
@@ -47,7 +50,9 @@ test_that("check if labels are returned more efficiently when same id given", {
 })
 
 test_that("check if descriptions are returned more efficiently when same id given", {
+  testthat::skip_on_cran() # not run due to inconsistent results on cran
   expect_lt(object = {
+    tw_disable_cache()
     tw_get_description(
       id = "Q180099",
       language = "en"
@@ -75,7 +80,9 @@ test_that("check if descriptions are returned more efficiently when same id give
 })
 
 test_that("check if property labels are returned more efficiently when same id given", {
+  testthat::skip_on_cran() # not run due to inconsistent results on cran
   expect_lt(object = {
+    tw_disable_cache()
     tw_get_property_label(
       property = c(
         "P31"
@@ -95,6 +102,7 @@ test_that("check if property labels are returned more efficiently when same id g
     after <- Sys.time()
     after - before
   }, expected = {
+    tw_disable_cache()
     before <- Sys.time()
 
     purrr::map_chr(.x = c(
