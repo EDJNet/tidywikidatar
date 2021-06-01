@@ -8,7 +8,7 @@ tw_search_property(
   search,
   language = tidywikidatar::tw_get_language(),
   limit = 10,
-  include_search = include_search,
+  include_search = FALSE,
   wait = 0,
   cache = NULL,
   overwrite_cache = FALSE,
