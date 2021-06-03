@@ -35,6 +35,8 @@ tw_check_search(
 \item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 A data frame with three columns, \code{id}, \code{label}, and \code{description}, filtered by the above criteria.

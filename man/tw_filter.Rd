@@ -48,6 +48,6 @@ A data frame with three columns, \code{id}, \code{label}, and \code{description}
 Filter search result and keep only items with matching property and Q id
 }
 \examples{
-tw_search("Margaret Mead", limit = 3) \%>\%
+tw_search(search = "Margaret Mead", limit = 3) \%>\%
   tw_filter(p = "P31", q = "Q5")
 }
