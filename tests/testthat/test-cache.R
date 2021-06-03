@@ -46,8 +46,9 @@ test_that("items are stored and retrieved from cache correctly", {
     tw_set_cache_folder(
       path = fs::path(
         tempdir(),
-        stringr::str_c(sample(x = letters, size = 24), collapse = ""))
+        stringr::str_c(sample(x = letters, size = 24), collapse = "")
       )
+    )
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
@@ -64,7 +65,8 @@ test_that("items are stored and retrieved from cache correctly", {
     tw_set_cache_folder(
       path = fs::path(
         tempdir(),
-        stringr::str_c(sample(x = letters, size = 24), collapse = ""))
+        stringr::str_c(sample(x = letters, size = 24), collapse = "")
+      )
     )
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
