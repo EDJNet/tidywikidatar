@@ -1,4 +1,7 @@
 test_that("check if qualifiers are returned correctly", {
+
+  testthat::skip_if_offline()
+
   expect_equal(object = {
     tw_set_cache_folder(path = tempdir())
     tw_enable_cache()
@@ -27,7 +30,10 @@ test_that("check if qualifiers are returned correctly", {
 })
 
 test_that("check if qualifiers are returned correctly when more than 1 id and one property", {
-  expect_equal(
+
+  testthat::skip_if_offline()
+
+   expect_equal(
     object = {
       tw_set_cache_folder(path = tempdir())
       tw_enable_cache()

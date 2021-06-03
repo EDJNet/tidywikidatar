@@ -1,8 +1,9 @@
 library("testthat")
 
-
-
 test_that("check if tw_get returns tibble with three columns and meaningful number of rows", {
+
+  testthat::skip_if_offline()
+
   expect_true(object = {
 
       item <- tw_get(
@@ -25,6 +26,9 @@ test_that("check if tw_get returns tibble with three columns and meaningful numb
 
 
 test_that("check if tw_get works when more than one id as input", {
+
+  testthat::skip_if_offline()
+
   expect_true(object = {
     item <- tw_get(
       id = c(

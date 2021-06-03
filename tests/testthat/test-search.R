@@ -1,5 +1,6 @@
 library("testthat")
 test_that("check if tw_check_search() returns search if input is not a search", {
+
   testthat::skip_if_offline()
 
   expect_equal(
@@ -14,6 +15,7 @@ test_that("check if tw_check_search() returns search if input is not a search", 
 })
 
 test_that("check if tw_search() works with input of length one", {
+
   testthat::skip_if_offline()
 
   expect_equal(
@@ -31,6 +33,7 @@ test_that("check if tw_search() works with input of length one", {
 })
 
 test_that("check if tw_search() works with input of length more than one", {
+
   testthat::skip_if_offline()
 
   expect_equal(
