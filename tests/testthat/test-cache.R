@@ -1,3 +1,5 @@
+library("testthat")
+
 test_that("cache respects param when given", {
   testthat::skip_if_offline()
 
@@ -41,7 +43,10 @@ test_that("items are stored and retrieved from cache correctly", {
   testthat::skip_if_offline()
 
   expect_equal(object = {
-    tw_set_cache_folder(path = tempdir())
+    tw_set_cache_folder(
+      path = fs::path(tempdir(),
+                      stringi::stri_rand_strings(n = 1, length = 24))
+      )
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
@@ -55,7 +60,10 @@ test_that("items are stored and retrieved from cache correctly", {
   ))
 
   expect_false(object = {
-    tw_set_cache_folder(path = tempdir())
+    tw_set_cache_folder(
+      path = fs::path(tempdir(),
+                      stringi::stri_rand_strings(n = 1, length = 24))
+    )
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
