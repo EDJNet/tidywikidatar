@@ -3,6 +3,7 @@
 #' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
 #'
 #' @return If data present in cache, returns a data frame with cached data.
 #' @export
@@ -22,7 +23,9 @@
 #' )
 tw_get_cached_item <- function(id,
                                language = tidywikidatar::tw_get_language(),
-                               cache_connection = NULL) {
+                               cache_connection = NULL,
+                               disconnect_db = TRUE) {
+
 
   db <- tw_connect_to_cache(connection = cache_connection,
                             language = language)
@@ -31,7 +34,9 @@ tw_get_cached_item <- function(id,
                                         language = language)
 
   if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
-    DBI::dbDisconnect(db)
+    if (disconnect_db == TRUE) {
+      DBI::dbDisconnect(db)
+    }
     return(tibble::tibble(id = as.character(NA),
                           property = as.character(NA),
                           value = as.character(NA)) %>%
@@ -55,7 +60,9 @@ tw_get_cached_item <- function(id,
   cached_items_df <- db_result %>%
     tibble::as_tibble()
 
-  DBI::dbDisconnect(db)
+  if (disconnect_db == TRUE) {
+    DBI::dbDisconnect(db)
+  }
 
   cached_items_df
 }

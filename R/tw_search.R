@@ -16,8 +16,8 @@
 #' @export
 #'
 #' @examples
-#' tw_search(search = "Sylvia Pankhurst")
-tw_search <- function(search,
+#' tw_search_single(search = "Sylvia Pankhurst")
+tw_search_single <- function(search,
                       type = "item",
                       language = tidywikidatar::tw_get_language(),
                       limit = 10,
@@ -32,6 +32,10 @@ tw_search <- function(search,
 
   if (is.null(language)) {
     usethis::ui_stop("A search language must be given.")
+  }
+
+  if (length(search) > 1) {
+    usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
   }
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
@@ -135,6 +139,130 @@ tw_search <- function(search,
       dplyr::filter(is.na(.data$id) == FALSE) %>%
       dplyr::select(-search) %>%
       tibble::as_tibble()
+  }
+}
+
+
+
+
+#' Search for Wikidata items or properties and return Wikidata id, label, and description.
+#'
+#' This search returns only items, use `tw_search_property()` for properties.
+#'
+#' @param search A string to be searched in Wikidata
+#' @param type Defaults to "item". Either "item" or "property".
+#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param limit Maximum numbers of responses to be given.
+#' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#'
+#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
+#' @export
+#'
+#' @examples
+#' tw_search(search = c("Margaret Mead", "Ruth Benedict"))
+tw_search <- function(search,
+                      type = "item",
+                      language = tidywikidatar::tw_get_language(),
+                      limit = 10,
+                      include_search = FALSE,
+                      wait = 0,
+                      cache = NULL,
+                      overwrite_cache = FALSE,
+                      cache_connection = NULL) {
+  if (is.null(search)) {
+    usethis::ui_stop("A search string must be given.")
+  }
+
+  if (is.null(language)) {
+    usethis::ui_stop("A search language must be given.")
+  }
+
+  if (length(search)==0) {
+    stop("`tw_search()` requires `search` of length 1 or more.")
+  } else if (length(search)==1) {
+    tw_search_single(
+      search = search,
+      type = type,
+      language = language,
+      limit = limit,
+      include_search = include_search,
+      wait = wait,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection
+    )
+  } else if (length(search)>1) {
+    if (overwrite_cache==TRUE | tw_check_cache(cache) == FALSE) {
+      pb <- progress::progress_bar$new(total = length(search))
+      return(purrr::map_dfr(
+        .x = search,
+        .f = function(x) {
+          pb$tick()
+          tw_search_single(
+            search = x,
+            type = type,
+            language = language,
+            limit = limit,
+            include_search = include_search,
+            wait = wait,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            cache_connection = cache_connection
+          )
+        }
+      ))
+    }
+
+    if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
+      search_from_cache_df <- tw_get_cached_search(
+        search = search,
+        type = type,
+        language = language,
+        include_search = TRUE,
+        cache_connection = cache_connection
+      )
+
+      search_not_in_cache_v <- search[is.element(search, search_from_cache_df$search)]
+
+      if (length(search_not_in_cache_v)==0) {
+        return(search_from_cache_df %>%
+                 dplyr::right_join(tibble::tibble(search = search), by = "search"))
+      } else if (length(search_not_in_cache_v)>0) {
+        pb <- progress::progress_bar$new(total = length(search_not_in_cache_v))
+        items_not_in_cache_df <- purrr::map_dfr(
+          .x = search_not_in_cache_v,
+          .f = function(x) {
+            pb$tick()
+            tw_search_single(
+              search = x,
+              type = type,
+              language = language,
+              limit = limit,
+              include_search = TRUE,
+              wait = wait,
+              cache = cache,
+              overwrite_cache = overwrite_cache,
+              cache_connection = cache_connection
+            )
+          }
+        )
+
+        search_merged_df <- dplyr::bind_rows(search_from_cache_df,
+                                             items_not_in_cache_df) %>%
+          dplyr::right_join(tibble::tibble(search = search), by = "search")
+
+        if (include_search == TRUE) {
+          search_merged_df
+        } else {
+          search_merged_df %>%
+            dplyr::select(-.data$search)
+        }
+      }
+    }
   }
 }
 

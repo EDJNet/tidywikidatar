@@ -9,7 +9,9 @@ tw_get_single(
   language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
+  read_cache = TRUE,
   cache_connection = NULL,
+  disconnect_db = TRUE,
   wait = 0
 )
 }
@@ -22,7 +24,11 @@ tw_get_single(
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
+\item{read_cache}{Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.}
+
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }

@@ -4,7 +4,9 @@
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param read_cache Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data.frame (a tibble) with three columns (id, property, and value). If item not found or trouble connecting with the server, an data frame with three columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
@@ -19,20 +21,23 @@ tw_get_single <- function(id,
                           language = tidywikidatar::tw_get_language(),
                           cache = NULL,
                           overwrite_cache = FALSE,
+                          read_cache = TRUE,
                           cache_connection = NULL,
+                          disconnect_db = TRUE,
                           wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
   if (length(id) > 1) {
-    stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
+    usethis::ui_stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
   }
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
     db_result <- tw_get_cached_item(
       id = id,
       language = language,
-      cache_connection = cache_connection
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db
     )
     if (is.data.frame(db_result)&nrow(db_result)>0) {
         return(db_result %>%
@@ -74,6 +79,7 @@ tw_get_single <- function(id,
         cache = cache,
         overwrite_cache = overwrite_cache,
         cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
         wait = wait
       )
     )
@@ -229,9 +235,11 @@ tw_get_single <- function(id,
       item_df = everything_df,
       language = language,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db
     )
   }
+
   everything_df
 }
 
@@ -242,6 +250,7 @@ tw_get_single <- function(id,
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data.frame (a tibble) with three columns (id, property, and value).
@@ -257,6 +266,7 @@ tw_get <- function(id,
                    cache = NULL,
                    overwrite_cache = FALSE,
                    cache_connection = NULL,
+                   disconnect_db = TRUE,
                    wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -286,6 +296,7 @@ tw_get <- function(id,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
+            disconnect_db = FALSE,
             wait = wait
           )
         }
@@ -296,12 +307,18 @@ tw_get <- function(id,
       items_from_cache_df <- tw_get_cached_item(
         id = id,
         language = language,
-        cache_connection = cache_connection
+        cache_connection = cache_connection,
+        disconnect_db = FALSE
       )
 
-      id_items_not_in_cache <- id[is.element(id, items_from_cache_df$id)]
+      id_items_not_in_cache <- id[!is.element(id, items_from_cache_df$id)]
 
       if (length(id_items_not_in_cache)==0) {
+        if (DBI::dbIsValid(dbObj = cache_connection)) {
+          if (disconnect_db == TRUE) {
+            DBI::dbDisconnect(cache_connection)
+          }
+        }
         return(items_from_cache_df %>%
                  dplyr::right_join(tibble::tibble(id = id), by = "id"))
       } else if (length(id_items_not_in_cache)>0) {
@@ -316,11 +333,19 @@ tw_get <- function(id,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = cache_connection,
+              read_cache = FALSE,
+              disconnect_db = FALSE,
               wait = wait
             )
           }
         )
-
+        if (tw_check_cache(cache) == TRUE) {
+          if (DBI::dbIsValid(dbObj = cache_connection)) {
+            if (disconnect_db == TRUE) {
+              DBI::dbDisconnect(cache_connection)
+            }
+          }
+        }
         dplyr::bind_rows(items_from_cache_df,
                          items_not_in_cache_df) %>%
           dplyr::right_join(tibble::tibble(id = id), by = "id")
