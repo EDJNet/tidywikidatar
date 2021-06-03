@@ -7,14 +7,16 @@
 #'
 #' @examples
 #' \donttest{
-#' cache_connection <- DBI::dbConnect(odbc::odbc(),
-#'   Driver = "MariaDB",
-#'   Host = "localhost",
-#'   database = "example_db",
-#'   UID = "example_user",
-#'   PWD = "example_pwd"
-#' )
-#' tw_connect_to_cache(cache_connection)
+#' if (interactive()) {
+#'   cache_connection <- DBI::dbConnect(odbc::odbc(),
+#'     Driver = "MariaDB",
+#'     Host = "localhost",
+#'     database = "example_db",
+#'     UID = "example_user",
+#'     PWD = "example_pwd"
+#'   )
+#'   tw_connect_to_cache(cache_connection)
+#' }
 #' }
 #'
 tw_connect_to_cache <- function(connection = NULL,

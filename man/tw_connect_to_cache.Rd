@@ -16,16 +16,17 @@ A connection object.
 Return a connection to be used for caching
 }
 \examples{
-
-
+\donttest{
+if (interactive()) {
 cache_connection <- DBI::dbConnect(odbc::odbc(),
- Driver = "MariaDB",
- Host = "localhost",
- database = "example_db",
- UID = "example_user",
- PWD = "example_pwd"
- )
-
+  Driver = "MariaDB",
+  Host = "localhost",
+  database = "example_db",
+  UID = "example_user",
+  PWD = "example_pwd"
+)
 tw_connect_to_cache(cache_connection)
+}
+}
 
 }

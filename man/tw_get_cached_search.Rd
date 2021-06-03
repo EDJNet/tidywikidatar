@@ -44,5 +44,4 @@ search_from_api
 
 df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 df_from_cache
-
 }

@@ -42,7 +42,7 @@ search_from_api <- tw_search(search = "Sylvia Pankhurst", include_search = TRUE)
 
 search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 
-nrow(search_from_cache)==0 # expect TRUE, as nothing has yet been stored in cache
+nrow(search_from_cache) == 0 # expect TRUE, as nothing has yet been stored in cache
 
 tw_write_search_to_cache(search_df = search_from_api)
 

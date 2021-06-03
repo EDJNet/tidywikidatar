@@ -23,5 +23,4 @@ Gets name of table inside the database
 \examples{
 
 tw_get_cache_table_name(type = "item", language = "en") # outputs name of table used in  of cache file
-
 }

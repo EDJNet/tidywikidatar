@@ -31,5 +31,4 @@ tw_get(
   language = "en"
 )
 tw_disconnect_from_cache()
-
 }
