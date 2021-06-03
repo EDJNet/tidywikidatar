@@ -314,11 +314,15 @@ tw_get <- function(id,
       id_items_not_in_cache <- id[!is.element(id, items_from_cache_df$id)]
 
       if (length(id_items_not_in_cache)==0) {
-        if (DBI::dbIsValid(dbObj = cache_connection)) {
+        db <- tw_connect_to_cache(connection = cache_connection,
+                                  language = language)
+
+        if (DBI::dbIsValid(dbObj = db)) {
           if (disconnect_db == TRUE) {
-            DBI::dbDisconnect(cache_connection)
+            DBI::dbDisconnect(db)
           }
         }
+
         return(items_from_cache_df %>%
                  dplyr::right_join(tibble::tibble(id = id), by = "id"))
       } else if (length(id_items_not_in_cache)>0) {
