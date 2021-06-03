@@ -10,6 +10,7 @@ tw_get_description(
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = cache_connection,
+  disconnect_db = TRUE,
   wait = 0
 )
 }
@@ -23,6 +24,8 @@ tw_get_description(
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
