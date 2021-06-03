@@ -9,7 +9,8 @@ tw_get_cached_search(
   type = "item",
   language = tidywikidatar::tw_get_language(),
   include_search = FALSE,
-  cache_connection = NULL
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ tw_get_cached_search(
 \item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 }

@@ -5,6 +5,7 @@
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
 #' @return If data present in cache, returns a data frame with cached data.
 #' @export
@@ -26,7 +27,8 @@ tw_get_cached_search <- function(search,
                                  type = "item",
                                  language = tidywikidatar::tw_get_language(),
                                  include_search = FALSE,
-                                 cache_connection = NULL) {
+                                 cache_connection = NULL,
+                                 disconnect_db = TRUE) {
 
   db <- tw_connect_to_cache(connection = cache_connection,
                             language = language)
@@ -35,7 +37,9 @@ tw_get_cached_search <- function(search,
                                         language = language)
 
   if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
-    DBI::dbDisconnect(db)
+    if (disconnect_db == TRUE) {
+      DBI::dbDisconnect(db)
+    }
     return(tibble::tibble(id = as.character(NA),
                           label = as.character(NA),
                           description = as.character(NA)) %>%
@@ -51,6 +55,9 @@ tw_get_cached_search <- function(search,
     }
   )
   if (isFALSE(db_result)) {
+    if (disconnect_db == TRUE) {
+      DBI::dbDisconnect(db)
+    }
     return(tibble::tibble(id = as.character(NA),
                           label = as.character(NA),
                           value = as.character(NA)) %>%
@@ -67,7 +74,9 @@ tw_get_cached_search <- function(search,
       dplyr::select(-.data$search)
   }
 
-  DBI::dbDisconnect(db)
+  if (disconnect_db == TRUE) {
+    DBI::dbDisconnect(db)
+  }
 
   cached_items_df
 }

@@ -7,7 +7,8 @@
 tw_check_cached_items(
   id,
   language = tidywikidatar::tw_get_language(),
-  cache_connection = NULL
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ tw_check_cached_items(
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 A character vector with IDs of items present in cache. If no item found in cache, returns NULL.

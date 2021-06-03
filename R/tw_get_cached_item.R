@@ -51,6 +51,9 @@ tw_get_cached_item <- function(id,
     }
   )
   if (isFALSE(db_result)) {
+    if (disconnect_db == TRUE) {
+      DBI::dbDisconnect(db)
+    }
     return(tibble::tibble(id = as.character(NA),
                           property = as.character(NA),
                           value = as.character(NA)) %>%
@@ -117,6 +120,7 @@ tw_get_cache_table_name <- function(type = "item",
 #' @param id A characther vector. Each element must start with Q, and correspond to a Wikidata identifier.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
 #' @return A character vector with IDs of items present in cache. If no item found in cache, returns NULL.
 #' @export
@@ -146,11 +150,13 @@ tw_get_cache_table_name <- function(type = "item",
 #' items_in_cache
 tw_check_cached_items <- function(id,
                                   language = tidywikidatar::tw_get_language(),
-                                  cache_connection = NULL) {
+                                  cache_connection = NULL,
+                                  disconnect_db = TRUE) {
 
   tw_get_cached_item(id = id,
                      language = language,
-                     cache_connection = cache_connection) %>%
+                     cache_connection = cache_connection,
+                     disconnect_db = disconnect_db) %>%
     dplyr::distinct(id) %>%
     dplyr::pull(id)
 

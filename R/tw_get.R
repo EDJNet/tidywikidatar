@@ -236,7 +236,7 @@ tw_get_single <- function(id,
       language = language,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
-      disconnect_db = FALSE
+      disconnect_db = disconnect_db
     )
   }
   tw_disconnect_from_cache(cache = cache,
@@ -275,20 +275,21 @@ tw_get <- function(id,
   }
 
   if (length(id)==0) {
-    stop("`tw_get()` requires `id` of length 1 or more.")
+    usethis::ui_stop("`tw_get()` requires `id` of length 1 or more.")
   } else if (length(id)==1) {
-    tw_get_single(
+    return(tw_get_single(
       id = id,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
       wait = wait
-    )
+    ))
   } else if (length(id)>1) {
     if (overwrite_cache==TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(id))
-      return(purrr::map_dfr(
+      item_df <- purrr::map_dfr(
         .x = id,
         .f = function(x) {
           pb$tick()
@@ -302,7 +303,11 @@ tw_get <- function(id,
             wait = wait
           )
         }
-      ))
+      )
+      tw_disconnect_from_cache(cache = cache,
+                               cache_connection = cache_connection,
+                               disconnect_db = disconnect_db)
+      return(item_df)
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {

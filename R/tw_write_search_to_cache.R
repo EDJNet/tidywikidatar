@@ -37,7 +37,7 @@ tw_write_search_to_cache <- function(search_df,
                                      disconnect_db = TRUE) {
 
 
-  if (colnames(search_df) != c("search", "id", "label", "description")) {
+  if (identical(x = colnames(search_df), y = c("search", "id", "label", "description"))==FALSE) {
     usethis::ui_stop('search_df must have exactly four columns: "search", "id", "label", "description"')
   }
 
