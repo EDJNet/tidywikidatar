@@ -542,7 +542,7 @@ tw_get_description_single <- function(id,
       stringr::str_ends(
         string = .data$property,
         pattern = stringr::str_c(language,
-                                 collapse = "|"
+          collapse = "|"
         )
       )
     ) %>%

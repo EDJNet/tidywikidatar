@@ -75,14 +75,17 @@ test_that("check if descriptions are returned more efficiently when same id give
     before <- Sys.time()
 
     purrr::map_chr(
-      .x = rep(x = "Q180099",
-               5),
+      .x = rep(
+        x = "Q180099",
+        5
+      ),
       .f = function(x) {
         tw_get_description(
           id = x,
           language = "en"
         )
-      })
+      }
+    )
 
     after <- Sys.time()
     after - before
