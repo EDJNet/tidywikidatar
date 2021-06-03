@@ -269,7 +269,6 @@ tw_write_qualifiers_to_cache <- function(id,
     drv = RSQLite::SQLite(),
     db_file
   )
-  RSQLite::sqliteSetBusyHandler(dbObj = db, handler = 5000)
 
   db_table_name <- stringr::str_c(
     stringr::str_to_upper(id),

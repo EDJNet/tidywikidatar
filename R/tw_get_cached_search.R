@@ -1,6 +1,6 @@
 #' Retrieve cached search
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
+#' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
