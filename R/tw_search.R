@@ -165,6 +165,7 @@ tw_search_single <- function(search,
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
 #' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
 #' @export
@@ -179,7 +180,8 @@ tw_search <- function(search,
                       wait = 0,
                       cache = NULL,
                       overwrite_cache = FALSE,
-                      cache_connection = NULL) {
+                      cache_connection = NULL,
+                      disconnect_db = TRUE) {
   if (is.null(search)) {
     usethis::ui_stop("A search string must be given.")
   }
@@ -258,11 +260,18 @@ tw_search <- function(search,
           }
         )
 
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
+
         search_merged_df <- dplyr::bind_rows(
           search_from_cache_df,
           items_not_in_cache_df
         ) %>%
           dplyr::right_join(tibble::tibble(search = search), by = "search")
+
 
         if (include_search == TRUE) {
           search_merged_df

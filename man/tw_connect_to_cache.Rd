@@ -20,8 +20,9 @@ Return a connection to be used for caching
 \examples{
 \donttest{
 if (interactive()) {
-  cache_connection <- DBI::dbConnect(odbc::odbc(),
-    Driver = "MariaDB",
+  cache_connection <- DBI::dbConnect(
+    RSQLite::SQLite(), # or e.g. odbc::odbc(),
+    Driver =  ":memory:", # or e.g. "MariaDB",
     Host = "localhost",
     database = "example_db",
     UID = "example_user",

@@ -13,7 +13,8 @@ tw_check_search(
   wait = 0,
   cache = NULL,
   overwrite_cache = FALSE,
-  cache_connection = NULL
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{

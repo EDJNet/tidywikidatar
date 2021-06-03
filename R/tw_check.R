@@ -28,7 +28,8 @@ tw_check_search <- function(search,
                             wait = 0,
                             cache = NULL,
                             overwrite_cache = FALSE,
-                            cache_connection = NULL) {
+                            cache_connection = NULL,
+                            disconnect_db = TRUE) {
   if (is.data.frame(search) == TRUE) {
     search_result <- search
   } else if (length(search) > 1) {
@@ -43,7 +44,8 @@ tw_check_search <- function(search,
       wait = wait,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db
     )
   }
   search_result

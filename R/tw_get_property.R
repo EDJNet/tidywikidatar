@@ -8,6 +8,7 @@
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
 #' @return A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
 #' @export
@@ -23,15 +24,17 @@ tw_get_property_single <- function(id,
                                    cache = NULL,
                                    overwrite_cache = FALSE,
                                    cache_connection = cache_connection,
+                                   disconnect_db = TRUE,
                                    wait = 0) {
   if (is.null(id_df)) {
-    id_df <- tidywikidatar::tw_get(
+    id_df <- tw_get(
       id = id,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       language = language,
-      wait = wait
+      wait = wait,
+      disconnect_db = disconnect_db
     )
   }
   property_df <- id_df %>%
@@ -58,6 +61,7 @@ tw_get_property_single <- function(id,
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
@@ -93,6 +97,7 @@ tw_get_property <- function(id,
                             cache = NULL,
                             overwrite_cache = FALSE,
                             cache_connection = NULL,
+                            disconnect_db = TRUE,
                             wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -110,6 +115,7 @@ tw_get_property <- function(id,
           cache = cache,
           overwrite_cache = overwrite_cache,
           cache_connection = cache_connection,
+          disconnect_db = TRUE,
           wait = wait
         )
       }
@@ -126,6 +132,7 @@ tw_get_property <- function(id,
         cache = cache,
         overwrite_cache = overwrite_cache,
         cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
         wait = wait
       )
     }

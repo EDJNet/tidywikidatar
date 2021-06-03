@@ -214,13 +214,18 @@ tw_get_single <- function(id,
     }
   )
 
-  if (language == "all_available") {
+  if (language == "all_available" | nrow(sitelinks_df)==0) {
     # do nothing
   } else {
     sitelinks_df <- sitelinks_df %>%
-      dplyr::filter((.data$property == stringr::str_c("sitelink_", language, "wiki")) | (.data$property == stringr::str_c("sitelink_", language, "wikiquote")) | (.data$property == stringr::str_c("sitelink_", language, "wikisource")) | (.data$property == "sitelink_commonswiki"))
+      dplyr::filter((.data$property == stringr::str_c("sitelink_",
+                                                      language,
+                                                      "wiki")) | (.data$property == stringr::str_c("sitelink_",
+                                                                                                   language,
+                                                                                                   "wikiquote")) | (.data$property == stringr::str_c("sitelink_",
+                                                                                                                                                     language,
+                                                                                                                                                     "wikisource")) | (.data$property == "sitelink_commonswiki"))
   }
-
 
   everything_df <- dplyr::bind_rows(
     labels_df,
@@ -230,7 +235,9 @@ tw_get_single <- function(id,
     sitelinks_df
   ) %>%
     tibble::as_tibble() %>%
-    dplyr::transmute(id = id, .data$property, .data$value)
+    dplyr::transmute(id = id,
+                     .data$property,
+                     .data$value)
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_item_to_cache(

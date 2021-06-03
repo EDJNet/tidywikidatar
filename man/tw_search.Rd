@@ -13,7 +13,8 @@ tw_search(
   wait = 0,
   cache = NULL,
   overwrite_cache = FALSE,
-  cache_connection = NULL
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ tw_search(
 \item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when \code{include_search} is set to TRUE.
