@@ -39,7 +39,7 @@ tw_search(
 A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when \code{include_search} is set to TRUE.
 }
 \description{
-This search returns only items, use \code{tw_search_property()} for properties.
+By defaults, this search returns items. Set \code{type} to property or use \code{tw_search_property()} for properties.
 }
 \examples{
 tw_search(search = c("Margaret Mead", "Ruth Benedict"))

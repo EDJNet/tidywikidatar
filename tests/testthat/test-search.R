@@ -6,7 +6,7 @@ test_that("check if tw_check_search() returns search if input is not a search", 
   expect_equal(
     object = {
       tw_disable_cache()
-      tw_check_search("Sylvia Pankhurst")
+      tw_check_search(search = "Sylvia Pankhurst")
     },
     expected = {
       tw_check_search(tw_search("Sylvia Pankhurst"))

@@ -152,7 +152,7 @@ tw_search_single <- function(search,
 
 #' Search for Wikidata items or properties and return Wikidata id, label, and description.
 #'
-#' This search returns only items, use `tw_search_property()` for properties.
+#' By defaults, this search returns items. Set `type` to property or use `tw_search_property()` for properties.
 #'
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".

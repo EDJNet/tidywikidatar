@@ -30,7 +30,7 @@ test_that("check if labels are returned more efficiently when same id given", {
       language = "en"
     )
     before <- Sys.time()
-    purrr::map_chr(.x = rep(x = "Q180099", 10),
+    purrr::map_chr(.x = rep(x = "Q180099", 5),
                    .f = function(x) {
                      tw_get_label(
                        id = x,
@@ -44,7 +44,7 @@ test_that("check if labels are returned more efficiently when same id given", {
   }, expected = {
     before <- Sys.time()
     tw_get_label(
-      id = rep(x = "Q180099", 10),
+      id = rep(x = "Q180099", 5),
       language = "en"
     )
     after <- Sys.time()
@@ -65,7 +65,7 @@ test_that("check if descriptions are returned more efficiently when same id give
     )
     before <- Sys.time()
     tw_get_description(
-      id = rep(x = "Q180099", 10),
+      id = rep(x = "Q180099", 5),
       language = "en"
     )
     after <- Sys.time()
@@ -73,7 +73,7 @@ test_that("check if descriptions are returned more efficiently when same id give
   }, expected = {
     before <- Sys.time()
 
-    purrr::map_chr(.x = rep(x = "Q180099", 10), .f = function(x) {
+    purrr::map_chr(.x = rep(x = "Q180099", 5), .f = function(x) {
       tw_get_description(
         id = x,
         language = "en"
