@@ -140,4 +140,3 @@ tw_get_property_description <- function(property,
     }
   }
 }
-

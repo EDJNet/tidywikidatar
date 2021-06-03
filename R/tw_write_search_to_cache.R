@@ -22,7 +22,7 @@
 #'
 #' search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #'
-#' nrow(search_from_cache)==0 # expect TRUE, as nothing has yet been stored in cache
+#' nrow(search_from_cache) == 0 # expect TRUE, as nothing has yet been stored in cache
 #'
 #' tw_write_search_to_cache(search_df = search_from_api)
 #'
@@ -35,37 +35,41 @@ tw_write_search_to_cache <- function(search_df,
                                      overwrite_cache = FALSE,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE) {
-
-
-  if (identical(x = colnames(search_df), y = c("search", "id", "label", "description"))==FALSE) {
+  if (identical(x = colnames(search_df), y = c("search", "id", "label", "description")) == FALSE) {
     usethis::ui_stop('search_df must have exactly four columns: "search", "id", "label", "description"')
   }
 
-  db <- tw_connect_to_cache(connection = cache_connection,
-                            language = language)
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
-  table_name <- tw_get_cache_table_name(type = stringr::str_c("search_", type),
-                                        language = language)
+  table_name <- tw_get_cache_table_name(
+    type = stringr::str_c("search_", type),
+    language = language
+  )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
-
       statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
-                                  id = unique(search_df$search),
-                                  table_name = table_name,
-                                  .con = db
+        id = unique(search_df$search),
+        table_name = table_name,
+        .con = db
       )
-      result <- DBI::dbExecute(conn = db,
-                               statement = statement)
+      result <- DBI::dbExecute(
+        conn = db,
+        statement = statement
+      )
     }
   }
 
   DBI::dbWriteTable(db,
-                    name = table_name,
-                    value = search_df,
-                    append = TRUE)
+    name = table_name,
+    value = search_df,
+    append = TRUE
+  )
 
   if (disconnect_db == TRUE) {
     DBI::dbDisconnect(db)

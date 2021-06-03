@@ -1,5 +1,4 @@
 test_that("check if labels are returned correctly when more than one id given", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -30,17 +29,18 @@ test_that("check if labels are returned more efficiently when same id given", {
       language = "en"
     )
     before <- Sys.time()
-    purrr::map_chr(.x = rep(x = "Q180099", 5),
-                   .f = function(x) {
-                     tw_get_label(
-                       id = x,
-                       language = "en"
-                     )
-                   })
+    purrr::map_chr(
+      .x = rep(x = "Q180099", 5),
+      .f = function(x) {
+        tw_get_label(
+          id = x,
+          language = "en"
+        )
+      }
+    )
 
     after <- Sys.time()
     after - before
-
   }, expected = {
     before <- Sys.time()
     tw_get_label(
@@ -49,7 +49,6 @@ test_that("check if labels are returned more efficiently when same id given", {
     )
     after <- Sys.time()
     after - before
-
   })
 })
 
@@ -86,7 +85,6 @@ test_that("check if descriptions are returned more efficiently when same id give
 })
 
 test_that("check if property labels are returned more efficiently when same id given", {
-
   testthat::skip_if_offline()
   testthat::skip_on_cran() # not run due to inconsistent results on cran
 

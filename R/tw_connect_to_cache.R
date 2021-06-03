@@ -6,24 +6,21 @@
 #' @export
 #'
 #' @examples
-#'
-#'
+#' \donttest{
 #' cache_connection <- DBI::dbConnect(odbc::odbc(),
-#'  Driver = "MariaDB",
-#'  Host = "localhost",
-#'  database = "example_db",
-#'  UID = "example_user",
-#'  PWD = "example_pwd"
-#'  )
-#'
+#'   Driver = "MariaDB",
+#'   Host = "localhost",
+#'   database = "example_db",
+#'   UID = "example_user",
+#'   PWD = "example_pwd"
+#' )
 #' tw_connect_to_cache(cache_connection)
+#' }
 #'
 tw_connect_to_cache <- function(connection = NULL,
                                 language = NULL) {
-
   if (is.null(connection)) {
-
-    if (is.null(language)==FALSE) {
+    if (is.null(language) == FALSE) {
       language <- tw_get_language()
     }
 
@@ -42,4 +39,3 @@ tw_connect_to_cache <- function(connection = NULL,
     connection
   }
 }
-

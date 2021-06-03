@@ -1,5 +1,4 @@
 test_that("cache respects param when given", {
-
   testthat::skip_if_offline()
 
   expect_equal(
@@ -16,7 +15,6 @@ test_that("cache respects param when given", {
 test_that(
   desc = "Cache file location is returned correctly",
   code = {
-
     testthat::skip_if_offline()
 
     expect_equal(
@@ -40,7 +38,6 @@ test_that(
 
 
 test_that("items are stored and retrieved from cache correctly", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -52,7 +49,6 @@ test_that("items are stored and retrieved from cache correctly", {
       id = "Q180099",
       language = "en"
     )
-
   }, expected = tw_get_cached_item(
     id = "Q180099",
     language = "en"

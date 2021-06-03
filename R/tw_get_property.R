@@ -16,7 +16,6 @@
 #' # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 #' advisors <- tw_get_property_single(id = "Q180099", p = "P184")
 #' advisors
-
 tw_get_property_single <- function(id,
                                    p,
                                    language = tidywikidatar::tw_get_language(),
@@ -38,9 +37,11 @@ tw_get_property_single <- function(id,
   property_df <- id_df %>%
     dplyr::filter(.data$property == p)
   if (nrow(property_df) == 0) {
-    tibble::tibble(id = as.character(NA),
-                   property = as.character(NA),
-                   value = as.character(NA)) %>%
+    tibble::tibble(
+      id = as.character(NA),
+      property = as.character(NA),
+      value = as.character(NA)
+    ) %>%
       dplyr::slice(0)
   } else {
     property_df
@@ -117,14 +118,16 @@ tw_get_property <- function(id,
     if (is.na(id)) {
       tibble::tibble(id = as.character(NA), property = as.character(NA), value = as.character(NA)) %>% dplyr::slice(0)
     } else {
-      tw_get_property_single(id = id,
-                             p = p,
-                             language = language,
-                             id_df = id_df,
-                             cache = cache,
-                             overwrite_cache = overwrite_cache,
-                             cache_connection = cache_connection,
-                             wait = wait)
+      tw_get_property_single(
+        id = id,
+        p = p,
+        language = language,
+        id_df = id_df,
+        cache = cache,
+        overwrite_cache = overwrite_cache,
+        cache_connection = cache_connection,
+        wait = wait
+      )
     }
   }
 }

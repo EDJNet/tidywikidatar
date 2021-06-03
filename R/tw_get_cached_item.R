@@ -25,22 +25,26 @@ tw_get_cached_item <- function(id,
                                language = tidywikidatar::tw_get_language(),
                                cache_connection = NULL,
                                disconnect_db = TRUE) {
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
+  table_name <- tw_get_cache_table_name(
+    type = "item",
+    language = language
+  )
 
-  db <- tw_connect_to_cache(connection = cache_connection,
-                            language = language)
-
-  table_name <- tw_get_cache_table_name(type = "item",
-                                        language = language)
-
-  if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
       DBI::dbDisconnect(db)
     }
-    return(tibble::tibble(id = as.character(NA),
-                          property = as.character(NA),
-                          value = as.character(NA)) %>%
-             dplyr::slice(0))
+    return(tibble::tibble(
+      id = as.character(NA),
+      property = as.character(NA),
+      value = as.character(NA)
+    ) %>%
+      dplyr::slice(0))
   }
 
   db_result <- tryCatch(
@@ -54,10 +58,12 @@ tw_get_cached_item <- function(id,
     if (disconnect_db == TRUE) {
       DBI::dbDisconnect(db)
     }
-    return(tibble::tibble(id = as.character(NA),
-                          property = as.character(NA),
-                          value = as.character(NA)) %>%
-             dplyr::slice(0))
+    return(tibble::tibble(
+      id = as.character(NA),
+      property = as.character(NA),
+      value = as.character(NA)
+    ) %>%
+      dplyr::slice(0))
   }
 
   cached_items_df <- db_result %>%
@@ -109,7 +115,6 @@ tw_get_cache_file <- function(type = "item",
 #' @examples
 #'
 #' tw_get_cache_table_name(type = "item", language = "en") # outputs name of table used in  of cache file
-#'
 tw_get_cache_table_name <- function(type = "item",
                                     language = tidywikidatar::tw_get_language()) {
   stringr::str_c("tw_", type, "_", language)
@@ -152,12 +157,12 @@ tw_check_cached_items <- function(id,
                                   language = tidywikidatar::tw_get_language(),
                                   cache_connection = NULL,
                                   disconnect_db = TRUE) {
-
-  tw_get_cached_item(id = id,
-                     language = language,
-                     cache_connection = cache_connection,
-                     disconnect_db = disconnect_db) %>%
+  tw_get_cached_item(
+    id = id,
+    language = language,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db
+  ) %>%
     dplyr::distinct(id) %>%
     dplyr::pull(id)
-
 }

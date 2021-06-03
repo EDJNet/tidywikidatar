@@ -39,25 +39,27 @@ tw_get_single <- function(id,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db
     )
-    if (is.data.frame(db_result)&nrow(db_result)>0) {
-        return(db_result %>%
-                 tibble::as_tibble())
+    if (is.data.frame(db_result) & nrow(db_result) > 0) {
+      return(db_result %>%
+        tibble::as_tibble())
     }
   }
 
   Sys.sleep(time = wait)
 
   item <- tryCatch(WikidataR::get_item(id = id),
-                   error = function(e) {
-                    as.character(e[[1]])
-                   }
+    error = function(e) {
+      as.character(e[[1]])
+    }
   )
 
   if (is.character(item)) {
     usethis::ui_oops(item)
-    output <- tibble::tibble(id = as.character(NA),
-                             property = as.character(NA),
-                             value = as.character(NA)) %>%
+    output <- tibble::tibble(
+      id = as.character(NA),
+      property = as.character(NA),
+      value = as.character(NA)
+    ) %>%
       dplyr::slice(0)
     attr(output, "warning") <- item
     return(output)
@@ -67,8 +69,8 @@ tw_get_single <- function(id,
   if (is.element(
     el = "redirect",
     set = item %>%
-    purrr::pluck(1) %>%
-    names()
+      purrr::pluck(1) %>%
+      names()
   )) {
     id <- item %>%
       purrr::pluck(1, "redirect")
@@ -216,7 +218,7 @@ tw_get_single <- function(id,
     # do nothing
   } else {
     sitelinks_df <- sitelinks_df %>%
-      dplyr::filter((.data$property == stringr::str_c("sitelink_", language, "wiki"))|(.data$property == stringr::str_c("sitelink_", language, "wikiquote"))|(.data$property == stringr::str_c("sitelink_", language, "wikisource"))|(.data$property == "sitelink_commonswiki"))
+      dplyr::filter((.data$property == stringr::str_c("sitelink_", language, "wiki")) | (.data$property == stringr::str_c("sitelink_", language, "wikiquote")) | (.data$property == stringr::str_c("sitelink_", language, "wikisource")) | (.data$property == "sitelink_commonswiki"))
   }
 
 
@@ -239,9 +241,11 @@ tw_get_single <- function(id,
       disconnect_db = disconnect_db
     )
   }
-  tw_disconnect_from_cache(cache = cache,
-                           cache_connection = cache_connection,
-                           disconnect_db = disconnect_db)
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db
+  )
   everything_df
 }
 
@@ -260,7 +264,7 @@ tw_get_single <- function(id,
 #'
 #' @examples
 #' tw_get(
-#'   id = c("Q180099","Q228822"),
+#'   id = c("Q180099", "Q228822"),
 #'   language = "en"
 #' )
 tw_get <- function(id,
@@ -274,9 +278,9 @@ tw_get <- function(id,
     id <- id$id
   }
 
-  if (length(id)==0) {
+  if (length(id) == 0) {
     usethis::ui_stop("`tw_get()` requires `id` of length 1 or more.")
-  } else if (length(id)==1) {
+  } else if (length(id) == 1) {
     return(tw_get_single(
       id = id,
       language = language,
@@ -286,8 +290,8 @@ tw_get <- function(id,
       disconnect_db = disconnect_db,
       wait = wait
     ))
-  } else if (length(id)>1) {
-    if (overwrite_cache==TRUE | tw_check_cache(cache) == FALSE) {
+  } else if (length(id) > 1) {
+    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(id))
       item_df <- purrr::map_dfr(
         .x = id,
@@ -304,9 +308,11 @@ tw_get <- function(id,
           )
         }
       )
-      tw_disconnect_from_cache(cache = cache,
-                               cache_connection = cache_connection,
-                               disconnect_db = disconnect_db)
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db
+      )
       return(item_df)
     }
 
@@ -320,13 +326,15 @@ tw_get <- function(id,
 
       id_items_not_in_cache <- id[!is.element(id, items_from_cache_df$id)]
 
-      if (length(id_items_not_in_cache)==0) {
-        tw_disconnect_from_cache(cache = cache,
-                                 cache_connection = cache_connection,
-                                 disconnect_db = disconnect_db)
+      if (length(id_items_not_in_cache) == 0) {
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
         return(items_from_cache_df %>%
-                 dplyr::right_join(tibble::tibble(id = id), by = "id"))
-      } else if (length(id_items_not_in_cache)>0) {
+          dplyr::right_join(tibble::tibble(id = id), by = "id"))
+      } else if (length(id_items_not_in_cache) > 0) {
         pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
         items_not_in_cache_df <- purrr::map_dfr(
           .x = id_items_not_in_cache,
@@ -345,12 +353,16 @@ tw_get <- function(id,
           }
         )
 
-        tw_disconnect_from_cache(cache = cache,
-                                 cache_connection = cache_connection,
-                                 disconnect_db = disconnect_db)
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
 
-        dplyr::bind_rows(items_from_cache_df,
-                         items_not_in_cache_df) %>%
+        dplyr::bind_rows(
+          items_from_cache_df,
+          items_not_in_cache_df
+        ) %>%
           dplyr::right_join(tibble::tibble(id = id), by = "id")
       }
     }
@@ -434,7 +446,7 @@ tw_get_label <- function(id,
       )
     }
   } else {
-    if (is.na(id)|stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
+    if (is.na(id) | stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
       label <- id
     } else {
       label <- tidywikidatar::tw_get(
@@ -453,7 +465,7 @@ tw_get_label <- function(id,
           stringr::str_ends(
             string = .data$property,
             pattern = stringr::str_c(language,
-                                     collapse = "|"
+              collapse = "|"
             )
           )
         ) %>%
@@ -559,7 +571,7 @@ tw_get_description <- function(id,
         stringr::str_ends(
           string = .data$property,
           pattern = stringr::str_c(language,
-                                   collapse = "|"
+            collapse = "|"
           )
         )
       ) %>%

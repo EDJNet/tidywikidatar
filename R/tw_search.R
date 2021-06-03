@@ -43,14 +43,14 @@ tw_search_single <- function(search,
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_search(
       search = search,
-      type= type,
+      type = type,
       include_search = include_search,
       language = language,
       cache_connection = cache_connection
     )
-    if (is.data.frame(db_result)&nrow(db_result)>0) {
+    if (is.data.frame(db_result) & nrow(db_result) > 0) {
       return(db_result %>%
-               tibble::as_tibble())
+        tibble::as_tibble())
     }
   }
 
@@ -131,11 +131,13 @@ tw_search_single <- function(search,
       cache_connection = cache_connection
     )
   }
-  tw_disconnect_from_cache(cache = cache,
-                           cache_connection = cache_connection,
-                           disconnect_db = disconnect_db)
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db
+  )
 
-  if (include_search==TRUE) {
+  if (include_search == TRUE) {
     search_response_df %>%
       dplyr::filter(is.na(.data$id) == FALSE) %>%
       tibble::as_tibble()
@@ -186,9 +188,9 @@ tw_search <- function(search,
     usethis::ui_stop("A search language must be given.")
   }
 
-  if (length(search)==0) {
+  if (length(search) == 0) {
     stop("`tw_search()` requires `search` of length 1 or more.")
-  } else if (length(search)==1) {
+  } else if (length(search) == 1) {
     tw_search_single(
       search = search,
       type = type,
@@ -200,8 +202,8 @@ tw_search <- function(search,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection
     )
-  } else if (length(search)>1) {
-    if (overwrite_cache==TRUE | tw_check_cache(cache) == FALSE) {
+  } else if (length(search) > 1) {
+    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(search))
       return(purrr::map_dfr(
         .x = search,
@@ -233,10 +235,10 @@ tw_search <- function(search,
 
       search_not_in_cache_v <- search[is.element(search, search_from_cache_df$search)]
 
-      if (length(search_not_in_cache_v)==0) {
+      if (length(search_not_in_cache_v) == 0) {
         return(search_from_cache_df %>%
-                 dplyr::right_join(tibble::tibble(search = search), by = "search"))
-      } else if (length(search_not_in_cache_v)>0) {
+          dplyr::right_join(tibble::tibble(search = search), by = "search"))
+      } else if (length(search_not_in_cache_v) > 0) {
         pb <- progress::progress_bar$new(total = length(search_not_in_cache_v))
         items_not_in_cache_df <- purrr::map_dfr(
           .x = search_not_in_cache_v,
@@ -256,8 +258,10 @@ tw_search <- function(search,
           }
         )
 
-        search_merged_df <- dplyr::bind_rows(search_from_cache_df,
-                                             items_not_in_cache_df) %>%
+        search_merged_df <- dplyr::bind_rows(
+          search_from_cache_df,
+          items_not_in_cache_df
+        ) %>%
           dplyr::right_join(tibble::tibble(search = search), by = "search")
 
         if (include_search == TRUE) {

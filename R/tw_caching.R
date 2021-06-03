@@ -172,14 +172,15 @@ tw_check_cache_folder <- function() {
 #'   language = "en"
 #' )
 #' tw_disconnect_from_cache()
-#'
 tw_disconnect_from_cache <- function(cache = NULL,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
                                      language = tidywikidatar::tw_get_language()) {
-  if (tw_check_cache(cache)==TRUE) {
-    db <- tw_connect_to_cache(connection = cache_connection,
-                              language = language)
+  if (tw_check_cache(cache) == TRUE) {
+    db <- tw_connect_to_cache(
+      connection = cache_connection,
+      language = language
+    )
 
     if (DBI::dbIsValid(dbObj = db)) {
       if (disconnect_db == TRUE) {

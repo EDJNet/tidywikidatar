@@ -1,7 +1,6 @@
 library("testthat")
 
 test_that("tw_check_cached_items() works as expected", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {

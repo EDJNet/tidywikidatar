@@ -22,28 +22,32 @@
 #'
 #' df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #' df_from_cache
-#'
 tw_get_cached_search <- function(search,
                                  type = "item",
                                  language = tidywikidatar::tw_get_language(),
                                  include_search = FALSE,
                                  cache_connection = NULL,
                                  disconnect_db = TRUE) {
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
-  db <- tw_connect_to_cache(connection = cache_connection,
-                            language = language)
+  table_name <- tw_get_cache_table_name(
+    type = stringr::str_c("search_", type),
+    language = language
+  )
 
-  table_name <- tw_get_cache_table_name(type = stringr::str_c("search_", type),
-                                        language = language)
-
-  if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
       DBI::dbDisconnect(db)
     }
-    return(tibble::tibble(id = as.character(NA),
-                          label = as.character(NA),
-                          description = as.character(NA)) %>%
-             dplyr::slice(0))
+    return(tibble::tibble(
+      id = as.character(NA),
+      label = as.character(NA),
+      description = as.character(NA)
+    ) %>%
+      dplyr::slice(0))
   }
 
   search_string <- search
@@ -58,14 +62,16 @@ tw_get_cached_search <- function(search,
     if (disconnect_db == TRUE) {
       DBI::dbDisconnect(db)
     }
-    return(tibble::tibble(id = as.character(NA),
-                          label = as.character(NA),
-                          value = as.character(NA)) %>%
-             dplyr::slice(0))
+    return(tibble::tibble(
+      id = as.character(NA),
+      label = as.character(NA),
+      value = as.character(NA)
+    ) %>%
+      dplyr::slice(0))
   }
 
 
-  if (include_search==TRUE) {
+  if (include_search == TRUE) {
     cached_items_df <- db_result %>%
       tibble::as_tibble()
   } else {
@@ -80,4 +86,3 @@ tw_get_cached_search <- function(search,
 
   cached_items_df
 }
-

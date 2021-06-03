@@ -42,30 +42,31 @@ tw_write_item_to_cache <- function(item_df,
                                    overwrite_cache = FALSE,
                                    cache_connection = NULL,
                                    disconnect_db = TRUE) {
-
   db <- tw_connect_to_cache(connection = cache_connection, language = language)
 
   table_name <- tw_get_cache_table_name(type = "item", language = language)
 
-  if (DBI::dbExistsTable(conn = db, name = table_name)==FALSE) {
+  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
-
       statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
-                                  id = unique(item_df$id),
-                                  table_name = table_name,
-                                  .con = db
+        id = unique(item_df$id),
+        table_name = table_name,
+        .con = db
       )
-      result <- DBI::dbExecute(conn = db,
-                               statement = statement)
+      result <- DBI::dbExecute(
+        conn = db,
+        statement = statement
+      )
     }
   }
 
   DBI::dbWriteTable(db,
-                    name = table_name,
-                    value = item_df,
-                    append = TRUE)
+    name = table_name,
+    value = item_df,
+    append = TRUE
+  )
 
   if (disconnect_db == TRUE) {
     DBI::dbDisconnect(db)

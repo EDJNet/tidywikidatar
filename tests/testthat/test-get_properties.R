@@ -1,5 +1,4 @@
 test_that("check if property are returned correctly when more than 1 id and one property", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -17,7 +16,6 @@ test_that("check if property are returned correctly when more than 1 id and one 
 })
 
 test_that("check if property are returned correctly when 1 id and more than one property", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -36,7 +34,6 @@ test_that("check if property are returned correctly when 1 id and more than one 
 
 
 test_that("check if property labels are returned correctly", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -56,7 +53,6 @@ test_that("check if property labels are returned correctly", {
 
 
 test_that("check if property descriptions are returned correctly", {
-
   testthat::skip_if_offline()
 
   expect_equal(object = {
@@ -74,4 +70,3 @@ test_that("check if property descriptions are returned correctly", {
     "sex or gender identity of human or animal. For human: male, female, non-binary, intersex, transgender female, transgender male, agender. For animal: male organism, female organism. Groups of same gender use subclass of (P279)"
   ))
 })
-
