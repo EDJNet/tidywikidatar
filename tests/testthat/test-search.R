@@ -14,7 +14,7 @@ test_that("check if tw_check_search() returns search if input is not a search", 
   )
 })
 
-test_that("check if tw_search() works with input of length one", {
+test_that("check if tw_search() works with input of length one without cache", {
 
   testthat::skip_if_offline()
 
@@ -31,6 +31,28 @@ test_that("check if tw_search() works with input of length one", {
     }
   )
 })
+
+test_that("check if tw_search() works with input of length one with cache", {
+
+  testthat::skip_if_offline()
+
+  expect_equal(
+    object = {
+      tw_set_cache_folder(path = tempdir())
+      tw_enable_cache()
+      tw_create_cache_folder(ask = FALSE)
+
+      search_df <- tw_search(search = "Sylvia Pankhurst")
+      list(id = search_df$id[1],
+           label = search_df$label[1])
+    },
+    expected = {
+      list(id = "Q298213",
+           label = "Sylvia Pankhurst")
+    }
+  )
+})
+
 
 test_that("check if tw_search() works with input of length more than one", {
 

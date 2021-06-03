@@ -7,10 +7,11 @@
 #' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
 #' @export
@@ -18,14 +19,15 @@
 #' @examples
 #' tw_search_single(search = "Sylvia Pankhurst")
 tw_search_single <- function(search,
-                      type = "item",
-                      language = tidywikidatar::tw_get_language(),
-                      limit = 10,
-                      include_search = FALSE,
-                      wait = 0,
-                      cache = NULL,
-                      overwrite_cache = FALSE,
-                      cache_connection = NULL) {
+                             type = "item",
+                             language = tidywikidatar::tw_get_language(),
+                             limit = 10,
+                             include_search = FALSE,
+                             cache = NULL,
+                             overwrite_cache = FALSE,
+                             cache_connection = NULL,
+                             disconnect_db = TRUE,
+                             wait = 0) {
   if (is.null(search)) {
     usethis::ui_stop("A search string must be given.")
   }
@@ -129,6 +131,9 @@ tw_search_single <- function(search,
       cache_connection = cache_connection
     )
   }
+  tw_disconnect_from_cache(cache = cache,
+                           cache_connection = cache_connection,
+                           disconnect_db = disconnect_db)
 
   if (include_search==TRUE) {
     search_response_df %>%

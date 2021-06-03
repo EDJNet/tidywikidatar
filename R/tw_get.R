@@ -236,10 +236,12 @@ tw_get_single <- function(id,
       language = language,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
-      disconnect_db = disconnect_db
+      disconnect_db = FALSE
     )
   }
-
+  tw_disconnect_from_cache(cache = cache,
+                           cache_connection = cache_connection,
+                           disconnect_db = disconnect_db)
   everything_df
 }
 
@@ -314,15 +316,9 @@ tw_get <- function(id,
       id_items_not_in_cache <- id[!is.element(id, items_from_cache_df$id)]
 
       if (length(id_items_not_in_cache)==0) {
-        db <- tw_connect_to_cache(connection = cache_connection,
-                                  language = language)
-
-        if (DBI::dbIsValid(dbObj = db)) {
-          if (disconnect_db == TRUE) {
-            DBI::dbDisconnect(db)
-          }
-        }
-
+        tw_disconnect_from_cache(cache = cache,
+                                 cache_connection = cache_connection,
+                                 disconnect_db = disconnect_db)
         return(items_from_cache_df %>%
                  dplyr::right_join(tibble::tibble(id = id), by = "id"))
       } else if (length(id_items_not_in_cache)>0) {
@@ -343,13 +339,11 @@ tw_get <- function(id,
             )
           }
         )
-        if (tw_check_cache(cache) == TRUE) {
-          if (DBI::dbIsValid(dbObj = cache_connection)) {
-            if (disconnect_db == TRUE) {
-              DBI::dbDisconnect(cache_connection)
-            }
-          }
-        }
+
+        tw_disconnect_from_cache(cache = cache,
+                                 cache_connection = cache_connection,
+                                 disconnect_db = disconnect_db)
+
         dplyr::bind_rows(items_from_cache_df,
                          items_not_in_cache_df) %>%
           dplyr::right_join(tibble::tibble(id = id), by = "id")

@@ -154,3 +154,37 @@ tw_check_cache_folder <- function() {
   }
   TRUE
 }
+
+
+#' Ensure that connection to cache is disconnected consistently
+#'
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#'
+#' @return Nothing, used for its side effects.
+#' @export
+#'
+#' @examples
+#'
+#' tw_get(
+#'   id = c("Q180099"),
+#'   language = "en"
+#' )
+#' tw_disconnect_from_cache()
+#'
+tw_disconnect_from_cache <- function(cache = NULL,
+                                     cache_connection = NULL,
+                                     disconnect_db = TRUE,
+                                     language = tidywikidatar::tw_get_language()) {
+  if (tw_check_cache(cache)==TRUE) {
+    db <- tw_connect_to_cache(connection = cache_connection,
+                              language = language)
+
+    if (DBI::dbIsValid(dbObj = db)) {
+      if (disconnect_db == TRUE) {
+        DBI::dbDisconnect(db)
+      }
+    }
+  }
+}

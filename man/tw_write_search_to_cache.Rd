@@ -9,7 +9,8 @@ tw_write_search_to_cache(
   type = "item",
   language = tidywikidatar::tw_get_language(),
   overwrite_cache = FALSE,
-  cache_connection = NULL
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ tw_write_search_to_cache(
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 Nothing, used for its side effects.

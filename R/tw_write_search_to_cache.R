@@ -7,6 +7,7 @@
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in item_df. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -32,7 +33,8 @@ tw_write_search_to_cache <- function(search_df,
                                      type = "item",
                                      language = tidywikidatar::tw_get_language(),
                                      overwrite_cache = FALSE,
-                                     cache_connection = NULL) {
+                                     cache_connection = NULL,
+                                     disconnect_db = TRUE) {
 
 
   if (colnames(search_df) != c("search", "id", "label", "description")) {
@@ -65,5 +67,7 @@ tw_write_search_to_cache <- function(search_df,
                     value = search_df,
                     append = TRUE)
 
-  DBI::dbDisconnect(db)
+  if (disconnect_db == TRUE) {
+    DBI::dbDisconnect(db)
+  }
 }
