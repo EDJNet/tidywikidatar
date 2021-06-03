@@ -120,7 +120,7 @@ tw_search_single <- function(search,
   }
   search_response_df <- search_response_df %>%
     dplyr::mutate(search = search) %>%
-    dplyr::select(search, id, label, description)
+    dplyr::select(.data$search, .data$id, .data$label, .data$description)
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_search_to_cache(
