@@ -12,6 +12,7 @@ tw_search_property(
   wait = 0,
   cache = NULL,
   overwrite_cache = FALSE,
+  disconnect_db = TRUE,
   cache_connection = NULL
 )
 }
@@ -29,6 +30,8 @@ tw_search_property(
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 }

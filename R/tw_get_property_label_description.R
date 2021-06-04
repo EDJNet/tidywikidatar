@@ -5,6 +5,7 @@
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
@@ -17,6 +18,7 @@ tw_get_property_label <- function(property,
                                   cache = NULL,
                                   overwrite_cache = FALSE,
                                   cache_connection = NULL,
+                                  disconnect_db = TRUE,
                                   wait = 0) {
   if (is.data.frame(property) == TRUE) {
     property <- property$id
@@ -37,6 +39,7 @@ tw_get_property_label <- function(property,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = cache_connection,
+              disconnect_db = FALSE,
               wait = wait
             ) %>%
               as.character()
@@ -59,6 +62,7 @@ tw_get_property_label <- function(property,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
+            disconnect_db = FALSE,
             wait = wait
           )
         }
@@ -71,10 +75,17 @@ tw_get_property_label <- function(property,
       language = language,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
       wait = wait
     ) %>%
       dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
       dplyr::pull(.data$label)
+
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db
+    )
 
     if (length(label) == 0) {
       as.character(NA)

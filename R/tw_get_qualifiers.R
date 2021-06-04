@@ -246,7 +246,7 @@ tw_get_qualifiers <- function(id,
           tidyr::unite(col = "id_p", sep = "_", remove = TRUE),
         by = "id_p"
         ) %>%
-        tidyr::separate(col = id_p, into = c("id", "property"))
+        tidyr::separate(col = .data$id_p, into = c("id", "property"))
 
 
       if (nrow(not_in_cache_df) == 0) {

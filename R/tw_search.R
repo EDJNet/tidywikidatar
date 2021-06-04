@@ -335,6 +335,7 @@ tw_search_item <- function(search,
 #' @param wait In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #'
 #' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).
@@ -349,6 +350,7 @@ tw_search_property <- function(search,
                                wait = 0,
                                cache = NULL,
                                overwrite_cache = FALSE,
+                               disconnect_db = TRUE,
                                cache_connection = NULL) {
   tw_search(
     search = search,
@@ -358,6 +360,7 @@ tw_search_property <- function(search,
     include_search = include_search,
     wait = wait,
     cache = cache,
+    disconnect_db = disconnect_db,
     overwrite_cache = overwrite_cache
   )
 }
