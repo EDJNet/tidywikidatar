@@ -2,6 +2,7 @@
 #'
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -22,95 +23,43 @@
 #' )
 tw_get_label <- function(id,
                          language = tidywikidatar::tw_get_language(),
+                         id_df = NULL,
                          cache = NULL,
                          overwrite_cache = FALSE,
                          cache_connection = NULL,
                          disconnect_db = TRUE,
                          wait = 0) {
-  if (is.data.frame(id) == TRUE) {
-    id <- id$id
+  if (is.null(id_df)) {
+    id_df <- tw_get(
+      id = id,
+      cache = tw_check_cache(cache),
+      overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
+      language = language,
+      wait = wait,
+      disconnect_db = disconnect_db
+    )
   }
 
-  if (length(id) > 1) {
-    if (length(unique(id)) < length(id)) {
-      pre_processed <- tibble::tibble(id = id)
-      pb <- progress::progress_bar$new(total = length(unique(id)))
-      unique_processed <- purrr::map_dfr(
-        .x = unique(id),
-        .f = function(x) {
-          pb$tick()
-          tibble::tibble(
-            id = x,
-            label = tw_get_label(
-              id = x,
-              language = language,
-              cache = cache,
-              overwrite_cache = overwrite_cache,
-              cache_connection = cache_connection,
-              disconnect_db = disconnect_db,
-              wait = wait
-            ) %>%
-              as.character()
-          )
-        }
+  label <- id_df %>%
+    dplyr::filter(
+      stringr::str_starts(
+        string = .data$property,
+        pattern = "label_"
+      ),
+      stringr::str_ends(
+        string = .data$property,
+        pattern = stringr::str_c(language,
+          collapse = "|"
+        )
       )
-      pre_processed %>%
-        dplyr::left_join(
-          y = unique_processed,
-          by = "id"
-        ) %>%
-        dplyr::pull(.data$label)
-    } else {
-      pb <- progress::progress_bar$new(total = length(id))
-      purrr::map_chr(
-        .x = id,
-        .f = function(x) {
-          pb$tick()
-          tw_get_label(
-            id = x,
-            language = language,
-            cache = cache,
-            overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
-            disconnect_db = disconnect_db,
-            wait = wait
-          )
-        }
-      )
-    }
-  } else {
-    if (is.na(id) | stringr::str_starts(string = id, pattern = "Q[[:digit:]]+") == FALSE) {
-      label <- id
-    } else {
-      label <- tidywikidatar::tw_get(
-        id = id,
-        cache = cache,
-        language = language,
-        overwrite_cache = overwrite_cache,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        wait = wait
-      ) %>%
-        dplyr::filter(
-          stringr::str_starts(
-            string = .data$property,
-            pattern = "label_"
-          ),
-          stringr::str_ends(
-            string = .data$property,
-            pattern = stringr::str_c(language,
-              collapse = "|"
-            )
-          )
-        ) %>%
-        dplyr::pull(.data$value)
-    }
+    ) %>%
+    dplyr::pull(.data$value)
 
-    if (length(label) == 0) {
-      as.character(NA)
-    } else {
-      label
-    }
+  if (length(label) == 0) {
+    as.character(NA)
+  } else {
+    label
   }
 }
 
