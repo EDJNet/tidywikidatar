@@ -221,7 +221,7 @@ tw_get_wikipedia <- function(id,
                              cache = NULL,
                              overwrite_cache = FALSE,
                              cache_connection = NULL,
-                             disconnect_db = disconnect_db,
+                             disconnect_db = TRUE,
                              wait = 0) {
   base_string <- stringr::str_c("sitelink_", language, "wiki")
 
