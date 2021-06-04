@@ -6,6 +6,7 @@
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
@@ -16,12 +17,12 @@
 #'
 #' @examples
 #' tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
-
 tw_get_qualifiers_single <- function(id,
                                      p,
                                      language = tidywikidatar::tw_get_language(),
                                      cache = NULL,
                                      overwrite_cache = FALSE,
+                                     cache_connection = NULL,
                                      disconnect_db = TRUE,
                                      wait = 0,
                                      include_id_and_p = TRUE) {
@@ -32,8 +33,7 @@ tw_get_qualifiers_single <- function(id,
       language = language
     )
 
-    if (is.data.frame(db_result)&nrow(db_result)>0) {
-
+    if (is.data.frame(db_result) & nrow(db_result) > 0) {
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = cache_connection,
@@ -42,19 +42,18 @@ tw_get_qualifiers_single <- function(id,
 
       if (isTRUE(include_id_and_p)) {
         return(db_result %>%
-                 tibble::as_tibble())
-
+          tibble::as_tibble())
       } else {
-
         return(db_result %>%
-                 tibble::as_tibble() %>%
-                 dplyr::mutate(
-                   id = id,
-                   property = p
-                 ) %>%
-                 dplyr::select(-.data$id,
-                               -.data$property))
-
+          tibble::as_tibble() %>%
+          dplyr::mutate(
+            id = id,
+            property = p
+          ) %>%
+          dplyr::select(
+            -.data$id,
+            -.data$property
+          ))
       }
     }
   }
@@ -62,9 +61,9 @@ tw_get_qualifiers_single <- function(id,
   Sys.sleep(time = wait)
 
   claims <- tryCatch(WikidataR::get_item(id = id),
-                     error = function(e) {
-                       return(tibble::tibble(id = NA))
-                     }
+    error = function(e) {
+      return(tibble::tibble(id = NA))
+    }
   ) %>% purrr::pluck(
     1,
     "claims"
@@ -100,7 +99,7 @@ tw_get_qualifiers_single <- function(id,
         dplyr::pull(.data$qualifiers)
 
 
-     purrr::map_dfr(
+      purrr::map_dfr(
         .x = qualifiers_set,
         .f = function(x) {
           current_qualifier <- x %>%
@@ -152,8 +151,10 @@ tw_get_qualifiers_single <- function(id,
     qualifiers_df
   } else {
     qualifiers_df %>%
-      dplyr::select(-.data$id,
-                    -.data$property)
+      dplyr::select(
+        -.data$id,
+        -.data$property
+      )
   }
 }
 
@@ -168,6 +169,7 @@ tw_get_qualifiers_single <- function(id,
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
@@ -183,27 +185,111 @@ tw_get_qualifiers <- function(id,
                               language = tidywikidatar::tw_get_language(),
                               cache = NULL,
                               overwrite_cache = FALSE,
+                              cache_connection = NULL,
                               disconnect_db = TRUE,
                               wait = 0,
                               include_id_and_p = TRUE) {
-  if (length(id) > 1 | length(p) > 1) {
-    purrr::map2_dfr(
-      .x = id,
-      .y = p,
-      .f = function(x, y) {
-        tw_get_qualifiers(
-          id = x,
-          p = y,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          include_id_and_p = include_id_and_p,
-          wait = wait
-        )
-      }
-    )
-  } else {
+  if (length(id) == 0 | length(p) == 0) {
+    usethis::ui_stop("`tw_get_qualifiers()` requires `id` and `p` of length 1 or more.")
+  } else if (length(id) == 1 & length(p) == 1) {
+    return(tw_get_qualifiers_single(
+      id = id,
+      p = p,
+      language = language,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      wait = wait,
+      include_id_and_p = include_id_and_p
+    ))
+  } else if (length(id) > 1 | length(p) > 1) {
+    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
+      pb <- progress::progress_bar$new(total = length(id) * length(p))
+      qualifiers_df <- purrr::map2_dfr(
+        .x = id,
+        .y = p,
+        .f = function(x, y) {
+          pb$tick()
+          tw_get_qualifiers_single(
+            id = x,
+            p = y,
+            language = language,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            disconnect_db = FALSE,
+            include_id_and_p = include_id_and_p,
+            wait = wait
+          )
+        }
+      )
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db
+      )
+      return(qualifiers_df)
+    }
 
+    if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
+      qualifiers_from_cache_df <- tw_get_cached_qualifiers(
+        id = id,
+        p = p,
+        language = language,
+        cache_connection = cache_connection,
+        disconnect_db = FALSE
+      )
+
+      not_in_cache_df <- tibble::tibble(id = id, property = p) %>%
+        tidyr::unite(col = "id_p", sep = "_", remove = TRUE) %>%
+        dplyr::anti_join(qualifiers_from_cache_df %>%
+          tidyr::unite(col = "id_p", sep = "_", remove = TRUE),
+        by = "id_p"
+        ) %>%
+        tidyr::separate(col = id_p, into = c("id", "property"))
+
+
+      if (nrow(not_in_cache_df) == 0) {
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
+        return(qualifiers_from_cache_df %>%
+          dplyr::right_join(tibble::tibble(id = id), by = "id"))
+      } else if (nrow(not_in_cache_df) > 0) {
+        pb <- progress::progress_bar$new(total = nrow(not_in_cache_df))
+        qualifiers_not_in_cache_df <- purrr::map2_dfr(
+          .x = unique(not_in_cache_df$id),
+          .y = unique(not_in_cache_df$property),
+          .f = function(x, y) {
+            pb$tick()
+            tw_get_qualifiers_single(
+              id = x,
+              p = y,
+              language = language,
+              cache = cache,
+              overwrite_cache = overwrite_cache,
+              disconnect_db = FALSE,
+              include_id_and_p = include_id_and_p,
+              wait = wait
+            )
+          }
+        )
+
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
+
+        dplyr::bind_rows(
+          qualifiers_from_cache_df,
+          qualifiers_not_in_cache_df
+        ) %>%
+          dplyr::right_join(tibble::tibble(id = id), by = "id")
+      }
+    }
   }
 }
 
@@ -264,8 +350,10 @@ tw_get_cached_qualifiers <- function(id,
 
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
-      dplyr::filter(.data$id %in% stringr::str_to_upper(id),
-                    .data$property %in% stringr::str_to_upper(p)),
+      dplyr::filter(
+        .data$id %in% stringr::str_to_upper(id),
+        .data$property %in% stringr::str_to_upper(p)
+      ),
     error = function(e) {
       logical(1L)
     }
@@ -324,8 +412,7 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
                                          language = tidywikidatar::tw_get_language(),
                                          overwrite_cache = FALSE,
                                          cache_connection = NULL,
-                                         disconnect_db = TRUE
-                                         ) {
+                                         disconnect_db = TRUE) {
   db <- tw_connect_to_cache(connection = cache_connection, language = language)
 
   table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
@@ -335,10 +422,10 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
   } else {
     if (overwrite_cache == TRUE) {
       statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*} AND property = {p*}",
-                                  id = unique(qualifiers_df$id),
-                                  p = unique(qualifiers_df$property),
-                                  table_name = table_name,
-                                  .con = db
+        id = unique(qualifiers_df$id),
+        p = unique(qualifiers_df$property),
+        table_name = table_name,
+        .con = db
       )
       result <- DBI::dbExecute(
         conn = db,
@@ -348,9 +435,9 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
   }
 
   DBI::dbWriteTable(db,
-                    name = table_name,
-                    value = qualifiers_df,
-                    append = TRUE
+    name = table_name,
+    value = qualifiers_df,
+    append = TRUE
   )
 
   if (disconnect_db == TRUE) {

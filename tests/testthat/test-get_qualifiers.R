@@ -23,7 +23,6 @@ test_that("check if qualifiers are returned correctly", {
     id = "Q180099",
     p = "P26",
     language = "en",
-    include_id = FALSE,
     cache = FALSE
   ))
 })

@@ -10,6 +10,7 @@ tw_get_qualifiers_single(
   language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
+  cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
   include_id_and_p = TRUE
@@ -25,6 +26,8 @@ tw_get_qualifiers_single(
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
