@@ -118,7 +118,7 @@ tw_filter_first <- function(search,
     .f = function(current_row_number) {
       search_result %>%
         dplyr::slice(current_row_number) %>%
-        tidywikidatar::tw_filter(p = p, q = q) %>%
+        tw_filter(p = p, q = q) %>%
         nrow() %>%
         `>`(0)
     }

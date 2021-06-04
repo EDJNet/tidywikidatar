@@ -42,7 +42,7 @@ test_that(
 test_that("items are stored and retrieved from cache correctly", {
   testthat::skip_if_offline()
 
-  expect_equal(object = {
+  expect_true(object = {
     tw_set_cache_folder(
       path = fs::path(
         tempdir(),
@@ -52,14 +52,18 @@ test_that("items are stored and retrieved from cache correctly", {
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
-    tw_get(
+    api_item <- tw_get(
       id = "Q180099",
       language = "en"
     )
-  }, expected = tw_get_cached_item(
-    id = "Q180099",
-    language = "en"
-  ))
+
+    cached_item <- tw_get_cached_item(
+      id = "Q180099",
+      language = "en"
+    )
+
+    identical(api_item, cached_item)
+  })
 
   expect_false(object = {
     tw_set_cache_folder(

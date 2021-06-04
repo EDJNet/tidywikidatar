@@ -11,7 +11,7 @@ tw_get_wikipedia(
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
-  disconnect_db = disconnect_db,
+  disconnect_db = TRUE,
   wait = 0
 )
 }
