@@ -51,33 +51,17 @@ tw_filter <- function(search,
     return(search_result)
   }
 
-  filtered_id <- purrr::map_dfr(
-    .x = search_result$id,
-    .f =
-      function(current_id) {
-        current_value <- tw_get_property_single(
-          id = current_id,
-          p = p,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          cache_connection = cache_connection,
-          disconnect_db = FALSE,
-          wait = wait
-        )
-
-        if (is.null(current_value)) {
-          tibble::tibble(id = as.character("NA"))
-        } else if (length(current_value) == 0) {
-          tibble::tibble(id = as.character("NA"))
-        } else if (is.element(q, current_value) == TRUE) {
-          tibble::tibble(id = current_id)
-        } else {
-          tibble::tibble(id = as.character("NA"))
-        }
-      }
+  p_df <- tw_get_property(
+    id = search_result$id,
+    p = p,
+    language = language,
+    cache = cache,
+    overwrite_cache = overwrite_cache,
+    cache_connection = cache_connection,
+    disconnect_db = FALSE,
+    wait = wait
   ) %>%
-    tidyr::drop_na()
+    dplyr::filter(.data$value %in% q)
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -87,7 +71,7 @@ tw_filter <- function(search,
 
   search_result %>%
     dplyr::semi_join(
-      y = filtered_id,
+      y = p_df,
       by = "id"
     )
 }
