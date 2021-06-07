@@ -1,6 +1,6 @@
 Package: tidywikidatar
 Title: Explore 'Wikidata' Through Tidy Data Frames
-Version: 0.2.0.9000
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",
@@ -28,11 +28,15 @@ Imports:
     usethis,
     WikidataQueryServiceR,
     fs,
-    rlang (>= 0.1.2)
+    rlang (>= 0.1.2),
+    progress
 Suggests: 
     spelling,
     roxygen2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Language: en-US
 URL: https://edjnet.github.io/tidywikidatar/
+VignetteBuilder: knitr

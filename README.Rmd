@@ -25,7 +25,7 @@ The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 - all responses are transformed into data frames or simple character vectors
 - it is easy to enable efficient caching in a local sqlite database
 
-If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/Ironholds/WikidataR) or  Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
+If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/TS404/WikidataR) or  Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
 
 ## Installation
 
@@ -42,11 +42,6 @@ For the latest fixes and improvements, you can install the development version f
 remotes::install_github("EDJNet/tidywikidatar")
 ```
 
-Until [this issue](https://github.com/r-dbi/RSQLite/issues/369) in the `RSQlite` package will be fixed, Rstudio users are advised to run the following line in order to prevent continous activities in the connections pane (as all options, it remains set only for the current session).
-
-``` r
-options(connectionObserver = NULL)
-```
 
 ## Limitations and known issues
 
@@ -71,12 +66,13 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 
 ## How to use
 
-`tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()` and set the cache folder to be used throughout a session with `tw_set_cache_folder()`. The first lines of a script using `tidywikidatar` would often look like this:
+`tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()`, set the cache folder to be used throughout a session with `tw_set_cache_folder()`, and set the language used by all functions (if not set, it defaults to English). The first lines of a script using `tidywikidatar` would often look like this:
 
 ```{r}
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
+tw_set_language(language = "en")
 tw_create_cache_folder(ask = FALSE)
 ```
 

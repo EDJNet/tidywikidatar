@@ -4,12 +4,21 @@
 \alias{tw_check_cached_items}
 \title{Check if given items are present in cache}
 \usage{
-tw_check_cached_items(id, language = "all_available")
+tw_check_cached_items(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache_connection = NULL,
+  disconnect_db = TRUE
+)
 }
 \arguments{
 \item{id}{A characther vector. Each element must start with Q, and correspond to a Wikidata identifier.}
 
-\item{language}{Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 A character vector with IDs of items present in cache. If no item found in cache, returns NULL.

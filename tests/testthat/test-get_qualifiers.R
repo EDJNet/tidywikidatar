@@ -1,32 +1,8 @@
-test_that("check if qualifiers are returned correctly", {
-  expect_equal(object = {
-    tw_set_cache_folder(path = tempdir())
-    tw_enable_cache()
-    tw_create_cache_folder(ask = FALSE)
-
-    tw_get_qualifiers(
-      id = "Q180099",
-      p = "P26",
-      language = "en"
-    )
-
-    df_from_cache <- tw_get_cached_qualifiers(
-      id = "Q180099",
-      p = "P26",
-      language = "en"
-    )
-
-    df_from_cache
-  }, expected = tw_get_qualifiers(
-    id = "Q180099",
-    p = "P26",
-    language = "en",
-    include_id = FALSE,
-    cache = FALSE
-  ))
-})
+library("testthat")
 
 test_that("check if qualifiers are returned correctly when more than 1 id and one property", {
+  testthat::skip_if_offline()
+
   expect_equal(
     object = {
       tw_set_cache_folder(path = tempdir())

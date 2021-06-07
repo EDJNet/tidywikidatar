@@ -4,12 +4,12 @@
 \alias{tw_get_cache_file}
 \title{Gets location of cache file}
 \usage{
-tw_get_cache_file(type = "item", language = "all_available")
+tw_get_cache_file(type = "item", language = tidywikidatar::tw_get_language())
 }
 \arguments{
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search", and "qualifier".}
 
-\item{language}{Defaults to "all_available". Use to limit the data to be cached. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }
 \value{
 A character vector of length one with location of item cache file.
