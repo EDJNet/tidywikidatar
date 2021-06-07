@@ -107,7 +107,7 @@ tw_get_cache_file <- function(type = "item",
 #' Gets name of table inside the database
 #'
 #' @param type Defaults to "item". Type of cache file to output. Values typically used by `tidywikidatar` include "item", "search", and "qualifier".
-#' @param language Defaults to language set with `tw_set_language()'; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Defaults to language set with `tw_set_language()`; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
 #' @return A character vector of length one with the name of the relevant table in the cache file.
 #' @export

@@ -39,8 +39,6 @@ q_df <- tw_get_qualifiers(
 )
 
 tw_write_qualifiers_to_cache(
-  id = "Q180099",
-  p = "P26",
   qualifiers_df = q_df,
   language = "en"
 )

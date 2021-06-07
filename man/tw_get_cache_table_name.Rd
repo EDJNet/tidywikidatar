@@ -12,7 +12,7 @@ tw_get_cache_table_name(
 \arguments{
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search", and "qualifier".}
 
-\item{language}{Defaults to language set with `tw_set_language()'; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }
 \value{
 A character vector of length one with the name of the relevant table in the cache file.

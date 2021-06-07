@@ -1,3 +1,5 @@
+library("testthat")
+
 test_that("check if qualifiers are returned correctly", {
   testthat::skip_if_offline()
 
