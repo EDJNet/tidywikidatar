@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write qualifiers to cache — tw_write_qualifiers_to_cache • tidywikidatar</title>
+<title>Return (most) information from a Wikidata item in a tidy format — tw_get_single • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Write qualifiers to cache — tw_write_qualifiers_to_cache" />
-<meta property="og:description" content="Mostly to be used internally by tidywikidatar, use with caution to keep caching consistent." />
+<meta property="og:title" content="Return (most) information from a Wikidata item in a tidy format — tw_get_single" />
+<meta property="og:description" content="Return (most) information from a Wikidata item in a tidy format" />
 
 
 
@@ -118,37 +118,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write qualifiers to cache</h1>
+    <h1>Return (most) information from a Wikidata item in a tidy format</h1>
     
-    <div class="hidden name"><code>tw_write_qualifiers_to_cache.Rd</code></div>
+    <div class="hidden name"><code>tw_get_single.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Mostly to be used internally by <code>tidywikidatar</code>, use with caution to keep caching consistent.</p>
+    <p>Return (most) information from a Wikidata item in a tidy format</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_write_qualifiers_to_cache</span><span class='op'>(</span>
-  <span class='va'>qualifiers_df</span>,
+    <pre class="usage"><span class='fu'>tw_get_single</span><span class='op'>(</span>
+  <span class='va'>id</span>,
   language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
+  cache <span class='op'>=</span> <span class='cn'>NULL</span>,
   overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  read_cache <span class='op'>=</span> <span class='cn'>TRUE</span>,
   cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
-  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>
+  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  wait <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>qualifiers_df</th>
-      <td><p>A data frame with two columns typically generated with <code><a href='tw_get.html'>tw_get(include_id_and_p = FALSE)</a></code>.</p></td>
+      <th>id</th>
+      <td><p>A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with <code><a href='tw_search.html'>tw_search()</a></code> or a combination of <code><a href='tw_search.html'>tw_search()</a></code> and <code><a href='tw_filter_first.html'>tw_filter_first()</a></code>.</p></td>
     </tr>
     <tr>
       <th>language</th>
       <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
     </tr>
     <tr>
+      <th>cache</th>
+      <td><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href='tw_enable_cache.html'>tw_enable_cache()</a></code> or <code><a href='tw_disable_cache.html'>tw_disable_cache()</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>overwrite_cache</th>
       <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
+    </tr>
+    <tr>
+      <th>read_cache</th>
+      <td><p>Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.</p></td>
     </tr>
     <tr>
       <th>cache_connection</th>
@@ -158,26 +169,35 @@
       <th>disconnect_db</th>
       <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
     </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns the same data frame provided as input. Mostly used internally for its side effects.</p>
+    <p>A data.frame (a tibble) with three columns (id, property, and value). If item not found or trouble connecting with the server, an data frame with three columns and zero rows is returned, with the warning as an attribute, which can be retrieved with <code>attr(output, "warning"))</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>q_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tw_get_qualifiers.html'>tw_get_qualifiers</a></span><span class='op'>(</span>
+    <pre class="examples"><div class='input'><span class='fu'>tw_get_single</span><span class='op'>(</span>
   id <span class='op'>=</span> <span class='st'>"Q180099"</span>,
-  p <span class='op'>=</span> <span class='st'>"P26"</span>,
-  language <span class='op'>=</span> <span class='st'>"en"</span>,
-  cache <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-<span class='fu'>tw_write_qualifiers_to_cache</span><span class='op'>(</span>
-  qualifiers_df <span class='op'>=</span> <span class='va'>q_df</span>,
   language <span class='op'>=</span> <span class='st'>"en"</span>
 <span class='op'>)</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 153 x 3</span>
+#&gt;    id      property value        
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        
+#&gt; <span style='color: #BCBCBC;'> 1</span> Q180099 label_en Margaret Mead
+#&gt; <span style='color: #BCBCBC;'> 2</span> Q180099 P21      Q6581072     
+#&gt; <span style='color: #BCBCBC;'> 3</span> Q180099 P214     44302511     
+#&gt; <span style='color: #BCBCBC;'> 4</span> Q180099 P106     Q674426      
+#&gt; <span style='color: #BCBCBC;'> 5</span> Q180099 P106     Q4773904     
+#&gt; <span style='color: #BCBCBC;'> 6</span> Q180099 P106     Q36180       
+#&gt; <span style='color: #BCBCBC;'> 7</span> Q180099 P106     Q2526255     
+#&gt; <span style='color: #BCBCBC;'> 8</span> Q180099 P373     Margaret Mead
+#&gt; <span style='color: #BCBCBC;'> 9</span> Q180099 P244     n78093416    
+#&gt; <span style='color: #BCBCBC;'>10</span> Q180099 P227     118579789    
+#&gt; <span style='color: #949494;'># … with 143 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -22,10 +22,16 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_search.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_connect_to_cache.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_create_cache_folder.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc>
@@ -46,10 +52,16 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_file.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_table_name.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qualifiers.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_search.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
@@ -70,10 +82,13 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_single.html</loc>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.html</loc>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers_single.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_single.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia.html</loc>
@@ -94,12 +109,24 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_property.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_single.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_folder.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_language.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_item_to_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qualifiers_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/articles/caching.html</loc>
   </url>
 </urlset>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Disable caching for the current session — tw_disable_cache • tidywikidatar</title>
+<title>Retrieve cached search — tw_get_cached_search • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Disable caching for the current session — tw_disable_cache" />
-<meta property="og:description" content="Disable caching for the current session" />
+<meta property="og:title" content="Retrieve cached search — tw_get_cached_search" />
+<meta property="og:description" content="Retrieve cached search" />
 
 
 
@@ -118,29 +118,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Disable caching for the current session</h1>
+    <h1>Retrieve cached search</h1>
     
-    <div class="hidden name"><code>tw_disable_cache.Rd</code></div>
+    <div class="hidden name"><code>tw_get_cached_search.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Disable caching for the current session</p>
+    <p>Retrieve cached search</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_disable_cache</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_get_cached_search</span><span class='op'>(</span>
+  <span class='va'>search</span>,
+  type <span class='op'>=</span> <span class='st'>"item"</span>,
+  language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
+  include_search <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
+  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>search</th>
+      <td><p>A string to be searched in Wikidata</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Defaults to "item". Either "item" or "property".</p></td>
+    </tr>
+    <tr>
+      <th>language</th>
+      <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
+    </tr>
+    <tr>
+      <th>include_search</th>
+      <td><p>Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.</p></td>
+    </tr>
+    <tr>
+      <th>cache_connection</th>
+      <td><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></td>
+    </tr>
+    <tr>
+      <th>disconnect_db</th>
+      <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Nothing, used for its side effects.</p>
+    <p>If data present in cache, returns a data frame with cached data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>tw_disable_cache</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><div class='input'>
+
+<span class='fu'><a href='tw_set_cache_folder.html'>tw_set_cache_folder</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='tw_enable_cache.html'>tw_enable_cache</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='tw_create_cache_folder.html'>tw_create_cache_folder</a></span><span class='op'>(</span>ask <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='va'>search_from_api</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tw_search.html'>tw_search</a></span><span class='op'>(</span><span class='st'>"Sylvia Pankhurst"</span><span class='op'>)</span>
+<span class='va'>search_from_api</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
+#&gt;   id        label            description                                     
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                           
+#&gt; <span style='color: #BCBCBC;'>1</span> Q298213   Sylvia Pankhurst Activist, suffragette, pacifist internationalist
+#&gt; <span style='color: #BCBCBC;'>2</span> Q24298894 Sylvia Pankhurst sculpture in Mile End Park, London              </div><div class='input'>
+<span class='va'>df_from_cache</span> <span class='op'>&lt;-</span> <span class='fu'>tw_get_cached_search</span><span class='op'>(</span><span class='st'>"Sylvia Pankhurst"</span><span class='op'>)</span>
+<span class='va'>df_from_cache</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 x 3</span>
+#&gt; <span style='color: #949494;'># … with 3 variables: id &lt;chr&gt;, label &lt;chr&gt;, value &lt;chr&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

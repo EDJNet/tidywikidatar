@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -85,6 +85,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caching.html">How caching works in tidywikidatar</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -155,6 +167,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="tw_connect_to_cache.html">tw_connect_to_cache()</a></code> </p>
+        </td>
+        <td><p>Return a connection to be used for caching</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tw_create_cache_folder.html">tw_create_cache_folder()</a></code> </p>
         </td>
         <td><p>Creates the base cache folder where <code>tidywikidatar</code> caches data.</p></td>
@@ -164,6 +182,12 @@
           <p><code><a href="tw_disable_cache.html">tw_disable_cache()</a></code> </p>
         </td>
         <td><p>Disable caching for the current session</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_disconnect_from_cache.html">tw_disconnect_from_cache()</a></code> </p>
+        </td>
+        <td><p>Ensure that connection to cache is disconnected consistently</p></td>
       </tr><tr>
         
         <td>
@@ -203,6 +227,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="tw_get_cache_table_name.html">tw_get_cache_table_name()</a></code> </p>
+        </td>
+        <td><p>Gets name of table inside the database</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tw_get_cached_item.html">tw_get_cached_item()</a></code> </p>
         </td>
         <td><p>Retrieve cached item</p></td>
@@ -212,6 +242,12 @@
           <p><code><a href="tw_get_cached_qualifiers.html">tw_get_cached_qualifiers()</a></code> </p>
         </td>
         <td><p>Retrieve cached qualifier</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_get_cached_search.html">tw_get_cached_search()</a></code> </p>
+        </td>
+        <td><p>Retrieve cached search</p></td>
       </tr><tr>
         
         <td>
@@ -251,15 +287,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="tw_get_property_single.html">tw_get_property_single()</a></code> </p>
-        </td>
-        <td><p>Get Wikidata property of a single item</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="tw_get_qualifiers.html">tw_get_qualifiers()</a></code> </p>
         </td>
         <td><p>Get Wikidata qualifiers for a given property of a given item</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_get_qualifiers_single.html">tw_get_qualifiers_single()</a></code> </p>
+        </td>
+        <td><p>Get Wikidata qualifiers for a given property of a given item</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_get_single.html">tw_get_single()</a></code> </p>
+        </td>
+        <td><p>Return (most) information from a Wikidata item in a tidy format</p></td>
       </tr><tr>
         
         <td>
@@ -299,9 +341,21 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="tw_search_single.html">tw_search_single()</a></code> </p>
+        </td>
+        <td><p>Search for Wikidata items or properties and return Wikidata id, label, and description.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tw_set_cache_folder.html">tw_set_cache_folder()</a></code> <code><a href="tw_set_cache_folder.html">tw_get_cache_folder()</a></code> </p>
         </td>
         <td><p>Set folder for caching data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_set_language.html">tw_set_language()</a></code> <code><a href="tw_set_language.html">tw_get_language()</a></code> </p>
+        </td>
+        <td><p>Set language to be used by all functions</p></td>
       </tr><tr>
         
         <td>
@@ -314,6 +368,12 @@
           <p><code><a href="tw_write_qualifiers_to_cache.html">tw_write_qualifiers_to_cache()</a></code> </p>
         </td>
         <td><p>Write qualifiers to cache</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tw_write_search_to_cache.html">tw_write_search_to_cache()</a></code> </p>
+        </td>
+        <td><p>Writes search to cache</p></td>
       </tr>
     </tbody>
     </table>

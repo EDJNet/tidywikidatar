@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -86,6 +86,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caching.html">How caching works in tidywikidatar</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -117,9 +129,11 @@
 
     <pre class="usage"><span class='fu'>tw_get_property_label</span><span class='op'>(</span>
   <span class='va'>property</span>,
-  language <span class='op'>=</span> <span class='st'>"en"</span>,
+  language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
   cache <span class='op'>=</span> <span class='cn'>NULL</span>,
   overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
+  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>,
   wait <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
@@ -132,7 +146,7 @@
     </tr>
     <tr>
       <th>language</th>
-      <td><p>A character vector of length one, defaults to "en". For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
+      <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -141,6 +155,14 @@
     <tr>
       <th>overwrite_cache</th>
       <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
+    </tr>
+    <tr>
+      <th>cache_connection</th>
+      <td><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></td>
+    </tr>
+    <tr>
+      <th>disconnect_db</th>
+      <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
     </tr>
     <tr>
       <th>wait</th>

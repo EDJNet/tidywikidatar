@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -86,6 +86,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caching.html">How caching works in tidywikidatar</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -118,9 +130,11 @@
     <pre class="usage"><span class='fu'>tw_get_qualifiers</span><span class='op'>(</span>
   <span class='va'>id</span>,
   <span class='va'>p</span>,
-  language <span class='op'>=</span> <span class='st'>"all_available"</span>,
+  language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
   cache <span class='op'>=</span> <span class='cn'>NULL</span>,
   overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
+  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>,
   wait <span class='op'>=</span> <span class='fl'>0</span>,
   include_id_and_p <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
@@ -138,7 +152,7 @@
     </tr>
     <tr>
       <th>language</th>
-      <td><p>Defaults to "all_available". It should be relevant only for caching purposes. For a full list of available values, see: https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
+      <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -147,6 +161,14 @@
     <tr>
       <th>overwrite_cache</th>
       <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
+    </tr>
+    <tr>
+      <th>cache_connection</th>
+      <td><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></td>
+    </tr>
+    <tr>
+      <th>disconnect_db</th>
+      <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
     </tr>
     <tr>
       <th>wait</th>
@@ -164,15 +186,15 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>tw_get_qualifiers</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"Q180099"</span>, p <span class='op'>=</span> <span class='st'>"P26"</span>, language <span class='op'>=</span> <span class='st'>"en"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 6</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 6</span>
 #&gt;   id      property qualifier_id qualifier_property value                   set
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z     1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z     1
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z     2
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z     2
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z     3
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z     3</div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z     1
+#&gt; <span style='color: #BCBCBC;'>2</span> Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z     1
+#&gt; <span style='color: #BCBCBC;'>3</span> Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z     2
+#&gt; <span style='color: #BCBCBC;'>4</span> Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z     2
+#&gt; <span style='color: #BCBCBC;'>5</span> Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z     3
+#&gt; <span style='color: #BCBCBC;'>6</span> Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z     3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
