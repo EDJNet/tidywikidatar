@@ -5,15 +5,12 @@
 * rhub::check_for_cran()
 * devtools::check_win_devel()
 
-
 ## R CMD check results
 
 0 errors | 0 warnings | 0 note
 
 * This is a new release.
-* New submission
 
 ## Additional details
-* adjusted description in line with suggestions after previous submission
-* examples are now run
-* more tests
+* informative message when server unavailable, as requested
+* removed tests with inconsistent results
