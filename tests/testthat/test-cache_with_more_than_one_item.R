@@ -4,12 +4,7 @@ test_that("tw_check_cached_items() works as expected", {
   testthat::skip_if_offline()
 
   expect_equal(object = {
-    tw_set_cache_folder(
-      path = fs::path(
-        tempdir(),
-        stringr::str_c(sample(x = letters, size = 24), collapse = "")
-      )
-    )
+    tw_set_cache_folder(path = tempdir())
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 

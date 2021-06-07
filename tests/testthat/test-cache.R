@@ -43,12 +43,7 @@ test_that("items are stored and retrieved from cache correctly", {
   testthat::skip_if_offline()
 
   expect_true(object = {
-    tw_set_cache_folder(
-      path = fs::path(
-        tempdir(),
-        stringr::str_c(sample(x = letters, size = 24), collapse = "")
-      )
-    )
+    tw_set_cache_folder(path = fs::path(tempdir()))
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)
 
@@ -67,10 +62,7 @@ test_that("items are stored and retrieved from cache correctly", {
 
   expect_false(object = {
     tw_set_cache_folder(
-      path = fs::path(
-        tempdir(),
-        stringr::str_c(sample(x = letters, size = 24), collapse = "")
-      )
+      path = fs::path(tempdir())
     )
     tw_enable_cache()
     tw_create_cache_folder(ask = FALSE)

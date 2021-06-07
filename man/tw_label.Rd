@@ -41,5 +41,6 @@ Gets labels for all columns with names such as "id" and "property".
 \examples{
 
 tw_get_qualifiers(id = "Q180099", p = "P26", language = "en") \%>\%
+  head(2) \%>\%
   tw_label()
 }

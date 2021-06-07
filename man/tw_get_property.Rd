@@ -46,7 +46,7 @@ Get Wikidata property of an item
 advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
 
-tw_get_label(advisors)
+# tw_get_label(advisors)
 
 # It is also possible to get one property for many id
 
