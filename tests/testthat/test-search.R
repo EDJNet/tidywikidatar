@@ -1,4 +1,5 @@
 library("testthat")
+
 test_that("check if tw_check_search() returns search if input is not a search", {
   testthat::skip_if_offline()
 
@@ -33,52 +34,3 @@ test_that("check if tw_search() works with input of length one without cache", {
     }
   )
 })
-
-test_that("check if tw_search() works with input of length one with cache", {
-  testthat::skip_if_offline()
-
-  expect_equal(
-    object = {
-      tw_set_cache_folder(path = tempdir())
-      tw_enable_cache()
-      tw_create_cache_folder(ask = FALSE)
-
-      search_df <- tw_search(search = "Sylvia Pankhurst")
-      list(
-        id = search_df$id[1],
-        label = search_df$label[1]
-      )
-    },
-    expected = {
-      list(
-        id = "Q298213",
-        label = "Sylvia Pankhurst"
-      )
-    }
-  )
-})
-
-
-test_that("check if tw_search() works with input of length more than one", {
-  testthat::skip_if_offline()
-
-  expect_equal(
-    object = {
-      tw_disable_cache()
-      search_df <- tw_search(search = c("Margaret Mead", "Ruth Benedict"))
-      list(
-        more_than_ten_results = nrow(search_df) > 10,
-        more_than_ten_different_results = nrow(search_df %>% dplyr::distinct()) > 10,
-        three_columns = ncol(search_df) == 3
-      )
-    },
-    expected = {
-      list(
-        more_than_ten_results = TRUE,
-        more_than_ten_different_results = TRUE,
-        three_columns = TRUE
-      )
-    }
-  )
-})
-
