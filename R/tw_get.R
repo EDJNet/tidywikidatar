@@ -289,27 +289,34 @@ tw_get <- function(id,
                    cache_connection = NULL,
                    disconnect_db = TRUE,
                    wait = 0) {
+  if (length(id) == 0) {
+    usethis::ui_stop("`tw_get()` requires `id` of length 1 or more.")
+  }
+
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
-  if (length(id) == 0) {
-    usethis::ui_stop("`tw_get()` requires `id` of length 1 or more.")
-  } else if (length(id) == 1) {
+  unique_id <- unique(id)
+
+  if (length(unique_id) == 1) {
     return(tw_get_single(
-      id = id,
+      id = unique_id,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,
       wait = wait
-    ))
-  } else if (length(id) > 1) {
+    ) %>%
+      dplyr::right_join(tibble::tibble(id = id),
+        by = "id"
+      ))
+  } else if (length(unique_id) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
-      pb <- progress::progress_bar$new(total = length(id))
+      pb <- progress::progress_bar$new(total = length(unique_id))
       item_df <- purrr::map_dfr(
-        .x = id,
+        .x = unique_id,
         .f = function(x) {
           pb$tick()
           tw_get_single(
@@ -328,18 +335,21 @@ tw_get <- function(id,
         cache_connection = cache_connection,
         disconnect_db = disconnect_db
       )
-      return(item_df)
+      return(item_df  %>%
+               dplyr::right_join(tibble::tibble(id = id),
+                                 by = "id"
+               ))
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
       items_from_cache_df <- tw_get_cached_item(
-        id = id,
+        id = unique_id,
         language = language,
         cache_connection = cache_connection,
         disconnect_db = FALSE
       )
 
-      id_items_not_in_cache <- id[!is.element(id, items_from_cache_df$id)]
+      id_items_not_in_cache <- unique_id[!is.element(unique_id, items_from_cache_df$id)]
 
       if (length(id_items_not_in_cache) == 0) {
         tw_disconnect_from_cache(
