@@ -42,12 +42,20 @@ tw_get_cached_search <- function(search,
     if (disconnect_db == TRUE) {
       DBI::dbDisconnect(db)
     }
-    return(tibble::tibble(
+    search_df <- tibble::tibble(
+      search = as.character(NA),
       id = as.character(NA),
       label = as.character(NA),
       description = as.character(NA)
     ) %>%
-      dplyr::slice(0))
+      dplyr::slice(0)
+
+    if (include_search == TRUE) {
+      return(search_df)
+    } else {
+      return(search_df %>%
+               dplyr::select(-.data$search))
+    }
   }
 
   search_string <- search

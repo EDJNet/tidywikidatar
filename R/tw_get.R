@@ -335,10 +335,10 @@ tw_get <- function(id,
         cache_connection = cache_connection,
         disconnect_db = disconnect_db
       )
-      return(item_df  %>%
-               dplyr::right_join(tibble::tibble(id = id),
-                                 by = "id"
-               ))
+      return(item_df %>%
+        dplyr::right_join(tibble::tibble(id = id),
+          by = "id"
+        ))
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {

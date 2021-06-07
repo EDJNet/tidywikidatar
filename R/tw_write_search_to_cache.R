@@ -53,8 +53,8 @@ tw_write_search_to_cache <- function(search_df,
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
-        id = unique(search_df$search),
+      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE search = {search*}",
+        search = unique(search_df$search),
         table_name = table_name,
         .con = db
       )
