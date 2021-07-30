@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get_property.R
 \name{tw_get_property}
 \alias{tw_get_property}
-\title{Get Wikidata property of an item}
+\title{Get Wikidata property of one or more items as a tidy data frame}
 \usage{
 tw_get_property(
   id,
@@ -39,7 +39,7 @@ tw_get_property(
 A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
 }
 \description{
-Get Wikidata property of an item
+Get Wikidata property of one or more items as a tidy data frame
 }
 \examples{
 # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?

@@ -346,6 +346,9 @@ Results are stored in different databases by language, and function used; `tw_se
 
 `tw_query()` is never cached.
 
+## Requirements and installation issues
+
+Fedora users may need to install the package `libjpeg-turbo-devel`, which is required by one of the packages that `tidywikidatar` relies on.
 
 ## Copyright and credits
 

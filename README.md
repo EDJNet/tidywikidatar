@@ -607,6 +607,11 @@ store data in different files.
 
 `tw_query()` is never cached.
 
+## Requirements and installation issues
+
+Fedora users may need to install the package `libjpeg-turbo-devel`,
+which is required by one of the packages that `tidywikidatar` relies on.
+
 ## Copyright and credits
 
 This package has been created by [Giorgio
