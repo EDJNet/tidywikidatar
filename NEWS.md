@@ -22,5 +22,5 @@
 
 * `tw_get_label()` actually returns vector of the same length as input
 * introduce `tw_get_property_same_length()` for easier integration with piped operations
-* introduce `tw_get_property_with_details()` to extract additional details such as language or unit of a property that are discarded with `tw_get_property()`. `tw_get_property_with_details()`, however, does not (yet) cache results.
+* introduce `tw_get_property_with_details()` to extract additional details such as language or unit of a property that are otherwise discarded with `tw_get_property()`. `tw_get_property_with_details()`, however, does not (yet) cache results.
 
