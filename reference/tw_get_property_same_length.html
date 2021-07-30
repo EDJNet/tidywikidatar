@@ -191,10 +191,6 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='tw_enable_cache.html'>tw_enable_cache</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='tw_set_cache_folder.html'>tw_set_cache_folder</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='tw_set_language.html'>tw_set_language</a></span><span class='op'>(</span>language <span class='op'>=</span> <span class='st'>"en"</span><span class='op'>)</span>
-<span class='fu'><a href='tw_create_cache_folder.html'>tw_create_cache_folder</a></span><span class='op'>(</span>ask <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># By default, it returns a list of the same length as input,</span>
 <span class='co'># no matter how many values for each id/property</span>
@@ -215,43 +211,40 @@
 #&gt; [[3]]
 #&gt; [1] NA
 #&gt; </div><div class='input'>
-<span class='co'># Notice that if no relevant match is found, it returns a NA</span>
-<span class='co'># This is useful for piped operations</span>
 
-<span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-  <span class='st'>"Q180099"</span>,
-  <span class='st'>"Q228822"</span>,
-  <span class='st'>"Q76857"</span>
-<span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>spouse <span class='op'>=</span> <span class='fu'>tw_get_property_same_length</span><span class='op'>(</span><span class='va'>id</span>, <span class='st'>"P26"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 2</span>
-#&gt;   id      spouse   
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>   
-#&gt; <span style='color: #BCBCBC;'>1</span> Q180099 <span style='color: #949494;'>&lt;chr [3]&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>2</span> Q228822 <span style='color: #949494;'>&lt;chr [1]&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>3</span> Q76857  <span style='color: #949494;'>&lt;chr [1]&gt;</span></div><div class='input'>
-<span class='co'># Consider unnesting for further analysis</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='co'># Notice that if no relevant match is found, it returns a NA</span>
+  <span class='co'># This is useful for piped operations</span>
 
-<span class='co'># tibble::tibble(id = c(</span>
-<span class='co'>#   "Q180099",</span>
-<span class='co'>#   "Q228822",</span>
-<span class='co'>#   "Q76857"</span>
-<span class='co'># )) %&gt;%</span>
-<span class='co'>#   dplyr::mutate(spouse = tw_get_property_same_length(id, "P26")) %&gt;%</span>
-<span class='co'>#   tidyr::unnest(cols = spouse)</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Q180099"</span>,
+    <span class='st'>"Q228822"</span>,
+    <span class='st'>"Q76857"</span>
+  <span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>spouse <span class='op'>=</span> <span class='fu'>tw_get_property_same_length</span><span class='op'>(</span><span class='va'>id</span>, <span class='st'>"P26"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># If you are sure that you are interested only in the first return value,</span>
-<span class='co'># consider setting only_first=TRUE to get a character vector rather than a list</span>
-<span class='co'># Be mindful: you may well be discarding valid values.</span>
+  <span class='co'># Consider unnesting for further analysis</span>
 
-<span class='co'># tibble::tibble(id = c(</span>
-<span class='co'>#   "Q180099",</span>
-<span class='co'>#   "Q228822",</span>
-<span class='co'>#   "Q76857"</span>
-<span class='co'># )) %&gt;%</span>
-<span class='co'>#   dplyr::mutate(spouse = tw_get_property_same_length(id, "P26",</span>
-<span class='co'>#                                                      only_first = TRUE))</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Q180099"</span>,
+    <span class='st'>"Q228822"</span>,
+    <span class='st'>"Q76857"</span>
+  <span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>spouse <span class='op'>=</span> <span class='fu'>tw_get_property_same_length</span><span class='op'>(</span><span class='va'>id</span>, <span class='st'>"P26"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='va'>spouse</span><span class='op'>)</span>
 
+  <span class='co'># If you are sure that you are interested only in the first return value,</span>
+  <span class='co'># consider setting only_first=TRUE to get a character vector rather than a list</span>
+  <span class='co'># Be mindful: you may well be discarding valid values.</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Q180099"</span>,
+    <span class='st'>"Q228822"</span>,
+    <span class='st'>"Q76857"</span>
+  <span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>spouse <span class='op'>=</span> <span class='fu'>tw_get_property_same_length</span><span class='op'>(</span><span class='va'>id</span>, <span class='st'>"P26"</span>,
+      only_first <span class='op'>=</span> <span class='cn'>TRUE</span>
+    <span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
