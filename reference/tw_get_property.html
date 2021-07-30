@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Wikidata property of an item — tw_get_property • tidywikidatar</title>
+<title>Get Wikidata property of one or more items as a tidy data frame — tw_get_property • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get Wikidata property of an item — tw_get_property" />
-<meta property="og:description" content="Get Wikidata property of an item" />
+<meta property="og:title" content="Get Wikidata property of one or more items as a tidy data frame — tw_get_property" />
+<meta property="og:description" content="Get Wikidata property of one or more items as a tidy data frame" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -118,13 +118,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Wikidata property of an item</h1>
+    <h1>Get Wikidata property of one or more items as a tidy data frame</h1>
     
     <div class="hidden name"><code>tw_get_property.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get Wikidata property of an item</p>
+    <p>Get Wikidata property of one or more items as a tidy data frame</p>
     </div>
 
     <pre class="usage"><span class='fu'>tw_get_property</span><span class='op'>(</span>
@@ -188,7 +188,7 @@
     <pre class="examples"><div class='input'><span class='co'># Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?</span>
 <span class='va'>advisors</span> <span class='op'>&lt;-</span> <span class='fu'>tw_get_property</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"Q180099"</span>, p <span class='op'>=</span> <span class='st'>"P184"</span><span class='op'>)</span>
 <span class='va'>advisors</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 3</span>
 #&gt;   id      property value  
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
 #&gt; <span style='color: #BCBCBC;'>1</span> Q180099 P184     Q228822
@@ -204,7 +204,7 @@
   <span class='op'>)</span>,
   p <span class='op'>=</span> <span class='st'>"P31"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 3</span>
 #&gt;   id      property value
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Q180099 P31      Q5   
@@ -215,7 +215,7 @@
   id <span class='op'>=</span> <span class='st'>"Q180099"</span>,
   p <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"P21"</span>, <span class='st'>"P31"</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 3</span>
 #&gt;   id      property value   
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   
 #&gt; <span style='color: #BCBCBC;'>1</span> Q180099 P21      Q6581072

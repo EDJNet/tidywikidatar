@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Wikipedia article in given language — tw_get_wikipedia • tidywikidatar</title>
+<title>Gets all details of a property — tw_get_property_with_details_single • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get Wikipedia article in given language — tw_get_wikipedia" />
-<meta property="og:description" content="Get Wikipedia article in given language" />
+<meta property="og:title" content="Gets all details of a property — tw_get_property_with_details_single" />
+<meta property="og:description" content="Gets all details of a property" />
 
 
 
@@ -118,70 +118,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Wikipedia article in given language</h1>
+    <h1>Gets all details of a property</h1>
     
-    <div class="hidden name"><code>tw_get_wikipedia.Rd</code></div>
+    <div class="hidden name"><code>tw_get_property_with_details_single.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get Wikipedia article in given language</p>
+    <p>Gets all details of a property</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_get_wikipedia</span><span class='op'>(</span>
-  <span class='va'>id</span>,
-  language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
-  id_df <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cache <span class='op'>=</span> <span class='cn'>NULL</span>,
-  overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
-  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  wait <span class='op'>=</span> <span class='fl'>0</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_get_property_with_details_single</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>p</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>id</th>
-      <td><p>A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart</p></td>
+      <td><p>A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.</p></td>
     </tr>
     <tr>
-      <th>language</th>
-      <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
-    </tr>
-    <tr>
-      <th>id_df</th>
-      <td><p>Default to NULL. If given, it should be a dataframe typically generated with <code>tw_get_()</code>, and is used instead of calling Wikidata or using SQLite cache. Ignored when <code>id</code> is of length more than one.</p></td>
-    </tr>
-    <tr>
-      <th>cache</th>
-      <td><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href='tw_enable_cache.html'>tw_enable_cache()</a></code> or <code><a href='tw_disable_cache.html'>tw_disable_cache()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite_cache</th>
-      <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
-    </tr>
-    <tr>
-      <th>cache_connection</th>
-      <td><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></td>
-    </tr>
-    <tr>
-      <th>disconnect_db</th>
-      <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
-    </tr>
-    <tr>
-      <th>wait</th>
-      <td><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></td>
+      <th>p</th>
+      <td><p>A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A charachter vector of length 1, with the Wikidata label in the requested languae.</p>
+    <p>A tibble, corresponding to the details for the given property. NULL if no relevant property found.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>tw_get_wikipedia</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"Q180099"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "https://en.wikipedia.org/wiki/Margaret Mead"</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Get "female form of label", including language</span>
+<span class='fu'><a href='tw_get_property_with_details.html'>tw_get_property_with_details</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"Q64733534"</span>, p <span class='op'>=</span> <span class='st'>"P2521"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 × 4</span>
+#&gt;   id        p     text                              language
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   
+#&gt; <span style='color: #BCBCBC;'>1</span> Q64733534 P2521 sběratelka pohádek                cs      
+#&gt; <span style='color: #BCBCBC;'>2</span> Q64733534 P2521 recopiladora de contes fantàstics ca      
+#&gt; <span style='color: #BCBCBC;'>3</span> Q64733534 P2521 Märchensammlerin                  de      
+#&gt; <span style='color: #BCBCBC;'>4</span> Q64733534 P2521 zbieraczka baśni                  pl      
+#&gt; <span style='color: #BCBCBC;'>5</span> Q64733534 P2521 raccoglitrice di favole           it      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

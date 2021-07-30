@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -178,13 +178,14 @@
 
 <span class='va'>search_from_api</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tw_search.html'>tw_search</a></span><span class='op'>(</span><span class='st'>"Sylvia Pankhurst"</span><span class='op'>)</span>
 <span class='va'>search_from_api</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;   id    label description
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      
-#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>         </div><div class='input'>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 3</span>
+#&gt;   id        label            description                                     
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                           
+#&gt; <span style='color: #BCBCBC;'>1</span> Q298213   Sylvia Pankhurst Activist, suffragette, pacifist internationalist
+#&gt; <span style='color: #BCBCBC;'>2</span> Q24298894 Sylvia Pankhurst sculpture in Mile End Park, London              </div><div class='input'>
 <span class='va'>df_from_cache</span> <span class='op'>&lt;-</span> <span class='fu'>tw_get_cached_search</span><span class='op'>(</span><span class='st'>"Sylvia Pankhurst"</span><span class='op'>)</span>
 <span class='va'>df_from_cache</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 × 3</span>
 #&gt; <span style='color: #949494;'># … with 3 variables: id &lt;chr&gt;, label &lt;chr&gt;, value &lt;chr&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
