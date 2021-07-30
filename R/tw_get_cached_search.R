@@ -54,7 +54,7 @@ tw_get_cached_search <- function(search,
       return(search_df)
     } else {
       return(search_df %>%
-               dplyr::select(-.data$search))
+        dplyr::select(-.data$search))
     }
   }
 

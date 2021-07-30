@@ -60,36 +60,36 @@ tw_get_property_same_length(
 
 
 if (interactive()) {
-# Notice that if no relevant match is found, it returns a NA
-# This is useful for piped operations
+  # Notice that if no relevant match is found, it returns a NA
+  # This is useful for piped operations
 
-tibble::tibble(id = c(
-  "Q180099",
-  "Q228822",
-  "Q76857"
-)) \%>\%
-  dplyr::mutate(spouse = tw_get_property_same_length(id, "P26"))
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) \%>\%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26"))
 
-# Consider unnesting for further analysis
+  # Consider unnesting for further analysis
 
-tibble::tibble(id = c(
-  "Q180099",
-  "Q228822",
-  "Q76857"
-)) \%>\%
-  dplyr::mutate(spouse = tw_get_property_same_length(id, "P26")) \%>\%
-  tidyr::unnest(cols = spouse)
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) \%>\%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26")) \%>\%
+    tidyr::unnest(cols = spouse)
 
-# If you are sure that you are interested only in the first return value,
-# consider setting only_first=TRUE to get a character vector rather than a list
-# Be mindful: you may well be discarding valid values.
-tibble::tibble(id = c(
-  "Q180099",
-  "Q228822",
-  "Q76857"
-)) \%>\%
-  dplyr::mutate(spouse = tw_get_property_same_length(id, "P26",
-                                                     only_first = TRUE))
-
+  # If you are sure that you are interested only in the first return value,
+  # consider setting only_first=TRUE to get a character vector rather than a list
+  # Be mindful: you may well be discarding valid values.
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) \%>\%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26",
+      only_first = TRUE
+    ))
 }
 }

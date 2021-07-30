@@ -24,14 +24,13 @@
 #'
 #' # If a label is not available, a NA value is returned
 #' tw_get_label(
-#' id = c(
-#'   "Q64733534",
-#'   "Q4773904",
-#'   "Q220480"
-#' ),
-#' language = "sc"
+#'   id = c(
+#'     "Q64733534",
+#'     "Q4773904",
+#'     "Q220480"
+#'   ),
+#'   language = "sc"
 #' )
-#'
 tw_get_label <- function(id,
                          language = tidywikidatar::tw_get_language(),
                          id_df = NULL,
@@ -72,7 +71,7 @@ tw_get_label <- function(id,
 
   if (nrow(label_df) == 0) {
     rep(as.character(NA), length(id))
-  } else if (nrow(label_df)<length(id)) {
+  } else if (nrow(label_df) < length(id)) {
     tibble::tibble(id = id) %>%
       dplyr::left_join(y = label_df, by = "id") %>%
       dplyr::pull(.data$value)
