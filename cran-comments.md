@@ -9,4 +9,4 @@
 
 0 errors | 0 warnings | 0 note
 
-* This is a new release.
+* re-submitting with full URL in description to prevent redirect note
