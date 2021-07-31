@@ -32,10 +32,14 @@
 #'
 #' # Or many properties for a single id
 #'
+#' if (interactive()) {
+#'
 #' tw_get_property(
 #'   id = "Q180099",
 #'   p = c("P21", "P31")
 #' )
+#'
+#' }
 tw_get_property <- function(id,
                             p,
                             language = tidywikidatar::tw_get_language(),
