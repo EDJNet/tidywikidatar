@@ -45,7 +45,7 @@ tw_get_label <- function(id,
 
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = id,
+      id = id[is.na(id) == FALSE],
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
@@ -67,6 +67,9 @@ tw_get_label <- function(id,
           collapse = "|"
         )
       )
+    ) %>%
+    dplyr::distinct(.data$id,
+      .keep_all = TRUE
     )
 
   if (nrow(label_df) == 0) {
