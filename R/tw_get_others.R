@@ -45,7 +45,7 @@ tw_get_label <- function(id,
 
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = id[is.na(id) == FALSE],
+      id = tw_check_qid(id),
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
@@ -55,33 +55,11 @@ tw_get_label <- function(id,
     )
   }
 
-  label_df <- id_df %>%
-    dplyr::filter(
-      stringr::str_starts(
-        string = .data$property,
-        pattern = "label_"
-      ),
-      stringr::str_ends(
-        string = .data$property,
-        pattern = stringr::str_c(language,
-          collapse = "|"
-        )
-      )
-    ) %>%
-    dplyr::distinct(.data$id,
-      .keep_all = TRUE
-    )
+  tw_get_field(df = id_df,
+               field = "label",
+               language = language,
+               id = id)
 
-  if (nrow(label_df) == 0) {
-    rep(as.character(NA), length(id))
-  } else if (nrow(label_df) < length(id)) {
-    tibble::tibble(id = id) %>%
-      dplyr::left_join(y = label_df, by = "id") %>%
-      dplyr::pull(.data$value)
-  } else {
-    label_df %>%
-      dplyr::pull(.data$value)
-  }
 }
 
 
@@ -115,9 +93,13 @@ tw_get_description <- function(id,
                                cache_connection = NULL,
                                disconnect_db = TRUE,
                                wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = id,
+      id = tw_check_qid(id),
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
@@ -127,26 +109,10 @@ tw_get_description <- function(id,
     )
   }
 
-  description <- id_df %>%
-    dplyr::filter(
-      stringr::str_starts(
-        string = .data$property,
-        pattern = "description_"
-      ),
-      stringr::str_ends(
-        string = .data$property,
-        pattern = stringr::str_c(language,
-          collapse = "|"
-        )
-      )
-    ) %>%
-    dplyr::pull(.data$value)
-
-  if (length(description) == 0) {
-    as.character(NA)
-  } else {
-    description
-  }
+  tw_get_field(df = id_df,
+               field = "description",
+               language = language,
+               id = id)
 }
 
 #' Get Wikidata image
@@ -189,6 +155,10 @@ tw_get_image <- function(id,
                          disconnect_db = TRUE,
                          format = "filename",
                          wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
   if (is.null(id_df)) {
     id_df <- tidywikidatar::tw_get(
       id = id,
@@ -244,6 +214,10 @@ tw_get_wikipedia <- function(id,
                              cache_connection = NULL,
                              disconnect_db = TRUE,
                              wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
   base_string <- stringr::str_c("sitelink_", language, "wiki")
 
   if (is.null(id_df)) {

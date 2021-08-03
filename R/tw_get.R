@@ -297,7 +297,7 @@ tw_get <- function(id,
     id <- id$id
   }
 
-  unique_id <- unique(id)
+  unique_id <- tw_check_qid(id)
 
   if (length(unique_id) == 1) {
     return(tw_get_single(

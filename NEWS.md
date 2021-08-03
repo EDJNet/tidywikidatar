@@ -24,3 +24,9 @@
 * introduce `tw_get_property_same_length()` for easier integration with piped operations
 * introduce `tw_get_property_with_details()` to extract additional details such as language or unit of a property that are otherwise discarded with `tw_get_property()`. `tw_get_property_with_details()`, however, does not (yet) cache results.
 
+# tidywikidatar 0.4.1
+
+* bug fix release: `tw_get_label()`, now actually always returns vector of the same length as input
+* new functions used internally for consistency and preventing the above issue 
+* invalid identifiers and `NA` are now ignored by `tw_get()`
+
