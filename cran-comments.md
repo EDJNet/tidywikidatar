@@ -9,4 +9,4 @@
 
 0 errors | 0 warnings | 1 note
 
-* this is a bug-fix release
+* this is a bug-fix release (see NEWS.md for details)
