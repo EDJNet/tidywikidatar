@@ -27,6 +27,6 @@
 # tidywikidatar 0.4.1
 
 * bug fix release: `tw_get_label()`, now actually always returns vector of the same length as input
-* new functions used internally for consistency and preventing the above issue 
+* new functions used internally for consistency and preventing the above issue under different scenarios 
 * invalid identifiers and `NA` are now ignored by `tw_get()`
 

@@ -7,6 +7,6 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 1 note
 
-* re-submitting with full URL in description to prevent redirect note
+* this is a bug-fix release
