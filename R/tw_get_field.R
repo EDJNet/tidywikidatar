@@ -2,7 +2,7 @@
 #'
 #' @param df A data frame typically generated with `tw_get()`. It should include data for the `id` included in the dedicated parameter.
 #' @param field A character vector of length one. Typically, either "label" or "description".
-#' @param id A character vector, tipically of Wikidata identifiers. The output will be of the same length and in the same order as the identifiers provided with this paramenter.
+#' @param id A character vector, typically of Wikidata identifiers. The output will be of the same length and in the same order as the identifiers provided with this parameter.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
 #' @return A character vector of the same length, with data in the same order, as `id`.
