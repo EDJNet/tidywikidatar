@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -162,6 +162,17 @@
 <code><a href="../reference/tw_get_label.html">tw_get_label()</a></code> actually returns vector of the same length as input</li>
 <li>introduce <code><a href="../reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> for easier integration with piped operations</li>
 <li>introduce <code><a href="../reference/tw_get_property_with_details.html">tw_get_property_with_details()</a></code> to extract additional details such as language or unit of a property that are otherwise discarded with <code><a href="../reference/tw_get_property.html">tw_get_property()</a></code>. <code><a href="../reference/tw_get_property_with_details.html">tw_get_property_with_details()</a></code>, however, does not (yet) cache results.</li>
+</ul>
+</div>
+    <div id="tidywikidatar-041" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.1">
+<a href="#tidywikidatar-041" class="anchor"></a>tidywikidatar 0.4.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>bug fix release: <code><a href="../reference/tw_get_label.html">tw_get_label()</a></code>, now actually always returns vector of the same length as input</li>
+<li>new functions used internally for consistency and preventing the above issue</li>
+<li>invalid identifiers and <code>NA</code> are now ignored by <code><a href="../reference/tw_get.html">tw_get()</a></code>
+</li>
 </ul>
 </div>
   </div>
