@@ -183,7 +183,7 @@ tw_get_image <- function(id,
   } else if (format == "commons") {
     stringr::str_c("https://commons.wikimedia.org/wiki/File:", link)
   } else if (format == "embed") {
-    stringr::str_c("https://upload.wikimedia.org/wikipedia/commons/d/dc/", link)
+    stringr::str_c("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/", link)
   } else {
     link
   }
