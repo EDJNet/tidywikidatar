@@ -41,6 +41,28 @@ test_that("check if property are returned correctly and in the same as order as 
   ))
 })
 
+test_that("check if tw_get_property with invalid identifiers", {
+  testthat::skip_if_offline()
+
+  expect_true(object = {
+    tw_disable_cache()
+    tw_get_property(
+      id = "non_qid_string",
+      p = "P27"
+    ) %>%
+      is.null()
+  })
+
+  expect_true(object = {
+    tw_disable_cache()
+    tw_get_property_same_length(
+      id = "non_qid_string",
+      p = "P27"
+    ) %>%
+      is.na()
+  })
+})
+
 
 
 

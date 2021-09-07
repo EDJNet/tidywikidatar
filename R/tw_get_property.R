@@ -33,12 +33,10 @@
 #' # Or many properties for a single id
 #'
 #' if (interactive()) {
-#'
-#' tw_get_property(
-#'   id = "Q180099",
-#'   p = c("P21", "P31")
-#' )
-#'
+#'   tw_get_property(
+#'     id = "Q180099",
+#'     p = c("P21", "P31")
+#'   )
 #' }
 tw_get_property <- function(id,
                             p,
@@ -49,9 +47,19 @@ tw_get_property <- function(id,
                             cache_connection = NULL,
                             disconnect_db = TRUE,
                             wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
+  unique_id <- tw_check_qid(id)
+
+  if (length(unique_id) == 0) {
+    return(NULL)
+  }
+
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = id,
+      id = unique_id,
       cache = tw_check_cache(cache),
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
@@ -71,12 +79,12 @@ tw_get_property <- function(id,
     ) %>%
       dplyr::slice(0)
   } else {
-    if (length(p)>1) {
+    if (length(p) > 1) {
       property_df <- tibble::tibble(property = p) %>%
         dplyr::left_join(y = property_df, by = "property") %>%
         dplyr::select(.data$id, .data$property, .data$value)
     }
-    if (length(id)>1) {
+    if (length(id) > 1) {
       property_df <- tibble::tibble(id = id) %>%
         dplyr::left_join(y = property_df, by = "id")
     }
@@ -176,7 +184,9 @@ tw_get_property_same_length <- function(id,
     wait = wait
   )
 
-  if (nrow(property_df) == 0) {
+  if (is.null(property_df)) {
+    return(rep(as.character(NA), length(id)))
+  } else if (nrow(property_df) == 0) {
     if (only_first == TRUE) {
       return(rep(as.character(NA), length(id)))
     } else {

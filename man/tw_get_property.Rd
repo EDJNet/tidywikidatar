@@ -61,11 +61,9 @@ tw_get_property(
 # Or many properties for a single id
 
 if (interactive()) {
-
-tw_get_property(
-  id = "Q180099",
-  p = c("P21", "P31")
-)
-
+  tw_get_property(
+    id = "Q180099",
+    p = c("P21", "P31")
+  )
 }
 }
