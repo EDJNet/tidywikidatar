@@ -15,18 +15,29 @@ test_that("check if property are returned correctly when more than 1 id and one 
   ))
 })
 
-test_that("check if property are returned correctly when 1 id and more than one property", {
+test_that("check if property are returned correctly and in the same as order as given when 1 id and more than one property", {
   testthat::skip_if_offline()
 
   expect_equal(object = {
     tw_disable_cache()
     tw_get_property(
       id = "Q180099",
-      p = c("P21", "P31")
+      p = c("P31", "P27")
     ) %>%
       dplyr::pull(value)
   }, expected = c(
-    c("Q6581072", "Q5")
+    c("Q5", "Q30")
+  ))
+
+  expect_equal(object = {
+    tw_disable_cache()
+    tw_get_property(
+      id = "Q180099",
+      p = c("P27", "P31")
+    ) %>%
+      dplyr::pull(value)
+  }, expected = c(
+    c("Q30", "Q5")
   ))
 })
 
@@ -43,10 +54,10 @@ test_that("check if property labels are returned correctly", {
   ))
 
   expect_equal(object = {
-    tw_get_property_label(property = c("P31", "P21"))
+    tw_get_property_label(property = c("P31", "P361"))
   }, expected = c(
     "instance of",
-    "sex or gender"
+    "part of"
   ))
 })
 
@@ -64,10 +75,21 @@ test_that("check if property labels are returned correctly with cache", {
   ))
 
   expect_equal(object = {
-    tw_get_property_label(property = c("P31", "P21"))
+    tw_set_cache_folder(path = tempdir())
+    tw_get_property_label(property = c("P31", "P361"))
   }, expected = c(
     "instance of",
-    "sex or gender"
+    "part of"
+  ))
+
+  expect_equal(object = {
+    tw_set_cache_folder(path = tempdir())
+    tw_get_property_label(property = c("P31", "P361", "non_id_string", NA))
+  }, expected = c(
+    "instance of",
+    "part of",
+    NA,
+    NA
   ))
 })
 
@@ -85,10 +107,11 @@ test_that("check if property descriptions are returned correctly", {
 
   expect_equal(object = {
     tw_disable_cache()
-    tw_get_property_description(property = c("P31", "P21"))
+    tw_get_property_description(property = c("P31", "P361")) %>%
+      stringr::word(end = 3)
   }, expected = c(
-    "that class of which this subject is a particular example and member",
-    "sex or gender identity of human or animal. For human: male, female, non-binary, intersex, transgender female, transgender male, agender. For animal: male organism, female organism. Groups of same gender use subclass of (P279)"
+    "that class of",
+    "object of which"
   ))
 })
 
@@ -107,9 +130,10 @@ test_that("check if property descriptions are returned correctly with cache", {
 
   expect_equal(object = {
     tw_disable_cache()
-    tw_get_property_description(property = c("P31", "P21"))
+    tw_get_property_description(property = c("P31", "P361")) %>%
+      stringr::word(end = 3)
   }, expected = c(
-    "that class of which this subject is a particular example and member",
-    "sex or gender identity of human or animal. For human: male, female, non-binary, intersex, transgender female, transgender male, agender. For animal: male organism, female organism. Groups of same gender use subclass of (P279)"
+    "that class of",
+    "object of which"
   ))
 })

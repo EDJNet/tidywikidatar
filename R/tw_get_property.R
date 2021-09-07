@@ -71,6 +71,16 @@ tw_get_property <- function(id,
     ) %>%
       dplyr::slice(0)
   } else {
+    if (length(p)>1) {
+      property_df <- tibble::tibble(property = p) %>%
+        dplyr::left_join(y = property_df, by = "property") %>%
+        dplyr::select(.data$id, .data$property, .data$value)
+    }
+    if (length(id)>1) {
+      property_df <- tibble::tibble(id = id) %>%
+        dplyr::left_join(y = property_df, by = "id")
+    }
+
     property_df
   }
 }
