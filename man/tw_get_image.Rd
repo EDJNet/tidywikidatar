@@ -2,24 +2,29 @@
 % Please edit documentation in R/tw_get_others.R
 \name{tw_get_image}
 \alias{tw_get_image}
-\title{Get Wikidata image}
+\title{Get image from Wikimedia Commons}
 \usage{
 tw_get_image(
   id,
+  format = "filename",
+  width = NULL,
   language = tidywikidatar::tw_get_language(),
   id_df = NULL,
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  format = "filename",
   wait = 0
 )
 }
 \arguments{
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{format}{A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+
+\item{width}{A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.}
+
+\item{language}{Needed for caching, defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{id_df}{Default to NULL. If given, it should be a dataframe typically generated with \code{tw_get_()}, and is used instead of calling Wikidata or using SQLite cache. Ignored when \code{id} is of length more than one.}
 
@@ -31,15 +36,13 @@ tw_get_image(
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
-\item{format}{A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
-
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
 A charachter vector, corresponding to reference to the image in the requested format.
 }
 \description{
-Get Wikidata image
+Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 }
 \examples{
 tw_get_image(
@@ -57,4 +60,14 @@ tw_get_image(
   ),
   format = "commons"
 )
+
+tw_get_image(
+c(
+  "Q180099",
+  "Q228822"
+),
+format = "embed",
+width = 300
+)
+
 }

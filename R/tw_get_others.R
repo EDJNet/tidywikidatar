@@ -115,11 +115,14 @@ tw_get_description <- function(id,
                id = id)
 }
 
-#' Get Wikidata image
+#' Get image from Wikimedia Commons
+#'
+#' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 #'
 #' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param format A charachter vector, defaults to 'filename". If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param format A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
+#' @param width A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.
+#' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
@@ -146,14 +149,25 @@ tw_get_description <- function(id,
 #'   ),
 #'   format = "commons"
 #' )
+#'
+#' tw_get_image(
+#' c(
+#'   "Q180099",
+#'   "Q228822"
+#' ),
+#' format = "embed",
+#' width = 300
+#' )
+#'
 tw_get_image <- function(id,
+                         format = "filename",
+                         width = NULL,
                          language = tidywikidatar::tw_get_language(),
                          id_df = NULL,
                          cache = NULL,
                          overwrite_cache = FALSE,
                          cache_connection = NULL,
                          disconnect_db = TRUE,
-                         format = "filename",
                          wait = 0) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
@@ -183,7 +197,14 @@ tw_get_image <- function(id,
   } else if (format == "commons") {
     stringr::str_c("https://commons.wikimedia.org/wiki/File:", link)
   } else if (format == "embed") {
-    stringr::str_c("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/", link)
+    if (is.null(width)==TRUE) {
+      stringr::str_c("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/",
+                     link)
+    } else {
+      stringr::str_c("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/",
+                     link, "&width=", width)
+    }
+
   } else {
     link
   }

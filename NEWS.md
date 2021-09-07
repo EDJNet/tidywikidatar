@@ -30,3 +30,9 @@
 * new functions used internally for consistency and preventing the above issue under different scenarios 
 * invalid identifiers and `NA` are now ignored by `tw_get()`
 
+# tidywikidatar 0.4.2
+
+* `tw_get_image()` now returns consistently valid links if format is set to 'embed'; it is now possible to get a direct link to images with a given resolution with the width parameter
+* `tw_get_property()` now consistently returns data frame with properties in the same order as given
+* more consistent testing, less likely to be impacted to changes in Wikidata items
+
