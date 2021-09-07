@@ -17,5 +17,5 @@ Mostly used internally by other functions.
 }
 \examples{
 
-tw_check_qid(id = c("Q180099","q228822","Not an id","00180099", NA))
+tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA))
 }

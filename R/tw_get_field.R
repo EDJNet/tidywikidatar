@@ -16,7 +16,6 @@ tw_get_field <- function(df,
                          field,
                          id,
                          language = tidywikidatar::tw_get_language()) {
-
   field_df <- df %>%
     dplyr::filter(
       stringr::str_starts(
@@ -26,12 +25,12 @@ tw_get_field <- function(df,
       stringr::str_ends(
         string = .data$property,
         pattern = stringr::str_c(language,
-                                 collapse = "|"
+          collapse = "|"
         )
       )
     ) %>%
     dplyr::distinct(.data$id,
-                    .keep_all = TRUE
+      .keep_all = TRUE
     )
 
   if (nrow(field_df) == 0) {
@@ -44,5 +43,4 @@ tw_get_field <- function(df,
     field_df %>%
       dplyr::pull(.data$value)
   }
-
 }

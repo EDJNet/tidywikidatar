@@ -1,6 +1,6 @@
 Package: tidywikidatar
 Title: Explore 'Wikidata' Through Tidy Data Frames
-Version: 0.4.1
+Version: 0.4.1.9001
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",
@@ -29,7 +29,8 @@ Imports:
     WikidataQueryServiceR,
     fs,
     rlang (>= 0.1.2),
-    progress
+    progress,
+    jsonlite
 Suggests: 
     spelling,
     roxygen2,
