@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write qualifiers to cache — tw_write_qualifiers_to_cache • tidywikidatar</title>
+<title>Facilitates the creation of MediaWiki API base URLs — tw_get_wikipedia_base_api_url • tidywikidatar</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Write qualifiers to cache — tw_write_qualifiers_to_cache" />
-<meta property="og:description" content="Mostly to be used internally by tidywikidatar, use with caution to keep caching consistent." />
+<meta property="og:title" content="Facilitates the creation of MediaWiki API base URLs — tw_get_wikipedia_base_api_url" />
+<meta property="og:description" content="Mostly used internally" />
 
 
 
@@ -118,66 +118,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write qualifiers to cache</h1>
+    <h1>Facilitates the creation of MediaWiki API base URLs</h1>
     
-    <div class="hidden name"><code>tw_write_qualifiers_to_cache.Rd</code></div>
+    <div class="hidden name"><code>tw_get_wikipedia_base_api_url.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Mostly to be used internally by <code>tidywikidatar</code>, use with caution to keep caching consistent.</p>
+    <p>Mostly used internally</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tw_write_qualifiers_to_cache</span><span class='op'>(</span>
-  <span class='va'>qualifiers_df</span>,
-  language <span class='op'>=</span> <span class='fu'>tidywikidatar</span><span class='fu'>::</span><span class='fu'><a href='tw_set_language.html'>tw_get_language</a></span><span class='op'>(</span><span class='op'>)</span>,
-  overwrite_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  cache_connection <span class='op'>=</span> <span class='cn'>NULL</span>,
-  disconnect_db <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tw_get_wikipedia_base_api_url</span><span class='op'>(</span>url <span class='op'>=</span> <span class='cn'>NULL</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, language <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>qualifiers_df</th>
-      <td><p>A data frame with two columns typically generated with <code><a href='tw_get.html'>tw_get(include_id_and_p = FALSE)</a></code>.</p></td>
+      <th>url</th>
+      <td><p>Full URL to a Wikipedia page. If given, title and language can be left empty.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.</p></td>
     </tr>
     <tr>
       <th>language</th>
-      <td><p>Defaults to language set with <code><a href='tw_set_language.html'>tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></td>
-    </tr>
-    <tr>
-      <th>overwrite_cache</th>
-      <td><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></td>
-    </tr>
-    <tr>
-      <th>cache_connection</th>
-      <td><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></td>
-    </tr>
-    <tr>
-      <th>disconnect_db</th>
-      <td><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></td>
+      <td><p>Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns the same data frame provided as input. Mostly used internally for its side effects.</p>
+    <p>A charachter vector of base urls to be used with the MediaWiki API</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='va'>q_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tw_get_qualifiers.html'>tw_get_qualifiers</a></span><span class='op'>(</span>
-  id <span class='op'>=</span> <span class='st'>"Q180099"</span>,
-  p <span class='op'>=</span> <span class='st'>"P26"</span>,
-  language <span class='op'>=</span> <span class='st'>"en"</span>,
-  cache <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-<span class='fu'>tw_write_qualifiers_to_cache</span><span class='op'>(</span>
-  qualifiers_df <span class='op'>=</span> <span class='va'>q_df</span>,
-  language <span class='op'>=</span> <span class='st'>"en"</span>
-<span class='op'>)</span>
-</div></pre>
+<span class='fu'>tw_get_wikipedia_base_api_url</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Margaret Mead"</span>, language <span class='op'>=</span> <span class='st'>"en"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "https://en.wikipedia.org/w/api.php?action=query&amp;redirects=true&amp;format=json&amp;titles=Margaret%20Mead"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
