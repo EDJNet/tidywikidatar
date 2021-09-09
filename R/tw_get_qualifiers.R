@@ -255,8 +255,13 @@ tw_get_qualifiers <- function(id,
           cache_connection = cache_connection,
           disconnect_db = disconnect_db
         )
-        return(qualifiers_from_cache_df %>%
-          dplyr::right_join(tibble::tibble(id = id), by = "id"))
+        return(
+          dplyr::left_join(
+            x = tibble::tibble(id = id),
+            y = qualifiers_from_cache_df,
+            by = "id"
+          )
+        )
       } else if (nrow(not_in_cache_df) > 0) {
         pb <- progress::progress_bar$new(total = nrow(not_in_cache_df))
         qualifiers_not_in_cache_df <- purrr::map2_dfr(
@@ -283,11 +288,14 @@ tw_get_qualifiers <- function(id,
           disconnect_db = disconnect_db
         )
 
-        dplyr::bind_rows(
-          qualifiers_from_cache_df,
-          qualifiers_not_in_cache_df
-        ) %>%
-          dplyr::right_join(tibble::tibble(id = id), by = "id")
+        dplyr::left_join(
+          x = tibble::tibble(id = id),
+          y = dplyr::bind_rows(
+            qualifiers_from_cache_df,
+            qualifiers_not_in_cache_df
+          ),
+          by = "id"
+        )
       }
     }
   }

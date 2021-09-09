@@ -300,18 +300,21 @@ tw_get <- function(id,
   unique_id <- tw_check_qid(id)
 
   if (length(unique_id) == 1) {
-    return(tw_get_single(
-      id = unique_id,
-      language = language,
-      cache = cache,
-      overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
-      wait = wait
-    ) %>%
-      dplyr::right_join(tibble::tibble(id = id),
+    return(
+      dplyr::left_join(
+        x = tibble::tibble(id = id),
+        y = tw_get_single(
+          id = unique_id,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db,
+          wait = wait
+        ),
         by = "id"
-      ))
+      )
+    )
   } else if (length(unique_id) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_id))
@@ -335,10 +338,13 @@ tw_get <- function(id,
         cache_connection = cache_connection,
         disconnect_db = disconnect_db
       )
-      return(item_df %>%
-        dplyr::right_join(tibble::tibble(id = id),
+      return(
+        dplyr::left_join(
+          x = tibble::tibble(id = id),
+          y = item_df,
           by = "id"
-        ))
+        )
+      )
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
@@ -357,8 +363,13 @@ tw_get <- function(id,
           cache_connection = cache_connection,
           disconnect_db = disconnect_db
         )
-        return(items_from_cache_df %>%
-          dplyr::right_join(tibble::tibble(id = id), by = "id"))
+        return(
+          dplyr::left_join(
+            x = tibble::tibble(id = id),
+            y = items_from_cache_df,
+            by = "id"
+          )
+        )
       } else if (length(id_items_not_in_cache) > 0) {
         pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
         items_not_in_cache_df <- purrr::map_dfr(
@@ -383,12 +394,14 @@ tw_get <- function(id,
           cache_connection = cache_connection,
           disconnect_db = disconnect_db
         )
-
-        dplyr::bind_rows(
-          items_from_cache_df,
-          items_not_in_cache_df
-        ) %>%
-          dplyr::right_join(tibble::tibble(id = id), by = "id")
+        dplyr::left_join(
+          x = tibble::tibble(id = id),
+          y = dplyr::bind_rows(
+            items_from_cache_df,
+            items_not_in_cache_df
+          ),
+          by = "id"
+        )
       }
     }
   }
