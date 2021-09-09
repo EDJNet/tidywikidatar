@@ -22,6 +22,7 @@ test_that(
     expect_equal(
       object = {
         tw_set_cache_folder(path = tempdir())
+        tw_enable_cache()
         tw_get_cache_file(
           type = "item",
           language = "en"

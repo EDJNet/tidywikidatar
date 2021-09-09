@@ -7,6 +7,7 @@
 tw_get_image_same_length(
   id,
   format = "filename",
+  as_tibble = FALSE,
   only_first = TRUE,
   width = NULL,
   language = tidywikidatar::tw_get_language(),
@@ -22,6 +23,8 @@ tw_get_image_same_length(
 \item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{format}{A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+
+\item{as_tibble}{Defaults to FALSE. If TRUE, returns a data frame instead of a character vector.}
 
 \item{only_first}{Defaults to TRUE. If TRUE, returns only the first image associated with a given Wikidata id. If FALSE, returns all images available.}
 

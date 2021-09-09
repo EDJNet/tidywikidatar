@@ -34,6 +34,7 @@
 
 * `tw_get_image()` now returns consistently valid links if format is set to 'embed'; it is now possible to get a direct link to images with a given resolution with the width parameter
 * introduce `tw_get_image_metadata()` to obtain adequate credits to be included when images are used
+* introduce functions to get Wikidata identifiers from Wikipedia pages
 * `tw_get_property()` now consistently returns data frame with properties in the same order as given and does not fail if given invalid values
 * more consistent testing, less likely to be impacted to changes in Wikidata items
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get_image.R
 \name{tw_get_image_metadata}
 \alias{tw_get_image_metadata}
-\title{Get metadata for image from Wikimedia Commons}
+\title{Get metadata for images from Wikimedia Commons}
 \usage{
 tw_get_image_metadata(
   id,
