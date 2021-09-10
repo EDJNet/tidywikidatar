@@ -92,7 +92,7 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.
 #'
-#' @return
+#' @return A data frame (a tibble) with four columns: `wikipedia_title`, `wikipedia_id`, `wikidata_id`, `wikidata_description`.
 #' @export
 #'
 #' @examples
@@ -164,5 +164,11 @@ tw_get_links_from_wikipedia_page <- function(url = NULL,
           )
       )
     }
-  )
+  ) %>%
+    dplyr::select(
+      .data$wikipedia_title,
+      .data$wikipedia_id,
+      .data$wikidata_id,
+      .data$wikidata_description
+    )
 }

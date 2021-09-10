@@ -83,7 +83,9 @@ tw_get_image <- function(id,
       )
     }
   )
-  image_df
+  if (nrow(image_df) > 0) {
+    image_df
+  }
 }
 
 #' Get image from Wikimedia Commons
@@ -144,6 +146,9 @@ tw_get_image_same_length <- function(id,
     wait = wait
   )
 
+  if (is.null(image_df)) {
+    return(rep(as.character(NA), length(id)))
+  }
   if (as_tibble == TRUE) {
     if (only_first == TRUE) {
       dplyr::left_join(tibble::tibble(id = id),
@@ -157,7 +162,7 @@ tw_get_image_same_length <- function(id,
       dplyr::left_join(tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
-          dplyr::summarise(image = list(image)),
+          dplyr::summarise(image = list(.data$image)),
         by = "id"
       )
     }
@@ -175,7 +180,7 @@ tw_get_image_same_length <- function(id,
       dplyr::left_join(tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
-          dplyr::summarise(image = list(image)),
+          dplyr::summarise(image = list(.data$image)),
         by = "id"
       ) %>%
         dplyr::pull(.data$image)
@@ -234,7 +239,7 @@ tw_get_image_metadata <- function(id,
   }
 
   input_df <- tibble::tibble(
-    id = tw_check_qid(id = id),
+    id = id,
     image_filename = image_filename
   ) %>%
     tidyr::unnest(image_filename)
@@ -262,7 +267,7 @@ tw_get_image_metadata <- function(id,
     )
   } else if (nrow(input_df_distinct) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
-      pb <- progress::progress_bar$new(total = length(unique_image))
+      pb <- progress::progress_bar$new(total = nrow(input_df_distinct))
       image_metadata <- purrr::map2_dfr(
         .x = input_df_distinct$image_filename,
         .y = input_df_distinct$id,
@@ -288,7 +293,7 @@ tw_get_image_metadata <- function(id,
       )
       return(
         dplyr::left_join(
-          x = tibble::tibble(search = id),
+          x = tibble::tibble(id = id),
           y = image_metadata,
           by = "id"
         )
@@ -315,21 +320,23 @@ tw_get_image_metadata <- function(id,
           }
         )
         if (isFALSE(db_result)) {
-          cached_image_metadata_df <- logical(1L)
+          image_metadata_from_cache_df <- logical(1L)
         } else {
-          cached_image_metadata_df <- db_result %>%
+          image_metadata_from_cache_df <- db_result %>%
             tibble::as_tibble()
         }
       } else {
-        # if table does not exist, do nothing
+        image_metadata_from_cache_df <- logical(1L)
       }
     }
 
-    if (isFALSE(cached_image_metadata_df)) {
+    if (isFALSE(image_metadata_from_cache_df)) {
       image_metadata_not_in_cache <- input_df_distinct
+      image_metadata_from_cache_df <- input_df_distinct %>%
+        dplyr::slice(0)
     } else {
-      image_metadata_not_in_cache <- cached_image_metadata_df %>%
-        dplyr::anti_join(cached_image_metadata_df, by = "id")
+      image_metadata_not_in_cache <- input_df_distinct %>%
+        dplyr::anti_join(image_metadata_from_cache_df, by = "id")
     }
 
     if (nrow(image_metadata_not_in_cache) == 0) {
@@ -348,8 +355,8 @@ tw_get_image_metadata <- function(id,
     } else if (nrow(image_metadata_not_in_cache) > 0) {
       pb <- progress::progress_bar$new(total = nrow(image_metadata_not_in_cache))
       image_metadata_not_in_cache_df <- purrr::map2_dfr(
-        .x = input_df_distinct$image_filename,
-        .y = input_df_distinct$id,
+        .x = image_metadata_not_in_cache$image_filename,
+        .y = image_metadata_not_in_cache$id,
         .f = function(current_image_filename, current_id) {
           pb$tick()
           tw_get_image_metadata_single(
@@ -457,14 +464,19 @@ tw_get_image_metadata_single <- function(id,
         }
       )
       if (isFALSE(db_result)) {
-        cached_image_metadata_df <- logical(1L)
+        image_metadata_from_cache_df <- logical(1L)
       } else {
-        cached_image_metadata_df <- db_result %>%
-          tibble::as_tibble()
-        return(cached_image_metadata_df)
+        image_metadata_from_cache_df <- db_result %>%
+          tibble::as_tibble() %>%
+          dplyr::distinct()
+        if (nrow(image_metadata_from_cache_df) > 0) {
+          return(image_metadata_from_cache_df)
+        } else {
+          image_metadata_from_cache_df <- logical(1L)
+        }
       }
     } else {
-      # if table does not exist, do nothing
+      image_metadata_from_cache_df <- logical(1L)
     }
   }
 
@@ -490,7 +502,7 @@ tw_get_image_metadata_single <- function(id,
 
       tibble::tibble(
         id = id,
-        filename = current_image_filename,
+        image_filename = current_image_filename,
         name = extmetadata_list %>% purrr::pluck("ObjectName", "value"),
         description = extmetadata_list %>% purrr::pluck("ImageDescription", "value"),
         categories = extmetadata_list %>% purrr::pluck("Categories", "value"),
