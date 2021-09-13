@@ -1,3 +1,4 @@
+library("testthat")
 test_that("check if property are returned correctly when more than 1 id and one property", {
   testthat::skip_if_offline()
 
@@ -159,3 +160,18 @@ test_that("check if property descriptions are returned correctly with cache", {
     "object of which"
   ))
 })
+
+test_that("check if property are returned correctly when multiple NA included", {
+  testthat::skip_if_offline()
+
+  expect_equal(object = {
+    tw_get_property_same_length(id = c("Q180099", NA, "Q228822", NA),
+                                      p = "P31",
+                                      only_first = FALSE) %>%
+      unlist() %>%
+      is.na() %>%
+      sum()
+  }, expected = 2)
+
+})
+
