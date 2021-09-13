@@ -37,4 +37,5 @@
 * introduce functions to get Wikidata identifiers from Wikipedia pages
 * `tw_get_property()` now consistently returns data frame with properties in the same order as given and does not fail if given invalid values
 * more consistent testing, less likely to be impacted to changes in Wikidata items
+* updated README with examples using the pipe operator
 

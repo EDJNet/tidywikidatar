@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+set.seed(42)
 ```
 
 # tidywikidatar
@@ -23,9 +24,9 @@ knitr::opts_chunk$set(
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
 - all responses are transformed into data frames or simple character vectors
-- it is easy to enable efficient caching in a local sqlite database
+- it is easy to enable efficient caching in a local sqlite database (integration with other databases is also available)
 
-If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/TS404/WikidataR) or  Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
+If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/TS404/WikidataR) or Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
 
 ## Installation
 
@@ -45,14 +46,13 @@ remotes::install_github("EDJNet/tidywikidatar")
 
 ## Limitations and known issues
 
-`tidywikidatar` strives to strike a balance between ease of use and full access to information available on Wikidata. This means that, for examples, dates are returned as simple text strings, without accompanying details such as calendar (e.g. Julian or Gregorian) and precision (e.g. precise just to the level of century). Some amounts are returned as numeric strings, without the accompanying unit of measurement. The user should be aware of such issues in their own use cases, and consider using other packages if such matters are determinant for them. 
+`tidywikidatar` strives to strike a balance between ease of use and full access to information available on Wikidata. This means that, for examples, dates are returned as simple text strings, without accompanying details such as calendar (e.g. Julian or Gregorian) and precision (e.g. precise just to the level of century). Some amounts are returned as numeric strings, without the accompanying unit of measurement. The user should be aware of such issues in their own use cases, and consider using other packages if such matters are determinant for them. Recent versions of `tidywikidatar` include a dedicated function to get such details, `tw_get_property_with_details()`, but it does not currently cache results.
 
 `tidywikidatar` is most useful in particular for the exploratory analysis of relatively small numbers of wikidata items (dozens or hundreds), but becomes quickly less efficient when asking for many properties or thousands of items. Functions will take their time, but will eventually complete. Some performance improvements may come with future versions of `tidywikidatar`, but for larger batches of data (large number of items/many properties), well formed queries will remain more efficient. 
 
 ### Known issues
 
 - `tw_search()` always returns label and description in English (to be fixed)
-
 
 ## Before you start
 
@@ -66,7 +66,7 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 
 ## How to use
 
-`tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()`, set the cache folder to be used throughout a session with `tw_set_cache_folder()`, and set the language used by all functions (if not set, it defaults to English). The first lines of a script using `tidywikidatar` would often look like this:
+`tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers and increase processing speed. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()`, set the cache folder to be used throughout a session with `tw_set_cache_folder()`, and set the language used by all functions (if not set, it defaults to English). The first lines of a script using `tidywikidatar` would often look like this:
 
 ```{r}
 library("tidywikidatar")
@@ -198,6 +198,81 @@ tw_get_property(
   tw_label()
 ```
 
+## Piped operations
+
+Using the pipe (`%>%`) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. `tidywikidatar` offers dedicated functions to work with the pipe more consistently, in particular `tw_get_property_same_length()`.
+
+One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values. 
+
+For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and analyse them further in subsequent steps of the pipe.
+
+Let's look at some of these issues with an example.
+
+The anthropologist Franz Boas ([Q76857](https://www.wikidata.org/wiki/Q76857)) had many influential doctoral students ([P185](https://www.wikidata.org/wiki/Property:P185)), including the above-mentioned Margaret Mead. Who where the others? And when and where were they born? We expect the answer to this latter questions to be unique, and we may be fine with discarding other values that may be recorded in Wikidata.
+
+```{r}
+library("dplyr", warn.conflicts = FALSE)
+library("tidyr")
+students <-
+  tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
+  transmute(student_label = tw_get_label(value), # get their name
+                   student_id = value) # and keep their id
+
+
+students %>%  
+  mutate(date_of_birth = tw_get_property_same_length(id = student_id,
+                                                     p = "P569", # property for date of birth
+                                                     only_first = TRUE)) %>%
+  # we don't care about possible multiple values on when they were born
+  mutate(place_of_birth = tw_get_property_same_length(id = student_id,
+                                                     p = "P19", # property for place of birth
+                                                     only_first = TRUE) %>% 
+           tw_get_label())
+```
+
+In other cases, however, we do expect multiple valid values. For example, we expect them to have a single place and date of birth, but quite possibly to have worked in different locations at different points in their career. 
+
+Here is how we may want to go if we want, for example, to create a map of all the universities where one of Franz Boas' doctoral students has worked. We get the id of all the places where they have worked, check if they are universities or not, and then get the coordinates for the given institutions.
+
+
+```{r}
+students %>% 
+  mutate(worked_at_id = tw_get_property_same_length(id = student_id,
+                                                     p = "P108", # property for employer
+                                                     only_first = FALSE)) %>% # not only the first result
+  unnest(worked_at_id) %>%
+  filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
+  mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
+  # but keep in mind we are only interested in the employer if they are a university
+  # so we ask what `instance of` the employer is. 
+  mutate(employer_instance_of = tw_get_property_same_length(id = worked_at_id,
+                                                            p = "P31",
+                                                            only_first = FALSE)) %>%  
+  unnest(employer_instance_of) %>% 
+  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
+  # some institutions may be e.g. "instance of" -> "private university", not of "university"
+  # so whe check what "subclass of" that id is
+  mutate(employer_instance_of2 = tw_get_property_same_length(id = worked_at_id,
+                                                            p = "P31",
+                                                            only_first = FALSE)) %>% 
+  unnest(employer_instance_of2) %>% 
+  mutate(employer_instance_of2_subclass_of = tw_get_property_same_length(id = employer_instance_of2,
+                                                            p = "P279",
+                                                            only_first = FALSE)) %>% 
+  unnest(employer_instance_of2_subclass_of) %>% 
+  # keep only if employer is a university (or something which is a subclass of university)
+  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
+  distinct(student_label, worked_at_id, worked_at_label) %>% 
+  mutate(worked_at_coordinates = tw_get_property_same_length(worked_at_id,
+                                                             p = "P625",
+                                                             only_first = TRUE)) %>% 
+  select(-worked_at_id) %>% 
+  separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
+  
+
+```
+
+
 
 ## Qualifiers
 
@@ -266,6 +341,7 @@ qualifiers_labelled_df %>%
 That's quite a lot of useful detail. The construction of the request can be quite complicated, but keep in mind that if you do this programmatically you will likely use this for filtering a specific piece of information based on a combination of properties, and you will only less frequently need to extract all available information.
 
 Fundamentally, you won't be touching anything that is not a vector or a tidy data frame, which is ultimately a key goal of `tidywikidatar`: make use of the wealth of information stored by Wikidata from R without having to deal with either nested lists or SPARQL queries.
+
 
 
 ## Queries

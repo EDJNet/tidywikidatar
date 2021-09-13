@@ -15,6 +15,7 @@ The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
   - all responses are transformed into data frames or simple character
     vectors
   - it is easy to enable efficient caching in a local sqlite database
+    (integration with other databases is also available)
 
 If you want to benefit of the wealth of information stored by Wikidata,
 but you do not like SPARQL queries and nested lists, then you may find
@@ -52,7 +53,9 @@ precision (e.g. precise just to the level of century). Some amounts are
 returned as numeric strings, without the accompanying unit of
 measurement. The user should be aware of such issues in their own use
 cases, and consider using other packages if such matters are determinant
-for them.
+for them. Recent versions of `tidywikidatar` include a dedicated
+function to get such details, `tw_get_property_with_details()`, but it
+does not currently cache results.
 
 `tidywikidatar` is most useful in particular for the exploratory
 analysis of relatively small numbers of wikidata items (dozens or
@@ -102,15 +105,16 @@ for.
 
 `tidywikidatar` makes it easy to cache locally responses (both searches
 and details about specific items) in a sqlite database to reduce load on
-Wikidata’s servers. These sqlite databases are by default stored in the
-current working directory under a `tw_data` folder. It may be useful to
-store them in a folder where they can be retrieved easily even when
-working on different projects, but this is obviously a matter of
-personal taste. You can enable caching for the current session with
-`tw_enable_cache()`, set the cache folder to be used throughout a
-session with `tw_set_cache_folder()`, and set the language used by all
-functions (if not set, it defaults to English). The first lines of a
-script using `tidywikidatar` would often look like this:
+Wikidata’s servers and increase processing speed. These sqlite databases
+are by default stored in the current working directory under a `tw_data`
+folder. It may be useful to store them in a folder where they can be
+retrieved easily even when working on different projects, but this is
+obviously a matter of personal taste. You can enable caching for the
+current session with `tw_enable_cache()`, set the cache folder to be
+used throughout a session with `tw_set_cache_folder()`, and set the
+language used by all functions (if not set, it defaults to English). The
+first lines of a script using `tidywikidatar` would often look like
+this:
 
 ``` r
 library("tidywikidatar")
@@ -140,19 +144,19 @@ Mead” that are not the woman herself.
 
 ``` r
 tw_search(search = "Margaret Mead")
-#> # A tibble: 10 x 3
-#>    id       label                               description                     
-#>    <chr>    <chr>                               <chr>                           
-#>  1 Q180099  Margaret Mead                       American anthropologist         
-#>  2 Q810150… Margaret mead                       scientific article published on…
-#>  3 Q667014… Margaret Mead                       scientific article published on…
-#>  4 Q857246… Mead & Bateson                      business organisation           
-#>  5 Q960776… Margaret Meadows                    <NA>                            
-#>  6 Q762385… Margaret Meadowe                    Peerage person ID=628312        
-#>  7 Q755066… Margaret Meadows                    Peerage person ID=183057        
-#>  8 Q758123… Margaret Meade-Waldo                died 1954                       
-#>  9 Q6759717 Margaret Mead Film Festival         annual film festival held in Ne…
-#> 10 Q558970… Margaret Mead and Samoa: Coming of… <NA>
+#> # A tibble: 10 × 3
+#>    id        label                                                      description
+#>    <chr>     <chr>                                                      <chr>      
+#>  1 Q180099   Margaret Mead                                              American a…
+#>  2 Q81015029 Margaret mead                                              scientific…
+#>  3 Q66701460 Margaret Mead                                              scientific…
+#>  4 Q85724626 Mead & Bateson                                             business o…
+#>  5 Q96077616 Margaret Meadows                                           <NA>       
+#>  6 Q76238541 Margaret Meadowe                                           Peerage pe…
+#>  7 Q75506638 Margaret Meadows                                           Peerage pe…
+#>  8 Q75812372 Margaret Meade-Waldo                                       died 1954  
+#>  9 Q6759717  Margaret Mead Film Festival                                annual fil…
+#> 10 Q55897055 Margaret Mead and Samoa: Coming of Age in Fact and Fiction <NA>
 ```
 
 If I am running through a list of strings, and, for example, I am
@@ -164,7 +168,7 @@ only the first result that is associated with “an instance of” (P31) -
 ``` r
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   id      label         description            
 #>   <chr>   <chr>         <chr>                  
 #> 1 Q180099 Margaret Mead American anthropologist
@@ -176,7 +180,7 @@ Where was she born? I can ask directly for P19, place of birth:
 
 ``` r
 tw_get_property(id = "Q180099", p = "P19")
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   id      property value
 #>   <chr>   <chr>    <chr>
 #> 1 Q180099 P19      Q1345
@@ -196,7 +200,7 @@ for the correspondent property, P17.
 
 ``` r
 tw_get_property(id = "Q1345", p = "P17")
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   id    property value
 #>   <chr> <chr>    <chr>
 #> 1 Q1345 P17      Q30
@@ -253,7 +257,7 @@ get_bio <- function(id, language = "en") {
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio()
-#> # A tibble: 1 x 4
+#> # A tibble: 1 × 4
 #>   label         description             year_of_birth year_of_death
 #>   <chr>         <chr>                           <dbl>         <dbl>
 #> 1 Margaret Mead American anthropologist          1901          1978
@@ -266,7 +270,7 @@ long as those are available on Wikidata.
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio(language = "it")
-#> # A tibble: 1 x 4
+#> # A tibble: 1 × 4
 #>   label         description              year_of_birth year_of_death
 #>   <chr>         <chr>                            <dbl>         <dbl>
 #> 1 Margaret Mead antropologa statunitense          1901          1978
@@ -285,13 +289,12 @@ and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
 Hurston, we can achieve that in a single call:
 
 ``` r
-
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
 ) 
-#> # A tibble: 14 x 3
+#> # A tibble: 14 × 3
 #>    id      property value    
 #>    <chr>   <chr>    <chr>    
 #>  1 Q180099 P166     Q17144   
@@ -322,23 +325,165 @@ tw_get_property(
   language = "en"
 ) %>% 
   tw_label()
-#> # A tibble: 14 x 3
-#>    id                property       value                                       
-#>    <chr>             <chr>          <chr>                                       
-#>  1 Margaret Mead     award received Presidential Medal of Freedom               
-#>  2 Margaret Mead     award received Kalinga Prize                               
-#>  3 Margaret Mead     award received William Procter Prize for Scientific Achiev…
-#>  4 Margaret Mead     award received National Women's Hall of Fame               
-#>  5 Margaret Mead     award received AAAS Fellow                                 
-#>  6 Ruth Benedict     award received National Women's Hall of Fame               
-#>  7 Ruth Benedict     award received AAAS Fellow                                 
-#>  8 Ruth Benedict     award received Doctor of Philosophy                        
-#>  9 Zora Neale Hurst… award received Guggenheim Fellowship                       
-#> 10 Zora Neale Hurst… award received National Women's Hall of Fame               
-#> 11 Zora Neale Hurst… award received Florida Women's Hall of Fame                
-#> 12 Zora Neale Hurst… award received Florida Artists Hall of Fame                
-#> 13 Zora Neale Hurst… award received Anisfield-Wolf Book Awards                  
-#> 14 Zora Neale Hurst… award received Guggenheim Fellowship
+#> # A tibble: 14 × 3
+#>    id                 property       value                                      
+#>    <chr>              <chr>          <chr>                                      
+#>  1 Margaret Mead      award received Presidential Medal of Freedom              
+#>  2 Margaret Mead      award received Kalinga Prize                              
+#>  3 Margaret Mead      award received William Procter Prize for Scientific Achie…
+#>  4 Margaret Mead      award received National Women's Hall of Fame              
+#>  5 Margaret Mead      award received AAAS Fellow                                
+#>  6 Ruth Benedict      award received National Women's Hall of Fame              
+#>  7 Ruth Benedict      award received AAAS Fellow                                
+#>  8 Ruth Benedict      award received Doctor of Philosophy                       
+#>  9 Zora Neale Hurston award received Guggenheim Fellowship                      
+#> 10 Zora Neale Hurston award received National Women's Hall of Fame              
+#> 11 Zora Neale Hurston award received Florida Women's Hall of Fame               
+#> 12 Zora Neale Hurston award received Florida Artists Hall of Fame               
+#> 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards                 
+#> 14 Zora Neale Hurston award received Guggenheim Fellowship
+```
+
+## Piped operations
+
+Using the pipe (`%>%`) when working with Wikidata is often not
+straightforward, due to the fact that a given property may have an
+unspecified number of values. `tidywikidatar` offers dedicated functions
+to work with the pipe more consistently, in particular
+`tw_get_property_same_length()`.
+
+One main distinction to keep in mind in this context is that for some
+properties we really just expect to have a single value, and we are
+happy to dismiss other values that may be present, while in other cases
+we expect and want to retain more values.
+
+For example, some Wikidata items have two reported dates of birth for a
+single individual, possibly due to disagreements among historians about
+the actual date of birth of the given person. If this is not
+specifically the issue we are interested it, we may well be want just to
+keep the first reported date of birth and dismiss the others. In other
+cases, we probably want to retain all properties, and analyse them
+further in subsequent steps of the pipe.
+
+Let’s look at some of these issues with an example.
+
+The anthropologist Franz Boas
+([Q76857](https://www.wikidata.org/wiki/Q76857)) had many influential
+doctoral students ([P185](https://www.wikidata.org/wiki/Property:P185)),
+including the above-mentioned Margaret Mead. Who where the others? And
+when and where were they born? We expect the answer to this latter
+questions to be unique, and we may be fine with discarding other values
+that may be recorded in Wikidata.
+
+``` r
+library("dplyr", warn.conflicts = FALSE)
+library("tidyr")
+students <-
+  tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
+  transmute(student_label = tw_get_label(value), # get their name
+                   student_id = value) # and keep their id
+
+
+students %>%  
+  mutate(date_of_birth = tw_get_property_same_length(id = student_id,
+                                                     p = "P569", # property for date of birth
+                                                     only_first = TRUE)) %>%
+  # we don't care about possible multiple values on when they were born
+  mutate(place_of_birth = tw_get_property_same_length(id = student_id,
+                                                     p = "P19", # property for place of birth
+                                                     only_first = TRUE) %>% 
+           tw_get_label())
+#> # A tibble: 20 × 4
+#>    student_label                 student_id date_of_birth         place_of_birth
+#>    <chr>                         <chr>      <chr>                 <chr>         
+#>  1 Ruth Benedict                 Q228822    +1887-06-05T00:00:00Z New York City 
+#>  2 Edward Sapir                  Q191095    +1884-01-26T00:00:00Z Lębork        
+#>  3 Alexander Francis Chamberlain Q32178     +1865-01-01T00:00:00Z <NA>          
+#>  4 Manuel Gamio                  Q2602445   +1883-01-01T00:00:00Z Mexico City   
+#>  5 Alexander Goldenweiser        Q1396805   +1880-01-29T00:00:00Z Kyiv          
+#>  6 Irving Goldman                Q6074597   +1911-09-02T00:00:00Z <NA>          
+#>  7 Melville J. Herskovits        Q711288    +1895-09-10T00:00:00Z Bellefontaine 
+#>  8 George Herzog                 Q15454430  +1901-12-11T00:00:00Z Budapest      
+#>  9 E. Adamson Hoebel             Q5321710   +1906-01-01T00:00:00Z Madison       
+#> 10 Melville Jacobs               Q6813885   +1902-07-03T00:00:00Z <NA>          
+#> 11 William Jones                 Q8013732   +1871-00-00T00:00:00Z <NA>          
+#> 12 Alfred L. Kroeber             Q311538    +1876-06-11T00:00:00Z Hoboken       
+#> 13 Alexander Lesser              Q4719396   +1902-01-01T00:00:00Z <NA>          
+#> 14 Robert Lowie                  Q44968     +1883-06-12T00:00:00Z Vienna        
+#> 15 Margaret Mead                 Q180099    +1901-12-16T00:00:00Z Philadelphia  
+#> 16 Paul Radin                    Q557443    +1883-04-02T00:00:00Z Łódź          
+#> 17 Gladys Reichard               Q15998733  +1893-07-17T00:00:00Z Bangor        
+#> 18 Leslie Spier                  Q6531152   +1893-12-13T00:00:00Z <NA>          
+#> 19 Ruth Sawtell Wallis           Q7383203   +1895-03-15T00:00:00Z Springfield   
+#> 20 Edward A. Kennard             Q58050409  +1907-10-24T00:00:00Z <NA>
+```
+
+In other cases, however, we do expect multiple valid values. For
+example, we expect them to have a single place and date of birth, but
+quite possibly to have worked in different locations at different points
+in their career.
+
+Here is how we may want to go if we want, for example, to create a map
+of all the universities where one of Franz Boas’ doctoral students has
+worked. We get the id of all the places where they have worked, check if
+they are universities or not, and then get the coordinates for the given
+institutions.
+
+``` r
+students %>% 
+  mutate(worked_at_id = tw_get_property_same_length(id = student_id,
+                                                     p = "P108", # property for employer
+                                                     only_first = FALSE)) %>% # not only the first result
+  unnest(worked_at_id) %>%
+  filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
+  mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
+  # but keep in mind we are only interested in the employer if they are a university
+  # so we ask what `instance of` the employer is. 
+  mutate(employer_instance_of = tw_get_property_same_length(id = worked_at_id,
+                                                            p = "P31",
+                                                            only_first = FALSE)) %>%  
+  unnest(employer_instance_of) %>% 
+  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
+  # some institutions may be e.g. "instance of" -> "private university", not of "university"
+  # so whe check what "subclass of" that id is
+  mutate(employer_instance_of2 = tw_get_property_same_length(id = worked_at_id,
+                                                            p = "P31",
+                                                            only_first = FALSE)) %>% 
+  unnest(employer_instance_of2) %>% 
+  mutate(employer_instance_of2_subclass_of = tw_get_property_same_length(id = employer_instance_of2,
+                                                            p = "P279",
+                                                            only_first = FALSE)) %>% 
+  unnest(employer_instance_of2_subclass_of) %>% 
+  # keep only if employer is a university (or something which is a subclass of university)
+  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
+  distinct(student_label, worked_at_id, worked_at_label) %>% 
+  mutate(worked_at_coordinates = tw_get_property_same_length(worked_at_id,
+                                                             p = "P625",
+                                                             only_first = TRUE)) %>% 
+  select(-worked_at_id) %>% 
+  separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
+#> # A tibble: 19 × 4
+#>    student_label                 worked_at_label        lat         lon         
+#>    <chr>                         <chr>                  <chr>       <chr>       
+#>  1 Ruth Benedict                 Columbia University    40.8075     -73.9619444…
+#>  2 Edward Sapir                  Yale University        41.3111111… -72.9266666…
+#>  3 Edward Sapir                  University of Chicago  41.7897222… -87.5997222…
+#>  4 Alexander Francis Chamberlain Clark University       42.250977   -71.823169  
+#>  5 Alexander Goldenweiser        Columbia University    40.8075     -73.9619444…
+#>  6 Alexander Goldenweiser        University of Washing… 47.6541666… -122.308055…
+#>  7 Melville J. Herskovits        Northwestern Universi… 42.054853   -87.673945  
+#>  8 Melville J. Herskovits        Columbia University    40.8075     -73.9619444…
+#>  9 Melville J. Herskovits        Howard University      38.9216666… -77.02      
+#> 10 E. Adamson Hoebel             New York University    40.73       -73.995     
+#> 11 Melville Jacobs               University of Washing… 47.6541666… -122.308055…
+#> 12 Alexander Lesser              Columbia University    40.8075     -73.9619444…
+#> 13 Alexander Lesser              Brandeis University    42.36566    -71.25974   
+#> 14 Alexander Lesser              Hofstra University     40.7146055… -73.6004583…
+#> 15 Margaret Mead                 Columbia University    40.8075     -73.9619444…
+#> 16 Margaret Mead                 University of Rhode I… 41.4807     -71.5258    
+#> 17 Paul Radin                    University of Chicago  41.7897222… -87.5997222…
+#> 18 Paul Radin                    Fisk University        36.1688     -86.8047    
+#> 19 Paul Radin                    Brandeis University    42.36566    -71.25974
 ```
 
 ## Qualifiers
@@ -359,7 +504,6 @@ If we look at his “positions held”
 following:
 
 ``` r
-
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -377,7 +521,7 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 21 x 6
+#> # A tibble: 21 × 6
 #>    id       property qualifier_id qualifier_property value                   set
 #>    <chr>    <chr>    <chr>        <chr>              <chr>                 <int>
 #>  1 Q2391857 P39      Q27169       P2937              Q17315694                 1
@@ -505,7 +649,7 @@ query_df <- tibble::tribble(
 #                c(p = "P21", q = "Q6581072"))
 
 query_df
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   p     q       
 #>   <chr> <chr>   
 #> 1 P106  Q1397808
@@ -517,20 +661,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 662 x 3
-#>    id      label            description                                         
-#>    <chr>   <chr>            <chr>                                               
-#>  1 Q304262 Hannie van Leeu… Dutch politician (1926-2018)                        
-#>  2 Q324718 Martha Dodd      American spy for the Soviet Union                   
-#>  3 Q354512 Adele Stürzl     Austrian politician, member of the Austrian resista…
-#>  4 Q441439 Henriette Rolan… Dutch politician, editor (1869-1952)                
-#>  5 Q443262 Lozen            Apache prophetess and warrior                       
-#>  6 Q448486 Hannie Schaft    Dutch communist resistance fighter and martyr       
-#>  7 Q451631 Françoise Rosay  actress (1891-1974)                                 
-#>  8 Q452272 Charlotte Delbo  French writer and resistance fighter (1913-1985)    
-#>  9 Q457505 Danielle Casano… French resistance member (1909-1943)                
-#> 10 Q459656 Suzanne Spaak    Belgian anti-Nazi resistance worker and counterinte…
-#> # … with 652 more rows
+#> Rows: 728 Columns: 3
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (3): item, itemLabel, itemDescription
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 728 × 3
+#>    id      label                  description                                   
+#>    <chr>   <chr>                  <chr>                                         
+#>  1 Q274040 Alida Bosshardt        Dutch Righteous Among the Nations             
+#>  2 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
+#>  3 Q276410 Marga Klompé           Dutch politician (1912-1986)                  
+#>  4 Q283654 Maria Skobtsova        Russian saint (1891-1945)                     
+#>  5 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…
+#>  6 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  
+#>  7 Q324718 Martha Dodd            American spy for the Soviet Union             
+#>  8 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…
+#>  9 Q394661 Agnes Wendland         <NA>                                          
+#> 10 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
+#> # … with 718 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -548,20 +699,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> # A tibble: 112 x 3
-#>    id        label                      description                             
-#>    <chr>     <chr>                      <chr>                                   
-#>  1 Q270319   Christiane Desroches Nobl… egittologa e archeologa francese        
-#>  2 Q283654   Marija Skobcova            suora e santa russa, vittima dell'Oloca…
-#>  3 Q15970412 Raymonde Tillon            femme politique française               
-#>  4 Q16262713 Simone Schloss             résistante communiste française         
-#>  5 Q18121470 Antoinette d'Harcourt      poétesse et résistante française        
-#>  6 Q19300907 Lucette Pla-Justafré       enseignante et personnalité politique f…
-#>  7 Q19631204 Cécile Rol-Tanguy          résistante française                    
-#>  8 Q20895003 Hélène Jakubowicz          résistante française                    
-#>  9 Q21009704 Madeleine Passot           résistante communiste française         
-#> 10 Q21069334 Mireille Albrecht          fille de la résistante Berty Albrecht   
-#> # … with 102 more rows
+#> Rows: 122 Columns: 3
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (3): item, itemLabel, itemDescription
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 122 × 3
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q5257705  Denise Laroque                  <NA>                               
+#>  3 Q6837011  Michelle Dubois                 <NA>                               
+#>  4 Q10289954 Giselle Cossard                 résistante française, femme de let…
+#>  5 Q3291974  Marie-José Chombart de Lauwe    <NA>                               
+#>  6 Q3295151  Martha Desrumaux                personnalité politique française   
+#>  7 Q3296334  Maryse Hilsz                    aviatrice francese                 
+#>  8 Q3313818  Mila Racine                     résistante juive française         
+#>  9 Q3315984  Mireille Lauze                  résistante française               
+#> 10 Q3484585  Simone Lurçat                   <NA>                               
+#> # … with 112 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -580,10 +738,17 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> # A tibble: 1 x 4
-#>   label                           description        year_of_birth year_of_death
-#>   <chr>                           <chr>                      <dbl>         <dbl>
-#> 1 Christiane Desroches Noblecourt French egyptologi…          1913          2011
+#> Rows: 122 Columns: 3
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (3): item, itemLabel, itemDescription
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 1 × 4
+#>   label                           description         year_of_birth year_of_death
+#>   <chr>                           <chr>                       <dbl>         <dbl>
+#> 1 Christiane Desroches Noblecourt French egyptologist          1913          2011
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
