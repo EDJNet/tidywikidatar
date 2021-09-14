@@ -7,6 +7,6 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 note
 
-* this is a bug-fix release (see NEWS.md for details)
+* this fixes errors emerging in current CRAN checks and adds new features
