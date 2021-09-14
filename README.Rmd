@@ -251,7 +251,7 @@ students %>%
   unnest(employer_instance_of) %>% 
   mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
   # some institutions may be e.g. "instance of" -> "private university", not of "university"
-  # so whe check what "subclass of" that id is
+  # so whe check what "subclass of" that id
   mutate(employer_instance_of2 = tw_get_property_same_length(id = worked_at_id,
                                                             p = "P31",
                                                             only_first = FALSE)) %>% 
