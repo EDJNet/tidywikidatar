@@ -9,4 +9,4 @@
 
 0 errors | 0 warnings | 0 note
 
-* this fixes errors emerging in current CRAN checks and adds new features
+* fixes errors emerging in current CRAN checks and adds new features
