@@ -200,7 +200,7 @@ tw_get_property_same_length <- function(id,
       dplyr::distinct(.data$id, .keep_all = TRUE)
   } else if (only_first == FALSE) {
     property_df_post <- property_df %>%
-      dplyr::distinct(id, value) %>%
+      dplyr::distinct(.data$id, .data$value) %>%
       dplyr::group_by(.data$id) %>%
       dplyr::summarise(value = list(.data$value)) %>%
       dplyr::ungroup()
