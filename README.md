@@ -362,7 +362,7 @@ single individual, possibly due to disagreements among historians about
 the actual date of birth of the given person. If this is not
 specifically the issue we are interested it, we may well be want just to
 keep the first reported date of birth and dismiss the others. In other
-cases, we probably want to retain all properties, and analyse them
+cases, we probably want to retain all properties, and process them
 further in subsequent steps of the pipe.
 
 Let’s look at some of these issues with an example.
@@ -707,18 +707,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 122 × 3
-#>    id        label                           description                        
-#>    <chr>     <chr>                           <chr>                              
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
-#>  2 Q5257705  Denise Laroque                  <NA>                               
-#>  3 Q6837011  Michelle Dubois                 <NA>                               
-#>  4 Q10289954 Giselle Cossard                 résistante française, femme de let…
-#>  5 Q3291974  Marie-José Chombart de Lauwe    <NA>                               
-#>  6 Q3295151  Martha Desrumaux                personnalité politique française   
-#>  7 Q3296334  Maryse Hilsz                    aviatrice francese                 
-#>  8 Q3313818  Mila Racine                     résistante juive française         
-#>  9 Q3315984  Mireille Lauze                  résistante française               
-#> 10 Q3484585  Simone Lurçat                   <NA>                               
+#>    id         label                           description                       
+#>    <chr>      <chr>                           <chr>                             
+#>  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  
+#>  2 Q2696536   Yolande Beekman                 espionne et agente secret des Spe…
+#>  3 Q96142924  Nicole Clarence                 résistante et journaliste françai…
+#>  4 Q96807672  Nina Baumstein                  <NA>                              
+#>  5 Q97621859  Denise Domenach-Lallich         résistante française              
+#>  6 Q98065186  Jacqueline Teyssier             résistante, déportée et survivant…
+#>  7 Q104037500 Blanche Auzello                 résistante franco-américaine      
+#>  8 Q104162036 Suzanne Bougeard                résistante française              
+#>  9 Q105192869 Jeanne Julie Bouillane          résistante française              
+#> 10 Q105453807 Marcelle Lafont                 chimiste, résistante et femme pol…
 #> # … with 112 more rows
 ```
 

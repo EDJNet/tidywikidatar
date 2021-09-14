@@ -204,7 +204,7 @@ Using the pipe (`%>%`) when working with Wikidata is often not straightforward, 
 
 One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values. 
 
-For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and analyse them further in subsequent steps of the pipe.
+For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and process them further in subsequent steps of the pipe.
 
 Let's look at some of these issues with an example.
 
