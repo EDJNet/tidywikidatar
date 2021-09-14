@@ -288,7 +288,7 @@
 <a href="#piped-operations" class="anchor"></a>Piped operations</h2>
 <p>Using the pipe (<code><a href="reference/%&gt;%.html">%&gt;%</a></code>) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. <code>tidywikidatar</code> offers dedicated functions to work with the pipe more consistently, in particular <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code>.</p>
 <p>One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values.</p>
-<p>For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and analyse them further in subsequent steps of the pipe.</p>
+<p>For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and process them further in subsequent steps of the pipe.</p>
 <p>Let’s look at some of these issues with an example.</p>
 <p>The anthropologist Franz Boas (<a href="https://www.wikidata.org/wiki/Q76857">Q76857</a>) had many influential doctoral students (<a href="https://www.wikidata.org/wiki/Property:P185">P185</a>), including the above-mentioned Margaret Mead. Who where the others? And when and where were they born? We expect the answer to this latter questions to be unique, and we may be fine with discarding other values that may be recorded in Wikidata.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -714,18 +714,18 @@
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="co">#&gt; # A tibble: 122 × 3</span>
-<span class="co">#&gt;    id        label                           description                        </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                           &lt;chr&gt;                              </span>
-<span class="co">#&gt;  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   </span>
-<span class="co">#&gt;  2 Q5257705  Denise Laroque                  &lt;NA&gt;                               </span>
-<span class="co">#&gt;  3 Q6837011  Michelle Dubois                 &lt;NA&gt;                               </span>
-<span class="co">#&gt;  4 Q10289954 Giselle Cossard                 résistante française, femme de let…</span>
-<span class="co">#&gt;  5 Q3291974  Marie-José Chombart de Lauwe    &lt;NA&gt;                               </span>
-<span class="co">#&gt;  6 Q3295151  Martha Desrumaux                personnalité politique française   </span>
-<span class="co">#&gt;  7 Q3296334  Maryse Hilsz                    aviatrice francese                 </span>
-<span class="co">#&gt;  8 Q3313818  Mila Racine                     résistante juive française         </span>
-<span class="co">#&gt;  9 Q3315984  Mireille Lauze                  résistante française               </span>
-<span class="co">#&gt; 10 Q3484585  Simone Lurçat                   &lt;NA&gt;                               </span>
+<span class="co">#&gt;    id         label                           description                       </span>
+<span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;                           &lt;chr&gt;                             </span>
+<span class="co">#&gt;  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  </span>
+<span class="co">#&gt;  2 Q2696536   Yolande Beekman                 espionne et agente secret des Spe…</span>
+<span class="co">#&gt;  3 Q96142924  Nicole Clarence                 résistante et journaliste françai…</span>
+<span class="co">#&gt;  4 Q96807672  Nina Baumstein                  &lt;NA&gt;                              </span>
+<span class="co">#&gt;  5 Q97621859  Denise Domenach-Lallich         résistante française              </span>
+<span class="co">#&gt;  6 Q98065186  Jacqueline Teyssier             résistante, déportée et survivant…</span>
+<span class="co">#&gt;  7 Q104037500 Blanche Auzello                 résistante franco-américaine      </span>
+<span class="co">#&gt;  8 Q104162036 Suzanne Bougeard                résistante française              </span>
+<span class="co">#&gt;  9 Q105192869 Jeanne Julie Bouillane          résistante française              </span>
+<span class="co">#&gt; 10 Q105453807 Marcelle Lafont                 chimiste, résistante et femme pol…</span>
 <span class="co">#&gt; # … with 112 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
