@@ -496,6 +496,29 @@ tw_get_image_metadata_single <- function(id,
   image_metadata <- purrr::map_dfr(
     .x = image_filename,
     .f = function(current_image_filename) {
+      if (is.na(current_image_filename)) {
+        empty_df <- data.frame(matrix(
+          ncol = 19,
+          nrow = 1,
+          data = as.character(NA),
+          dimnames = list(
+            NULL,
+            c(
+              "id", "image_filename", "object_name", "image_description",
+              "categories", "assessments", "credit", "artist", "permission",
+              "license_short_name", "license_url", "license", "usage_terms",
+              "attribution_required", "copyrighted", "restrictions", "date_time",
+              "date_time_original", "commons_metadata_extension"
+            )
+          )
+        )) %>%
+          tibble::as_tibble()
+        empty_df$id[1] <- stringr::str_to_upper(id)
+        empty_df$copyrighted <- as.logical(NA)
+        empty_df$attribution_required <- as.logical(NA)
+        return(empty_df)
+      }
+
       api_link <- stringr::str_c(
         "https://commons.wikimedia.org/w/api.php?action=query&titles=File:",
         utils::URLencode(current_image_filename),
@@ -512,26 +535,127 @@ tw_get_image_metadata_single <- function(id,
         purrr::pluck("query", "pages", 1, "imageinfo", 1, "extmetadata")
 
       tibble::tibble(
-        id = id,
-        image_filename = current_image_filename,
-        name = extmetadata_list %>% purrr::pluck("ObjectName", "value"),
-        description = extmetadata_list %>% purrr::pluck("ImageDescription", "value"),
-        categories = extmetadata_list %>% purrr::pluck("Categories", "value"),
-        assessments = extmetadata_list %>% purrr::pluck("Assessments", "value"),
-        credit = extmetadata_list %>% purrr::pluck("Credit", "value"),
-        artist = extmetadata_list %>% purrr::pluck("Artist", "value"),
-        permission = extmetadata_list %>% purrr::pluck("Permission", "value"),
-        license_short_name = extmetadata_list %>% purrr::pluck("LicenseShortName", "value"),
-        license_url = extmetadata_list %>% purrr::pluck("LicenseUrl", "value"),
-        license = extmetadata_list %>% purrr::pluck("License", "value"),
-        usage_terms = extmetadata_list %>% purrr::pluck("UsageTerms", "value"),
-        attribution_required = extmetadata_list %>% purrr::pluck("AttributionRequired", "value") %>% stringr::str_to_upper() %>% as.logical(),
-        copyrighted = extmetadata_list %>% purrr::pluck("Copyrighted", "value") %>%
-          stringr::str_to_upper() %>% as.logical(),
-        restrictions = extmetadata_list %>% purrr::pluck("Restrictions", "value"),
-        date_time = extmetadata_list %>% purrr::pluck("DateTime", "value"),
-        date_time_original = extmetadata_list %>% purrr::pluck("DateTimeOriginal", "value"),
-        commons_metadata_extension = extmetadata_list %>% purrr::pluck("CommonsMetadataExtension", "value")
+        id = stringr::str_to_upper(id) %>% as.character(),
+        image_filename = current_image_filename %>% as.character(),
+        object_name = ifelse(test = is.null(extmetadata_list %>% purrr::pluck("ObjectName", "value")),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("ObjectName", "value")
+        ) %>%
+          as.character(),
+        image_description = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("ImageDescription", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("ImageDescription", "value")
+        ) %>%
+          as.character(),
+        categories = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Categories", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Categories", "value")
+        ) %>%
+          as.character(),
+        assessments = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Assessments", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Assessments", "value")
+        ) %>%
+          as.character(),
+        credit = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Credit", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Credit", "value")
+        ),
+        artist = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Artist", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Artist", "value")
+        ) %>%
+          as.character(),
+        permission = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Permission", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Permission", "value")
+        ) %>%
+          as.character(),
+        license_short_name = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("LicenseShortName", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("LicenseShortName", "value")
+        ) %>%
+          as.character(),
+        license_url = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("LicenseUrl", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("LicenseUrl", "value")
+        ) %>%
+          as.character(),
+        license = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("License", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>% purrr::pluck("License", "value")
+        ) %>%
+          as.character(),
+        usage_terms = ifelse(test = is.null(extmetadata_list %>% purrr::pluck("UsageTerms", "value")),
+          yes = as.character(NA),
+          no = extmetadata_list %>% purrr::pluck(
+            "UsageTerms",
+            "value"
+          )
+        ) %>%
+          as.character(),
+        attribution_required = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("AttributionRequired", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("AttributionRequired", "value")
+        ) %>%
+          stringr::str_to_upper() %>%
+          as.logical(),
+        copyrighted = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Copyrighted", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Copyrighted", "value")
+        ) %>%
+          stringr::str_to_upper() %>%
+          as.logical(),
+        restrictions = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("Restrictions", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("Restrictions", "value")
+        ) %>%
+          as.character(),
+        date_time = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("DateTime", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("DateTime", "value")
+        ) %>%
+          as.character(),
+        date_time_original = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("DateTimeOriginal", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("DateTimeOriginal", "value")
+        ) %>%
+          as.character(),
+        commons_metadata_extension = ifelse(test = is.null(extmetadata_list %>%
+          purrr::pluck("CommonsMetadataExtension", "value")),
+        yes = as.character(NA),
+        no = extmetadata_list %>%
+          purrr::pluck("CommonsMetadataExtension", "value")
+        ) %>%
+          as.character()
       )
     }
   )

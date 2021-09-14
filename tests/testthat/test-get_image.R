@@ -85,7 +85,7 @@ test_that("check if image metadata returned correctly with or without cache", {
         id = df %>% dplyr::pull(id)
       )
     }, expected = list(
-      ncol = 12,
+      ncol = 19,
       nrow = 1,
       id = "Q2"
     )
@@ -108,7 +108,7 @@ test_that("check if image metadata returned correctly with or without cache", {
         missing_image = which(is.na(df$image_filename))
       )
     }, expected = list(
-      ncol = 12,
+      ncol = 19,
       nrow = 4,
       id = c("Q2", NA, "not_an_id", "Q5"),
       missing_image = c(2, 3)
@@ -131,7 +131,7 @@ test_that("check if image metadata returned correctly with or without cache", {
         id = df %>% dplyr::pull(id)
       )
     }, expected = list(
-      ncol = 12,
+      ncol = 19,
       nrow = 4,
       id = c("Q2", NA, "not_an_id", "Q5")
     )
