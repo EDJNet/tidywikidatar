@@ -68,6 +68,8 @@ test_that("check if image returned when invalid id given", {
 
 test_that("check if image metadata returned correctly with or without cache", {
   testthat::skip_if_offline()
+  testthat::skip_on_cran() # to prevent error due to calls to Wikimedia Commons from CRAN server
+
 
   expect_equal(
     object = {
