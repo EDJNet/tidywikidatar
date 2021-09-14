@@ -40,8 +40,11 @@ tw_get_image <- function(id,
                          cache_connection = NULL,
                          disconnect_db = TRUE,
                          wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
   filename_df <- tw_get_property(
-    id = id,
+    id = stringr::str_to_upper(id),
     p = "P18",
     language = language,
     id_df = id_df,
@@ -54,7 +57,7 @@ tw_get_image <- function(id,
 
   image_df <- purrr::map2_dfr(
     .x = filename_df$value,
-    .y = filename_df$id,
+    .y = stringr::str_to_upper(filename_df$id),
     .f = function(current_filename, current_id) {
       if (is.na(current_filename)) {
         output_filename <- as.character(NA)
@@ -109,15 +112,15 @@ tw_get_image <- function(id,
 #' @export
 #'
 #' @examples
-#' tw_get_image("Q180099",
+#' tw_get_image_same_length("Q180099",
 #'   format = "filename"
 #' )
 #'
-#' tw_get_image("Q180099",
+#' tw_get_image_same_length("Q180099",
 #'   format = "commons"
 #' )
 #'
-#' tw_get_image("Q180099",
+#' tw_get_image_same_length("Q180099",
 #'   format = "embed",
 #'   width = 300
 #' )
@@ -133,8 +136,12 @@ tw_get_image_same_length <- function(id,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
                                      wait = 0) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
   image_df <- tw_get_image(
-    id = id,
+    id = stringr::str_to_upper(id),
     format = format,
     width = width,
     language = language,
@@ -207,7 +214,9 @@ tw_get_image_same_length <- function(id,
 #' @export
 #'
 #' @examples
-#' tw_get_image_metadata("Q180099")
+#' if (interactive()) {
+#'   tw_get_image_metadata("Q180099")
+#' }
 tw_get_image_metadata <- function(id,
                                   image_filename = NULL,
                                   only_first = TRUE,
@@ -413,7 +422,9 @@ tw_get_image_metadata <- function(id,
 #' @export
 #'
 #' @examples
-#' tw_get_image_metadata("Q180099")
+#' if (interactive()) {
+#'   tw_get_image_metadata_single("Q180099")
+#' }
 tw_get_image_metadata_single <- function(id,
                                          image_filename = NULL,
                                          only_first = TRUE,
@@ -430,7 +441,7 @@ tw_get_image_metadata_single <- function(id,
   }
   if (is.null(image_filename)) {
     image_filename <- tw_get_image_same_length(
-      id = id,
+      id = stringr::str_to_upper(id),
       format = "filename",
       only_first = only_first,
       language = language,
@@ -506,15 +517,21 @@ tw_get_image_metadata_single <- function(id,
         name = extmetadata_list %>% purrr::pluck("ObjectName", "value"),
         description = extmetadata_list %>% purrr::pluck("ImageDescription", "value"),
         categories = extmetadata_list %>% purrr::pluck("Categories", "value"),
+        assessments = extmetadata_list %>% purrr::pluck("Assessments", "value"),
         credit = extmetadata_list %>% purrr::pluck("Credit", "value"),
         artist = extmetadata_list %>% purrr::pluck("Artist", "value"),
         permission = extmetadata_list %>% purrr::pluck("Permission", "value"),
-        license_short = extmetadata_list %>% purrr::pluck("LicenseShortName", "value"),
+        license_short_name = extmetadata_list %>% purrr::pluck("LicenseShortName", "value"),
+        license_url = extmetadata_list %>% purrr::pluck("LicenseUrl", "value"),
+        license = extmetadata_list %>% purrr::pluck("License", "value"),
         usage_terms = extmetadata_list %>% purrr::pluck("UsageTerms", "value"),
         attribution_required = extmetadata_list %>% purrr::pluck("AttributionRequired", "value") %>% stringr::str_to_upper() %>% as.logical(),
         copyrighted = extmetadata_list %>% purrr::pluck("Copyrighted", "value") %>%
           stringr::str_to_upper() %>% as.logical(),
-        restrictions = extmetadata_list %>% purrr::pluck("Restrictions", "value")
+        restrictions = extmetadata_list %>% purrr::pluck("Restrictions", "value"),
+        date_time = extmetadata_list %>% purrr::pluck("DateTime", "value"),
+        date_time_original = extmetadata_list %>% purrr::pluck("DateTimeOriginal", "value"),
+        commons_metadata_extension = extmetadata_list %>% purrr::pluck("CommonsMetadataExtension", "value")
       )
     }
   )

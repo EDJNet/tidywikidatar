@@ -56,8 +56,9 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' @export
 #'
 #' @examples
-#'
-#' tw_get_id_of_wikipedia_page(title = "Margaret Mead", language = "en")
+#' if (interactive()) {
+#'   tw_get_id_of_wikipedia_page(title = "Margaret Mead", language = "en")
+#' }
 tw_get_id_of_wikipedia_page <- function(url = NULL,
                                         title = NULL,
                                         language = NULL) {
@@ -96,8 +97,9 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
 #' @export
 #'
 #' @examples
-#'
-#' tw_get_links_from_wikipedia_page(title = "Margaret Mead", language = "en")
+#' if (interactive()) {
+#'   tw_get_links_from_wikipedia_page(title = "Margaret Mead", language = "en")
+#' }
 tw_get_links_from_wikipedia_page <- function(url = NULL,
                                              title = NULL,
                                              language = NULL) {

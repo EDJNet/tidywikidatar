@@ -20,6 +20,7 @@ A data frame (a tibble) with four columns: \code{wikipedia_title}, \code{wikiped
 Get all Wikidata id of all Wikipedia pages included in a given page
 }
 \examples{
-
-tw_get_links_from_wikipedia_page(title = "Margaret Mead", language = "en")
+if (interactive()) {
+  tw_get_links_from_wikipedia_page(title = "Margaret Mead", language = "en")
+}
 }

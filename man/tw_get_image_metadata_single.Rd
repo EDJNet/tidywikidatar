@@ -48,5 +48,7 @@ A charachter vector, corresponding to reference to the image in the requested fo
 Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 }
 \examples{
-tw_get_image_metadata("Q180099")
+if (interactive()) {
+  tw_get_image_metadata_single("Q180099")
+}
 }

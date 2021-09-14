@@ -20,6 +20,7 @@ A character vector of Wikidata identifiers.
 Gets the Wikidata id of a Wikipedia page
 }
 \examples{
-
-tw_get_id_of_wikipedia_page(title = "Margaret Mead", language = "en")
+if (interactive()) {
+  tw_get_id_of_wikipedia_page(title = "Margaret Mead", language = "en")
+}
 }

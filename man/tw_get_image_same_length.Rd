@@ -51,15 +51,15 @@ A charachter vector, corresponding to reference to the image in the requested fo
 Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 }
 \examples{
-tw_get_image("Q180099",
+tw_get_image_same_length("Q180099",
   format = "filename"
 )
 
-tw_get_image("Q180099",
+tw_get_image_same_length("Q180099",
   format = "commons"
 )
 
-tw_get_image("Q180099",
+tw_get_image_same_length("Q180099",
   format = "embed",
   width = 300
 )
