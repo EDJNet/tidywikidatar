@@ -19,6 +19,7 @@ set.seed(42)
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://CRAN.R-project.org/package=tidywikidatar)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](http://cran.r-project.org/package=tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:

@@ -8,6 +8,8 @@
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://CRAN.R-project.org/package=tidywikidatar)
+[![CRAN
+Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](http://cran.r-project.org/package=tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -669,18 +671,18 @@ tw_query(query = query_df)
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 728 × 3
-#>    id      label                      description                               
-#>    <chr>   <chr>                      <chr>                                     
-#>  1 Q95864  Helene Jacobs              German resistance member                  
-#>  2 Q96887  Emmy Zehden                <NA>                                      
-#>  3 Q96941  Liselotte Welskopf-Henrich German historian of classical antiquity, …
-#>  4 Q97203  Ilse Stöbe                 German spy                                
-#>  5 Q97287  Christabel Bielenberg      German resistance member                  
-#>  6 Q97367  Gertrud Luckner            German WWII anti-Nazi resister; Righteous…
-#>  7 Q97467  Eva Schulze-Knabe          German artist (1907-1976)                 
-#>  8 Q99927  Katharina Jacob            Teacher and member of German Resistance a…
-#>  9 Q99930  Charlotte Eisenblätter     German anti-Nazi activist                 
-#> 10 Q100913 Lin Jaldati                Dutch-German singer and actor             
+#>    id      label                  description                                   
+#>    <chr>   <chr>                  <chr>                                         
+#>  1 Q274040 Alida Bosshardt        Dutch Righteous Among the Nations             
+#>  2 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
+#>  3 Q276410 Marga Klompé           Dutch politician (1912-1986)                  
+#>  4 Q283654 Maria Skobtsova        Russian saint (1891-1945)                     
+#>  5 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…
+#>  6 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  
+#>  7 Q324718 Martha Dodd            American spy for the Soviet Union             
+#>  8 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…
+#>  9 Q394661 Agnes Wendland         <NA>                                          
+#> 10 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
 #> # … with 718 more rows
 ```
 
@@ -707,18 +709,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 122 × 3
-#>    id       label                           description                         
-#>    <chr>    <chr>                           <chr>                               
-#>  1 Q270319  Christiane Desroches Noblecourt egittologa e archeologa francese    
-#>  2 Q2696536 Yolande Beekman                 espionne et agente secret des Speci…
-#>  3 Q3009723 Cécile Cerf                     résistante française                
-#>  4 Q3081207 Francine Fromond                <NA>                                
-#>  5 Q3132483 Henriette Moriamé               <NA>                                
-#>  6 Q3176052 Jeanne Gaillard                 historienne et résistante française 
-#>  7 Q3176091 Jeanne Laurent                  scrittrice francese                 
-#>  8 Q3291974 Marie-José Chombart de Lauwe    <NA>                                
-#>  9 Q3295151 Martha Desrumaux                personnalité politique française    
-#> 10 Q3296334 Maryse Hilsz                    aviatrice francese                  
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q3484585  Simone Lurçat                   <NA>                               
+#>  3 Q3574046  Yvette Farnoux                  résistante française               
+#>  4 Q3574174  Yvonne Abbas                    résistante française               
+#>  5 Q5257705  Denise Laroque                  <NA>                               
+#>  6 Q6837011  Michelle Dubois                 <NA>                               
+#>  7 Q10289954 Giselle Cossard                 résistante française, femme de let…
+#>  8 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
+#>  9 Q3009723  Cécile Cerf                     résistante française               
+#> 10 Q3081207  Francine Fromond                <NA>                               
 #> # … with 112 more rows
 ```
 
@@ -746,9 +748,9 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 1 × 4
-#>   label           description               year_of_birth year_of_death
-#>   <chr>           <chr>                             <dbl>         <dbl>
-#> 1 Maria Skobtsova Russian saint (1891-1945)          1891          1945
+#>   label                           description         year_of_birth year_of_death
+#>   <chr>                           <chr>                       <dbl>         <dbl>
+#> 1 Christiane Desroches Noblecourt French egyptologist          1913          2011
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
