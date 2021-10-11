@@ -90,15 +90,25 @@ tw_get_single <- function(id,
   labels <- item %>%
     purrr::pluck(1, "labels")
 
-  labels_df <- purrr::map_dfr(
-    .x = labels,
-    function(current_label_l) {
-      tibble::tibble(
-        property = paste0("label_", current_label_l$language),
-        value = current_label_l$value
-      )
-    }
-  )
+  if (is.null(labels)) {
+    labels_df <- tibble::tibble(
+      property = as.character(NA),
+      value = as.character(NA)
+    ) %>%
+      dplyr::slice(0)
+  } else {
+    labels_df <- purrr::map_dfr(
+      .x = labels,
+      function(current_label_l) {
+        tibble::tibble(
+          property = paste0("label_", current_label_l$language),
+          value = current_label_l$value
+        )
+      }
+    )
+  }
+
+
 
   if (language == "all_available") {
     # do nothing
