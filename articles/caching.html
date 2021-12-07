@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidywikidatar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -86,11 +82,11 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://edjnet.github.io/tidywikidatar/">tidywikidatar</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://edjnet.github.io/tidywikidatar/">tidywikidatar</a></span><span class="op">)</span></code></pre></div>
 <p>In order to reduce load on Wikidata’s server and to speed up the processing of data, <code>tidywikidatar</code> makes extensive use of local caching.</p>
-<div id="what-data-are-cached-locally" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-data-are-cached-locally" class="anchor"></a>What data are cached locally</h2>
+<div class="section level2">
+<h2 id="what-data-are-cached-locally">What data are cached locally<a class="anchor" aria-label="anchor" href="#what-data-are-cached-locally"></a>
+</h2>
 <p>There are mainly three types of data that are cached locally:</p>
 <ul>
 <li>searches run with <code><a href="../reference/tw_search.html">tw_search()</a></code>
@@ -104,29 +100,29 @@
 </ul>
 <p>To reduce space used for local caching and speed up processing time, it is possible to store only labels and information available in a given language when relevant.</p>
 </div>
-<div id="caching-with-sqlite" class="section level2">
-<h2 class="hasAnchor">
-<a href="#caching-with-sqlite" class="anchor"></a>Caching with SQLite</h2>
+<div class="section level2">
+<h2 id="caching-with-sqlite">Caching with SQLite<a class="anchor" aria-label="anchor" href="#caching-with-sqlite"></a>
+</h2>
 <p>In <code>tidywikidatar</code>, it is possible to enable caching with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If you do not include further parameters, by default <code>tidywikidatar</code> will use a local SQLite database for caching.</p>
 <p>You can choose in which folder the SQLite database will be stored with <code><a href="../reference/tw_set_cache_folder.html">tw_set_cache_folder()</a></code>; if not already existing, you can create that folder with <code><a href="../reference/tw_create_cache_folder.html">tw_create_cache_folder()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path_expand.html">path_home_r</a></span><span class="op">(</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/path_expand.html" class="external-link">path_home_r</a></span><span class="op">(</span><span class="op">)</span>,
                                     <span class="st">"R"</span>,
                                     <span class="st">"tw_data"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tw_create_cache_folder.html">tw_create_cache_folder</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="caching-with-other-database-backends" class="section level2">
-<h2 class="hasAnchor">
-<a href="#caching-with-other-database-backends" class="anchor"></a>Caching with other database backends</h2>
+<div class="section level2">
+<h2 id="caching-with-other-database-backends">Caching with other database backends<a class="anchor" aria-label="anchor" href="#caching-with-other-database-backends"></a>
+</h2>
 <p>Early support for other database backends is now available, and will be implemented more consistently across all functions in a forthcoming version. In the current version, by default, connections are closed at the end of each function call, so you will need to provide a fresh one with each call. If you see the error <code>external pointer is not valid</code> it probably means the connection has already been closed.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">item_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tw_get.html">tw_get</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span><span class="op">)</span>,
-                  cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,
+<span class="va">item_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tw_get.html">tw_get</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span><span class="op">)</span>,
+                  cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,
                                    Driver <span class="op">=</span> <span class="st">"MariaDB"</span>,
                                    Host <span class="op">=</span> <span class="st">"localhost"</span>,
                                    database <span class="op">=</span> <span class="st">"Zu5oobei9heloquoa6Shahwu"</span>,
@@ -135,8 +131,8 @@
 <span class="op">)</span><span class="op">)</span>
 
 
-<span class="fu"><a href="../reference/tw_get_cached_item.html">tw_get_cached_item</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span><span class="op">)</span>,
-                   cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,
+<span class="fu"><a href="../reference/tw_get_cached_item.html">tw_get_cached_item</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span><span class="op">)</span>,
+                   cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu">odbc</span><span class="op">(</span><span class="op">)</span>,
                                                      Driver <span class="op">=</span> <span class="st">"MariaDB"</span>,
                                                      Host <span class="op">=</span> <span class="st">"localhost"</span>,
                                                      database <span class="op">=</span> <span class="st">"Zu5oobei9heloquoa6Shahwu"</span>,
@@ -144,10 +140,10 @@
                                                      PWD <span class="op">=</span> <span class="st">"Oot7moo4einguJahgahwi8oh"</span>
                    <span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="name-of-tables-in-cached-databases" class="section level2">
-<h2 class="hasAnchor">
-<a href="#name-of-tables-in-cached-databases" class="anchor"></a>Name of tables in cached databases</h2>
-<p>Each database has a table for each language and type of content. For example, item information retrieved with <code><a href="../reference/tw_get.html">tw_get(id = "Q180099", language = "en")</a></code> will be stored in a table called <code>tw_item_en</code>.</p>
+<div class="section level2">
+<h2 id="name-of-tables-in-cached-databases">Name of tables in cached databases<a class="anchor" aria-label="anchor" href="#name-of-tables-in-cached-databases"></a>
+</h2>
+<p>Each database has a table for each language and type of content. For example, item information retrieved with <code>tw_get(id = "Q180099", language = "en")</code> will be stored in a table called <code>tw_item_en</code>.</p>
 <p>When caching with a local SQLite database, each type of of contents (e.g. “item” or “property” or “search”) and each language is stored in a separate file.</p>
 <p>When caching with another database, e.g. SQL, all tables are stored inside a single database. In either case, the name of the table is unique and is generated by <code><a href="../reference/tw_get_cache_table_name.html">tw_get_cache_table_name()</a></code>. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -167,11 +163,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Giorgio Comai, EDJNet.</p>
+  <p></p>
+<p>Developed by Giorgio Comai, EDJNet.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -179,6 +177,8 @@
 
   
 
+
+  
 
   </body>
 </html>

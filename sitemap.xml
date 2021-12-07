@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/404.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/articles/caching.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/authors.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/index.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/index.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/pipe.html</loc>
@@ -158,8 +182,5 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/articles/caching.html</loc>
   </url>
 </urlset>
