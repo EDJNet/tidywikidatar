@@ -99,6 +99,8 @@ tw_get_property <- function(id,
 #' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param only_first Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.
+#' @param preferred Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.
+#' @param latest_start_time Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -161,6 +163,8 @@ tw_get_property <- function(id,
 tw_get_property_same_length <- function(id,
                                         p,
                                         only_first = FALSE,
+                                        preferred = FALSE,
+                                        latest_start_time = FALSE,
                                         language = tidywikidatar::tw_get_language(),
                                         id_df = NULL,
                                         cache = NULL,
@@ -191,7 +195,47 @@ tw_get_property_same_length <- function(id,
       return(rep(as.character(NA), length(id)))
     } else {
       return(rep(as.character(NA), length(id)) %>%
-        as.list())
+               as.list())
+    }
+  }
+
+  if (preferred == TRUE|latest_start_time==TRUE) {
+    qualifiers_df <- tw_get_qualifiers(id = id,
+                                       p = p,
+                                       language = language,
+                                       cache = cache,
+                                       overwrite_cache = overwrite_cache,
+                                       cache_connection = cache_connection,
+                                       disconnect_db = disconnect_db,
+                                       wait = wait
+    )
+
+    if (preferred == TRUE) {
+      qualifiers_preferred_df <- qualifiers_df %>%
+        dplyr::filter(rank == "preferred") %>%
+        dplyr::distinct(.data$qualifier_id, .data$qualifier_property) %>%
+        dplyr::transmute(value = .data$qualifier_id)
+
+      if (nrow(qualifiers_preferred_df)>0) {
+        property_df <- property_df %>%
+          dplyr::right_join(y = qualifiers_preferred_df,
+                            by = "value")
+      }
+    }
+
+    if (latest_start_time == TRUE) {
+      qualifiers_latest_start_time_df <- qualifiers_df %>%
+        dplyr::filter(.data$qualifier_property == "P580") %>%
+        dplyr::distinct(.data$qualifier_id, .data$value) %>%
+        dplyr::arrange(.data$value) %>%
+        dplyr::slice_tail(n = 1) %>%
+        dplyr::transmute(value = .data$qualifier_id)
+
+      if (nrow(qualifiers_latest_start_time_df)>0) {
+        property_df <- property_df %>%
+          dplyr::right_join(y = qualifiers_latest_start_time_df,
+                            by = "value")
+      }
     }
   }
 
@@ -222,3 +266,9 @@ tw_get_property_same_length <- function(id,
   property_df_out %>%
     dplyr::pull(.data$value)
 }
+
+
+#' @rdname tw_get_property_same_length
+#' @examples tw_get_p(id = "Q180099", "P26")
+#' @export
+tw_get_p <- tw_get_property_same_length

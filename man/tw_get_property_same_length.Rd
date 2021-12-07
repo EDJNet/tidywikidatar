@@ -2,12 +2,30 @@
 % Please edit documentation in R/tw_get_property.R
 \name{tw_get_property_same_length}
 \alias{tw_get_property_same_length}
+\alias{tw_get_p}
 \title{Get Wikidata property of an item as a character vector of the same length as input}
 \usage{
 tw_get_property_same_length(
   id,
   p,
   only_first = FALSE,
+  preferred = FALSE,
+  latest_start_time = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+)
+
+tw_get_p(
+  id,
+  p,
+  only_first = FALSE,
+  preferred = FALSE,
+  latest_start_time = FALSE,
   language = tidywikidatar::tw_get_language(),
   id_df = NULL,
   cache = NULL,
@@ -23,6 +41,10 @@ tw_get_property_same_length(
 \item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
 
 \item{only_first}{Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.}
+
+\item{preferred}{Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.}
+
+\item{latest_start_time}{Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -92,4 +114,5 @@ if (interactive()) {
       only_first = TRUE
     ))
 }
+tw_get_p(id = "Q180099", "P26")
 }
