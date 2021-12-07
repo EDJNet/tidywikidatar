@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' # Get "female form of label", including language
-#' tw_get_property_with_details(id = "Q64733534", p = "P2521")
+#' tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
 tw_get_property_with_details_single <- function(id,
                                                 p) {
   item <- tryCatch(WikidataR::get_item(id = id),

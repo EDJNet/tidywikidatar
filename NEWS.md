@@ -39,3 +39,7 @@
 * more consistent testing, less likely to be impacted to changes in Wikidata items
 * updated README with examples using the pipe operator
 
+# tidywikidatar 0.5.0
+
+* new feature: `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property (new format incompatible with previous cache)
+* bug fix: fix error when Wikidata item has no label in any language

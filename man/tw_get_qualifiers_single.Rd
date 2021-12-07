@@ -33,14 +33,14 @@ tw_get_qualifiers_single(
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
-\item{include_id_and_p}{Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.}
+\item{include_id_and_p}{Logical, defaults to TRUE. If TRUE, output includes a column with the wikidata id of the item.}
 }
 \value{
-A data frame (a tibble) with five columns: \code{id} for the input id, \code{qualifier_id}, \code{property}, \code{value}, and \code{set} (to distinguish sets of data when a property is present more than once)
+A data frame (a tibble) with six columns: \code{id} for the input id, \code{qualifier_id}, \code{property}, \code{value}, \code{rank}, and \code{set} (to distinguish sets of data when a property is present more than once)
 }
 \description{
 N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
 }
 \examples{
-tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
 }

@@ -10,13 +10,13 @@
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param include_id_and_p Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.
+#' @param include_id_and_p Logical, defaults to TRUE. If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data frame (a tibble) with five columns: `id` for the input id, `qualifier_id`, `property`, `value`, and `set` (to distinguish sets of data when a property is present more than once)
+#' @return A data frame (a tibble) with six columns: `id` for the input id, `qualifier_id`, `property`, `value`, `rank`, and `set` (to distinguish sets of data when a property is present more than once)
 #' @export
 #'
 #' @examples
-#' tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+#' tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
 tw_get_qualifiers_single <- function(id,
                                      p,
                                      language = tidywikidatar::tw_get_language(),
@@ -122,6 +122,7 @@ tw_get_qualifiers_single <- function(id,
             qualifier_id = qualifier_parent,
             qualifier_property = p,
             value = value,
+            rank = qualifiers[["rank"]][[i]],
             set = i
           )
         }
@@ -175,7 +176,7 @@ tw_get_qualifiers_single <- function(id,
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param include_id_and_p Logical, defaults to TRUE If TRUE, output includes a column with the wikidata id of the item.
 #'
-#' @return A data frame (a tibble) with five columns: `id` for the input id, `qualifier_id`, `property`, `value`, and `set` (to distinguish sets of data when a property is present more than once)
+#' @return A data frame (a tibble) with six columns: `id` for the input id, `qualifier_id`, `property`, `value`, `rank`, and `set` (to distinguish sets of data when a property is present more than once)
 #' @export
 #'
 #' @examples
