@@ -99,6 +99,10 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.0" id="tidywikidatar-050">tidywikidatar 0.5.0<a class="anchor" aria-label="anchor" href="#tidywikidatar-050"></a></h2>
 <ul><li>new feature: <code><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code> now includes ranking such as “preferred”, “normal”, and “deprecated” associated with each property (new format incompatible with previous cache)</li>
+<li>introduce <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code> as an alias of <code><a href="../reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> for brevity</li>
+<li>introduce new params in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code> to deal with common pattern when only “preferred” or most recent property should be returned, rather than whatever Wikidata has first in the list</li>
+<li>add example datasets for illustrative purposes and forthcoming additional vignettes and examples, <code>tw_qid_meps</code> and <code>tw_qid_airports</code>
+</li>
 <li>bug fix: fix error when Wikidata item has no label in any language</li>
 </ul></div>
   </div>

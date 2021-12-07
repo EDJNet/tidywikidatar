@@ -61,6 +61,23 @@
   <span class="va">id</span>,
   <span class="va">p</span>,
   only_first <span class="op">=</span> <span class="cn">FALSE</span>,
+  preferred <span class="op">=</span> <span class="cn">FALSE</span>,
+  latest_start_time <span class="op">=</span> <span class="cn">FALSE</span>,
+  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  id_df <span class="op">=</span> <span class="cn">NULL</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
+  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
+  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
+  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,
+  wait <span class="op">=</span> <span class="fl">0</span>
+<span class="op">)</span>
+
+<span class="fu">tw_get_p</span><span class="op">(</span>
+  <span class="va">id</span>,
+  <span class="va">p</span>,
+  only_first <span class="op">=</span> <span class="cn">FALSE</span>,
+  preferred <span class="op">=</span> <span class="cn">FALSE</span>,
+  latest_start_time <span class="op">=</span> <span class="cn">FALSE</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   id_df <span class="op">=</span> <span class="cn">NULL</span>,
   cache <span class="op">=</span> <span class="cn">NULL</span>,
@@ -79,6 +96,10 @@
 <dd><p>A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".</p></dd>
 <dt>only_first</dt>
 <dd><p>Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.</p></dd>
+<dt>preferred</dt>
+<dd><p>Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.</p></dd>
+<dt>latest_start_time</dt>
+<dd><p>Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 <dt>id_df</dt>
@@ -157,6 +178,10 @@
 <span class="r-in">      only_first <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in">    <span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="fu">tw_get_p</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, <span class="st">"P26"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Q314252"  "Q594736"  "Q2144944"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </div>
