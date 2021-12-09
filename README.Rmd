@@ -273,6 +273,7 @@ students %>%
 
 ```
 
+Starting with version 0.5, to reduce typing, `tw_get_property_same_length()` has now an alias, `tw_get_p()`, which can be used in its stead.
 
 
 ## Qualifiers
@@ -343,6 +344,65 @@ That's quite a lot of useful detail. The construction of the request can be quit
 
 Fundamentally, you won't be touching anything that is not a vector or a tidy data frame, which is ultimately a key goal of `tidywikidatar`: make use of the wealth of information stored by Wikidata from R without having to deal with either nested lists or SPARQL queries.
 
+## Getting the right property when more than one is available
+
+In Wikidata, the [order in which statements](https://www.wikidata.org/wiki/Wikidata:Glossary#Order_of_statements) for a property are shown depends on a number of factors. Consistent with the API behaviour, `tidywikidatar` returns them in the same order as they appear on the online on Wikidata dot org. Depending on the use case and subsequent processing operations this may be either completely irrelevant or very important, with a big impact even on the most basic of queries. 
+
+For example, let's compare results when we are trying to find out in which country ([P17](https://www.wikidata.org/wiki/Property:P17)) London ([Q84](https://www.wikidata.org/wiki/Q84)) and Rome ([Q220](https://www.wikidata.org/wiki/Q220)) are located.
+
+If we ask Wikidata in which country London is located, this is the response we get:
+
+```{r london_p17_df}
+tw_get_property(id = "Q84", p = "P17") %>%
+  dplyr::mutate(value = tw_get_label(value))
+```
+
+These statements may all be fairly accurate at different points in time, as we would see if we looked at the qualifiers of each of these statements (see above) or check the respective [section on Wikidata's website](https://www.wikidata.org/wiki/Q84#P17). The order, however, is determined by a number of factors and this may lead to inconsistent results. If we are interested in having just one result, as is often the case when processing large amounts of items, can we safely pick the first (or last) and be sure it's the more recent? As it emerges looking at same for property for Rome, this is not the case.
+
+```{r rome_p17_df}
+tw_get_property(id = "Q220", p = "P17") %>%
+  dplyr::mutate(value = tw_get_label(value))
+```
+
+So while we may be tempted to just keep the first statement returned by Wikidata for the given property, this is probably not what we want.
+
+```{r london_rome_first_df}
+tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
+  dplyr::mutate(city_label = tw_get_label(city_qid), 
+                country_qid = tw_get_p(id = city_qid,
+                                       p = "P17",
+                                       only_first = TRUE)) %>% 
+  dplyr::mutate(country_label = tw_get_label(country_qid))
+```
+
+Besides looking at the qualifiers, the standard way for Wikidata to choose which is the "preferred" statement is the dedicated ranking element (in the online interface, a small dot with arrows next to the label), which can either be "preferred", "normal", or "deprecated". In piped operations, we get the "preferred" property by setting `preferred` to `TRUE` in `tw_get_p()`.
+
+```{r}
+tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
+  dplyr::mutate(city_label = tw_get_label(city_qid), 
+                country_qid = tw_get_p(id = city_qid,
+                                       p = "P17",
+                                       preferred = TRUE,
+                                       only_first = TRUE)) %>% 
+  dplyr::mutate(country_label = tw_get_label(country_qid))
+```
+
+Keep in mind that there may be more than one "preferred" statement, so setting `preferred` to TRUE is no guarantee of having a single result: for example, London is both "[capital of](https://www.wikidata.org/wiki/Q84#P1376)" ([P1376](https://www.wikidata.org/wiki/Property:P1376)) the United Kingdom and England, and both statements are "preferred". Rome is capital of Italy and Lazio (the region where it is located), and both are "preferred". 
+
+When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combinaiton with `preferred`). 
+
+```{r}
+tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
+  dplyr::mutate(city_label = tw_get_label(city_qid), 
+                country_qid = tw_get_p(id = city_qid,
+                                       p = "P17",
+                                       latest_start_time = TRUE, 
+                                       only_first = TRUE)) %>% 
+  dplyr::mutate(country_label = tw_get_label(country_qid))
+```
+
+
+If none of the above works, then you may still be able to get consistent results through customs solutions based on `tw_get_qualifiers()`, or by checking the validity of alternative results based on their properties (for example, many of the properties of "Roman empire" ([Q2277](https://www.wikidata.org/wiki/Q2277)) could be used to determine that it is not, in fact, a contemporary country).
 
 
 ## Queries
