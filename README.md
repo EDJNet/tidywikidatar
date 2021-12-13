@@ -733,7 +733,7 @@ more than one, in some cases it may be useful to use instead the
 parameter `latest_start_time`, to pick the statement that has the most
 recent “start time”
 ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this
-can also be used in combinaiton with `preferred`).
+can also be used in combination with `preferred`).
 
 ``` r
 tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
@@ -807,27 +807,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 752 Columns: 3
+#> Rows: 755 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 752 × 3
-#>    id      label                      description                               
-#>    <chr>   <chr>                      <chr>                                     
-#>  1 Q95864  Helene Jacobs              German resistance member                  
-#>  2 Q96887  Emmy Zehden                <NA>                                      
-#>  3 Q96941  Liselotte Welskopf-Henrich German historian of classical antiquity, …
-#>  4 Q97203  Ilse Stöbe                 German spy                                
-#>  5 Q97287  Christabel Bielenberg      German resistance member                  
-#>  6 Q97367  Gertrud Luckner            German WWII anti-Nazi resister; Righteous…
-#>  7 Q97467  Eva Schulze-Knabe          German artist (1907-1976)                 
-#>  8 Q99927  Katharina Jacob            Teacher and member of German Resistance a…
-#>  9 Q99930  Charlotte Eisenblätter     German anti-Nazi activist                 
-#> 10 Q100913 Lin Jaldati                Dutch-German singer and actor             
-#> # … with 742 more rows
+#> # A tibble: 755 × 3
+#>    id        label                         description                          
+#>    <chr>     <chr>                         <chr>                                
+#>  1 Q28035824 Sara Ginaite                  "Lithuanian-born Canadian academic a…
+#>  2 Q28064017 Arentje Margrieta Henstra      <NA>                                
+#>  3 Q28064146 H.J. van Nijnatten-Doffegnies "Dutch writer"                       
+#>  4 Q28064192 Costavina Aya Ayal             <NA>                                
+#>  5 Q28064374 M.G. Schenk                   "Dutch assistant researcher Pieter G…
+#>  6 Q28064395 Meinarda van Terwisga          <NA>                                
+#>  7 Q28101909 Chetta Chevalier              "critical node in Monsignor Hugh O'F…
+#>  8 Q28222985 Marcelle Devilliers            <NA>                                
+#>  9 Q28355696 Carmen Temprano Salorio       "Spanish resistance fighter died 194…
+#> 10 Q28397801 Eugénie Djendi                "french radio-operator and member of…
+#> # … with 745 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -853,18 +853,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 124 × 3
-#>    id       label                           description                     
-#>    <chr>    <chr>                           <chr>                           
-#>  1 Q270319  Christiane Desroches Noblecourt egittologa e archeologa francese
-#>  2 Q5257705 Denise Laroque                  <NA>                            
-#>  3 Q3291974 Marie-José Chombart de Lauwe    <NA>                            
-#>  4 Q3295151 Martha Desrumaux                personnalité politique française
-#>  5 Q3296334 Maryse Hilsz                    aviatrice francese              
-#>  6 Q3313818 Mila Racine                     résistante juive française      
-#>  7 Q3315984 Mireille Lauze                  résistante française            
-#>  8 Q3484585 Simone Lurçat                   <NA>                            
-#>  9 Q3574046 Yvette Farnoux                  résistante française            
-#> 10 Q3574174 Yvonne Abbas                    résistante française            
+#>    id         label                           description                       
+#>    <chr>      <chr>                           <chr>                             
+#>  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  
+#>  2 Q5257705   Denise Laroque                  <NA>                              
+#>  3 Q109251934 Jeanne Bleton-Barraud           résistante française              
+#>  4 Q109252587 Louise Losserand                résistante et déportée française  
+#>  5 Q109406143 Esther Poggio                   résistante française              
+#>  6 Q2696536   Yolande Beekman                 espionne et agente secret des Spe…
+#>  7 Q3009723   Cécile Cerf                     résistante française              
+#>  8 Q3081207   Francine Fromond                <NA>                              
+#>  9 Q3132483   Henriette Moriamé               <NA>                              
+#> 10 Q3176052   Jeanne Gaillard                 historienne et résistante françai…
 #> # … with 114 more rows
 ```
 

@@ -389,7 +389,7 @@ tibble::tibble(city_qid = c("Q84", "Q220")) %>%
 
 Keep in mind that there may be more than one "preferred" statement, so setting `preferred` to TRUE is no guarantee of having a single result: for example, London is both "[capital of](https://www.wikidata.org/wiki/Q84#P1376)" ([P1376](https://www.wikidata.org/wiki/Property:P1376)) the United Kingdom and England, and both statements are "preferred". Rome is capital of Italy and Lazio (the region where it is located), and both are "preferred". 
 
-When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combinaiton with `preferred`). 
+When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combination with `preferred`). 
 
 ```{r}
 tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
