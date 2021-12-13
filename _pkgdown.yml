@@ -1,1 +1,3 @@
 url: https://edjnet.github.io/tidywikidatar
+template:
+  bootstrap: 5
