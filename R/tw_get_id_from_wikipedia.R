@@ -4,7 +4,7 @@
 #'
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #'
 #' @return A charachter vector of base urls to be used with the MediaWiki API
 #' @export
@@ -14,7 +14,7 @@
 #' tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
 tw_get_wikipedia_base_api_url <- function(url = NULL,
                                           title = NULL,
-                                          language = NULL) {
+                                          language = tidywikidatar::tw_get_language()) {
   if (is.null(url) == TRUE) {
     if (is.null(title) == TRUE) {
       usethis::ui_stop("Either url or title must be provided")
@@ -50,7 +50,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #'
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #'
 #' @return A character vector of Wikidata identifiers.
 #' @export
@@ -61,7 +61,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' }
 tw_get_id_of_wikipedia_page <- function(url = NULL,
                                         title = NULL,
-                                        language = NULL) {
+                                        language = tidywikidatar::tw_get_language()) {
   wikidata_id <- stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,
@@ -91,7 +91,7 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
 #'
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #'
 #' @return A data frame (a tibble) with four columns: `wikipedia_title`, `wikipedia_id`, `wikidata_id`, `wikidata_description`.
 #' @export
@@ -102,7 +102,7 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
 #' }
 tw_get_links_from_wikipedia_page <- function(url = NULL,
                                              title = NULL,
-                                             language = NULL) {
+                                             language = tidywikidatar::tw_get_language()) {
   api_url <- stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,

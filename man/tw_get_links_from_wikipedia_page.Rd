@@ -4,14 +4,18 @@
 \alias{tw_get_links_from_wikipedia_page}
 \title{Get all Wikidata id of all Wikipedia pages included in a given page}
 \usage{
-tw_get_links_from_wikipedia_page(url = NULL, title = NULL, language = NULL)
+tw_get_links_from_wikipedia_page(
+  url = NULL,
+  title = NULL,
+  language = tidywikidatar::tw_get_language()
+)
 }
 \arguments{
 \item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
 
 \item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
 
-\item{language}{Two-letter language code used to define the Wikipedia version to use. If url given, this can be left empty.}
+\item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
 }
 \value{
 A data frame (a tibble) with four columns: \code{wikipedia_title}, \code{wikipedia_id}, \code{wikidata_id}, \code{wikidata_description}.
