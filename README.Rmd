@@ -405,6 +405,7 @@ tibble::tibble(city_qid = c("Q84", "Q220")) %>%
 If none of the above works, then you may still be able to get consistent results through customs solutions based on `tw_get_qualifiers()`, or by checking the validity of alternative results based on their properties (for example, many of the properties of "Roman empire" ([Q2277](https://www.wikidata.org/wiki/Q2277)) could be used to determine that it is not, in fact, a contemporary country).
 
 
+
 ## Queries
 
 All of the above works similarly to how we often use websistes such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like "give me all of these fields for all items that have this value for this property, but not that other value for that other property". 
@@ -471,6 +472,49 @@ tibble::tribble(
 Keep in mind that Wikidata queries are not cached locally. 
 
 
+## Getting Wikidata identifiers from a Wikipedia page
+
+Besides querying Wikidata and using the basic `tw_search()` function described above, `tidywikidatar` includes function that facilitate retrieving Wikidata identifiers based on Wikipedia pages, as well as the Wikidata identifiers corresponding to all the Wikipedia pages includen in a given Wikipedia page. This may be useful in particular on Wikipedia pages that are lists of other pages, or as an alternative approach for finding relations between various Wikidata items.
+
+In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).
+
+```{r}
+tw_get_id_of_wikipedia_page(title = "Margaret Mead")
+```
+
+
+```{r}
+tw_get_id_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+```
+
+Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier. 
+
+```{r}
+tw_get_wikipedia(id = "Q180099")
+```
+
+Who and what is mentioned in Margaret Mead's Wikipedia page? As it turns out, hundreds of pages, including a variety of people, places, concepts, etc.  
+
+```{r}
+wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
+  tw_get_links_from_wikipedia_page()
+
+wikipedia_df
+
+```
+
+
+What if we are potentially interested only in the people mentioned in this page? We proceed as usual, checking which of these are "instance of" ("P19") "human" ("Q5"), and take it from there. 
+
+```{r eval=FALSE}
+wikipedia_df %>% 
+  dplyr::pull(wikidata_id) %>% 
+  tw_get_property(p = "P31") %>% 
+  dplyr::filter(value == "Q5")
+```
+
+All functions that interact with Wikipedia and the related Mediawiki API are not cached locally at this stage. 
+
 ## How caching works
 
 `tidywikidatar` tries to reduce load on Wikidata's server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by `tw_set_cache_folder()` - by default, in the current working directory - when cache is enabled (typically, with `tw_enable_cache()` at the beginning of a session).
@@ -482,6 +526,8 @@ The easiest way to reset the cache is simply to delete the cache folder.
 Results are stored in different databases by language, and function used; `tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example, store data in different files.
 
 `tw_query()` is never cached.
+
+See the the dedicated vignette for more details on caching: `vignette("caching")`.
 
 ## Requirements and installation issues
 

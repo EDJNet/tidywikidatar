@@ -815,18 +815,18 @@ tw_query(query = query_df)
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 755 × 3
-#>    id        label                         description                          
-#>    <chr>     <chr>                         <chr>                                
-#>  1 Q28035824 Sara Ginaite                  "Lithuanian-born Canadian academic a…
-#>  2 Q28064017 Arentje Margrieta Henstra      <NA>                                
-#>  3 Q28064146 H.J. van Nijnatten-Doffegnies "Dutch writer"                       
-#>  4 Q28064192 Costavina Aya Ayal             <NA>                                
-#>  5 Q28064374 M.G. Schenk                   "Dutch assistant researcher Pieter G…
-#>  6 Q28064395 Meinarda van Terwisga          <NA>                                
-#>  7 Q28101909 Chetta Chevalier              "critical node in Monsignor Hugh O'F…
-#>  8 Q28222985 Marcelle Devilliers            <NA>                                
-#>  9 Q28355696 Carmen Temprano Salorio       "Spanish resistance fighter died 194…
-#> 10 Q28397801 Eugénie Djendi                "french radio-operator and member of…
+#>    id       label                             description                       
+#>    <chr>    <chr>                             <chr>                             
+#>  1 Q2527332 Jeanne Dientje Woerdeman-Evenhuis <NA>                              
+#>  2 Q2545170 Jikke Ozinga                      <NA>                              
+#>  3 Q2576811 Willemijn Posthumus-van der Goot  Dutch author                      
+#>  4 Q2589281 Betty Trompetter                  <NA>                              
+#>  5 Q2592269 Adhe Tapontsang                   Tibetan refugee                   
+#>  6 Q2602448 Yvonne Useldinger                 Luxembourgian politician (1921-20…
+#>  7 Q2609244 Tina Strobos                      Dutch physician and psychiatrist;…
+#>  8 Q2619347 Dinie Aikema                      <NA>                              
+#>  9 Q2635392 Anda Kerkhoven                    Dutch resistance fighter          
+#> 10 Q2639558 Jet Berdenis van Berlekom         <NA>                              
 #> # … with 745 more rows
 ```
 
@@ -853,18 +853,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 124 × 3
-#>    id         label                           description                       
-#>    <chr>      <chr>                           <chr>                             
-#>  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  
-#>  2 Q5257705   Denise Laroque                  <NA>                              
-#>  3 Q109251934 Jeanne Bleton-Barraud           résistante française              
-#>  4 Q109252587 Louise Losserand                résistante et déportée française  
-#>  5 Q109406143 Esther Poggio                   résistante française              
-#>  6 Q2696536   Yolande Beekman                 espionne et agente secret des Spe…
-#>  7 Q3009723   Cécile Cerf                     résistante française              
-#>  8 Q3081207   Francine Fromond                <NA>                              
-#>  9 Q3132483   Henriette Moriamé               <NA>                              
-#> 10 Q3176052   Jeanne Gaillard                 historienne et résistante françai…
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
+#>  3 Q88766484 Paulette Fink                   résistante et activiste juive      
+#>  4 Q89477308 Odette Elina                    <NA>                               
+#>  5 Q89582569 Frida Wattenberg                résistante française               
+#>  6 Q93611735 Odette Nilès                    résistante communiste française    
+#>  7 Q3009723  Cécile Cerf                     résistante française               
+#>  8 Q3081207  Francine Fromond                <NA>                               
+#>  9 Q3132483  Henriette Moriamé               <NA>                               
+#> 10 Q3176052  Jeanne Gaillard                 historienne et résistante française
 #> # … with 114 more rows
 ```
 
@@ -899,6 +899,77 @@ tibble::tribble(
 
 Keep in mind that Wikidata queries are not cached locally.
 
+## Getting Wikidata identifiers from a Wikipedia page
+
+Besides querying Wikidata and using the basic `tw_search()` function
+described above, `tidywikidatar` includes function that facilitate
+retrieving Wikidata identifiers based on Wikipedia pages, as well as the
+Wikidata identifiers corresponding to all the Wikipedia pages includen
+in a given Wikipedia page. This may be useful in particular on Wikipedia
+pages that are lists of other pages, or as an alternative approach for
+finding relations between various Wikidata items.
+
+In this case, the starting point is usually the full URL or the title of
+a Wikipedia page, which give the same result (the user, however, should
+be mindful of redirection if using the title).
+
+``` r
+tw_get_id_of_wikipedia_page(title = "Margaret Mead")
+#> [1] "Q180099"
+```
+
+``` r
+tw_get_id_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+#> [1] "Q180099"
+```
+
+Depending on the workflow, it is also possible to get the full link to
+the Wikipedia page starting from a given Wikidata identifier.
+
+``` r
+tw_get_wikipedia(id = "Q180099")
+#> [1] "https://en.wikipedia.org/wiki/Margaret Mead"
+```
+
+Who and what is mentioned in Margaret Mead’s Wikipedia page? As it turns
+out, hundreds of pages, including a variety of people, places, concepts,
+etc.
+
+``` r
+wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
+  tw_get_links_from_wikipedia_page()
+
+wikipedia_df
+#> # A tibble: 891 × 4
+#>    wikipedia_title                     wikipedia_id wikidata_id wikidata_descri…
+#>    <chr>                                      <int> <chr>       <chr>           
+#>  1 Alex Barker                                   NA <NA>        <NA>            
+#>  2 Alfred S. Hayes                               NA <NA>        <NA>            
+#>  3 Blackberry Winter: My Earlier Years           NA <NA>        <NA>            
+#>  4 Continuities in Cultural Evolution            NA <NA>        <NA>            
+#>  5 Culture and Commitment                        NA <NA>        <NA>            
+#>  6 John P. Gillin                                NA <NA>        <NA>            
+#>  7 A Darwinian Left                         3890352 Q1762274    1999 book by Pe…
+#>  8 A Rap on Race                           14527943 Q4659145    Book by Margare…
+#>  9 Abby Kelley                              4056835 Q2820848    <NA>            
+#> 10 Abigail Adams                             102745 Q206191     2nd First Lady …
+#> # … with 881 more rows
+```
+
+What if we are potentially interested only in the people mentioned in
+this page? We proceed as usual, checking which of these are “instance
+of” (“P19”) “human” (“Q5”), and take it from there.
+
+``` r
+wikipedia_df %>% 
+  dplyr::pull(wikidata_id) %>% 
+  tw_get_property(p = "P31") %>% 
+  dplyr::filter(value == "Q5")
+```
+
+All functions that interact with Wikipedia and the related Mediawiki API
+are not cached locally at this stage.
+
 ## How caching works
 
 `tidywikidatar` tries to reduce load on Wikidata’s server and speeding
@@ -917,6 +988,9 @@ used; `tw_search()`, `tw_get()`, and `tw_get_qualifiers()`, for example,
 store data in different files.
 
 `tw_query()` is never cached.
+
+See the the dedicated vignette for more details on caching:
+`vignette("caching")`.
 
 ## Requirements and installation issues
 
