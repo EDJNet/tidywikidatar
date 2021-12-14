@@ -190,6 +190,16 @@ tw_get_qualifiers <- function(id,
                               disconnect_db = TRUE,
                               wait = 0,
                               include_id_and_p = TRUE) {
+  if (is.data.frame(id) == TRUE) {
+    id <- id$id
+  }
+
+  unique_id <- tw_check_qid(id)
+
+  if (length(unique_id) == 0) {
+    return(NULL)
+  }
+
   if (length(id) == 0 | length(p) == 0) {
     usethis::ui_stop("`tw_get_qualifiers()` requires `id` and `p` of length 1 or more.")
   } else if (length(id) == 1 & length(p) == 1) {
