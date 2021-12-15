@@ -61,7 +61,13 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers_df.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter.html</loc>
@@ -161,6 +167,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_query.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search.html</loc>
