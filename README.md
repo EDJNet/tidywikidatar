@@ -815,18 +815,18 @@ tw_query(query = query_df)
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 755 × 3
-#>    id       label                             description                       
-#>    <chr>    <chr>                             <chr>                             
-#>  1 Q2527332 Jeanne Dientje Woerdeman-Evenhuis <NA>                              
-#>  2 Q2545170 Jikke Ozinga                      <NA>                              
-#>  3 Q2576811 Willemijn Posthumus-van der Goot  Dutch author                      
-#>  4 Q2589281 Betty Trompetter                  <NA>                              
-#>  5 Q2592269 Adhe Tapontsang                   Tibetan refugee                   
-#>  6 Q2602448 Yvonne Useldinger                 Luxembourgian politician (1921-20…
-#>  7 Q2609244 Tina Strobos                      Dutch physician and psychiatrist;…
-#>  8 Q2619347 Dinie Aikema                      <NA>                              
-#>  9 Q2635392 Anda Kerkhoven                    Dutch resistance fighter          
-#> 10 Q2639558 Jet Berdenis van Berlekom         <NA>                              
+#>    id      label                  description                                   
+#>    <chr>   <chr>                  <chr>                                         
+#>  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
+#>  2 Q276410 Marga Klompé           Dutch politician (1912-1986)                  
+#>  3 Q283654 Maria Skobtsova        Russian saint                                 
+#>  4 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…
+#>  5 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  
+#>  6 Q324718 Martha Dodd            American spy for the Soviet Union             
+#>  7 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…
+#>  8 Q394661 Agnes Wendland         <NA>                                          
+#>  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
+#> 10 Q443262 Lozen                  Apache prophetess and warrior                 
 #> # … with 745 more rows
 ```
 
@@ -853,18 +853,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 124 × 3
-#>    id        label                           description                        
-#>    <chr>     <chr>                           <chr>                              
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
-#>  2 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
-#>  3 Q88766484 Paulette Fink                   résistante et activiste juive      
-#>  4 Q89477308 Odette Elina                    <NA>                               
-#>  5 Q89582569 Frida Wattenberg                résistante française               
-#>  6 Q93611735 Odette Nilès                    résistante communiste française    
-#>  7 Q3009723  Cécile Cerf                     résistante française               
-#>  8 Q3081207  Francine Fromond                <NA>                               
-#>  9 Q3132483  Henriette Moriamé               <NA>                               
-#> 10 Q3176052  Jeanne Gaillard                 historienne et résistante française
+#>    id         label                           description                       
+#>    <chr>      <chr>                           <chr>                             
+#>  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  
+#>  2 Q5257705   Denise Laroque                  <NA>                              
+#>  3 Q109251934 Jeanne Bleton-Barraud           résistante française              
+#>  4 Q109252587 Louise Losserand                résistante et déportée française  
+#>  5 Q109406143 Esther Poggio                   résistante française              
+#>  6 Q42887213  Marie-Thérèse de Poix           infirmière et résistante française
+#>  7 Q47075790  Anne-Marie Bigot                juste parmi les Nations           
+#>  8 Q47107820  Madeleine Clément               juste parmi les Nations           
+#>  9 Q47367488  Marie-Louise Cloarec            résistante française              
+#> 10 Q47396640  Suzanne Mertzizen               résistante française              
 #> # … with 114 more rows
 ```
 
@@ -904,7 +904,7 @@ Keep in mind that Wikidata queries are not cached locally.
 Besides querying Wikidata and using the basic `tw_search()` function
 described above, `tidywikidatar` includes function that facilitate
 retrieving Wikidata identifiers based on Wikipedia pages, as well as the
-Wikidata identifiers corresponding to all the Wikipedia pages includen
+Wikidata identifiers corresponding to all the Wikipedia pages included
 in a given Wikipedia page. This may be useful in particular on Wikipedia
 pages that are lists of other pages, or as an alternative approach for
 finding relations between various Wikidata items.
@@ -967,7 +967,7 @@ wikipedia_df %>%
   dplyr::filter(value == "Q5")
 ```
 
-All functions that interact with Wikipedia and the related Mediawiki API
+All functions that interact with Wikipedia and the related MediaWiki API
 are not cached locally at this stage.
 
 ## How caching works

@@ -8,7 +8,7 @@
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @return A charachter vector of length 1, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples
@@ -104,7 +104,7 @@ tw_get_property_label <- function(property,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @return A charachter vector of length 1, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples

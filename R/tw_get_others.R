@@ -9,7 +9,7 @@
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested languae.
+#' @return A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples
@@ -75,7 +75,7 @@ tw_get_label <- function(id,
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata description in the requested languae.
+#' @return A charachter vector of length 1, with the Wikidata description in the requested language.
 #' @export
 #'
 #' @examples
@@ -129,7 +129,7 @@ tw_get_description <- function(id,
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested languae.
+#' @return A charachter vector of length 1, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples

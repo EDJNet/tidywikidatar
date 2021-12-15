@@ -13,7 +13,7 @@ tw_write_qualifiers_to_cache(
 )
 }
 \arguments{
-\item{qualifiers_df}{A data frame with two columns typically generated with \code{tw_get(include_id_and_p = FALSE)}.}
+\item{qualifiers_df}{A data frame typically generated with \code{tw_get_qualifiers()}.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 

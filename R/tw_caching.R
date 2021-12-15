@@ -1,6 +1,6 @@
 #' Creates the base cache folder where `tidywikidatar` caches data.
 #'
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for interactive sessions).
+#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
 #'
 #' @return Nothing, used for its side effects.
 #' @export

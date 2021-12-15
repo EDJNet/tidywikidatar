@@ -6,10 +6,10 @@ test_that("Preferred or latest result is chosen when requested", {
   tw_enable_cache()
   tw_create_cache_folder(ask = FALSE)
 
-  q_df <- tw_get_qualifiers(
+  q_df <- tw_get_qualifiers_single(
     id = c("Q220"),
     p = "P17",
-    language = "en"
+    language = "en",
   )
 
 
@@ -32,7 +32,7 @@ test_that("Preferred or latest result is chosen when requested", {
 
     latest_v <- q_df %>%
       dplyr::filter(qualifier_property=="P580") %>%
-      dplyr::arrange(value) %>%
+      dplyr::arrange(qualifier_value) %>%
       dplyr::slice_tail(n = 1) %>%
       dplyr::pull(qualifier_id)
   },

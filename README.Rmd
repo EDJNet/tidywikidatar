@@ -474,7 +474,7 @@ Keep in mind that Wikidata queries are not cached locally.
 
 ## Getting Wikidata identifiers from a Wikipedia page
 
-Besides querying Wikidata and using the basic `tw_search()` function described above, `tidywikidatar` includes function that facilitate retrieving Wikidata identifiers based on Wikipedia pages, as well as the Wikidata identifiers corresponding to all the Wikipedia pages includen in a given Wikipedia page. This may be useful in particular on Wikipedia pages that are lists of other pages, or as an alternative approach for finding relations between various Wikidata items.
+Besides querying Wikidata and using the basic `tw_search()` function described above, `tidywikidatar` includes function that facilitate retrieving Wikidata identifiers based on Wikipedia pages, as well as the Wikidata identifiers corresponding to all the Wikipedia pages included in a given Wikipedia page. This may be useful in particular on Wikipedia pages that are lists of other pages, or as an alternative approach for finding relations between various Wikidata items.
 
 In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).
 
@@ -513,7 +513,7 @@ wikipedia_df %>%
   dplyr::filter(value == "Q5")
 ```
 
-All functions that interact with Wikipedia and the related Mediawiki API are not cached locally at this stage. 
+All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage. 
 
 ## How caching works
 

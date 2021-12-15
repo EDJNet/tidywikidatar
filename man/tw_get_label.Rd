@@ -33,7 +33,7 @@ tw_get_label(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested languae.
+A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested language.
 }
 \description{
 Get Wikidata label in given language

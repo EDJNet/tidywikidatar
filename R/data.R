@@ -19,3 +19,8 @@
 #' }
 #' @source \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}
 "tw_qid_meps"
+
+#' A zero-rows tibble used internally when `tw_get_qualifiers()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 8 columns
+"tw_empty_qualifiers_df"

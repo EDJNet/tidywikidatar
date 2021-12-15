@@ -242,8 +242,8 @@ tw_get_property_same_length <- function(id,
     if (latest_start_time == TRUE) {
       qualifiers_latest_start_time_df <- qualifiers_df %>%
         dplyr::filter(.data$qualifier_property == "P580") %>%
-        dplyr::distinct(.data$id, .data$qualifier_id, .data$value, .keep_all = TRUE) %>%
-        dplyr::arrange(.data$value) %>%
+        dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_value, .keep_all = TRUE) %>%
+        dplyr::arrange(.data$qualifier_value) %>%
         dplyr::group_by(.data$id) %>%
         dplyr::slice_tail(n = 1) %>%
         dplyr::ungroup() %>%
