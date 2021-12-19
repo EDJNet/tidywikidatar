@@ -46,23 +46,92 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
   api_url
 }
 
-#' Gets the Wikidata id of a Wikipedia page
+#' Gets the Wikidata Q identifier of Wikipedia pages
 #'
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A character vector of Wikidata identifiers.
 #' @export
 #'
 #' @examples
 #' if (interactive()) {
-#'   tw_get_id_of_wikipedia_page(title = "Margaret Mead", language = "en")
+#'   tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
 #' }
-tw_get_id_of_wikipedia_page <- function(url = NULL,
-                                        title = NULL,
-                                        language = tidywikidatar::tw_get_language()) {
-  wikidata_id <- stringr::str_c(
+tw_get_qid_of_wikipedia_page <- function(url = NULL,
+                                         title = NULL,
+                                         language = tidywikidatar::tw_get_language(),
+                                         cache = NULL,
+                                         overwrite_cache = FALSE,
+                                         cache_connection = NULL,
+                                         disconnect_db = TRUE,
+                                         wait = 0) {
+  if (is.null(url) == FALSE) {
+    purrr::map_chr(
+      .x = url,
+      .f = function(current_url) {
+        Sys.sleep(time = wait)
+        tw_get_qid_of_wikipedia_page_single(
+          url = current_url,
+          title = NULL,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
+      }
+    )
+  } else if (is.null(title) == FALSE) {
+    purrr::map_chr(
+      .x = title,
+      .f = function(current_title) {
+        Sys.sleep(time = wait)
+        tw_get_qid_of_wikipedia_page_single(
+          url = NULL,
+          title = current_title,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          disconnect_db = disconnect_db
+        )
+      }
+    )
+  }
+}
+
+#' Gets the Wikidata id of a Wikipedia page
+#'
+#' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
+#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#'
+#' @return A character vector of length one with a Wikidata Q identifier.
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   tw_get_qid_of_wikipedia_page_single(title = "Margaret Mead", language = "en")
+#' }
+tw_get_qid_of_wikipedia_page_single <- function(url = NULL,
+                                                title = NULL,
+                                                language = tidywikidatar::tw_get_language(),
+                                                cache = NULL,
+                                                overwrite_cache = FALSE,
+                                                cache_connection = NULL,
+                                                disconnect_db = TRUE) {
+  wikidata_id_l <- stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,
       title = title,
@@ -70,7 +139,10 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
     ),
     "&prop=pageprops"
   ) %>%
-    jsonlite::read_json() %>%
+    jsonlite::read_json()
+
+
+  wikidata_id <- wikidata_id_l %>%
     purrr::pluck(
       "query",
       "pages",
@@ -78,6 +150,7 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
       "pageprops",
       "wikibase_item"
     )
+
 
   if (length(wikidata_id) == 0) {
     as.character(NA)
@@ -87,7 +160,7 @@ tw_get_id_of_wikipedia_page <- function(url = NULL,
 }
 
 
-#' Get all Wikidata id of all Wikipedia pages included in a given page
+#' Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page
 #'
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get_id_from_wikipedia.R
 \name{tw_get_links_from_wikipedia_page}
 \alias{tw_get_links_from_wikipedia_page}
-\title{Get all Wikidata id of all Wikipedia pages included in a given page}
+\title{Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page}
 \usage{
 tw_get_links_from_wikipedia_page(
   url = NULL,
@@ -21,7 +21,7 @@ tw_get_links_from_wikipedia_page(
 A data frame (a tibble) with four columns: \code{wikipedia_title}, \code{wikipedia_id}, \code{wikidata_id}, \code{wikidata_description}.
 }
 \description{
-Get all Wikidata id of all Wikipedia pages included in a given page
+Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page
 }
 \examples{
 if (interactive()) {
