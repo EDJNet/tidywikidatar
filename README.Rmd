@@ -55,6 +55,17 @@ remotes::install_github("EDJNet/tidywikidatar")
 
 - `tw_search()` always returns label and description in English (to be fixed)
 
+## Use cases and publicly available examples
+
+These articles or repository demonstrate some use cases for `tidywikidatar`:
+
+- [Finding out more about Members of the European Parliament with Wikidata](https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440)
+- [Retrieve details about Olympics 2020 medalists via Wikipedia and Wikidata](https://edjnet.github.io/olympics2020nuts/) / see also [this interactive map based on Wikidata](https://edjnet.github.io/olympics2020nuts/medalists_map.html)
+- [Which among the busiest air routes in Europe could actually be travelled by land?](https://edjnet.github.io/european_routes/)
+- [Finding gendered street names](https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77)
+
+While the code used there may not be fully compatible or be the most efficient with the latest version of Wikidata, they still provide a useful term of reference.
+
 ## Before you start
 
 This package assumes some familiarity with basic Wikidata concepts. For reference, see [the introduction on the official website](https://www.wikidata.org/wiki/Wikidata:Introduction).

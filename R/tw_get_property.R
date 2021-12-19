@@ -195,19 +195,20 @@ tw_get_property_same_length <- function(id,
       return(rep(as.character(NA), length(id)))
     } else {
       return(rep(as.character(NA), length(id)) %>%
-               as.list())
+        as.list())
     }
   }
 
-  if (preferred == TRUE|latest_start_time==TRUE) {
-    qualifiers_df <- tw_get_qualifiers(id = id,
-                                       p = p,
-                                       language = language,
-                                       cache = cache,
-                                       overwrite_cache = overwrite_cache,
-                                       cache_connection = cache_connection,
-                                       disconnect_db = disconnect_db,
-                                       wait = wait
+  if (preferred == TRUE | latest_start_time == TRUE) {
+    qualifiers_df <- tw_get_qualifiers(
+      id = id,
+      p = p,
+      language = language,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      wait = wait
     )
 
     if (preferred == TRUE) {
@@ -215,27 +216,30 @@ tw_get_property_same_length <- function(id,
         dplyr::filter(rank == "preferred") %>%
         dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_property, .keep_all = TRUE) %>%
         dplyr::transmute(.data$id,
-                         .data$property,
-                         value = .data$qualifier_id)
+          .data$property,
+          value = .data$qualifier_id
+        )
 
-      if (nrow(qualifiers_preferred_df)>0) {
+      if (nrow(qualifiers_preferred_df) > 0) {
         qualifiers_preferred_post_df <- purrr::map_dfr(
           .x = id,
           .f = function(current_id) {
             current_qualifiers_preferred_df <- qualifiers_preferred_df %>%
               dplyr::filter(.data$id == current_id)
-            if (nrow(current_qualifiers_preferred_df)>0) {
+            if (nrow(current_qualifiers_preferred_df) > 0) {
               current_qualifiers_preferred_df
             } else {
               property_df %>%
                 dplyr::filter(.data$id == current_id)
             }
-
-          })
+          }
+        )
         property_df <- property_df %>%
-          dplyr::right_join(y = qualifiers_preferred_post_df %>%
-                              dplyr::select(-.data$property),
-                            by = c("id", "value"))
+          dplyr::right_join(
+            y = qualifiers_preferred_post_df %>%
+              dplyr::select(-.data$property),
+            by = c("id", "value")
+          )
       }
     }
 
@@ -248,28 +252,31 @@ tw_get_property_same_length <- function(id,
         dplyr::slice_tail(n = 1) %>%
         dplyr::ungroup() %>%
         dplyr::transmute(.data$id,
-                         .data$property,
-                         value = .data$qualifier_id)
+          .data$property,
+          value = .data$qualifier_id
+        )
 
-      if (nrow(qualifiers_latest_start_time_df)>0) {
+      if (nrow(qualifiers_latest_start_time_df) > 0) {
         qualifiers_latest_start_time_post_df <- purrr::map_dfr(
           .x = id,
           .f = function(current_id) {
             current_latest_start_time_post_df <- qualifiers_latest_start_time_df %>%
               dplyr::filter(.data$id == current_id)
-            if (nrow(current_latest_start_time_post_df)>0) {
+            if (nrow(current_latest_start_time_post_df) > 0) {
               current_latest_start_time_post_df
             } else {
               property_df %>%
                 dplyr::filter(.data$id == current_id)
             }
-
-          })
+          }
+        )
 
         property_df <- property_df %>%
-          dplyr::right_join(y = qualifiers_latest_start_time_df %>%
-                              dplyr::select(-.data$property),
-                            by = c("id", "value"))
+          dplyr::right_join(
+            y = qualifiers_latest_start_time_df %>%
+              dplyr::select(-.data$property),
+            by = c("id", "value")
+          )
       }
     }
   }

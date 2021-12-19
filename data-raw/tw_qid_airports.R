@@ -1,5 +1,5 @@
 ## code to prepare `tw_qid_airports` dataset goes here
-library("dplyr",warn.conflicts = FALSE)
+library("dplyr", warn.conflicts = FALSE)
 
 api_url <- "https://www.wikidata.org/w/api.php?action=query&list=backlinks&blnamespace=0&bllimit=500&bltitle=Property:P239&format=json"
 
@@ -34,7 +34,8 @@ while (is.null(continue_check) == FALSE & page_number < 10000) {
 
 all_pages <- purrr::map(
   .x = all_jsons,
-  .f = purrr::pluck,"query", "backlinks") %>%
+  .f = purrr::pluck, "query", "backlinks"
+) %>%
   purrr::flatten()
 
 aiport_qid_df <- purrr::map_dfr(
@@ -43,7 +44,8 @@ aiport_qid_df <- purrr::map_dfr(
     tibble::tibble(
       qid = current_page %>%
         purrr::pluck(
-          "title")
+          "title"
+        )
     )
   }
 )

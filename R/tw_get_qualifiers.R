@@ -39,17 +39,17 @@ tw_get_qualifiers_single <- function(id,
       )
 
 
-        return(db_result %>%
-          tibble::as_tibble())
+      return(db_result %>%
+        tibble::as_tibble())
     }
   }
 
   Sys.sleep(time = wait)
 
   w <- tryCatch(WikidataR::get_item(id = id),
-                error = function(e) {
-                  as.character(e[[1]])
-                }
+    error = function(e) {
+      as.character(e[[1]])
+    }
   )
 
   if (is.character(w)) {
@@ -380,7 +380,6 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
                                       cache_connection = NULL,
                                       disconnect_db = TRUE,
                                       ask = TRUE) {
-
   db <- tw_connect_to_cache(connection = cache_connection, language = language)
 
   table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)

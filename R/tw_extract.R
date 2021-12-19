@@ -15,12 +15,11 @@
 tw_extract_qualifier <- function(id,
                                  p,
                                  w = NULL) {
-
   if (is.null(w)) {
     w <- tryCatch(WikidataR::get_item(id = id),
-                  error = function(e) {
-                    as.character(e[[1]])
-                  }
+      error = function(e) {
+        as.character(e[[1]])
+      }
     )
 
     if (is.character(w)) {
@@ -81,7 +80,7 @@ tw_extract_qualifier <- function(id,
               dplyr::pull(.data$time)
           } else {
             return(tidywikidatar::tw_empty_qualifiers_df %>%
-                     dplyr::select(-.data$id, -.data$property))
+              dplyr::select(-.data$id, -.data$property))
           }
 
 
