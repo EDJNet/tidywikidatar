@@ -2,7 +2,7 @@
 #'
 #' Mostly used internally
 #'
-#' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
+#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #'
@@ -46,9 +46,9 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
   api_url
 }
 
-#' Gets the Wikidata Q identifier of Wikipedia pages
+#' Gets the Wikidata Q identifier of one or more Wikipedia pages
 #'
-#' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
+#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
@@ -57,7 +57,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A character vector of Wikidata identifiers.
+#' @return A character vector of Wikidata Q identifiers.
 #' @export
 #'
 #' @examples
