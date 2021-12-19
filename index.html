@@ -824,10 +824,10 @@
 <p>Besides querying Wikidata and using the basic <code><a href="reference/tw_search.html">tw_search()</a></code> function described above, <code>tidywikidatar</code> includes function that facilitate retrieving Wikidata identifiers based on Wikipedia pages, as well as the Wikidata identifiers corresponding to all the Wikipedia pages included in a given Wikipedia page. This may be useful in particular on Wikipedia pages that are lists of other pages, or as an alternative approach for finding relations between various Wikidata items.</p>
 <p>In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_id_of_wikipedia_page.html">tw_get_id_of_wikipedia_page</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">tw_get_id_of_wikipedia_page</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Q180099"</span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_id_of_wikipedia_page.html">tw_get_id_of_wikipedia_page</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/Margaret_Mead"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">tw_get_id_of_wikipedia_page</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/Margaret_Mead"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Q180099"</span></code></pre></div>
 <p>Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
