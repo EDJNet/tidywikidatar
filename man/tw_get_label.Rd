@@ -16,7 +16,7 @@ tw_get_label(
 )
 }
 \arguments{
-\item{id}{A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
+\item{id}{A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -33,7 +33,7 @@ tw_get_label(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A charachter vector of the same length as the vector of id given, with the Wikidata label in the requested language.
+A character vector of the same length as the vector of id given, with the Wikidata label in the requested language.
 }
 \description{
 Get Wikidata label in given language

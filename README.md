@@ -73,6 +73,26 @@ more efficient.
 -   `tw_search()` always returns label and description in English (to be
     fixed)
 
+## Use cases and publicly available examples
+
+These articles or repository demonstrate some use cases for
+`tidywikidatar`:
+
+-   [Finding out more about Members of the European Parliament with
+    Wikidata](https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440)
+-   [Retrieve details about Olympics 2020 medalists via Wikipedia and
+    Wikidata](https://edjnet.github.io/olympics2020nuts/) / see also
+    [this interactive map based on
+    Wikidata](https://edjnet.github.io/olympics2020nuts/medalists_map.html)
+-   [Which among the busiest air routes in Europe could actually be
+    travelled by land?](https://edjnet.github.io/european_routes/)
+-   [Finding gendered street
+    names](https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77)
+
+While the code used there may not be fully compatible or be the most
+efficient with the latest version of Wikidata, they still provide a
+useful term of reference.
+
 ## Before you start
 
 This package assumes some familiarity with basic Wikidata concepts. For
@@ -499,7 +519,7 @@ more values for a given property.
 
 However, some properties have additional qualifiers.
 
-As an example, let’s look at someone whose life is seemlingly less
+As an example, let’s look at someone whose life is seemingly less
 adventurous than that of Margaret Mead, but whose Wikidata page has
 properties with a more interesting combination of qualifiers: the
 current president of the European Parliament David Sassoli
@@ -527,20 +547,20 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 21 × 7
-#>    id       property qualifier_id qualifier_property value           rank    set
-#>    <chr>    <chr>    <chr>        <chr>              <chr>           <chr> <int>
-#>  1 Q2391857 P39      Q27169       P2937              Q17315694       norm…     1
-#>  2 Q2391857 P39      Q27169       P580               +2014-07-01T00… norm…     1
-#>  3 Q2391857 P39      Q27169       P4100              Q507343         norm…     1
-#>  4 Q2391857 P39      Q27169       P768               Q3677909        norm…     1
-#>  5 Q2391857 P39      Q27169       P1268              Q47729          norm…     1
-#>  6 Q2391857 P39      Q27169       P2715              Q1376095        norm…     1
-#>  7 Q2391857 P39      Q740126      P580               +2019-07-03T00… norm…     2
-#>  8 Q2391857 P39      Q740126      P1365              Q440710         norm…     2
-#>  9 Q2391857 P39      Q27169       P2937              Q4644021        norm…     3
-#> 10 Q2391857 P39      Q27169       P580               +2009-07-14T00… norm…     3
-#> # … with 11 more rows
+#> # A tibble: 21 × 8
+#>    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…
+#>    <chr> <chr>    <chr>        <chr>            <chr>           <chr>           
+#>  1 Q239… P39      Q27169       P2937            Q17315694       wikibase-entity…
+#>  2 Q239… P39      Q27169       P580             +2014-07-01T00… time            
+#>  3 Q239… P39      Q27169       P4100            Q507343         wikibase-entity…
+#>  4 Q239… P39      Q27169       P768             Q3677909        wikibase-entity…
+#>  5 Q239… P39      Q27169       P1268            Q47729          wikibase-entity…
+#>  6 Q239… P39      Q27169       P2715            Q1376095        wikibase-entity…
+#>  7 Q239… P39      Q740126      P580             +2019-07-03T00… time            
+#>  8 Q239… P39      Q740126      P1365            Q440710         wikibase-entity…
+#>  9 Q239… P39      Q27169       P2937            Q4644021        wikibase-entity…
+#> 10 Q239… P39      Q27169       P580             +2009-07-14T00… time            
+#> # … with 11 more rows, and 2 more variables: rank <chr>, set <dbl>
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -556,7 +576,7 @@ qualifiers_labelled_df <- qualifiers_df %>%
     what = tw_get_label(id = qualifier_id, language = "en"),
     how = tw_get_property_label(property = qualifier_property, language = "en"),
     value = purrr::map_chr(
-      .x = value,
+      .x = qualifier_value,
       .f = function(x) {
         if (stringr::str_starts(
           string = x,
@@ -759,7 +779,7 @@ determine that it is not, in fact, a contemporary country).
 
 ## Queries
 
-All of the above works similarly to how we often use websistes such as
+All of the above works similarly to how we often use websites such as
 Wikipedia, or search engines: we search for something specific to find
 information about it. Wikidata, however, has powerful tools for complex
 queries. Think something like “give me all of these fields for all items
@@ -807,14 +827,14 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 755 Columns: 3
+#> Rows: 759 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 755 × 3
+#> # A tibble: 759 × 3
 #>    id      label                  description                                   
 #>    <chr>   <chr>                  <chr>                                         
 #>  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
@@ -827,7 +847,7 @@ tw_query(query = query_df)
 #>  8 Q394661 Agnes Wendland         <NA>                                          
 #>  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
 #> 10 Q443262 Lozen                  Apache prophetess and warrior                 
-#> # … with 745 more rows
+#> # … with 749 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -845,27 +865,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 124 Columns: 3
+#> Rows: 125 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 124 × 3
-#>    id         label                           description                       
-#>    <chr>      <chr>                           <chr>                             
-#>  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  
-#>  2 Q5257705   Denise Laroque                  <NA>                              
-#>  3 Q109251934 Jeanne Bleton-Barraud           résistante française              
-#>  4 Q109252587 Louise Losserand                résistante et déportée française  
-#>  5 Q109406143 Esther Poggio                   résistante française              
-#>  6 Q42887213  Marie-Thérèse de Poix           infirmière et résistante française
-#>  7 Q47075790  Anne-Marie Bigot                juste parmi les Nations           
-#>  8 Q47107820  Madeleine Clément               juste parmi les Nations           
-#>  9 Q47367488  Marie-Louise Cloarec            résistante française              
-#> 10 Q47396640  Suzanne Mertzizen               résistante française              
-#> # … with 114 more rows
+#> # A tibble: 125 × 3
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q18121470 Antoinette d'Harcourt           poétesse et résistante française   
+#>  3 Q19300907 Lucette Pla-Justafré            enseignante et personnalité politi…
+#>  4 Q19606396 Anise Postel-Vinay              résistante française               
+#>  5 Q19631204 Cécile Rol-Tanguy               résistante française               
+#>  6 Q20895003 Hélène Jakubowicz               résistante française               
+#>  7 Q21009704 Madeleine Passot                résistante communiste française    
+#>  8 Q21069334 Mireille Albrecht               fille de la résistante Berty Albre…
+#>  9 Q5257705  Denise Laroque                  <NA>                               
+#> 10 Q6837011  Michelle Dubois                 <NA>                               
+#> # … with 115 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -884,7 +904,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 124 Columns: 3
+#> Rows: 125 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -914,13 +934,19 @@ a Wikipedia page, which give the same result (the user, however, should
 be mindful of redirection if using the title).
 
 ``` r
-tw_get_id_of_wikipedia_page(title = "Margaret Mead")
-#> [1] "Q180099"
+tw_get_qid_of_wikipedia_page(title = "Margaret Mead")
+#> # A tibble: 1 × 7
+#>   title  wikipedia_title wikipedia_id qid   description  disambiguation language
+#>   <chr>  <chr>                  <int> <chr> <chr>        <lgl>          <chr>   
+#> 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en
 ```
 
 ``` r
-tw_get_id_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
-#> [1] "Q180099"
+tw_get_qid_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+#> # A tibble: 1 × 7
+#>   title  wikipedia_title wikipedia_id qid   description  disambiguation language
+#>   <chr>  <chr>                  <int> <chr> <chr>        <lgl>          <chr>   
+#> 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en
 ```
 
 Depending on the workflow, it is also possible to get the full link to
@@ -940,19 +966,19 @@ wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_links_from_wikipedia_page()
 
 wikipedia_df
-#> # A tibble: 891 × 4
-#>    wikipedia_title                     wikipedia_id wikidata_id wikidata_descri…
-#>    <chr>                                      <int> <chr>       <chr>           
-#>  1 Alex Barker                                   NA <NA>        <NA>            
-#>  2 Alfred S. Hayes                               NA <NA>        <NA>            
-#>  3 Blackberry Winter: My Earlier Years           NA <NA>        <NA>            
-#>  4 Continuities in Cultural Evolution            NA <NA>        <NA>            
-#>  5 Culture and Commitment                        NA <NA>        <NA>            
-#>  6 John P. Gillin                                NA <NA>        <NA>            
-#>  7 A Darwinian Left                         3890352 Q1762274    1999 book by Pe…
-#>  8 A Rap on Race                           14527943 Q4659145    Book by Margare…
-#>  9 Abby Kelley                              4056835 Q2820848    <NA>            
-#> 10 Abigail Adams                             102745 Q206191     2nd First Lady …
+#> # A tibble: 891 × 5
+#>    wikipedia_title      wikipedia_id wikidata_id wikidata_description   language
+#>    <chr>                       <int> <chr>       <chr>                  <chr>   
+#>  1 Alex Barker                    NA <NA>        <NA>                   en      
+#>  2 Alfred S. Hayes                NA <NA>        <NA>                   en      
+#>  3 Blackberry Winter: …           NA <NA>        <NA>                   en      
+#>  4 Continuities in Cul…           NA <NA>        <NA>                   en      
+#>  5 Culture and Commitm…           NA <NA>        <NA>                   en      
+#>  6 John P. Gillin                 NA <NA>        <NA>                   en      
+#>  7 A Darwinian Left          3890352 Q1762274    1999 book by Peter Si… en      
+#>  8 A Rap on Race            14527943 Q4659145    Book by Margaret Mead… en      
+#>  9 Abby Kelley               4056835 Q2820848    <NA>                   en      
+#> 10 Abigail Adams              102745 Q206191     2nd First Lady of the… en      
 #> # … with 881 more rows
 ```
 

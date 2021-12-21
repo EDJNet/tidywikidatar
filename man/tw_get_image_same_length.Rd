@@ -20,9 +20,9 @@ tw_get_image_same_length(
 )
 }
 \arguments{
-\item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
-\item{format}{A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+\item{format}{A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
 
 \item{as_tibble}{Defaults to FALSE. If TRUE, returns a data frame instead of a character vector.}
 
@@ -45,7 +45,7 @@ tw_get_image_same_length(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A charachter vector, corresponding to reference to the image in the requested format.
+A character vector, corresponding to reference to the image in the requested format.
 }
 \description{
 Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical

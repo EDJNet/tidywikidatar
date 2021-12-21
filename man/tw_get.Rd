@@ -15,7 +15,7 @@ tw_get(
 )
 }
 \arguments{
-\item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 

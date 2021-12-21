@@ -2,7 +2,7 @@
 #'
 #' This function is mostly used internally and for testing.
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param w An object of class Wikidata created with `WikidataR`, typically created with `WikidataR::get_item(id = id)`
 #'

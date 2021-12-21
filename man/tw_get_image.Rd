@@ -18,9 +18,9 @@ tw_get_image(
 )
 }
 \arguments{
-\item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
-\item{format}{A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+\item{format}{A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
 
 \item{width}{A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.}
 

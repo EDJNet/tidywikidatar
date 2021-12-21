@@ -14,11 +14,12 @@ tw_get_image_metadata(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 1,
+  attempts = 5
 )
 }
 \arguments{
-\item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{image_filename}{Defaults to NULL. If NULL, \code{image_filename} is obtained from the Wikidata id. If given, must be of the same length as id.}
 
@@ -36,10 +37,12 @@ tw_get_image_metadata(
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
 }
 \value{
-A charachter vector, corresponding to reference to the image in the requested format.
+A character vector, corresponding to reference to the image in the requested format.
 }
 \description{
 Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical

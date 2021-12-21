@@ -1,6 +1,6 @@
 #' Get Wikidata property of one or more items as a tidy data frame
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
@@ -96,7 +96,7 @@ tw_get_property <- function(id,
 
 #' Get Wikidata property of an item as a character vector of the same length as input
 #'
-#' @param id A characther vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param only_first Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.
 #' @param preferred Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.

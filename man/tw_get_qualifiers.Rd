@@ -16,7 +16,7 @@ tw_get_qualifiers(
 )
 }
 \arguments{
-\item{id}{A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
 
 \item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
 

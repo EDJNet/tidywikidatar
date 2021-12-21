@@ -1,6 +1,6 @@
 #' Get label of a Wikidata property in a given language
 #'
-#' @param property A characther vector. Each element must start with P, e.g. "P31".
+#' @param property A character vector. Each element must start with P, e.g. "P31".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
@@ -8,7 +8,7 @@
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested language.
+#' @return A character vector of length 1, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples
@@ -97,14 +97,14 @@ tw_get_property_label <- function(property,
 
 #' Get description of a Wikidata property in a given language
 #'
-#' @param property A characther vector of length 1, must start with P, e.g. "P31".
+#' @param property A character vector of length 1, must start with P, e.g. "P31".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector of length 1, with the Wikidata label in the requested language.
+#' @return A character vector of length 1, with the Wikidata label in the requested language.
 #' @export
 #'
 #' @examples

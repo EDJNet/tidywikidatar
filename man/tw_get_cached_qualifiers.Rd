@@ -13,7 +13,7 @@ tw_get_cached_qualifiers(
 )
 }
 \arguments{
-\item{id}{A characther vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
 
 \item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
 

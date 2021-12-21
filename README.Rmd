@@ -293,7 +293,7 @@ In most cases, things are quite straightforward: each item has one or more value
 
 However, some properties have additional qualifiers.
 
-As an example, let's look at someone whose life is seemlingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+As an example, let's look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
 
 If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property:P39)), we find the following:
 
@@ -324,7 +324,7 @@ qualifiers_labelled_df <- qualifiers_df %>%
     what = tw_get_label(id = qualifier_id, language = "en"),
     how = tw_get_property_label(property = qualifier_property, language = "en"),
     value = purrr::map_chr(
-      .x = value,
+      .x = qualifier_value,
       .f = function(x) {
         if (stringr::str_starts(
           string = x,
@@ -419,7 +419,7 @@ If none of the above works, then you may still be able to get consistent results
 
 ## Queries
 
-All of the above works similarly to how we often use websistes such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like "give me all of these fields for all items that have this value for this property, but not that other value for that other property". 
+All of the above works similarly to how we often use websites such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like "give me all of these fields for all items that have this value for this property, but not that other value for that other property". 
 
 To achieve this, you can run queries, following [instructions on Wikidata.org](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples). From R, you would run those using `WikidataQueryServiceR::query_wikidata()`. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes. 
 
@@ -490,12 +490,12 @@ Besides querying Wikidata and using the basic `tw_search()` function described a
 In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).
 
 ```{r}
-tw_get_id_of_wikipedia_page(title = "Margaret Mead")
+tw_get_qid_of_wikipedia_page(title = "Margaret Mead")
 ```
 
 
 ```{r}
-tw_get_id_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+tw_get_qid_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 ```
 
 Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier. 
