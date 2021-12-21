@@ -52,22 +52,23 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_get_qid_of_wikipedia_page_single</span><span class="op">(</span>
-  url <span class="op">=</span> <span class="cn">NULL</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
+  url <span class="op">=</span> <span class="cn">NULL</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   cache <span class="op">=</span> <span class="cn">NULL</span>,
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
-  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
+  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,
+  wait <span class="op">=</span> <span class="fl">0</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>url</dt>
-<dd><p>Full URL to a Wikipedia page. If given, title and language can be left empty.</p></dd>
-<dt>title</dt>
+    <dl><dt>title</dt>
 <dd><p>Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.</p></dd>
+<dt>url</dt>
+<dd><p>Full URL to a Wikipedia page. If given, title and language can be left empty.</p></dd>
 <dt>language</dt>
 <dd><p>Two-letter language code used to define the Wikipedia version to use. Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". If url given, this can be left empty.</p></dd>
 <dt>cache</dt>
@@ -78,10 +79,12 @@
 <dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
 <dt>disconnect_db</dt>
 <dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
+<dt>wait</dt>
+<dd><p>In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A character vector of length one with a Wikidata Q identifier.</p>
+    <p>A a data frame (a tibble) with five columns: <code>wikipedia_title</code>, <code>wikipedia_id</code>, <code>wikidata_id</code>, <code>wikidata_description</code>, and <code>language</code>.</p>
     </div>
 
     <div class="section level2">
