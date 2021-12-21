@@ -42,7 +42,7 @@
 # tidywikidatar 0.5.0
 
 * new feature: `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property, as well as value type of the output (new format incompatible with previous cache)
-* `tw_get_qid_of_wikipedia_page()` now caches results, and provides more consisent result as data frame
+* `tw_get_qid_of_wikipedia_page()` now caches results, and provides more consistent result as data frame
 * introduce `tw_get_p()` as an alias of `tw_get_property_same_length()` for brevity
 * introduce new parameters in `tw_get_p()` to deal with common pattern when only "preferred" or most recent property should be returned, rather than whatever Wikidata has first in the list, and add new section in the readme
 * add example datasets for illustrative purposes and forthcoming additional vignettes and examples, `tw_qid_meps` and `tw_qid_airports`
