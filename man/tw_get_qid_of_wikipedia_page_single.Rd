@@ -5,19 +5,20 @@
 \title{Gets the Wikidata id of a Wikipedia page}
 \usage{
 tw_get_qid_of_wikipedia_page_single(
-  url = NULL,
   title = NULL,
+  url = NULL,
   language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
-  disconnect_db = TRUE
+  disconnect_db = TRUE,
+  wait = 0
 )
 }
 \arguments{
-\item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
-
 \item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
+
+\item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
 
 \item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
 
@@ -28,9 +29,11 @@ tw_get_qid_of_wikipedia_page_single(
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A character vector of length one with a Wikidata Q identifier.
+A a data frame (a tibble) with five columns: \code{wikipedia_title}, \code{wikipedia_id}, \code{wikidata_id}, \code{wikidata_description}, and \code{language}.
 }
 \description{
 Gets the Wikidata id of a Wikipedia page

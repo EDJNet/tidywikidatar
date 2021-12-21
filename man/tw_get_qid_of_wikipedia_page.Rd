@@ -33,7 +33,7 @@ tw_get_qid_of_wikipedia_page(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A character vector of Wikidata Q identifiers.
+A a data frame with six columns, including \code{qid} with Wikidata identifiers, and a logical \code{disambiguation} to flag when disambiguation pages are returned.
 }
 \description{
 Gets the Wikidata Q identifier of one or more Wikipedia pages
@@ -41,5 +41,8 @@ Gets the Wikidata Q identifier of one or more Wikipedia pages
 \examples{
 if (interactive()) {
   tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
+
+  # check when Wikipedia returns disambiguation page
+  tw_get_qid_of_wikipedia_page(title = c("Rome","London", "New York", "Vienna"))
 }
 }

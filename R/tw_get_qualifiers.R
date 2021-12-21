@@ -64,6 +64,7 @@ tw_get_qualifiers_single <- function(id,
       qualifiers_df = qualifiers_df,
       language = language,
       overwrite_cache = overwrite_cache,
+      cache_connection = cache_connection,
       disconnect_db = disconnect_db
     )
   }
@@ -137,6 +138,7 @@ tw_get_qualifiers <- function(id,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
+            cache_connection = cache_connection,
             disconnect_db = FALSE,
             wait = wait
           )
@@ -194,6 +196,7 @@ tw_get_qualifiers <- function(id,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
+              cache_connection = cache_connection,
               disconnect_db = FALSE,
               wait = wait
             )
@@ -327,7 +330,8 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
                                          overwrite_cache = FALSE,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE) {
-  db <- tw_connect_to_cache(connection = cache_connection, language = language)
+  db <- tw_connect_to_cache(connection = cache_connection,
+                            language = language)
 
   table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
 
@@ -380,9 +384,11 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
                                       cache_connection = NULL,
                                       disconnect_db = TRUE,
                                       ask = TRUE) {
-  db <- tw_connect_to_cache(connection = cache_connection, language = language)
+  db <- tw_connect_to_cache(connection = cache_connection,
+                            language = language)
 
-  table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
+  table_name <- tw_get_cache_table_name(type = "qualifiers",
+                                        language = language)
 
   if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, nothing to delete
@@ -393,6 +399,7 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
     DBI::dbRemoveTable(conn = db, name = table_name)
     usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
   }
+
   if (disconnect_db == TRUE) {
     DBI::dbDisconnect(db)
   }
