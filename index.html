@@ -96,6 +96,20 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="use-cases-and-publicly-available-examples">Use cases and publicly available examples<a class="anchor" aria-label="anchor" href="#use-cases-and-publicly-available-examples"></a>
+</h2>
+<p>These articles or repository demonstrate some use cases for <code>tidywikidatar</code>:</p>
+<ul>
+<li><a href="https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440" class="external-link">Finding out more about Members of the European Parliament with Wikidata</a></li>
+<li>
+<a href="https://edjnet.github.io/olympics2020nuts/" class="external-link">Retrieve details about Olympics 2020 medalists via Wikipedia and Wikidata</a> / see also <a href="https://edjnet.github.io/olympics2020nuts/medalists_map.html" class="external-link">this interactive map based on Wikidata</a>
+</li>
+<li><a href="https://edjnet.github.io/european_routes/" class="external-link">Which among the busiest air routes in Europe could actually be travelled by land?</a></li>
+<li><a href="https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77" class="external-link">Finding gendered street names</a></li>
+</ul>
+<p>While the code used there may not be fully compatible or be the most efficient with the latest version of Wikidata, they still provide a useful term of reference.</p>
+</div>
+<div class="section level2">
 <h2 id="before-you-start">Before you start<a class="anchor" aria-label="anchor" href="#before-you-start"></a>
 </h2>
 <p>This package assumes some familiarity with basic Wikidata concepts. For reference, see <a href="https://www.wikidata.org/wiki/Wikidata:Introduction" class="external-link">the introduction on the official website</a>.</p>
@@ -381,7 +395,7 @@
 </h2>
 <p>In most cases, things are quite straightforward: each item has one or more values for a given property.</p>
 <p>However, some properties have additional qualifiers.</p>
-<p>As an example, let’s look at someone whose life is seemlingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli (<a href="https://www.wikidata.org/wiki/Q2391857" class="external-link">Q2391857</a>).</p>
+<p>As an example, let’s look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli (<a href="https://www.wikidata.org/wiki/Q2391857" class="external-link">Q2391857</a>).</p>
 <p>If we look at his “positions held” (<a href="https://www.wikidata.org/wiki/Property:P39" class="external-link">P39</a>), we find the following:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span>
@@ -396,20 +410,20 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">qualifiers_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tw_get_qualifiers.html">tw_get_qualifiers</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q2391857"</span>, p <span class="op">=</span> <span class="st">"P39"</span><span class="op">)</span>
 <span class="va">qualifiers_df</span>
-<span class="co">#&gt; # A tibble: 21 × 7</span>
-<span class="co">#&gt;    id       property qualifier_id qualifier_property value           rank    set</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;              &lt;chr&gt;           &lt;chr&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 Q2391857 P39      Q27169       P2937              Q17315694       norm…     1</span>
-<span class="co">#&gt;  2 Q2391857 P39      Q27169       P580               +2014-07-01T00… norm…     1</span>
-<span class="co">#&gt;  3 Q2391857 P39      Q27169       P4100              Q507343         norm…     1</span>
-<span class="co">#&gt;  4 Q2391857 P39      Q27169       P768               Q3677909        norm…     1</span>
-<span class="co">#&gt;  5 Q2391857 P39      Q27169       P1268              Q47729          norm…     1</span>
-<span class="co">#&gt;  6 Q2391857 P39      Q27169       P2715              Q1376095        norm…     1</span>
-<span class="co">#&gt;  7 Q2391857 P39      Q740126      P580               +2019-07-03T00… norm…     2</span>
-<span class="co">#&gt;  8 Q2391857 P39      Q740126      P1365              Q440710         norm…     2</span>
-<span class="co">#&gt;  9 Q2391857 P39      Q27169       P2937              Q4644021        norm…     3</span>
-<span class="co">#&gt; 10 Q2391857 P39      Q27169       P580               +2009-07-14T00… norm…     3</span>
-<span class="co">#&gt; # … with 11 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 21 × 8</span>
+<span class="co">#&gt;    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt;           </span>
+<span class="co">#&gt;  1 Q239… P39      Q27169       P2937            Q17315694       wikibase-entity…</span>
+<span class="co">#&gt;  2 Q239… P39      Q27169       P580             +2014-07-01T00… time            </span>
+<span class="co">#&gt;  3 Q239… P39      Q27169       P4100            Q507343         wikibase-entity…</span>
+<span class="co">#&gt;  4 Q239… P39      Q27169       P768             Q3677909        wikibase-entity…</span>
+<span class="co">#&gt;  5 Q239… P39      Q27169       P1268            Q47729          wikibase-entity…</span>
+<span class="co">#&gt;  6 Q239… P39      Q27169       P2715            Q1376095        wikibase-entity…</span>
+<span class="co">#&gt;  7 Q239… P39      Q740126      P580             +2019-07-03T00… time            </span>
+<span class="co">#&gt;  8 Q239… P39      Q740126      P1365            Q440710         wikibase-entity…</span>
+<span class="co">#&gt;  9 Q239… P39      Q27169       P2937            Q4644021        wikibase-entity…</span>
+<span class="co">#&gt; 10 Q239… P39      Q27169       P580             +2009-07-14T00… time            </span>
+<span class="co">#&gt; # … with 11 more rows, and 2 more variables: rank &lt;chr&gt;, set &lt;dbl&gt;</span></code></pre></div>
 <p>As usual, Wikidata presents everything as combinations of properties and values. Let’s translate each of these to their respective label, and separate each set of information we have about the “positions held” by Mr. Sassoli:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">qualifiers_labelled_df</span> <span class="op">&lt;-</span> <span class="va">qualifiers_df</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
@@ -419,7 +433,7 @@
     what <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">qualifier_id</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span>,
     how <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_label.html">tw_get_property_label</a></span><span class="op">(</span>property <span class="op">=</span> <span class="va">qualifier_property</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span>,
     value <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span>
-      .x <span class="op">=</span> <span class="va">value</span>,
+      .x <span class="op">=</span> <span class="va">qualifier_value</span>,
       .f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
         <span class="kw">if</span> <span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_starts.html" class="external-link">str_starts</a></span><span class="op">(</span>
           string <span class="op">=</span> <span class="va">x</span>,
@@ -718,7 +732,7 @@
 <div class="section level2">
 <h2 id="queries">Queries<a class="anchor" aria-label="anchor" href="#queries"></a>
 </h2>
-<p>All of the above works similarly to how we often use websistes such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like “give me all of these fields for all items that have this value for this property, but not that other value for that other property”.</p>
+<p>All of the above works similarly to how we often use websites such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like “give me all of these fields for all items that have this value for this property, but not that other value for that other property”.</p>
 <p>To achieve this, you can run queries, following <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples" class="external-link">instructions on Wikidata.org</a>. From R, you would run those using <code><a href="https://rdrr.io/pkg/WikidataQueryServiceR/man/query_wikidata.html" class="external-link">WikidataQueryServiceR::query_wikidata()</a></code>. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes.</p>
 <p><code>tidiwikidatar</code> does not currently plan to deal with complex queries. However, at this stage it has a basic function, <code>tw_query</code>, which should instantly make sense for R users.</p>
 <p>Say, for example, you are interested in all women (P21 == Q6581072) who are resistance fighters (P106 == Q6581072).</p>
@@ -743,14 +757,14 @@
 <p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 755 Columns: 3</span>
+<span class="co">#&gt; Rows: 759 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
-<span class="co">#&gt; # A tibble: 755 × 3</span>
+<span class="co">#&gt; # A tibble: 759 × 3</span>
 <span class="co">#&gt;    id      label                  description                                   </span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;                                         </span>
 <span class="co">#&gt;  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         </span>
@@ -763,7 +777,7 @@
 <span class="co">#&gt;  8 Q394661 Agnes Wendland         &lt;NA&gt;                                          </span>
 <span class="co">#&gt;  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          </span>
 <span class="co">#&gt; 10 Q443262 Lozen                  Apache prophetess and warrior                 </span>
-<span class="co">#&gt; # … with 745 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 749 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142" class="external-link">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27" class="external-link">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -773,27 +787,27 @@
   <span class="st">"P27"</span>, <span class="st">"Q142"</span>
 <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># Country of citizenship: France</span>
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"it"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 124 Columns: 3</span>
+<span class="co">#&gt; Rows: 125 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
-<span class="co">#&gt; # A tibble: 124 × 3</span>
-<span class="co">#&gt;    id         label                           description                       </span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;                           &lt;chr&gt;                             </span>
-<span class="co">#&gt;  1 Q270319    Christiane Desroches Noblecourt egittologa e archeologa francese  </span>
-<span class="co">#&gt;  2 Q5257705   Denise Laroque                  &lt;NA&gt;                              </span>
-<span class="co">#&gt;  3 Q109251934 Jeanne Bleton-Barraud           résistante française              </span>
-<span class="co">#&gt;  4 Q109252587 Louise Losserand                résistante et déportée française  </span>
-<span class="co">#&gt;  5 Q109406143 Esther Poggio                   résistante française              </span>
-<span class="co">#&gt;  6 Q42887213  Marie-Thérèse de Poix           infirmière et résistante française</span>
-<span class="co">#&gt;  7 Q47075790  Anne-Marie Bigot                juste parmi les Nations           </span>
-<span class="co">#&gt;  8 Q47107820  Madeleine Clément               juste parmi les Nations           </span>
-<span class="co">#&gt;  9 Q47367488  Marie-Louise Cloarec            résistante française              </span>
-<span class="co">#&gt; 10 Q47396640  Suzanne Mertzizen               résistante française              </span>
-<span class="co">#&gt; # … with 114 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 125 × 3</span>
+<span class="co">#&gt;    id        label                           description                        </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                           &lt;chr&gt;                              </span>
+<span class="co">#&gt;  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   </span>
+<span class="co">#&gt;  2 Q18121470 Antoinette d'Harcourt           poétesse et résistante française   </span>
+<span class="co">#&gt;  3 Q19300907 Lucette Pla-Justafré            enseignante et personnalité politi…</span>
+<span class="co">#&gt;  4 Q19606396 Anise Postel-Vinay              résistante française               </span>
+<span class="co">#&gt;  5 Q19631204 Cécile Rol-Tanguy               résistante française               </span>
+<span class="co">#&gt;  6 Q20895003 Hélène Jakubowicz               résistante française               </span>
+<span class="co">#&gt;  7 Q21009704 Madeleine Passot                résistante communiste française    </span>
+<span class="co">#&gt;  8 Q21069334 Mireille Albrecht               fille de la résistante Berty Albre…</span>
+<span class="co">#&gt;  9 Q5257705  Denise Laroque                  &lt;NA&gt;                               </span>
+<span class="co">#&gt; 10 Q6837011  Michelle Dubois                 &lt;NA&gt;                               </span>
+<span class="co">#&gt; # … with 115 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -805,7 +819,7 @@
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 124 Columns: 3</span>
+<span class="co">#&gt; Rows: 125 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
@@ -824,11 +838,17 @@
 <p>Besides querying Wikidata and using the basic <code><a href="reference/tw_search.html">tw_search()</a></code> function described above, <code>tidywikidatar</code> includes function that facilitate retrieving Wikidata identifiers based on Wikipedia pages, as well as the Wikidata identifiers corresponding to all the Wikipedia pages included in a given Wikipedia page. This may be useful in particular on Wikipedia pages that are lists of other pages, or as an alternative approach for finding relations between various Wikidata items.</p>
 <p>In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tw_get_id_of_wikipedia_page</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Q180099"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_qid_of_wikipedia_page.html">tw_get_qid_of_wikipedia_page</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 × 7</span>
+<span class="co">#&gt;   title  wikipedia_title wikipedia_id qid   description  disambiguation language</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt;          &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en</span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tw_get_id_of_wikipedia_page</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/Margaret_Mead"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Q180099"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_qid_of_wikipedia_page.html">tw_get_qid_of_wikipedia_page</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/Margaret_Mead"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 × 7</span>
+<span class="co">#&gt;   title  wikipedia_title wikipedia_id qid   description  disambiguation language</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;        &lt;lgl&gt;          &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en</span></code></pre></div>
 <p>Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_wikipedia.html">tw_get_wikipedia</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span><span class="op">)</span>
@@ -839,19 +859,19 @@
   <span class="fu"><a href="reference/tw_get_links_from_wikipedia_page.html">tw_get_links_from_wikipedia_page</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">wikipedia_df</span>
-<span class="co">#&gt; # A tibble: 891 × 4</span>
-<span class="co">#&gt;    wikipedia_title                     wikipedia_id wikidata_id wikidata_descri…</span>
-<span class="co">#&gt;    &lt;chr&gt;                                      &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 Alex Barker                                   NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  2 Alfred S. Hayes                               NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  3 Blackberry Winter: My Earlier Years           NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  4 Continuities in Cultural Evolution            NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  5 Culture and Commitment                        NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  6 John P. Gillin                                NA &lt;NA&gt;        &lt;NA&gt;            </span>
-<span class="co">#&gt;  7 A Darwinian Left                         3890352 Q1762274    1999 book by Pe…</span>
-<span class="co">#&gt;  8 A Rap on Race                           14527943 Q4659145    Book by Margare…</span>
-<span class="co">#&gt;  9 Abby Kelley                              4056835 Q2820848    &lt;NA&gt;            </span>
-<span class="co">#&gt; 10 Abigail Adams                             102745 Q206191     2nd First Lady …</span>
+<span class="co">#&gt; # A tibble: 891 × 5</span>
+<span class="co">#&gt;    wikipedia_title      wikipedia_id wikidata_id wikidata_description   language</span>
+<span class="co">#&gt;    &lt;chr&gt;                       &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;                  &lt;chr&gt;   </span>
+<span class="co">#&gt;  1 Alex Barker                    NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  2 Alfred S. Hayes                NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  3 Blackberry Winter: …           NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  4 Continuities in Cul…           NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  5 Culture and Commitm…           NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  6 John P. Gillin                 NA &lt;NA&gt;        &lt;NA&gt;                   en      </span>
+<span class="co">#&gt;  7 A Darwinian Left          3890352 Q1762274    1999 book by Peter Si… en      </span>
+<span class="co">#&gt;  8 A Rap on Race            14527943 Q4659145    Book by Margaret Mead… en      </span>
+<span class="co">#&gt;  9 Abby Kelley               4056835 Q2820848    &lt;NA&gt;                   en      </span>
+<span class="co">#&gt; 10 Abigail Adams              102745 Q206191     2nd First Lady of the… en      </span>
 <span class="co">#&gt; # … with 881 more rows</span></code></pre></div>
 <p>What if we are potentially interested only in the people mentioned in this page? We proceed as usual, checking which of these are “instance of” (“P19”) “human” (“Q5”), and take it from there.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">

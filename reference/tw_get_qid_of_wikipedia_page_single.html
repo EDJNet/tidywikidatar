@@ -59,7 +59,8 @@
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,
-  wait <span class="op">=</span> <span class="fl">0</span>
+  wait <span class="op">=</span> <span class="fl">1</span>,
+  attempts <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -80,7 +81,9 @@
 <dt>disconnect_db</dt>
 <dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
 <dt>wait</dt>
-<dd><p>In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
+<dd><p>In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
+<dt>attempts</dt>
+<dd><p>Defaults to 5. Number of times it re-attempts to reach the API before failing.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

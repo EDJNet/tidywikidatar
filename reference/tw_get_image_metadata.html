@@ -61,14 +61,15 @@
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,
-  wait <span class="op">=</span> <span class="fl">0</span>
+  wait <span class="op">=</span> <span class="fl">1</span>,
+  attempts <span class="op">=</span> <span class="fl">5</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>id</dt>
-<dd><p>A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.</p></dd>
+<dd><p>A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.</p></dd>
 <dt>image_filename</dt>
 <dd><p>Defaults to NULL. If NULL, <code>image_filename</code> is obtained from the Wikidata id. If given, must be of the same length as id.</p></dd>
 <dt>only_first</dt>
@@ -86,11 +87,13 @@
 <dt>disconnect_db</dt>
 <dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
 <dt>wait</dt>
-<dd><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
+<dd><p>In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
+<dt>attempts</dt>
+<dd><p>Defaults to 5. Number of times it re-attempts to reach the API before failing.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A charachter vector, corresponding to reference to the image in the requested format.</p>
+    <p>A character vector, corresponding to reference to the image in the requested format.</p>
     </div>
 
     <div class="section level2">
