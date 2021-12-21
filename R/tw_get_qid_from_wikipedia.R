@@ -6,7 +6,7 @@
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
 #'
-#' @return A charachter vector of base urls to be used with the MediaWiki API
+#' @return A character vector of base urls to be used with the MediaWiki API
 #' @export
 #'
 #' @examples
@@ -55,7 +55,8 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A a data frame with six columns, including `qid` with Wikidata identifiers, and a logical `disambiguation` to flag when disambiguation pages are returned.
 #' @export
@@ -74,7 +75,8 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
                                          overwrite_cache = FALSE,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
-                                         wait = 0) {
+                                         wait = 1,
+                                         attempts = 5) {
   if (is.null(url) == FALSE) {
     if (is.null(title)) {
       title <- stringr::str_extract(
@@ -116,7 +118,9 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
           cache = cache,
           overwrite_cache = overwrite_cache,
           cache_connection = cache_connection,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          wait = wait,
+          attempts = attempts
         ),
         by = "title"
       )
@@ -136,7 +140,9 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
-            disconnect_db = FALSE
+            disconnect_db = FALSE,
+            wait = wait,
+            attempts = attempts
           )
         }
       )
@@ -190,7 +196,9 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = cache_connection,
-              disconnect_db = FALSE
+              disconnect_db = FALSE,
+              wait = wait,
+              attempts = attempts
             )
           }
         )
@@ -222,7 +230,8 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A data frame (a tibble) with eight columns: `title`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`, and `language`.
 #' @export
@@ -238,7 +247,8 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
                                                 overwrite_cache = FALSE,
                                                 cache_connection = NULL,
                                                 disconnect_db = TRUE,
-                                                wait = 0) {
+                                                wait = 1,
+                                                attempts = 5) {
   if (is.null(url) == FALSE & is.function(url) == FALSE) {
     if (is.null(title) & is.function(title) == FALSE) {
       title <- stringr::str_extract(
@@ -269,9 +279,6 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
     }
   }
 
-  Sys.sleep(time = wait)
-
-
   json_url <- stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,
@@ -281,7 +288,26 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
     "&prop=pageprops"
   )
 
-  wikidata_id_l <- jsonlite::read_json(path = json_url)
+  api_result <- FALSE
+
+  attempt_n <- 1
+  while (isFALSE(api_result) & attempt_n <= attempts) {
+    attempt_n <- sum(attempt_n, 1)
+    api_result <- tryCatch(
+      jsonlite::read_json(path = json_url),
+      error = function(e) {
+        logical(1L)
+      }
+    )
+    Sys.sleep(time = wait)
+  }
+
+
+  if (isFALSE(api_result)) {
+    usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection")
+  } else {
+    wikidata_id_l <- api_result
+  }
 
 
   wikipedia_id <- wikidata_id_l %>%

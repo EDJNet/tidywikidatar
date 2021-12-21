@@ -12,7 +12,8 @@ tw_get_qid_of_wikipedia_page(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 1,
+  attempts = 5
 )
 }
 \arguments{
@@ -30,7 +31,9 @@ tw_get_qid_of_wikipedia_page(
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
 }
 \value{
 A a data frame with six columns, including \code{qid} with Wikidata identifiers, and a logical \code{disambiguation} to flag when disambiguation pages are returned.

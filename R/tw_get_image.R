@@ -3,8 +3,8 @@
 #'
 #' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param format A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param format A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
 #' @param width A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.
 #' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
@@ -95,8 +95,8 @@ tw_get_image <- function(id,
 #'
 #' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param format A charachter vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param format A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
 #' @param only_first Defaults to TRUE. If TRUE, returns only the first image associated with a given Wikidata id. If FALSE, returns all images available.
 #' @param as_tibble Defaults to FALSE. If TRUE, returns a data frame instead of a character vector.
 #' @param width A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.
@@ -108,7 +108,7 @@ tw_get_image <- function(id,
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A charachter vector, corresponding to reference to the image in the requested format.
+#' @return A character vector, corresponding to reference to the image in the requested format.
 #' @export
 #'
 #' @examples
@@ -199,7 +199,7 @@ tw_get_image_same_length <- function(id,
 #'
 #' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param image_filename Defaults to NULL. If NULL, `image_filename` is obtained from the Wikidata id. If given, must be of the same length as id.
 #' @param only_first Defaults to TRUE. If TRUE, returns metadata only for the first image associated with a given Wikidata id. If FALSE, returns all images available.
 #' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
@@ -208,9 +208,10 @@ tw_get_image_same_length <- function(id,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
-#' @return A charachter vector, corresponding to reference to the image in the requested format.
+#' @return A character vector, corresponding to reference to the image in the requested format.
 #' @export
 #'
 #' @examples
@@ -226,7 +227,8 @@ tw_get_image_metadata <- function(id,
                                   overwrite_cache = FALSE,
                                   cache_connection = NULL,
                                   disconnect_db = TRUE,
-                                  wait = 0) {
+                                  wait = 1,
+                                  attempts = 5) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -269,7 +271,8 @@ tw_get_image_metadata <- function(id,
           overwrite_cache = overwrite_cache,
           cache_connection = cache_connection,
           disconnect_db = disconnect_db,
-          wait = wait
+          wait = wait,
+          attempts = attempts
         ),
         by = "id"
       )
@@ -291,7 +294,8 @@ tw_get_image_metadata <- function(id,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
             disconnect_db = FALSE,
-            wait = wait
+            wait = wait,
+            attempts = attempts
           )
         }
       )
@@ -378,7 +382,8 @@ tw_get_image_metadata <- function(id,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
             disconnect_db = FALSE,
-            wait = wait
+            wait = wait,
+            attempts = attempts
           )
         }
       )
@@ -406,7 +411,7 @@ tw_get_image_metadata <- function(id,
 #'
 #' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
 #'
-#' @param id A characther vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param image_filename Defaults to NULL. If NULL, `image_filename` is obtained from the Wikidata id. If given, must be of the same length as id.
 #' @param only_first Defaults to TRUE. If TRUE, returns metadata only for the first image associated with a given Wikidata id. If FALSE, returns all images available.
 #' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
@@ -416,9 +421,10 @@ tw_get_image_metadata <- function(id,
 #' @param read_cache Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
-#' @return A charachter vector, corresponding to reference to the image in the requested format.
+#' @return A character vector, corresponding to reference to the image in the requested format.
 #' @export
 #'
 #' @examples
@@ -435,7 +441,8 @@ tw_get_image_metadata_single <- function(id,
                                          read_cache = TRUE,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
-                                         wait = 0) {
+                                         wait = 1,
+                                         attempts = 5) {
   if (length(id) > 1) {
     usethis::ui_stop("`tw_get_image_metadata_single()` requires `id` of length 1. Consider using `tw_get_image_metadata()`.")
   }
@@ -526,7 +533,28 @@ tw_get_image_metadata_single <- function(id,
         "&format=json"
       )
 
-      json_as_list <- jsonlite::read_json(api_link)
+
+      api_result <- FALSE
+
+      attempt_n <- 1
+
+      while (isFALSE(api_result) & attempt_n <= attempts) {
+        attempt_n <- sum(attempt_n, 1)
+        api_result <- tryCatch(
+          jsonlite::read_json(api_link),
+          error = function(e) {
+            logical(1L)
+          }
+        )
+        Sys.sleep(time = wait)
+      }
+
+
+      if (isFALSE(api_result)) {
+        usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection")
+      } else {
+        json_as_list <- api_result
+      }
 
       images <- json_as_list %>%
         purrr::pluck("query", "pages", 1, "imageinfo")
