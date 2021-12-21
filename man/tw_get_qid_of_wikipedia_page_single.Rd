@@ -33,7 +33,7 @@ tw_get_qid_of_wikipedia_page_single(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A a data frame (a tibble) with five columns: \code{wikipedia_title}, \code{wikipedia_id}, \code{wikidata_id}, \code{wikidata_description}, and \code{language}.
+A data frame (a tibble) with eight columns: \code{title}, \code{wikipedia_title}, \code{wikipedia_id}, \code{qid}, \code{description}, \code{disambiguation}, and \code{language}.
 }
 \description{
 Gets the Wikidata id of a Wikipedia page

@@ -2,6 +2,7 @@
 
 tw_empty_wikipedia_page <- c(
   "title",
+  "wikipedia_title",
   "wikipedia_id",
   "qid",
   "description",

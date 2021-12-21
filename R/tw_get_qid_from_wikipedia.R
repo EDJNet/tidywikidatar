@@ -132,8 +132,8 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
           pb$tick()
           tw_get_qid_of_wikipedia_page_single(
             url = NULL,
-            title = unique_title,
-            language = language,
+            title = x,
+            language = unique_language,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = cache_connection,
@@ -225,7 +225,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to the API. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A a data frame (a tibble) with five columns: `wikipedia_title`, `wikipedia_id`, `wikidata_id`, `wikidata_description`, and `language`.
+#' @return A data frame (a tibble) with eight columns: `title`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`, and `language`.
 #' @export
 #'
 #' @examples
@@ -275,15 +275,16 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
   Sys.sleep(time = wait)
 
 
-  wikidata_id_l <- stringr::str_c(
+  json_url <- stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,
       title = title,
       language = language
     ),
     "&prop=pageprops"
-  ) %>%
-    jsonlite::read_json()
+  )
+
+  wikidata_id_l <- jsonlite::read_json(path = json_url)
 
 
   wikipedia_id <- wikidata_id_l %>%
@@ -292,7 +293,10 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       "pages",
       1,
       "pageid"
-    )
+    ) %>%
+    dplyr::if_else(condition = is.null(.),
+                   true = as.integer(NA),
+                   false = .)
 
   wikidata_id <- wikidata_id_l %>%
     purrr::pluck(
@@ -301,7 +305,10 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       1,
       "pageprops",
       "wikibase_item"
-    )
+    ) %>%
+    dplyr::if_else(condition = is.null(.),
+                   true = as.character(NA),
+                   false = .)
 
   description <- wikidata_id_l %>%
     purrr::pluck(
@@ -310,7 +317,10 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       1,
       "pageprops",
       "wikibase-shortdesc"
-    )
+    ) %>%
+    dplyr::if_else(condition = is.null(.),
+                   true = as.character(NA),
+                   false = .)
 
   disambiguation <- is.element(el = "disambiguation",
              set = wikidata_id_l %>%
@@ -322,9 +332,37 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
     ) %>%
     names())
 
+  normalised <- wikidata_id_l %>%
+    purrr::pluck(
+      "query",
+      "normalized",
+      1,
+      "to"
+    ) %>%
+    dplyr::if_else(condition = is.null(.),
+                   true = as.character(NA),
+                   false = .)
+
+  redirected <- wikidata_id_l %>%
+    purrr::pluck(
+      "query",
+      "redirects",
+      1,
+      "to"
+    ) %>%
+    dplyr::if_else(condition = is.null(.),
+                   true = as.character(NA),
+                   false = .)
+
+  wikipedia_title <- dplyr::case_when(
+    is.na(redirected)==FALSE ~ redirected,
+    is.na(normalised)==FALSE ~ normalised,
+    is.na(wikipedia_id)==TRUE ~ as.character(NA),
+    TRUE ~ title)
 
   df <- tibble::tibble(
     title = as.character(title),
+    wikipedia_title = as.character(wikipedia_title),
     wikipedia_id = as.integer(wikipedia_id),
     qid = as.character(wikidata_id),
     description = as.character(description),
