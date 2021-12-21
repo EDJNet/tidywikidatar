@@ -10,7 +10,7 @@ tw_empty_wikipedia_page <- c(
   "language"
 ) %>%
   purrr::map_dfc(setNames,
-                 object = list(character())
+    object = list(character())
   )
 
 tw_empty_wikipedia_page$wikipedia_id <- as.integer()

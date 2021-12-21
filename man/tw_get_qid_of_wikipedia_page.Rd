@@ -43,6 +43,6 @@ if (interactive()) {
   tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
 
   # check when Wikipedia returns disambiguation page
-  tw_get_qid_of_wikipedia_page(title = c("Rome","London", "New York", "Vienna"))
+  tw_get_qid_of_wikipedia_page(title = c("Rome", "London", "New York", "Vienna"))
 }
 }

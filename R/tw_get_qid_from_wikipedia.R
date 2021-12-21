@@ -65,7 +65,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #'   tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
 #'
 #'   # check when Wikipedia returns disambiguation page
-#'   tw_get_qid_of_wikipedia_page(title = c("Rome","London", "New York", "Vienna"))
+#'   tw_get_qid_of_wikipedia_page(title = c("Rome", "London", "New York", "Vienna"))
 #' }
 tw_get_qid_of_wikipedia_page <- function(url = NULL,
                                          title = NULL,
@@ -75,8 +75,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
                                          wait = 0) {
-
-  if (is.null(url)==FALSE) {
+  if (is.null(url) == FALSE) {
     if (is.null(title)) {
       title <- stringr::str_extract(
         string = url,
@@ -96,7 +95,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
 
   if (length(unique_language) == 0) {
     return(NULL)
-  } else if (length(unique_language)>1) {
+  } else if (length(unique_language) > 1) {
     usethis::ui_stop(x = "{usethis::ui_code('tw_get_qid_of_wikipedia_page()')} currently accepts only inputs with one language at a time.")
   }
 
@@ -240,10 +239,8 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
                                                 cache_connection = NULL,
                                                 disconnect_db = TRUE,
                                                 wait = 0) {
-
-
-  if (is.null(url)==FALSE&is.function(url)==FALSE) {
-    if (is.null(title)&is.function(title)==FALSE) {
+  if (is.null(url) == FALSE & is.function(url) == FALSE) {
+    if (is.null(title) & is.function(title) == FALSE) {
       title <- stringr::str_extract(
         string = url,
         pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
@@ -268,7 +265,7 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
       return(db_result %>%
-               tibble::as_tibble())
+        tibble::as_tibble())
     }
   }
 
@@ -293,10 +290,12 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       "pages",
       1,
       "pageid"
-    ) %>%
-    dplyr::if_else(condition = is.null(.),
-                   true = as.integer(NA),
-                   false = .)
+    )
+
+  wikipedia_id <- dplyr::if_else(condition = is.null(wikipedia_id),
+    true = as.integer(NA),
+    false = as.integer(wikipedia_id)
+  )
 
   wikidata_id <- wikidata_id_l %>%
     purrr::pluck(
@@ -305,10 +304,12 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       1,
       "pageprops",
       "wikibase_item"
-    ) %>%
-    dplyr::if_else(condition = is.null(.),
-                   true = as.character(NA),
-                   false = .)
+    )
+
+  wikidata_id <- dplyr::if_else(condition = is.null(wikidata_id),
+    true = as.character(NA),
+    false = wikidata_id
+  )
 
   description <- wikidata_id_l %>%
     purrr::pluck(
@@ -317,20 +318,24 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       1,
       "pageprops",
       "wikibase-shortdesc"
-    ) %>%
-    dplyr::if_else(condition = is.null(.),
-                   true = as.character(NA),
-                   false = .)
+    )
 
-  disambiguation <- is.element(el = "disambiguation",
-             set = wikidata_id_l %>%
-    purrr::pluck(
-      "query",
-      "pages",
-      1,
-      "pageprops"
-    ) %>%
-    names())
+  description <- dplyr::if_else(condition = is.null(description),
+    true = as.character(NA),
+    false = description
+  )
+
+  disambiguation <- is.element(
+    el = "disambiguation",
+    set = wikidata_id_l %>%
+      purrr::pluck(
+        "query",
+        "pages",
+        1,
+        "pageprops"
+      ) %>%
+      names()
+  )
 
   normalised <- wikidata_id_l %>%
     purrr::pluck(
@@ -338,10 +343,12 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       "normalized",
       1,
       "to"
-    ) %>%
-    dplyr::if_else(condition = is.null(.),
-                   true = as.character(NA),
-                   false = .)
+    )
+
+  normalised <- dplyr::if_else(condition = is.null(normalised),
+    true = as.character(NA),
+    false = normalised
+  )
 
   redirected <- wikidata_id_l %>%
     purrr::pluck(
@@ -349,16 +356,19 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
       "redirects",
       1,
       "to"
-    ) %>%
-    dplyr::if_else(condition = is.null(.),
-                   true = as.character(NA),
-                   false = .)
+    )
+
+  redirected <- dplyr::if_else(condition = is.null(redirected),
+    true = as.character(NA),
+    false = redirected
+  )
 
   wikipedia_title <- dplyr::case_when(
-    is.na(redirected)==FALSE ~ redirected,
-    is.na(normalised)==FALSE ~ normalised,
-    is.na(wikipedia_id)==TRUE ~ as.character(NA),
-    TRUE ~ title)
+    is.na(redirected) == FALSE ~ redirected,
+    is.na(normalised) == FALSE ~ normalised,
+    is.na(wikipedia_id) == TRUE ~ as.character(NA),
+    TRUE ~ title
+  )
 
   df <- tibble::tibble(
     title = as.character(title),
@@ -478,6 +488,7 @@ tw_get_links_from_wikipedia_page <- function(url = NULL,
 #'
 #' Mostly used internally.
 #'
+#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
@@ -503,7 +514,6 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
                                                 language = tidywikidatar::tw_get_language(),
                                                 cache_connection = NULL,
                                                 disconnect_db = TRUE) {
-
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language
@@ -580,20 +590,24 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
                                                     overwrite_cache = FALSE,
                                                     cache_connection = NULL,
                                                     disconnect_db = TRUE) {
-  db <- tw_connect_to_cache(connection = cache_connection,
-                            language = language)
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
-  table_name <- tw_get_cache_table_name(type = "wikipedia_page",
-                                        language = language)
+  table_name <- tw_get_cache_table_name(
+    type = "wikipedia_page",
+    language = language
+  )
 
   if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
       statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE title = {title*}",
-                                  title = unique(df$title),
-                                  table_name = table_name,
-                                  .con = db
+        title = unique(df$title),
+        table_name = table_name,
+        .con = db
       )
       result <- DBI::dbExecute(
         conn = db,
@@ -603,9 +617,9 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
   }
 
   DBI::dbWriteTable(db,
-                    name = table_name,
-                    value = df,
-                    append = TRUE
+    name = table_name,
+    value = df,
+    append = TRUE
   )
 
   if (disconnect_db == TRUE) {
@@ -634,11 +648,15 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
                                           cache_connection = NULL,
                                           disconnect_db = TRUE,
                                           ask = TRUE) {
-  db <- tw_connect_to_cache(connection = cache_connection,
-                            language = language)
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
-  table_name <- tw_get_cache_table_name(type = "wikipedia_page",
-                                        language = language)
+  table_name <- tw_get_cache_table_name(
+    type = "wikipedia_page",
+    language = language
+  )
 
   if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, nothing to delete
