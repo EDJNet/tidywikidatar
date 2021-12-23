@@ -873,18 +873,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 125 × 3
-#>    id        label                           description                        
-#>    <chr>     <chr>                           <chr>                              
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
-#>  2 Q18121470 Antoinette d'Harcourt           poétesse et résistante française   
-#>  3 Q19300907 Lucette Pla-Justafré            enseignante et personnalité politi…
-#>  4 Q19606396 Anise Postel-Vinay              résistante française               
-#>  5 Q19631204 Cécile Rol-Tanguy               résistante française               
-#>  6 Q20895003 Hélène Jakubowicz               résistante française               
-#>  7 Q21009704 Madeleine Passot                résistante communiste française    
-#>  8 Q21069334 Mireille Albrecht               fille de la résistante Berty Albre…
-#>  9 Q5257705  Denise Laroque                  <NA>                               
-#> 10 Q6837011  Michelle Dubois                 <NA>                               
+#>    id       label                           description                         
+#>    <chr>    <chr>                           <chr>                               
+#>  1 Q270319  Christiane Desroches Noblecourt egittologa e archeologa francese    
+#>  2 Q3484585 Simone Lurçat                   <NA>                                
+#>  3 Q3574046 Yvette Farnoux                  résistante française                
+#>  4 Q3574174 Yvonne Abbas                    résistante française                
+#>  5 Q2696536 Yolande Beekman                 espionne et agente secret des Speci…
+#>  6 Q3009723 Cécile Cerf                     résistante française                
+#>  7 Q3081207 Francine Fromond                <NA>                                
+#>  8 Q3132483 Henriette Moriamé               <NA>                                
+#>  9 Q3176052 Jeanne Gaillard                 historienne et résistante française 
+#> 10 Q3176091 Jeanne Laurent                  scrittrice francese                 
 #> # … with 115 more rows
 ```
 
@@ -995,6 +995,69 @@ wikipedia_df %>%
 
 All functions that interact with Wikipedia and the related MediaWiki API
 are not cached locally at this stage.
+
+## Getting images, including credits
+
+Many Wikidata items have an image that can be used for illustrative
+purposes. `tw_get_image()` facilitate getting the link to the WikiMedia
+Commons page where more details about the image can be found, as well as
+a direct link to the image at the desired resolution for direct embeds.
+
+``` r
+tw_get_image(id = "Q180099", format = "commons") %>% 
+  dplyr::pull(image)
+#> [1] "https://commons.wikimedia.org/wiki/File:Margaret Mead (1901-1978).jpg"
+```
+
+``` r
+tw_get_image(id = "Q180099", format = "embed", width = 300) %>% 
+  dplyr::pull(image)
+#> [1] "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Margaret Mead (1901-1978).jpg&width=300"
+```
+
+The user should be mindful that these links depend on the filename of
+the image, and (unlike Wikidata Q identifiers) may be changed without
+offering a redirect from the previous file to the most recent one. If
+there are no relevant copyright limitations, depending on the use case,
+it may be wise to store images locally.
+
+Wikidata itself does not include details about copyright of the image,
+nor an easy way to get information about the author, or a suggested way
+to credit the image. All of these are available through the Wikimedia
+commons API. `tidywikidatar` includes a convenience function to get
+access to all such details:
+
+``` r
+tw_get_image_metadata(id = "Q180099") %>% 
+  tidyr::pivot_longer(cols = dplyr::everything(),
+                      names_to = "property",
+                      values_to = "values",
+                      values_transform = list(values = as.character))
+#> # A tibble: 19 × 2
+#>    property                   values                                            
+#>    <chr>                      <chr>                                             
+#>  1 id                         "Q180099"                                         
+#>  2 image_filename             "Margaret Mead (1901-1978).jpg"                   
+#>  3 object_name                "Margaret Mead (1901-1978)"                       
+#>  4 image_description          "<b>Subject</b>: Mead, Margaret\n<p>       Intern…
+#>  5 categories                 "Black and white photographs of female heads|Blac…
+#>  6 assessments                ""                                                
+#>  7 credit                     "<p><a rel=\"nofollow\" class=\"external text\" h…
+#>  8 artist                     "<a rel=\"nofollow\" class=\"external text\" href…
+#>  9 permission                 "<a rel=\"nofollow\" class=\"external text\" href…
+#> 10 license_short_name         "No restrictions"                                 
+#> 11 license_url                "https://www.flickr.com/commons/usage/"           
+#> 12 license                     <NA>                                             
+#> 13 usage_terms                "No known copyright restrictions"                 
+#> 14 attribution_required       "0"                                               
+#> 15 copyrighted                "1"                                               
+#> 16 restrictions               ""                                                
+#> 17 date_time                  "2019-07-02 03:33:00"                             
+#> 18 date_time_original         "18 July 2011, 16:02"                             
+#> 19 commons_metadata_extension "1.2"
+```
+
+This function does not currently cache data.
 
 ## How caching works
 

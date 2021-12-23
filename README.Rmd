@@ -526,6 +526,36 @@ wikipedia_df %>%
 
 All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage. 
 
+## Getting images, including credits
+
+Many Wikidata items have an image that can be used for illustrative purposes. `tw_get_image()` facilitate getting the link to the WikiMedia Commons page where more details about the image can be found, as well as a direct link to the image at the desired resolution for direct embeds.
+
+```{r}
+tw_get_image(id = "Q180099", format = "commons") %>% 
+  dplyr::pull(image)
+```
+
+```{r}
+tw_get_image(id = "Q180099", format = "embed", width = 300) %>% 
+  dplyr::pull(image)
+```
+
+The user should be mindful that these links depend on the filename of the image, and (unlike Wikidata Q identifiers) may be changed without offering a redirect from the previous file to the most recent one. If there are no relevant copyright limitations, depending on the use case, it may be wise to store images locally.
+
+Wikidata itself does not include details about copyright of the image, nor an easy way to get information about the author, or a suggested way to credit the image. All of these are available through the Wikimedia commons API. `tidywikidatar` includes a convenience function to get access to all such details:
+
+
+```{r}
+tw_get_image_metadata(id = "Q180099") %>% 
+  tidyr::pivot_longer(cols = dplyr::everything(),
+                      names_to = "property",
+                      values_to = "values",
+                      values_transform = list(values = as.character))
+```
+
+This function does not currently cache data. 
+
+
 ## How caching works
 
 `tidywikidatar` tries to reduce load on Wikidata's server and speeding up re-processing of scripts by caching data locally in sqlite databases. They are stored locally in the folder defined by `tw_set_cache_folder()` - by default, in the current working directory - when cache is enabled (typically, with `tw_enable_cache()` at the beginning of a session).
