@@ -795,18 +795,18 @@
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="co">#&gt; # A tibble: 125 × 3</span>
-<span class="co">#&gt;    id        label                           description                        </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                           &lt;chr&gt;                              </span>
-<span class="co">#&gt;  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   </span>
-<span class="co">#&gt;  2 Q18121470 Antoinette d'Harcourt           poétesse et résistante française   </span>
-<span class="co">#&gt;  3 Q19300907 Lucette Pla-Justafré            enseignante et personnalité politi…</span>
-<span class="co">#&gt;  4 Q19606396 Anise Postel-Vinay              résistante française               </span>
-<span class="co">#&gt;  5 Q19631204 Cécile Rol-Tanguy               résistante française               </span>
-<span class="co">#&gt;  6 Q20895003 Hélène Jakubowicz               résistante française               </span>
-<span class="co">#&gt;  7 Q21009704 Madeleine Passot                résistante communiste française    </span>
-<span class="co">#&gt;  8 Q21069334 Mireille Albrecht               fille de la résistante Berty Albre…</span>
-<span class="co">#&gt;  9 Q5257705  Denise Laroque                  &lt;NA&gt;                               </span>
-<span class="co">#&gt; 10 Q6837011  Michelle Dubois                 &lt;NA&gt;                               </span>
+<span class="co">#&gt;    id       label                           description                         </span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;                           &lt;chr&gt;                               </span>
+<span class="co">#&gt;  1 Q270319  Christiane Desroches Noblecourt egittologa e archeologa francese    </span>
+<span class="co">#&gt;  2 Q3484585 Simone Lurçat                   &lt;NA&gt;                                </span>
+<span class="co">#&gt;  3 Q3574046 Yvette Farnoux                  résistante française                </span>
+<span class="co">#&gt;  4 Q3574174 Yvonne Abbas                    résistante française                </span>
+<span class="co">#&gt;  5 Q2696536 Yolande Beekman                 espionne et agente secret des Speci…</span>
+<span class="co">#&gt;  6 Q3009723 Cécile Cerf                     résistante française                </span>
+<span class="co">#&gt;  7 Q3081207 Francine Fromond                &lt;NA&gt;                                </span>
+<span class="co">#&gt;  8 Q3132483 Henriette Moriamé               &lt;NA&gt;                                </span>
+<span class="co">#&gt;  9 Q3176052 Jeanne Gaillard                 historienne et résistante française </span>
+<span class="co">#&gt; 10 Q3176091 Jeanne Laurent                  scrittrice francese                 </span>
 <span class="co">#&gt; # … with 115 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -880,6 +880,50 @@
   <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">value</span> <span class="op">==</span> <span class="st">"Q5"</span><span class="op">)</span></code></pre></div>
 <p>All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage.</p>
+</div>
+<div class="section level2">
+<h2 id="getting-images-including-credits">Getting images, including credits<a class="anchor" aria-label="anchor" href="#getting-images-including-credits"></a>
+</h2>
+<p>Many Wikidata items have an image that can be used for illustrative purposes. <code><a href="reference/tw_get_image.html">tw_get_image()</a></code> facilitate getting the link to the WikiMedia Commons page where more details about the image can be found, as well as a direct link to the image at the desired resolution for direct embeds.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_image.html">tw_get_image</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, format <span class="op">=</span> <span class="st">"commons"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span>
+<span class="co">#&gt; [1] "https://commons.wikimedia.org/wiki/File:Margaret Mead (1901-1978).jpg"</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_image.html">tw_get_image</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, format <span class="op">=</span> <span class="st">"embed"</span>, width <span class="op">=</span> <span class="fl">300</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span>
+<span class="co">#&gt; [1] "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Margaret Mead (1901-1978).jpg&amp;width=300"</span></code></pre></div>
+<p>The user should be mindful that these links depend on the filename of the image, and (unlike Wikidata Q identifiers) may be changed without offering a redirect from the previous file to the most recent one. If there are no relevant copyright limitations, depending on the use case, it may be wise to store images locally.</p>
+<p>Wikidata itself does not include details about copyright of the image, nor an easy way to get information about the author, or a suggested way to credit the image. All of these are available through the Wikimedia commons API. <code>tidywikidatar</code> includes a convenience function to get access to all such details:</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tw_get_image_metadata.html">tw_get_image_metadata</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>,
+                      names_to <span class="op">=</span> <span class="st">"property"</span>,
+                      values_to <span class="op">=</span> <span class="st">"values"</span>,
+                      values_transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">as.character</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 19 × 2</span>
+<span class="co">#&gt;    property                   values                                            </span>
+<span class="co">#&gt;    &lt;chr&gt;                      &lt;chr&gt;                                             </span>
+<span class="co">#&gt;  1 id                         "Q180099"                                         </span>
+<span class="co">#&gt;  2 image_filename             "Margaret Mead (1901-1978).jpg"                   </span>
+<span class="co">#&gt;  3 object_name                "Margaret Mead (1901-1978)"                       </span>
+<span class="co">#&gt;  4 image_description          "&lt;b&gt;Subject&lt;/b&gt;: Mead, Margaret\n&lt;p&gt;       Intern…</span>
+<span class="co">#&gt;  5 categories                 "Black and white photographs of female heads|Blac…</span>
+<span class="co">#&gt;  6 assessments                ""                                                </span>
+<span class="co">#&gt;  7 credit                     "&lt;p&gt;&lt;a rel=\"nofollow\" class=\"external text\" h…</span>
+<span class="co">#&gt;  8 artist                     "&lt;a rel=\"nofollow\" class=\"external text\" href…</span>
+<span class="co">#&gt;  9 permission                 "&lt;a rel=\"nofollow\" class=\"external text\" href…</span>
+<span class="co">#&gt; 10 license_short_name         "No restrictions"                                 </span>
+<span class="co">#&gt; 11 license_url                "https://www.flickr.com/commons/usage/"           </span>
+<span class="co">#&gt; 12 license                     &lt;NA&gt;                                             </span>
+<span class="co">#&gt; 13 usage_terms                "No known copyright restrictions"                 </span>
+<span class="co">#&gt; 14 attribution_required       "0"                                               </span>
+<span class="co">#&gt; 15 copyrighted                "1"                                               </span>
+<span class="co">#&gt; 16 restrictions               ""                                                </span>
+<span class="co">#&gt; 17 date_time                  "2019-07-02 03:33:00"                             </span>
+<span class="co">#&gt; 18 date_time_original         "18 July 2011, 16:02"                             </span>
+<span class="co">#&gt; 19 commons_metadata_extension "1.2"</span></code></pre></div>
+<p>This function does not currently cache data.</p>
 </div>
 <div class="section level2">
 <h2 id="how-caching-works">How caching works<a class="anchor" aria-label="anchor" href="#how-caching-works"></a>
