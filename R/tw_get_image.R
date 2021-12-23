@@ -82,7 +82,7 @@ tw_get_image <- function(id,
       }
       tibble::tibble(
         id = current_id,
-        image = current_filename
+        image = output_filename
       )
     }
   )
