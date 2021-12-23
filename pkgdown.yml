@@ -3,7 +3,7 @@ pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   caching: caching.html
-last_built: 2021-12-23T10:04Z
+last_built: 2021-12-23T10:49Z
 urls:
   reference: https://edjnet.github.io/tidywikidatar/reference
   article: https://edjnet.github.io/tidywikidatar/articles
