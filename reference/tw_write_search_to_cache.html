@@ -89,6 +89,7 @@
 <span class="r-in"><span class="fu"><a href="tw_disable_cache.html">tw_disable_cache</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">search_from_api</span> <span class="op">&lt;-</span> <span class="fu"><a href="tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Sylvia Pankhurst"</span>, include_search <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in WikipediR::query(url = "https://www.wikidata.org/w/api.php",     out_class = "list", clean_response = FALSE, query_param = list(action = "wbsearchentities",         type = type, language = language, limit = limit, search = search_term),     ...):</span> The API returned an error: cirrussearch-too-busy-error - Search is currently too busy. Please try again later.</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">search_from_cache</span> <span class="op">&lt;-</span> <span class="fu"><a href="tw_get_cached_search.html">tw_get_cached_search</a></span><span class="op">(</span><span class="st">"Sylvia Pankhurst"</span><span class="op">)</span></span>
 <span class="r-in"></span>
@@ -96,12 +97,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">tw_write_search_to_cache</span><span class="op">(</span>search_df <span class="op">=</span> <span class="va">search_from_api</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.data.frame(x):</span> object 'search_from_api' not found</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">search_from_cache</span> <span class="op">&lt;-</span> <span class="fu"><a href="tw_get_cached_search.html">tw_get_cached_search</a></span><span class="op">(</span><span class="st">"Sylvia Pankhurst"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">search_from_cache</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 3 variables: id &lt;chr&gt;, label &lt;chr&gt;, value &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 3 variables: id &lt;chr&gt;, label &lt;chr&gt;, description &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
