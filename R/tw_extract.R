@@ -75,12 +75,18 @@ tw_extract_qualifier <- function(id,
           if (is.element("id", names(value_df)) == TRUE) {
             value <- value_df %>%
               dplyr::pull(.data$id)
+          } else if (is.element("value", names(value_df)) == TRUE) {
+            value <- value_df %>%
+              dplyr::pull(.data$value)
           } else if (is.element("time", names(value_df)) == TRUE) {
             value <- value_df %>%
               dplyr::pull(.data$time)
           } else {
             return(tidywikidatar::tw_empty_qualifiers_df %>%
-              dplyr::select(-.data$id, -.data$property))
+              dplyr::select(
+                -.data$id,
+                -.data$property
+              ))
           }
 
 

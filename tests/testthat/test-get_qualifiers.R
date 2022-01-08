@@ -28,3 +28,28 @@ test_that("check if qualifiers are returned correctly when more than 1 id and on
       )
   )
 })
+
+
+test_that("check if qualifiers are returned correctly when one of qualifiers has string value type (not id, not time)", {
+  testthat::skip_if_offline()
+
+
+  expect_equal(
+    object = {
+      tw_set_cache_folder(path = tempdir())
+      tw_enable_cache()
+      tw_create_cache_folder(ask = FALSE)
+
+      q_df <- tw_get_qualifiers(
+        id = c("Q4644021"),
+        p = "P31",
+        language = "en"
+      )
+
+      q_df %>%
+        dplyr::filter(.data$qualifier_property == "P1545") %>%
+        dplyr::pull(.data$qualifier_value)
+    }, expected =
+      "7"
+  )
+})
