@@ -94,11 +94,12 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?</span></span>
 <span class="r-in"><span class="va">advisors</span> <span class="op">&lt;-</span> <span class="fu">tw_get_property</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, p <span class="op">=</span> <span class="st">"P184"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: odbc</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>there is no package called ‘odbc’</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> To use custom databases you need to install the package `odbc`.</span>
 <span class="r-in"><span class="va">advisors</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'advisors' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id      property value  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099 P184     Q228822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Q180099 P184     Q76857 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># tw_get_label(advisors)</span></span>
 <span class="r-in"></span>
@@ -111,9 +112,11 @@
 <span class="r-in">  <span class="op">)</span>,</span>
 <span class="r-in">  p <span class="op">=</span> <span class="st">"P31"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: odbc</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>there is no package called ‘odbc’</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> To use custom databases you need to install the package `odbc`.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id      property value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099 P31      Q5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Q228822 P31      Q5   </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Or many properties for a single id</span></span>
 <span class="r-in"></span>
