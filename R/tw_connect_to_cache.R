@@ -60,7 +60,7 @@ tw_connect_to_cache <- function(connection = NULL,
       return(db)
     } else {
 
-      if (require("odbc")==FALSE) {
+      if (requireNamespace("odbc", quietly = TRUE)==FALSE) {
         usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`.")
       }
 
