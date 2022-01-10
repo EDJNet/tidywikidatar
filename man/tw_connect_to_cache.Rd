@@ -4,10 +4,12 @@
 \alias{tw_connect_to_cache}
 \title{Return a connection to be used for caching}
 \usage{
-tw_connect_to_cache(connection = NULL, language = NULL)
+tw_connect_to_cache(connection = NULL, RSQLite = NULL, language = NULL)
 }
 \arguments{
-\item{connection}{Defaults to NULL. If NULL, uses local SQLite database. If given, must be a connection object (see example)}
+\item{connection}{Defaults to NULL. If NULL, uses local SQLite database. If given, must be a connection object or a list with relevant connection settings (see example).}
+
+\item{RSQLite}{Defaults to NULL, expected either NULL or logical. If set to \code{FALSE}, details on the database connection must be given either as a named list in the connection paramater, or with \code{tw_set_cache_db()} as environment variables.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }
@@ -29,6 +31,18 @@ if (interactive()) {
     PWD = "example_pwd"
   )
   tw_connect_to_cache(cache_connection)
+
+
+db_settings <- list(
+ driver = "MySQL",
+ host = "localhost",
+ port = 3306,
+ database = "tidywikidatar",
+ user = "secret_username",
+ pwd = "secret_password"
+ )
+
+ tw_connect_to_cache(db_settings)
 }
 }
 

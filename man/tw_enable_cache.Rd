@@ -4,7 +4,10 @@
 \alias{tw_enable_cache}
 \title{Enable caching for the current session}
 \usage{
-tw_enable_cache()
+tw_enable_cache(SQLite = TRUE)
+}
+\arguments{
+\item{SQLite}{Logical, defaults to TRUE. Set to FALSE to use custom database options. See \code{tw_set_cache_db()} for details.}
 }
 \value{
 Nothing, used for its side effects.
