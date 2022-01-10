@@ -1,7 +1,7 @@
 #' Return a connection to be used for caching
 #'
 #' @param connection Defaults to NULL. If NULL, uses local SQLite database. If given, must be a connection object or a list with relevant connection settings (see example).
-#' @param RSQLite Defaults to NULL, expected either NULL or logical. If set to `FALSE`, details on the database connection must be given either as a named list in the connection paramater, or with `tw_set_cache_db()` as environment variables.
+#' @param RSQLite Defaults to NULL, expected either NULL or logical. If set to `FALSE`, details on the database connection must be given either as a named list in the connection parameter, or with `tw_set_cache_db()` as environment variables.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
 #' @return A connection object.
@@ -44,7 +44,7 @@ tw_connect_to_cache <- function(connection = NULL,
     }
 
     if (is.null(RSQLite)) {
-      RSQLite <- Sys.getenv(x = "tw_cache_SQLite", unset = TRUE)
+      RSQLite <- as.logical(Sys.getenv(x = "tw_cache_SQLite", unset = TRUE))
     }
 
     if (isTRUE(RSQLite)) {
@@ -75,10 +75,14 @@ tw_connect_to_cache <- function(connection = NULL,
         user = connection[["user"]],
         pwd = connection[["pwd"]]
       )
-      db
+      return(db)
     }
 
   } else {
+    if (requireNamespace("odbc", quietly = TRUE)==FALSE) {
+      usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`.")
+    }
+
     if (is.list(connection)) {
       db <- DBI::dbConnect(
         drv = odbc::odbc(),
@@ -89,10 +93,9 @@ tw_connect_to_cache <- function(connection = NULL,
         user = connection[["user"]],
         pwd = connection[["pwd"]]
       )
-      db
+      return(db)
     } else {
-      connection
+      return(connection)
     }
-
   }
 }
