@@ -28,7 +28,9 @@ tw_get_qualifiers_single <- function(id,
     db_result <- tw_get_cached_qualifiers(
       id = id,
       p = p,
-      language = language
+      language = language,
+      cache_connection = cache_connection,
+      disconnect_db = FALSE
     )
 
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
@@ -127,6 +129,10 @@ tw_get_qualifiers <- function(id,
   } else if (length(id) > 1 | length(p) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(id) * length(p))
+      db <- tw_connect_to_cache(
+        connection = cache_connection,
+        language = language
+      )
       qualifiers_df <- purrr::map2_dfr(
         .x = id,
         .y = p,
@@ -138,7 +144,7 @@ tw_get_qualifiers <- function(id,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
+            cache_connection = db,
             disconnect_db = FALSE,
             wait = wait
           )
@@ -185,6 +191,10 @@ tw_get_qualifiers <- function(id,
         )
       } else if (nrow(not_in_cache_df) > 0) {
         pb <- progress::progress_bar$new(total = nrow(not_in_cache_df))
+        db <- tw_connect_to_cache(
+          connection = cache_connection,
+          language = language
+        )
         qualifiers_not_in_cache_df <- purrr::map2_dfr(
           .x = unique(not_in_cache_df$id),
           .y = unique(not_in_cache_df$property),
@@ -196,7 +206,7 @@ tw_get_qualifiers <- function(id,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = cache_connection,
+              cache_connection = db,
               disconnect_db = FALSE,
               wait = wait
             )
@@ -265,9 +275,14 @@ tw_get_cached_qualifiers <- function(id,
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tidywikidatar::tw_empty_qualifiers_df)
   }
@@ -284,7 +299,12 @@ tw_get_cached_qualifiers <- function(id,
   )
   if (isFALSE(db_result)) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tidywikidatar::tw_empty_qualifiers_df)
   }
@@ -293,7 +313,12 @@ tw_get_cached_qualifiers <- function(id,
     tibble::as_tibble()
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
   cached_qualifiers_df
 }
@@ -337,7 +362,7 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
 
   table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
@@ -347,22 +372,28 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
         table_name = table_name,
         .con = db
       )
-      result <- DBI::dbExecute(
+      result <- pool::dbExecute(
         conn = db,
         statement = statement
       )
     }
   }
 
-  DBI::dbWriteTable(db,
+  pool::dbWriteTable(db,
     name = table_name,
     value = qualifiers_df,
     append = TRUE
   )
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
+
   invisible(qualifiers_df)
 }
 
@@ -396,17 +427,22 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
-    DBI::dbRemoveTable(conn = db, name = table_name)
+    pool::dbRemoveTable(conn = db, name = table_name)
     usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
   } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?"))) {
-    DBI::dbRemoveTable(conn = db, name = table_name)
+    pool::dbRemoveTable(conn = db, name = table_name)
     usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
   }
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 }

@@ -81,29 +81,28 @@ tw_get_cache_folder <- tw_set_cache_folder
 #' \donttest{
 #' if (interactive()) {
 #'
-#' # Settings can be provided either as a list
-#' db_settings <- list(
-#'  driver = "MySQL",
-#'  host = "localhost",
-#'  port = 3306,
-#'  database = "tidywikidatar",
-#'  user = "secret_username",
-#'  pwd = "secret_password"
-#'  )
+#'   # Settings can be provided either as a list
+#'   db_settings <- list(
+#'     driver = "MySQL",
+#'     host = "localhost",
+#'     port = 3306,
+#'     database = "tidywikidatar",
+#'     user = "secret_username",
+#'     pwd = "secret_password"
+#'   )
 #'
-#' tw_set_cache_db(db_settings)
+#'   tw_set_cache_db(db_settings)
 #'
-#' # or as parameters
+#'   # or as parameters
 #'
-#' tw_set_cache_db(
-#'  driver = "MySQL",
-#'  host = "localhost",
-#'  port = 3306,
-#'  database = "tidywikidatar",
-#'  user = "secret_username",
-#'  pwd = "secret_password"
-#'  )
-#'
+#'   tw_set_cache_db(
+#'     driver = "MySQL",
+#'     host = "localhost",
+#'     port = 3306,
+#'     database = "tidywikidatar",
+#'     user = "secret_username",
+#'     pwd = "secret_password"
+#'   )
 #' }
 #' }
 tw_set_cache_db <- function(db_settings = NULL,
@@ -113,20 +112,23 @@ tw_set_cache_db <- function(db_settings = NULL,
                             database,
                             user,
                             pwd) {
-  if (is.null(db_settings)==TRUE) {
-    if (is.null(driver)==FALSE) Sys.setenv(tw_db_driver = driver)
-    if (is.null(host)==FALSE) Sys.setenv(tw_db_host = host)
-    if (is.null(port)==FALSE) Sys.setenv(tw_db_port = port)
-    if (is.null(database)==FALSE) Sys.setenv(tw_db_database = database)
-    if (is.null(user)==FALSE) Sys.setenv(tw_db_user = user)
-    if (is.null(pwd)==FALSE) Sys.setenv(tw_db_pwd = pwd)
+  if (is.null(db_settings) == TRUE) {
+    if (is.null(driver) == FALSE) Sys.setenv(tw_db_driver = driver)
+    if (is.null(host) == FALSE) Sys.setenv(tw_db_host = host)
+    if (is.null(port) == FALSE) Sys.setenv(tw_db_port = port)
+    if (is.null(database) == FALSE) Sys.setenv(tw_db_database = database)
+    if (is.null(user) == FALSE) Sys.setenv(tw_db_user = user)
+    if (is.null(pwd) == FALSE) Sys.setenv(tw_db_pwd = pwd)
     return(invisible(
-      list(driver = driver,
-           host = host,
-           port = port,
-           database = database,
-           user = user,
-           pwd = pwd)))
+      list(
+        driver = driver,
+        host = host,
+        port = port,
+        database = database,
+        user = user,
+        pwd = pwd
+      )
+    ))
   } else {
     Sys.setenv(tw_db_driver = db_settings$driver)
     Sys.setenv(tw_db_host = db_settings$host)
@@ -148,14 +150,14 @@ tw_set_cache_db <- function(db_settings = NULL,
 #' @examples
 #'
 #' tw_get_cache_db()
-#'
 tw_get_cache_db <- function() {
-  list(driver = Sys.getenv("tw_db_driver"),
-       host = Sys.getenv("tw_db_host"),
-       port = Sys.getenv("tw_db_port"),
-       database = Sys.getenv("tw_db_database"),
-       user = Sys.getenv("tw_db_user"),
-       pwd = Sys.getenv("tw_db_pwd")
+  list(
+    driver = Sys.getenv("tw_db_driver"),
+    host = Sys.getenv("tw_db_host"),
+    port = Sys.getenv("tw_db_port"),
+    database = Sys.getenv("tw_db_database"),
+    user = Sys.getenv("tw_db_user"),
+    pwd = Sys.getenv("tw_db_pwd")
   )
 }
 
@@ -282,8 +284,10 @@ tw_disconnect_from_cache <- function(cache = NULL,
       language = language
     )
 
-    if (DBI::dbIsValid(dbObj = db)) {
-      if (disconnect_db == TRUE) {
+    if (pool::dbIsValid(dbObj = db) & isTRUE(disconnect_db)) {
+      if ("Pool" %in% class(db)) {
+        pool::poolClose(db)
+      } else {
         DBI::dbDisconnect(db)
       }
     }

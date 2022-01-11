@@ -22,7 +22,7 @@ Return a connection to be used for caching
 \examples{
 \donttest{
 if (interactive()) {
-  cache_connection <- DBI::dbConnect(
+  cache_connection <- pool::dbPool(
     RSQLite::SQLite(), # or e.g. odbc::odbc(),
     Driver =  ":memory:", # or e.g. "MariaDB",
     Host = "localhost",
@@ -33,16 +33,16 @@ if (interactive()) {
   tw_connect_to_cache(cache_connection)
 
 
-db_settings <- list(
- driver = "MySQL",
- host = "localhost",
- port = 3306,
- database = "tidywikidatar",
- user = "secret_username",
- pwd = "secret_password"
- )
+  db_settings <- list(
+    driver = "MySQL",
+    host = "localhost",
+    port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
 
- tw_connect_to_cache(db_settings)
+  tw_connect_to_cache(db_settings)
 }
 }
 

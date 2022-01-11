@@ -15,5 +15,4 @@ Typically set with \code{tw_set_cache_db()}
 \examples{
 
 tw_get_cache_db()
-
 }

@@ -39,29 +39,28 @@ Set database connection settings for the session
 \donttest{
 if (interactive()) {
 
-# Settings can be provided either as a list
-db_settings <- list(
- driver = "MySQL",
- host = "localhost",
- port = 3306,
- database = "tidywikidatar",
- user = "secret_username",
- pwd = "secret_password"
- )
+  # Settings can be provided either as a list
+  db_settings <- list(
+    driver = "MySQL",
+    host = "localhost",
+    port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
 
-tw_set_cache_db(db_settings)
+  tw_set_cache_db(db_settings)
 
-# or as parameters
+  # or as parameters
 
-tw_set_cache_db(
- driver = "MySQL",
- host = "localhost",
- port = 3306,
- database = "tidywikidatar",
- user = "secret_username",
- pwd = "secret_password"
- )
-
+  tw_set_cache_db(
+    driver = "MySQL",
+    host = "localhost",
+    port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
 }
 }
 }

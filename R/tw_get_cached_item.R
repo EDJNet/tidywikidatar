@@ -35,9 +35,14 @@ tw_get_cached_item <- function(id,
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tibble::tibble(
       id = as.character(NA),
@@ -56,7 +61,12 @@ tw_get_cached_item <- function(id,
   )
   if (isFALSE(db_result)) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tibble::tibble(
       id = as.character(NA),
@@ -67,10 +77,15 @@ tw_get_cached_item <- function(id,
   }
 
   cached_items_df <- db_result %>%
-    tibble::as_tibble()
+    dplyr::collect()
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 
   cached_items_df

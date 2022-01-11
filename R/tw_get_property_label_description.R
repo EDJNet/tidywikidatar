@@ -82,7 +82,7 @@ tw_get_property_label <- function(property,
       dplyr::pull(.data$label)
 
     tw_disconnect_from_cache(
-      cache = cache,
+      cache = tw_check_cache(cache),
       cache_connection = cache_connection,
       disconnect_db = disconnect_db
     )

@@ -30,7 +30,8 @@ Imports:
     fs,
     rlang (>= 0.1.2),
     progress,
-    jsonlite
+    jsonlite,
+    pool
 Suggests: 
     spelling,
     roxygen2,

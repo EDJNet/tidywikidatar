@@ -280,6 +280,10 @@ tw_get_image_metadata <- function(id,
   } else if (nrow(input_df_distinct) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = nrow(input_df_distinct))
+      db <- tw_connect_to_cache(
+        connection = cache_connection,
+        language = language
+      )
       image_metadata <- purrr::map2_dfr(
         .x = input_df_distinct$image_filename,
         .y = input_df_distinct$id,
@@ -292,7 +296,7 @@ tw_get_image_metadata <- function(id,
             id_df = id_df,
             cache = cache,
             overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
+            cache_connection = db,
             disconnect_db = FALSE,
             wait = wait,
             attempts = attempts
@@ -324,7 +328,7 @@ tw_get_image_metadata <- function(id,
         language = language
       )
 
-      if (DBI::dbExistsTable(conn = db, name = table_name) == TRUE) {
+      if (pool::dbExistsTable(conn = db, name = table_name) == TRUE) {
         db_result <- tryCatch(
           dplyr::tbl(src = db, table_name) %>%
             dplyr::filter(.data$id %in% stringr::str_to_upper(id)),
@@ -336,7 +340,7 @@ tw_get_image_metadata <- function(id,
           image_metadata_from_cache_df <- logical(1L)
         } else {
           image_metadata_from_cache_df <- db_result %>%
-            tibble::as_tibble()
+            dplyr::collect()
         }
       } else {
         image_metadata_from_cache_df <- logical(1L)
@@ -367,6 +371,10 @@ tw_get_image_metadata <- function(id,
       )
     } else if (nrow(image_metadata_not_in_cache) > 0) {
       pb <- progress::progress_bar$new(total = nrow(image_metadata_not_in_cache))
+      db <- tw_connect_to_cache(
+        connection = cache_connection,
+        language = language
+      )
       image_metadata_not_in_cache_df <- purrr::map2_dfr(
         .x = image_metadata_not_in_cache$image_filename,
         .y = image_metadata_not_in_cache$id,
@@ -380,7 +388,7 @@ tw_get_image_metadata <- function(id,
             id_df = id_df,
             cache = cache,
             overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
+            cache_connection = db,
             disconnect_db = FALSE,
             wait = wait,
             attempts = attempts
@@ -473,7 +481,7 @@ tw_get_image_metadata_single <- function(id,
       language = language
     )
 
-    if (DBI::dbExistsTable(conn = db, name = table_name) == TRUE) {
+    if (pool::dbExistsTable(conn = db, name = table_name) == TRUE) {
       db_result <- tryCatch(
         dplyr::tbl(src = db, table_name) %>%
           dplyr::filter(.data$id %in% stringr::str_to_upper(id)),
@@ -693,7 +701,7 @@ tw_get_image_metadata_single <- function(id,
 
     table_name <- tw_get_cache_table_name(type = "image_metadata", language = language)
 
-    if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+    if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
       # do nothing: if table does not exist, previous data cannot be there
     } else {
       if (overwrite_cache == TRUE) {
@@ -702,21 +710,26 @@ tw_get_image_metadata_single <- function(id,
           table_name = table_name,
           .con = db
         )
-        result <- DBI::dbExecute(
+        result <- pool::dbExecute(
           conn = db,
           statement = statement
         )
       }
     }
 
-    DBI::dbWriteTable(db,
+    pool::dbWriteTable(db,
       name = table_name,
       value = image_metadata,
       append = TRUE
     )
 
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
   }
   tw_disconnect_from_cache(

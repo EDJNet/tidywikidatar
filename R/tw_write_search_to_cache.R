@@ -49,7 +49,7 @@ tw_write_search_to_cache <- function(search_df,
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
@@ -58,20 +58,25 @@ tw_write_search_to_cache <- function(search_df,
         table_name = table_name,
         .con = db
       )
-      result <- DBI::dbExecute(
+      result <- pool::dbExecute(
         conn = db,
         statement = statement
       )
     }
   }
 
-  DBI::dbWriteTable(db,
+  pool::dbWriteTable(db,
     name = table_name,
     value = search_df,
     append = TRUE
   )
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 }

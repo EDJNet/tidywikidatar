@@ -328,6 +328,10 @@ tw_get <- function(id,
   } else if (length(unique_id) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_id))
+      db <- tw_connect_to_cache(
+        connection = cache_connection,
+        language = language
+      )
       item_df <- purrr::map_dfr(
         .x = unique_id,
         .f = function(x) {
@@ -337,7 +341,7 @@ tw_get <- function(id,
             language = language,
             cache = cache,
             overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
+            cache_connection = db,
             disconnect_db = FALSE,
             wait = wait
           )
@@ -382,6 +386,10 @@ tw_get <- function(id,
         )
       } else if (length(id_items_not_in_cache) > 0) {
         pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
+        db <- tw_connect_to_cache(
+          connection = cache_connection,
+          language = language
+        )
         items_not_in_cache_df <- purrr::map_dfr(
           .x = id_items_not_in_cache,
           .f = function(x) {
@@ -391,7 +399,7 @@ tw_get <- function(id,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = cache_connection,
+              cache_connection = db,
               read_cache = FALSE,
               disconnect_db = FALSE,
               wait = wait

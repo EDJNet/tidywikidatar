@@ -46,7 +46,7 @@ tw_write_item_to_cache <- function(item_df,
 
   table_name <- tw_get_cache_table_name(type = "item", language = language)
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
@@ -55,20 +55,25 @@ tw_write_item_to_cache <- function(item_df,
         table_name = table_name,
         .con = db
       )
-      result <- DBI::dbExecute(
+      result <- pool::dbExecute(
         conn = db,
         statement = statement
       )
     }
   }
 
-  DBI::dbWriteTable(db,
+  pool::dbWriteTable(db,
     name = table_name,
     value = item_df,
     append = TRUE
   )
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 }

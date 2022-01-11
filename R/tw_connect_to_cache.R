@@ -10,7 +10,7 @@
 #' @examples
 #' \donttest{
 #' if (interactive()) {
-#'   cache_connection <- DBI::dbConnect(
+#'   cache_connection <- pool::dbPool(
 #'     RSQLite::SQLite(), # or e.g. odbc::odbc(),
 #'     Driver =  ":memory:", # or e.g. "MariaDB",
 #'     Host = "localhost",
@@ -21,22 +21,27 @@
 #'   tw_connect_to_cache(cache_connection)
 #'
 #'
-#' db_settings <- list(
-#'  driver = "MySQL",
-#'  host = "localhost",
-#'  port = 3306,
-#'  database = "tidywikidatar",
-#'  user = "secret_username",
-#'  pwd = "secret_password"
-#'  )
+#'   db_settings <- list(
+#'     driver = "MySQL",
+#'     host = "localhost",
+#'     port = 3306,
+#'     database = "tidywikidatar",
+#'     user = "secret_username",
+#'     pwd = "secret_password"
+#'   )
 #'
-#'  tw_connect_to_cache(db_settings)
+#'   tw_connect_to_cache(db_settings)
 #' }
 #' }
 #'
 tw_connect_to_cache <- function(connection = NULL,
                                 RSQLite = NULL,
                                 language = NULL) {
+  if (is.null(connection) == FALSE & is.list(connection) == FALSE) {
+    if (DBI::dbIsValid(connection) == FALSE) {
+      connection <- NULL
+    }
+  }
 
   if (is.null(connection)) {
     if (is.null(language) == FALSE) {
@@ -53,43 +58,67 @@ tw_connect_to_cache <- function(connection = NULL,
         type = "item",
         language = language
       )
-      db <- DBI::dbConnect(
+
+      if (fs::file_exists(db_file) == FALSE) {
+        db <- DBI::dbConnect(
+          drv = RSQLite::SQLite(),
+          db_file
+        )
+      }
+
+      db <- pool::dbPool(
         drv = RSQLite::SQLite(),
-        db_file
+        dbname = db_file
       )
       return(db)
     } else {
-
-      if (requireNamespace("odbc", quietly = TRUE)==FALSE) {
-        usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`.")
-      }
-
       connection <- tw_get_cache_db()
 
-      db <- DBI::dbConnect(
-        drv = odbc::odbc(),
+      if (connection[["driver"]] == "SQLite") {
+        if (requireNamespace("RSQLite", quietly = TRUE) == FALSE) {
+          usethis::ui_stop(x = "To use SQLite databases you need to install the package `RSQLite`.")
+        }
+        drv <- RSQLite::SQLite()
+      } else {
+        if (requireNamespace("odbc", quietly = TRUE) == FALSE) {
+          usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`, or provide your connection directly to all functions.")
+        }
+        drv <- odbc::odbc()
+      }
+
+      db <- pool::dbPool(
+        drv = drv,
         driver = connection[["driver"]],
         host = connection[["host"]],
-        port = connection[["port"]],
+        port = as.integer(connection[["port"]]),
         database = connection[["database"]],
         user = connection[["user"]],
         pwd = connection[["pwd"]]
       )
       return(db)
     }
-
   } else {
-    if (requireNamespace("odbc", quietly = TRUE)==FALSE) {
-      usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`.")
-    }
-
     if (is.list(connection)) {
-      db <- DBI::dbConnect(
-        drv = odbc::odbc(),
+
+      if (connection[["driver"]] == "SQLite") {
+        if (requireNamespace("RSQLite", quietly = TRUE) == FALSE) {
+          usethis::ui_stop(x = "To use SQLite databases you need to install the package `RSQLite`.")
+        }
+        drv <- RSQLite::SQLite()
+      } else {
+        if (requireNamespace("odbc", quietly = TRUE) == FALSE) {
+          usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`, or provide your connection directly to all functions.")
+        }
+        drv <- odbc::odbc()
+      }
+
+      db <- pool::dbPool(
+        drv = drv,
         driver = connection[["driver"]],
         host = connection[["host"]],
-        port = connection[["port"]],
+        port = as.integer(connection[["port"]]),
         database = connection[["database"]],
+        dbname = connection[["database"]],
         user = connection[["user"]],
         pwd = connection[["pwd"]]
       )

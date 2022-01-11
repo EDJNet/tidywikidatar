@@ -128,7 +128,10 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
   } else if (length(unique_title) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_title))
-
+      db <- tw_connect_to_cache(
+        connection = cache_connection,
+        language = language
+      )
       df <- purrr::map_dfr(
         .x = unique_title,
         .f = function(x) {
@@ -139,7 +142,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
             language = unique_language,
             cache = cache,
             overwrite_cache = overwrite_cache,
-            cache_connection = cache_connection,
+            cache_connection = db,
             disconnect_db = FALSE,
             wait = wait,
             attempts = attempts
@@ -185,6 +188,10 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
         )
       } else if (length(titles_not_in_cache) > 0) {
         pb <- progress::progress_bar$new(total = length(titles_not_in_cache))
+        db <- tw_connect_to_cache(
+          connection = cache_connection,
+          language = language
+        )
         titles_not_in_cache_df <- purrr::map_dfr(
           .x = titles_not_in_cache,
           .f = function(x) {
@@ -195,7 +202,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = cache_connection,
+              cache_connection = db,
               disconnect_db = FALSE,
               wait = wait,
               attempts = attempts
@@ -461,9 +468,14 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tidywikidatar::tw_empty_wikipedia_page)
   }
@@ -479,7 +491,12 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
   )
   if (isFALSE(db_result)) {
     if (disconnect_db == TRUE) {
-      DBI::dbDisconnect(db)
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = cache_connection,
+        disconnect_db = disconnect_db,
+        language = language
+      )
     }
     return(tidywikidatar::tw_empty_wikipedia_page)
   }
@@ -489,7 +506,12 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
     dplyr::mutate(disambiguation = as.logical(.data$disambiguation))
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
   cached_df
 }
@@ -537,7 +559,7 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
@@ -546,21 +568,26 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
         table_name = table_name,
         .con = db
       )
-      result <- DBI::dbExecute(
+      result <- pool::dbExecute(
         conn = db,
         statement = statement
       )
     }
   }
 
-  DBI::dbWriteTable(db,
+  pool::dbWriteTable(db,
     name = table_name,
     value = df,
     append = TRUE
   )
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
   invisible(df)
 }
@@ -595,17 +622,22 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
     language = language
   )
 
-  if (DBI::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
-    DBI::dbRemoveTable(conn = db, name = table_name)
+    pool::dbRemoveTable(conn = db, name = table_name)
     usethis::ui_info(paste0("Wikipedia page cache reset for language ", sQuote(language), " completed"))
   } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?"))) {
-    DBI::dbRemoveTable(conn = db, name = table_name)
+    pool::dbRemoveTable(conn = db, name = table_name)
     usethis::ui_info(paste0("Wikipedia page cache reset for language ", sQuote(language), " completed"))
   }
 
   if (disconnect_db == TRUE) {
-    DBI::dbDisconnect(db)
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 }
