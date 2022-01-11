@@ -5,9 +5,9 @@
 \title{Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or more pages}
 \usage{
 tw_get_links_from_wikipedia_page(
-  title = NULL,
-  language = tidywikidatar::tw_get_language(),
   url = NULL,
+  language = tidywikidatar::tw_get_language(),
+  title = NULL,
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -17,11 +17,11 @@ tw_get_links_from_wikipedia_page(
 )
 }
 \arguments{
-\item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
+\item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
 
 \item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
 
-\item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
+\item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 

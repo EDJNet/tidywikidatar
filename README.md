@@ -7,9 +7,9 @@
 
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://CRAN.R-project.org/package=tidywikidatar)
+status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
 [![CRAN
-Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](http://cran.r-project.org/package=tidywikidatar)
+Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -547,7 +547,7 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 21 × 8
+#> # A tibble: 25 × 8
 #>    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…
 #>    <chr> <chr>    <chr>        <chr>            <chr>           <chr>           
 #>  1 Q239… P39      Q27169       P2937            Q17315694       wikibase-entity…
@@ -558,9 +558,9 @@ qualifiers_df
 #>  6 Q239… P39      Q27169       P2715            Q1376095        wikibase-entity…
 #>  7 Q239… P39      Q740126      P580             +2019-07-03T00… time            
 #>  8 Q239… P39      Q740126      P1365            Q440710         wikibase-entity…
-#>  9 Q239… P39      Q27169       P2937            Q4644021        wikibase-entity…
-#> 10 Q239… P39      Q27169       P580             +2009-07-14T00… time            
-#> # … with 11 more rows, and 2 more variables: rank <chr>, set <dbl>
+#>  9 Q239… P39      Q740126      P582             +2022-01-11T00… time            
+#> 10 Q239… P39      Q740126      P1534            Q5247364        wikibase-entity…
+#> # … with 15 more rows, and 2 more variables: rank <chr>, set <int>
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -612,6 +612,8 @@ qualifiers_labelled_df %>%
 | David Sassoli | position held | member of the European Parliament    | elected in          | 2014 European Parliament election                |   1 |
 | David Sassoli | position held | President of the European Parliament | start time          | 2019-07-03                                       |   2 |
 | David Sassoli | position held | President of the European Parliament | replaces            | Antonio Tajani                                   |   2 |
+| David Sassoli | position held | President of the European Parliament | end time            | 2022-01-11                                       |   2 |
+| David Sassoli | position held | President of the European Parliament | end cause           | death in office                                  |   2 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   3 |
 | David Sassoli | position held | member of the European Parliament    | start time          | 2009-07-14                                       |   3 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
@@ -625,6 +627,8 @@ qualifiers_labelled_df %>%
 | David Sassoli | position held | member of the European Parliament    | electoral district  | Italy                                            |   4 |
 | David Sassoli | position held | member of the European Parliament    | represents          | Democratic Party                                 |   4 |
 | David Sassoli | position held | member of the European Parliament    | elected in          | 2019 European Parliament election                |   4 |
+| David Sassoli | position held | member of the European Parliament    | end time            | 2022-01-11                                       |   4 |
+| David Sassoli | position held | member of the European Parliament    | end cause           | death in office                                  |   4 |
 
 That’s quite a lot of useful detail. The construction of the request can
 be quite complicated, but keep in mind that if you do this
@@ -827,27 +831,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 759 Columns: 3
+#> Rows: 762 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 759 × 3
-#>    id      label                  description                                   
-#>    <chr>   <chr>                  <chr>                                         
-#>  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
-#>  2 Q276410 Marga Klompé           Dutch politician (1912-1986)                  
-#>  3 Q283654 Maria Skobtsova        Russian saint                                 
-#>  4 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…
-#>  5 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  
-#>  6 Q324718 Martha Dodd            American spy for the Soviet Union             
-#>  7 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…
-#>  8 Q394661 Agnes Wendland         <NA>                                          
-#>  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
-#> 10 Q443262 Lozen                  Apache prophetess and warrior                 
-#> # … with 749 more rows
+#> # A tibble: 762 × 3
+#>    id       label                       description                             
+#>    <chr>    <chr>                       <chr>                                   
+#>  1 Q4566520 Anne Margrethe Strømsheim   Member of the Norwegian resistance (191…
+#>  2 Q4617006 Petertje van den Hengel     <NA>                                    
+#>  3 Q4721909 Alfhild Hovdan              Norwegian journalist                    
+#>  4 Q4767074 Anna Heilman                Polish resistance fighter               
+#>  5 Q4768104 Anne-Sofie Østvedt          Norwegian rsistance member              
+#>  6 Q4800553 Emmy Rutten-Broekman        resistance fighter from the Netherlands 
+#>  7 Q4968236 Helene Moszkiewiez          Belgian resistance member               
+#>  8 Q4972624 Petra Petersen              Danish resistance figher and communist …
+#>  9 Q4973552 Marion Pritchard            Dutch-American social worker (1920-2016)
+#> 10 Q4989093 Monique de Selys Longchamps <NA>                                    
+#> # … with 752 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -865,27 +869,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 125 Columns: 3
+#> Rows: 126 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 125 × 3
-#>    id       label                           description                         
-#>    <chr>    <chr>                           <chr>                               
-#>  1 Q270319  Christiane Desroches Noblecourt egittologa e archeologa francese    
-#>  2 Q3484585 Simone Lurçat                   <NA>                                
-#>  3 Q3574046 Yvette Farnoux                  résistante française                
-#>  4 Q3574174 Yvonne Abbas                    résistante française                
-#>  5 Q2696536 Yolande Beekman                 espionne et agente secret des Speci…
-#>  6 Q3009723 Cécile Cerf                     résistante française                
-#>  7 Q3081207 Francine Fromond                <NA>                                
-#>  8 Q3132483 Henriette Moriamé               <NA>                                
-#>  9 Q3176052 Jeanne Gaillard                 historienne et résistante française 
-#> 10 Q3176091 Jeanne Laurent                  scrittrice francese                 
-#> # … with 115 more rows
+#> # A tibble: 126 × 3
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
+#>  3 Q23765670 Mathilde Dardant                militante et résistante communiste…
+#>  4 Q26837451 Louise Denise Damasse           pittrice francese                  
+#>  5 Q27147438 Jeanne Goupille                 juste d'Indre-et-Loire             
+#>  6 Q27707447 Margot Durrmeyer                résistante française               
+#>  7 Q28030721 Odette Fabius                   <NA>                               
+#>  8 Q28222985 Marcelle Devilliers             <NA>                               
+#>  9 Q28397801 Eugénie Djendi                  opératrice radio, résistante, dépo…
+#> 10 Q3009723  Cécile Cerf                     résistante française               
+#> # … with 116 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -904,7 +908,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 125 Columns: 3
+#> Rows: 126 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -966,20 +970,20 @@ wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_links_from_wikipedia_page()
 
 wikipedia_df
-#> # A tibble: 891 × 5
-#>    wikipedia_title      wikipedia_id wikidata_id wikidata_description   language
-#>    <chr>                       <int> <chr>       <chr>                  <chr>   
-#>  1 Alex Barker                    NA <NA>        <NA>                   en      
-#>  2 Alfred S. Hayes                NA <NA>        <NA>                   en      
-#>  3 Blackberry Winter: …           NA <NA>        <NA>                   en      
-#>  4 Continuities in Cul…           NA <NA>        <NA>                   en      
-#>  5 Culture and Commitm…           NA <NA>        <NA>                   en      
-#>  6 John P. Gillin                 NA <NA>        <NA>                   en      
-#>  7 A Darwinian Left          3890352 Q1762274    1999 book by Peter Si… en      
-#>  8 A Rap on Race            14527943 Q4659145    Book by Margaret Mead… en      
-#>  9 Abby Kelley               4056835 Q2820848    <NA>                   en      
-#> 10 Abigail Adams              102745 Q206191     2nd First Lady of the… en      
-#> # … with 881 more rows
+#> # A tibble: 893 × 8
+#>    source_title  source_wikipedia… source_qid wikipedia_title wikipedia_id qid  
+#>    <chr>         <chr>             <chr>      <chr>                  <int> <chr>
+#>  1 Margaret Mead Margaret Mead     Q180099    Alex Barker               NA <NA> 
+#>  2 Margaret Mead Margaret Mead     Q180099    Alfred S. Hayes           NA <NA> 
+#>  3 Margaret Mead Margaret Mead     Q180099    Blackberry Win…           NA <NA> 
+#>  4 Margaret Mead Margaret Mead     Q180099    Continuities i…           NA <NA> 
+#>  5 Margaret Mead Margaret Mead     Q180099    Culture and Co…           NA <NA> 
+#>  6 Margaret Mead Margaret Mead     Q180099    John P. Gillin            NA <NA> 
+#>  7 Margaret Mead Margaret Mead     Q180099    A Darwinian Le…      3890352 Q176…
+#>  8 Margaret Mead Margaret Mead     Q180099    A Rap on Race       14527943 Q465…
+#>  9 Margaret Mead Margaret Mead     Q180099    Abby Kelley          4056835 Q282…
+#> 10 Margaret Mead Margaret Mead     Q180099    Abigail Adams         102745 Q206…
+#> # … with 883 more rows, and 2 more variables: description <chr>, language <chr>
 ```
 
 What if we are potentially interested only in the people mentioned in

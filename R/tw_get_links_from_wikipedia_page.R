@@ -17,9 +17,9 @@
 #' if (interactive()) {
 #'   tw_get_links_from_wikipedia_page(title = "Margaret Mead", language = "en")
 #' }
-tw_get_links_from_wikipedia_page <- function(title = NULL,
+tw_get_links_from_wikipedia_page <- function(url = NULL,
                                              language = tidywikidatar::tw_get_language(),
-                                             url = NULL,
+                                             title = NULL,
                                              cache = NULL,
                                              overwrite_cache = FALSE,
                                              cache_connection = NULL,
