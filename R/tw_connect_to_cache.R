@@ -99,7 +99,6 @@ tw_connect_to_cache <- function(connection = NULL,
     }
   } else {
     if (is.list(connection)) {
-
       if (connection[["driver"]] == "SQLite") {
         if (requireNamespace("RSQLite", quietly = TRUE) == FALSE) {
           usethis::ui_stop(x = "To use SQLite databases you need to install the package `RSQLite`.")

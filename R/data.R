@@ -25,7 +25,13 @@
 #' @format A data frame with 0 rows and 8 columns
 "tw_empty_qualifiers_df"
 
-#' A zero-rows tibble used internally when `tw_get_qid_of_wikipedia_page()` or `tw_get_links_from_wikipedia_page()` would not return any value.
+#' A zero-rows tibble used internally when `tw_get_wikipedia_page_qid()` would not return any value.
 #'
 #' @format A data frame with 0 rows and 6 columns
 "tw_empty_wikipedia_page"
+
+
+#' A zero-rows tibble used internally when `tw_get_wikipedia_page_links()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 8 columns
+"tw_empty_wikipedia_page_links"

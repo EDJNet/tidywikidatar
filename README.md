@@ -8,8 +8,10 @@
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
-[![CRAN
-Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/last-month/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -173,12 +175,12 @@ tw_search(search = "Margaret Mead")
 #>  2 Q81015029 Margaret mead                       scientific article published o…
 #>  3 Q66701460 Margaret Mead                       scientific article published o…
 #>  4 Q85724626 Mead & Bateson                      business organisation          
-#>  5 Q96077616 Margaret Meadows                    (1718-1781)                    
-#>  6 Q76238541 Margaret Meadowe                    Peerage person ID=628312       
-#>  7 Q75506638 Margaret Meadows                    Peerage person ID=183057       
-#>  8 Q75812372 Margaret Meade-Waldo                (died 1954)                    
-#>  9 Q6759717  Margaret Mead Film Festival         annual film festival held in N…
-#> 10 Q55897055 Margaret Mead and Samoa: Coming of… <NA>
+#>  5 Q75281958 Lady Margaret Meade-Fetherstonhaugh British author (1888–1977)     
+#>  6 Q96077616 Margaret Meadows                    (1718-1781)                    
+#>  7 Q76238541 Margaret Meadowe                    Peerage person ID=628312       
+#>  8 Q75506638 Margaret Meadows                    Peerage person ID=183057       
+#>  9 Q75812372 Margaret Meade-Waldo                (died 1954)                    
+#> 10 Q6759717  Margaret Mead Film Festival         annual film festival held in N…
 ```
 
 If I am running through a list of strings, and, for example, I am
@@ -521,9 +523,11 @@ However, some properties have additional qualifiers.
 
 As an example, let’s look at someone whose life is seemingly less
 adventurous than that of Margaret Mead, but whose Wikidata page has
-properties with a more interesting combination of qualifiers: the
-current president of the European Parliament David Sassoli
-([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+properties with a more interesting combination of qualifiers: the former
+president of the European Parliament David Sassoli
+([Q2391857](https://www.wikidata.org/wiki/Q2391857)). (this example
+based on David Sassoli was included in this document before his
+premature death in early 2022)
 
 If we look at his “positions held”
 ([P39](https://www.wikidata.org/wiki/Property:P39)), we find the
@@ -547,7 +551,7 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 25 × 8
+#> # A tibble: 26 × 8
 #>    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…
 #>    <chr> <chr>    <chr>        <chr>            <chr>           <chr>           
 #>  1 Q239… P39      Q27169       P2937            Q17315694       wikibase-entity…
@@ -560,7 +564,7 @@ qualifiers_df
 #>  8 Q239… P39      Q740126      P1365            Q440710         wikibase-entity…
 #>  9 Q239… P39      Q740126      P582             +2022-01-11T00… time            
 #> 10 Q239… P39      Q740126      P1534            Q5247364        wikibase-entity…
-#> # … with 15 more rows, and 2 more variables: rank <chr>, set <int>
+#> # … with 16 more rows, and 2 more variables: rank <chr>, set <dbl>
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -614,6 +618,7 @@ qualifiers_labelled_df %>%
 | David Sassoli | position held | President of the European Parliament | replaces            | Antonio Tajani                                   |   2 |
 | David Sassoli | position held | President of the European Parliament | end time            | 2022-01-11                                       |   2 |
 | David Sassoli | position held | President of the European Parliament | end cause           | death in office                                  |   2 |
+| David Sassoli | position held | President of the European Parliament | replaced by         | Roberta Metsola Tedesco Triccas                  |   2 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   3 |
 | David Sassoli | position held | member of the European Parliament    | start time          | 2009-07-14                                       |   3 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
@@ -839,18 +844,18 @@ tw_query(query = query_df)
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 762 × 3
-#>    id       label                       description                             
-#>    <chr>    <chr>                       <chr>                                   
-#>  1 Q4566520 Anne Margrethe Strømsheim   Member of the Norwegian resistance (191…
-#>  2 Q4617006 Petertje van den Hengel     <NA>                                    
-#>  3 Q4721909 Alfhild Hovdan              Norwegian journalist                    
-#>  4 Q4767074 Anna Heilman                Polish resistance fighter               
-#>  5 Q4768104 Anne-Sofie Østvedt          Norwegian rsistance member              
-#>  6 Q4800553 Emmy Rutten-Broekman        resistance fighter from the Netherlands 
-#>  7 Q4968236 Helene Moszkiewiez          Belgian resistance member               
-#>  8 Q4972624 Petra Petersen              Danish resistance figher and communist …
-#>  9 Q4973552 Marion Pritchard            Dutch-American social worker (1920-2016)
-#> 10 Q4989093 Monique de Selys Longchamps <NA>                                    
+#>    id       label            description                          
+#>    <chr>    <chr>            <chr>                                
+#>  1 Q3427151 Renée Jacqmotte  <NA>                                 
+#>  2 Q3446576 Ruby Summers     <NA>                                 
+#>  3 Q3455497 Régine Krochmal  <NA>                                 
+#>  4 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)
+#>  5 Q3484585 Simone Lurçat    <NA>                                 
+#>  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) 
+#>  7 Q3506010 Suzanne Moons    <NA>                                 
+#>  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)
+#>  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)
+#> 10 Q3574207 Yvonne Jospa     Belgian resistance member            
 #> # … with 752 more rows
 ```
 
@@ -877,18 +882,18 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 126 × 3
-#>    id        label                           description                        
-#>    <chr>     <chr>                           <chr>                              
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
-#>  2 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
-#>  3 Q23765670 Mathilde Dardant                militante et résistante communiste…
-#>  4 Q26837451 Louise Denise Damasse           pittrice francese                  
-#>  5 Q27147438 Jeanne Goupille                 juste d'Indre-et-Loire             
-#>  6 Q27707447 Margot Durrmeyer                résistante française               
-#>  7 Q28030721 Odette Fabius                   <NA>                               
-#>  8 Q28222985 Marcelle Devilliers             <NA>                               
-#>  9 Q28397801 Eugénie Djendi                  opératrice radio, résistante, dépo…
-#> 10 Q3009723  Cécile Cerf                     résistante française               
+#>    id        label                           description                       
+#>    <chr>     <chr>                           <chr>                             
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese  
+#>  2 Q30152162 Paulette Davin                  résistante française              
+#>  3 Q42218701 Yvette Grollet-Briand           aviatrice française               
+#>  4 Q42291666 Alice Vansteenberghe            résistante française              
+#>  5 Q42887213 Marie-Thérèse de Poix           infirmière et résistante française
+#>  6 Q47075790 Anne-Marie Bigot                juste parmi les Nations           
+#>  7 Q47107820 Madeleine Clément               juste parmi les Nations           
+#>  8 Q47367488 Marie-Louise Cloarec            résistante française              
+#>  9 Q47396640 Suzanne Mertzizen               résistante française              
+#> 10 Q50364851 Paulette Sauboua                <NA>                              
 #> # … with 116 more rows
 ```
 
@@ -938,19 +943,21 @@ a Wikipedia page, which give the same result (the user, however, should
 be mindful of redirection if using the title).
 
 ``` r
-tw_get_qid_of_wikipedia_page(title = "Margaret Mead")
+tw_get_wikipedia_page_qid(title = "Margaret Mead")
 #> # A tibble: 1 × 7
-#>   title  wikipedia_title wikipedia_id qid   description  disambiguation language
-#>   <chr>  <chr>                  <int> <chr> <chr>        <lgl>          <chr>   
-#> 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en
+#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
+#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#> 1 Margaret Mead Margaret Mead          19617 Q180099 American cu… FALSE         
+#> # … with 1 more variable: language <chr>
 ```
 
 ``` r
-tw_get_qid_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 #> # A tibble: 1 × 7
-#>   title  wikipedia_title wikipedia_id qid   description  disambiguation language
-#>   <chr>  <chr>                  <int> <chr> <chr>        <lgl>          <chr>   
-#> 1 Marga… Margaret Mead          19617 Q180… American cu… FALSE          en
+#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
+#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#> 1 Margaret_Mead Margaret Mead          19617 Q180099 American cu… FALSE         
+#> # … with 1 more variable: language <chr>
 ```
 
 Depending on the workflow, it is also possible to get the full link to
@@ -967,23 +974,24 @@ etc.
 
 ``` r
 wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
-  tw_get_links_from_wikipedia_page()
+  tw_get_wikipedia_page_links()
 
 wikipedia_df
 #> # A tibble: 893 × 8
-#>    source_title  source_wikipedia… source_qid wikipedia_title wikipedia_id qid  
-#>    <chr>         <chr>             <chr>      <chr>                  <int> <chr>
-#>  1 Margaret Mead Margaret Mead     Q180099    Alex Barker               NA <NA> 
-#>  2 Margaret Mead Margaret Mead     Q180099    Alfred S. Hayes           NA <NA> 
-#>  3 Margaret Mead Margaret Mead     Q180099    Blackberry Win…           NA <NA> 
-#>  4 Margaret Mead Margaret Mead     Q180099    Continuities i…           NA <NA> 
-#>  5 Margaret Mead Margaret Mead     Q180099    Culture and Co…           NA <NA> 
-#>  6 Margaret Mead Margaret Mead     Q180099    John P. Gillin            NA <NA> 
-#>  7 Margaret Mead Margaret Mead     Q180099    A Darwinian Le…      3890352 Q176…
-#>  8 Margaret Mead Margaret Mead     Q180099    A Rap on Race       14527943 Q465…
-#>  9 Margaret Mead Margaret Mead     Q180099    Abby Kelley          4056835 Q282…
-#> 10 Margaret Mead Margaret Mead     Q180099    Abigail Adams         102745 Q206…
-#> # … with 883 more rows, and 2 more variables: description <chr>, language <chr>
+#>    source_title_url source_wikipedia… source_qid wikipedia_title    wikipedia_id
+#>    <chr>            <chr>             <chr>      <chr>                     <int>
+#>  1 Margaret Mead    Margaret Mead     Q180099    Alex Barker                  NA
+#>  2 Margaret Mead    Margaret Mead     Q180099    Alfred S. Hayes              NA
+#>  3 Margaret Mead    Margaret Mead     Q180099    Blackberry Winter…           NA
+#>  4 Margaret Mead    Margaret Mead     Q180099    Continuities in C…           NA
+#>  5 Margaret Mead    Margaret Mead     Q180099    Culture and Commi…           NA
+#>  6 Margaret Mead    Margaret Mead     Q180099    John P. Gillin               NA
+#>  7 Margaret Mead    Margaret Mead     Q180099    A Darwinian Left        3890352
+#>  8 Margaret Mead    Margaret Mead     Q180099    A Rap on Race          14527943
+#>  9 Margaret Mead    Margaret Mead     Q180099    Abby Kelley             4056835
+#> 10 Margaret Mead    Margaret Mead     Q180099    Abigail Adams            102745
+#> # … with 883 more rows, and 3 more variables: qid <chr>, description <chr>,
+#> #   language <chr>
 ```
 
 What if we are potentially interested only in the people mentioned in
@@ -1088,7 +1096,9 @@ See the the dedicated vignette for more details on caching:
 ## Requirements and installation issues
 
 Fedora users may need to install the package `libjpeg-turbo-devel`,
-which is required by one of the packages that `tidywikidatar` relies on.
+which is required by one of the packages that `tidywikidatar` relies on,
+as well as some of the database drivers that can be used for caching,
+such as `unixODBC-devel`, and `mysql-devel`, `mysql-connector-odbc`.
 
 ## Copyright and credits
 

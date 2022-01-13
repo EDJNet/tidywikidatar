@@ -27,7 +27,7 @@ A character vector with IDs of items present in cache. If no item found in cache
 Check if given items are present in cache
 }
 \examples{
-
+if (interactive()) {
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()
 tw_create_cache_folder(ask = FALSE)
@@ -49,4 +49,5 @@ items_in_cache <- tw_check_cached_items(
 # it should return only the two items from the current list of id
 # but not other item already in cache
 items_in_cache
+}
 }

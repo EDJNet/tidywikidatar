@@ -19,7 +19,8 @@ set.seed(42)
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
-[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -293,7 +294,7 @@ In most cases, things are quite straightforward: each item has one or more value
 
 However, some properties have additional qualifiers.
 
-As an example, let's look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the current president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+As an example, let's look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the former president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)). (this example based on David Sassoli was included in this document before his premature death in early 2022)
 
 If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property:P39)), we find the following:
 
@@ -490,12 +491,12 @@ Besides querying Wikidata and using the basic `tw_search()` function described a
 In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).
 
 ```{r}
-tw_get_qid_of_wikipedia_page(title = "Margaret Mead")
+tw_get_wikipedia_page_qid(title = "Margaret Mead")
 ```
 
 
 ```{r}
-tw_get_qid_of_wikipedia_page(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
+tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 ```
 
 Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier. 
@@ -508,7 +509,7 @@ Who and what is mentioned in Margaret Mead's Wikipedia page? As it turns out, hu
 
 ```{r}
 wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
-  tw_get_links_from_wikipedia_page()
+  tw_get_wikipedia_page_links()
 
 wikipedia_df
 
@@ -572,7 +573,7 @@ See the the dedicated vignette for more details on caching: `vignette("caching")
 
 ## Requirements and installation issues
 
-Fedora users may need to install the package `libjpeg-turbo-devel`, which is required by one of the packages that `tidywikidatar` relies on.
+Fedora users may need to install the package `libjpeg-turbo-devel`, which is required by one of the packages that `tidywikidatar` relies on, as well as some of the database drivers that can be used for caching, such as `unixODBC-devel`, and `mysql-devel`, `mysql-connector-odbc`.
 
 ## Copyright and credits
 

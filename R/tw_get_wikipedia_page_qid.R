@@ -10,8 +10,9 @@
 #' @export
 #'
 #' @examples
-#'
-#' tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+#' if (interactive()) {
+#'   tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+#' }
 tw_get_wikipedia_base_api_url <- function(url = NULL,
                                           title = NULL,
                                           language = tidywikidatar::tw_get_language()) {
@@ -63,20 +64,20 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #'
 #' @examples
 #' if (interactive()) {
-#'   tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
+#'   tw_get_wikipedia_page_qid(title = "Margaret Mead", language = "en")
 #'
 #'   # check when Wikipedia returns disambiguation page
-#'   tw_get_qid_of_wikipedia_page(title = c("Rome", "London", "New York", "Vienna"))
+#'   tw_get_wikipedia_page_qid(title = c("Rome", "London", "New York", "Vienna"))
 #' }
-tw_get_qid_of_wikipedia_page <- function(url = NULL,
-                                         title = NULL,
-                                         language = tidywikidatar::tw_get_language(),
-                                         cache = NULL,
-                                         overwrite_cache = FALSE,
-                                         cache_connection = NULL,
-                                         disconnect_db = TRUE,
-                                         wait = 1,
-                                         attempts = 5) {
+tw_get_wikipedia_page_qid <- function(url = NULL,
+                                      title = NULL,
+                                      language = tidywikidatar::tw_get_language(),
+                                      cache = NULL,
+                                      overwrite_cache = FALSE,
+                                      cache_connection = NULL,
+                                      disconnect_db = TRUE,
+                                      wait = 1,
+                                      attempts = 5) {
   if (is.null(url) == FALSE) {
     if (is.null(title)) {
       title <- stringr::str_extract(
@@ -98,7 +99,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
   if (length(unique_language) == 0) {
     return(NULL)
   } else if (length(unique_language) > 1) {
-    usethis::ui_stop(x = "{usethis::ui_code('tw_get_qid_of_wikipedia_page()')} currently accepts only inputs with one language at a time.")
+    usethis::ui_stop(x = "{usethis::ui_code('tw_get_wikipedia_page_qid()')} currently accepts only inputs with one language at a time.")
   }
 
   unique_title <- unique(title)
@@ -110,8 +111,8 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
   if (length(unique_title) == 1) {
     return(
       dplyr::left_join(
-        x = tibble::tibble(title = title),
-        y = tw_get_qid_of_wikipedia_page_single(
+        x = tibble::tibble(title_url = title),
+        y = tw_get_wikipedia_page_qid_single(
           url = NULL,
           title = unique_title,
           language = language,
@@ -122,7 +123,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
           wait = wait,
           attempts = attempts
         ),
-        by = "title"
+        by = "title_url"
       )
     )
   } else if (length(unique_title) > 1) {
@@ -136,7 +137,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
         .x = unique_title,
         .f = function(x) {
           pb$tick()
-          tw_get_qid_of_wikipedia_page_single(
+          tw_get_wikipedia_page_qid_single(
             url = NULL,
             title = x,
             language = unique_language,
@@ -151,20 +152,20 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
       )
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
       return(
         dplyr::left_join(
-          x = tibble::tibble(title = title),
+          x = tibble::tibble(title_url = title),
           y = df,
-          by = "title"
+          by = "title_url"
         )
       )
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
-      titles_in_cache_df <- tw_get_cached_qid_of_wikipedia_page(
+      titles_in_cache_df <- tw_get_cached_wikipedia_page_qid(
         title = unique_title,
         language = language,
         cache_connection = cache_connection,
@@ -181,9 +182,9 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
         )
         return(
           dplyr::left_join(
-            x = tibble::tibble(title = title),
+            x = tibble::tibble(title_url = title),
             y = titles_in_cache_df,
-            by = "title"
+            by = "title_url"
           )
         )
       } else if (length(titles_not_in_cache) > 0) {
@@ -196,7 +197,7 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
           .x = titles_not_in_cache,
           .f = function(x) {
             pb$tick()
-            tw_get_qid_of_wikipedia_page_single(
+            tw_get_wikipedia_page_qid_single(
               url = NULL,
               title = x,
               language = language,
@@ -216,12 +217,12 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
           disconnect_db = disconnect_db
         )
         dplyr::left_join(
-          x = tibble::tibble(title = title),
+          x = tibble::tibble(title_url = title),
           y = dplyr::bind_rows(
             titles_in_cache_df,
             titles_not_in_cache_df
           ),
-          by = "title"
+          by = "title_url"
         )
       }
     }
@@ -245,17 +246,17 @@ tw_get_qid_of_wikipedia_page <- function(url = NULL,
 #'
 #' @examples
 #' if (interactive()) {
-#'   tw_get_qid_of_wikipedia_page_single(title = "Margaret Mead", language = "en")
+#'   tw_get_wikipedia_page_qid_single(title = "Margaret Mead", language = "en")
 #' }
-tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
-                                                url = NULL,
-                                                language = tidywikidatar::tw_get_language(),
-                                                cache = NULL,
-                                                overwrite_cache = FALSE,
-                                                cache_connection = NULL,
-                                                disconnect_db = TRUE,
-                                                wait = 1,
-                                                attempts = 5) {
+tw_get_wikipedia_page_qid_single <- function(title = NULL,
+                                             url = NULL,
+                                             language = tidywikidatar::tw_get_language(),
+                                             cache = NULL,
+                                             overwrite_cache = FALSE,
+                                             cache_connection = NULL,
+                                             disconnect_db = TRUE,
+                                             wait = 1,
+                                             attempts = 5) {
   if (is.null(url) == FALSE & is.function(url) == FALSE) {
     if (is.null(title) & is.function(title) == FALSE) {
       title <- stringr::str_extract(
@@ -274,7 +275,7 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
 
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
-    db_result <- tw_get_cached_qid_of_wikipedia_page(
+    db_result <- tw_get_cached_wikipedia_page_qid(
       title = title,
       language = language,
       cache_connection = cache_connection,
@@ -404,7 +405,7 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
   )
 
   df <- tibble::tibble(
-    title = as.character(title),
+    title_url = as.character(title),
     wikipedia_title = as.character(wikipedia_title),
     wikipedia_id = as.integer(wikipedia_id),
     qid = as.character(wikidata_id),
@@ -441,23 +442,24 @@ tw_get_qid_of_wikipedia_page_single <- function(title = NULL,
 #' @export
 #'
 #' @examples
+#' if (interactive()) {
+#'   tw_set_cache_folder(path = tempdir())
+#'   tw_enable_cache()
+#'   tw_create_cache_folder(ask = FALSE)
 #'
-#' tw_set_cache_folder(path = tempdir())
-#' tw_enable_cache()
-#' tw_create_cache_folder(ask = FALSE)
+#'   df_from_api <- tw_get_wikipedia_page_qid(title = "Margaret Mead", language = "en")
 #'
-#' df_from_api <- tw_get_qid_of_wikipedia_page(title = "Margaret Mead", language = "en")
+#'   df_from_cache <- tw_get_cached_wikipedia_page_qid(
+#'     title = "Margaret Mead",
+#'     language = "en"
+#'   )
 #'
-#' df_from_cache <- tw_get_cached_qid_of_wikipedia_page(
-#'   title = "Margaret Mead",
-#'   language = "en"
-#' )
-#'
-#' df_from_cache
-tw_get_cached_qid_of_wikipedia_page <- function(title,
-                                                language = tidywikidatar::tw_get_language(),
-                                                cache_connection = NULL,
-                                                disconnect_db = TRUE) {
+#'   df_from_cache
+#' }
+tw_get_cached_wikipedia_page_qid <- function(title,
+                                             language = tidywikidatar::tw_get_language(),
+                                             cache_connection = NULL,
+                                             disconnect_db = TRUE) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language
@@ -472,7 +474,7 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
     if (disconnect_db == TRUE) {
       tw_disconnect_from_cache(
         cache = TRUE,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db,
         language = language
       )
@@ -483,7 +485,7 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$title %in% stringr::str_c(title)
+        .data$title_url %in% stringr::str_c(title)
       ),
     error = function(e) {
       logical(1L)
@@ -493,7 +495,7 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
     if (disconnect_db == TRUE) {
       tw_disconnect_from_cache(
         cache = TRUE,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db,
         language = language
       )
@@ -502,13 +504,13 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
   }
 
   cached_df <- db_result %>%
-    tibble::as_tibble() %>%
+    dplyr::collect() %>%
     dplyr::mutate(disambiguation = as.logical(.data$disambiguation))
 
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = TRUE,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )
@@ -518,11 +520,11 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
 
 
 
-#' Write qualifiers to cache
+#' Write Wikidata identifier (qid) of Wikipedia page to cache
 #'
-#' Mostly to be used internally by `tidywikidatar`, use with caution to keep caching consistent.
+#' Mostly used internally by `tidywikidatar`, use with caution to keep caching consistent.
 #'
-#' @param df A data frame typically generated with `tw_get_qid_of_wikipedia_page()`.
+#' @param df A data frame typically generated with `tw_get_wikipedia_page_qid()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -534,16 +536,18 @@ tw_get_cached_qid_of_wikipedia_page <- function(title,
 #'
 #' @examples
 #'
-#' df <- tw_get_qid_of_wikipedia_page(
-#'   title = "Margaret Mead",
-#'   language = "en",
-#'   cache = FALSE
-#' )
+#' if (interactive()) {
+#'   df <- tw_get_wikipedia_page_qid(
+#'     title = "Margaret Mead",
+#'     language = "en",
+#'     cache = FALSE
+#'   )
 #'
-#' tw_write_qid_of_wikipedia_page_to_cache(
-#'   df = df,
-#'   language = "en"
-#' )
+#'   tw_write_qid_of_wikipedia_page_to_cache(
+#'     df = df,
+#'     language = "en"
+#'   )
+#' }
 tw_write_qid_of_wikipedia_page_to_cache <- function(df,
                                                     language = tidywikidatar::tw_get_language(),
                                                     overwrite_cache = FALSE,
@@ -563,8 +567,8 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
     # do nothing: if table does not exist, previous data cannot be there
   } else {
     if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE title = {title*}",
-        title = unique(df$title),
+      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE title_url = {title_url*}",
+        title_url = unique(df$title_url),
         table_name = table_name,
         .con = db
       )
@@ -585,16 +589,16 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
     tw_disconnect_from_cache(
       cache = TRUE,
       cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
+      disconnect_db = db,
       language = language
     )
   }
   invisible(df)
 }
 
-#' Reset qualifiers cache
+#' Reset Wikipedia page cache
 #'
-#' Removes the table where qualifiers are cached
+#' Removes the table where data typically gathered with `tw_get_wikipedia_page_qid()` from cache
 #'
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -635,7 +639,7 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = TRUE,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )

@@ -146,7 +146,7 @@ tw_get_cache_table_name <- function(type = "item",
 #' @export
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #' tw_set_cache_folder(path = tempdir())
 #' tw_enable_cache()
 #' tw_create_cache_folder(ask = FALSE)
@@ -168,6 +168,7 @@ tw_get_cache_table_name <- function(type = "item",
 #' # it should return only the two items from the current list of id
 #' # but not other item already in cache
 #' items_in_cache
+#' }
 tw_check_cached_items <- function(id,
                                   language = tidywikidatar::tw_get_language(),
                                   cache_connection = NULL,

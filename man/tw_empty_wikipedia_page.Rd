@@ -3,7 +3,7 @@
 \docType{data}
 \name{tw_empty_wikipedia_page}
 \alias{tw_empty_wikipedia_page}
-\title{A zero-rows tibble used internally when \code{tw_get_qid_of_wikipedia_page()} or \code{tw_get_links_from_wikipedia_page()} would not return any value.}
+\title{A zero-rows tibble used internally when \code{tw_get_wikipedia_page_qid()} would not return any value.}
 \format{
 A data frame with 0 rows and 6 columns
 }
@@ -11,6 +11,6 @@ A data frame with 0 rows and 6 columns
 tw_empty_wikipedia_page
 }
 \description{
-A zero-rows tibble used internally when \code{tw_get_qid_of_wikipedia_page()} or \code{tw_get_links_from_wikipedia_page()} would not return any value.
+A zero-rows tibble used internally when \code{tw_get_wikipedia_page_qid()} would not return any value.
 }
 \keyword{datasets}

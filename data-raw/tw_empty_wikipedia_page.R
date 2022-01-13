@@ -1,7 +1,7 @@
 ## code to prepare `tw_empty_wikipedia_page` dataset goes here
 
 tw_empty_wikipedia_page <- c(
-  "title",
+  "title_url",
   "wikipedia_title",
   "wikipedia_id",
   "qid",
