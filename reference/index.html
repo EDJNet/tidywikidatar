@@ -108,7 +108,12 @@
           
           <code><a href="tw_empty_wikipedia_page.html">tw_empty_wikipedia_page</a></code> 
         </dt>
-        <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_get_qid_of_wikipedia_page.html">tw_get_qid_of_wikipedia_page()</a></code> or <code><a href="../reference/tw_get_links_from_wikipedia_page.html">tw_get_links_from_wikipedia_page()</a></code> would not return any value.</dd>
+        <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code> would not return any value.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_empty_wikipedia_page_links.html">tw_empty_wikipedia_page_links</a></code> 
+        </dt>
+        <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> would not return any value.</dd>
       </dl><dl><dt>
           
           <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> 
@@ -161,11 +166,6 @@
         <dd>Retrieve cached item</dd>
       </dl><dl><dt>
           
-          <code><a href="tw_get_cached_qid_of_wikipedia_page.html">tw_get_cached_qid_of_wikipedia_page()</a></code> 
-        </dt>
-        <dd>Gets id of Wikipedia pages from local cache</dd>
-      </dl><dl><dt>
-          
           <code><a href="tw_get_cached_qualifiers.html">tw_get_cached_qualifiers()</a></code> 
         </dt>
         <dd>Retrieve cached qualifier</dd>
@@ -174,6 +174,16 @@
           <code><a href="tw_get_cached_search.html">tw_get_cached_search()</a></code> 
         </dt>
         <dd>Retrieve cached search</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_cached_wikipedia_page_links.html">tw_get_cached_wikipedia_page_links()</a></code> 
+        </dt>
+        <dd>Gets links of Wikipedia pages from local cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_cached_wikipedia_page_qid.html">tw_get_cached_wikipedia_page_qid()</a></code> 
+        </dt>
+        <dd>Gets id of Wikipedia pages from local cache</dd>
       </dl><dl><dt>
           
           <code><a href="tw_get_description.html">tw_get_description()</a></code> 
@@ -211,16 +221,6 @@
         <dd>Get Wikidata label in given language</dd>
       </dl><dl><dt>
           
-          <code><a href="tw_get_links_from_wikipedia_page.html">tw_get_links_from_wikipedia_page()</a></code> 
-        </dt>
-        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or more pages</dd>
-      </dl><dl><dt>
-          
-          <code><a href="tw_get_links_from_wikipedia_page_single.html">tw_get_links_from_wikipedia_page_single()</a></code> 
-        </dt>
-        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
-      </dl><dl><dt>
-          
           <code><a href="tw_get_property.html">tw_get_property()</a></code> 
         </dt>
         <dd>Get Wikidata property of one or more items as a tidy data frame</dd>
@@ -251,16 +251,6 @@
         <dd>Gets all details of a property</dd>
       </dl><dl><dt>
           
-          <code><a href="tw_get_qid_of_wikipedia_page.html">tw_get_qid_of_wikipedia_page()</a></code> 
-        </dt>
-        <dd>Gets the Wikidata Q identifier of one or more Wikipedia pages</dd>
-      </dl><dl><dt>
-          
-          <code><a href="tw_get_qid_of_wikipedia_page_single.html">tw_get_qid_of_wikipedia_page_single()</a></code> 
-        </dt>
-        <dd>Gets the Wikidata id of a Wikipedia page</dd>
-      </dl><dl><dt>
-          
           <code><a href="tw_get_qualifiers.html">tw_get_qualifiers()</a></code> 
         </dt>
         <dd>Get Wikidata qualifiers for a given property of a given item</dd>
@@ -284,6 +274,26 @@
           <code><a href="tw_get_wikipedia_base_api_url.html">tw_get_wikipedia_base_api_url()</a></code> 
         </dt>
         <dd>Facilitates the creation of MediaWiki API base URLs</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or more pages</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_links_single.html">tw_get_wikipedia_page_links_single()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code> 
+        </dt>
+        <dd>Gets the Wikidata Q identifier of one or more Wikipedia pages</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_qid_single.html">tw_get_wikipedia_page_qid_single()</a></code> 
+        </dt>
+        <dd>Gets the Wikidata id of a Wikipedia page</dd>
       </dl><dl><dt>
           
           <code><a href="tw_label.html">tw_label()</a></code> 
@@ -313,7 +323,12 @@
           
           <code><a href="tw_reset_wikipedia_page_cache.html">tw_reset_wikipedia_page_cache()</a></code> 
         </dt>
-        <dd>Reset qualifiers cache</dd>
+        <dd>Reset Wikipedia page cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_reset_wikipedia_page_links_cache.html">tw_reset_wikipedia_page_links_cache()</a></code> 
+        </dt>
+        <dd>Reset Wikipedia page link cache</dd>
       </dl><dl><dt>
           
           <code><a href="tw_search.html">tw_search()</a></code> 
@@ -358,7 +373,7 @@
           
           <code><a href="tw_write_qid_of_wikipedia_page_to_cache.html">tw_write_qid_of_wikipedia_page_to_cache()</a></code> 
         </dt>
-        <dd>Write qualifiers to cache</dd>
+        <dd>Write Wikidata identifier (qid) of Wikipedia page to cache</dd>
       </dl><dl><dt>
           
           <code><a href="tw_write_qualifiers_to_cache.html">tw_write_qualifiers_to_cache()</a></code> 
@@ -369,6 +384,11 @@
           <code><a href="tw_write_search_to_cache.html">tw_write_search_to_cache()</a></code> 
         </dt>
         <dd>Writes search to cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_write_wikipedia_page_links_to_cache.html">tw_write_wikipedia_page_links_to_cache()</a></code> 
+        </dt>
+        <dd>Write Wikipedia page links to cache</dd>
       </dl></div>
   </main></div>
 

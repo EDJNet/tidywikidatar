@@ -67,6 +67,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_links.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc>
   </url>
   <url>
@@ -97,13 +100,16 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qid_of_wikipedia_page.html</loc>
-  </url>
-  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qualifiers.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_search.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_links.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_qid.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
@@ -127,12 +133,6 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_label.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_links_from_wikipedia_page.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_links_from_wikipedia_page_single.html</loc>
-  </url>
-  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property.html</loc>
   </url>
   <url>
@@ -151,12 +151,6 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details_single.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qid_of_wikipedia_page.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qid_of_wikipedia_page_single.html</loc>
-  </url>
-  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.html</loc>
   </url>
   <url>
@@ -170,6 +164,18 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_base_api_url.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links_single.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid_single.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_label.html</loc>
@@ -188,6 +194,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_links_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search.html</loc>
@@ -221,5 +230,8 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_links_to_cache.html</loc>
   </url>
 </urlset>
