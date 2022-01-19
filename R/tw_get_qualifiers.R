@@ -168,12 +168,8 @@ tw_get_qualifiers <- function(id,
       )
 
       not_in_cache_df <- tibble::tibble(id = id, property = p) %>%
-        tidyr::unite(col = "id_p", sep = "_", remove = TRUE) %>%
-        dplyr::anti_join(qualifiers_from_cache_df %>%
-          tidyr::unite(col = "id_p", sep = "_", remove = TRUE),
-        by = "id_p"
-        ) %>%
-        tidyr::separate(col = .data$id_p, into = c("id", "property"))
+        dplyr::anti_join(qualifiers_from_cache_df,
+                         by = c("id", "property"))
 
 
       if (nrow(not_in_cache_df) == 0) {
