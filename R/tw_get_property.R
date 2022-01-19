@@ -176,6 +176,13 @@ tw_get_property_same_length <- function(id,
     id <- id$id
   }
 
+  if (isTRUE(tw_check_cache(cache))) {
+    db <- tw_connect_to_cache(
+      connection = cache_connection,
+      language = language
+    )
+  }
+
   property_df <- tw_get_property(
     id = id,
     p = p,
@@ -183,14 +190,30 @@ tw_get_property_same_length <- function(id,
     id_df = id_df,
     cache = cache,
     overwrite_cache = overwrite_cache,
-    cache_connection = cache_connection,
-    disconnect_db = disconnect_db,
+    cache_connection = db,
+    disconnect_db = FALSE,
     wait = wait
   )
 
   if (is.null(property_df)) {
+    if (disconnect_db == TRUE) {
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = db,
+        disconnect_db = disconnect_db,
+        language = language
+      )
+    }
     return(rep(as.character(NA), length(id)))
   } else if (nrow(property_df) == 0) {
+    if (disconnect_db == TRUE) {
+      tw_disconnect_from_cache(
+        cache = TRUE,
+        cache_connection = db,
+        disconnect_db = disconnect_db,
+        language = language
+      )
+    }
     if (only_first == TRUE) {
       return(rep(as.character(NA), length(id)))
     } else {
@@ -206,8 +229,8 @@ tw_get_property_same_length <- function(id,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
+      cache_connection = db,
+      disconnect_db = FALSE,
       wait = wait
     )
 
@@ -303,6 +326,15 @@ tw_get_property_same_length <- function(id,
       .x = property_df_out$value,
       .f = is.null
     )] <- list(as.character(NA))
+  }
+
+  if (disconnect_db == TRUE) {
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
 
   property_df_out %>%
