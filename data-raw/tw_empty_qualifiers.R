@@ -1,6 +1,6 @@
-## code to prepare `tw_empty_qualifiers_df` dataset goes here
+## code to prepare `tw_empty_qualifiers` dataset goes here
 
-tw_empty_qualifiers_df <- c(
+tw_empty_qualifiers <- c(
   "id",
   "property",
   "qualifier_id",
@@ -14,6 +14,6 @@ tw_empty_qualifiers_df <- c(
     object = list(character())
   )
 
-tw_empty_qualifiers_df$set <- as.numeric()
+tw_empty_qualifiers$set <- as.numeric()
 
-usethis::use_data(tw_empty_qualifiers_df, overwrite = TRUE)
+usethis::use_data(tw_empty_qualifiers, overwrite = TRUE)

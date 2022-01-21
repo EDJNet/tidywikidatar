@@ -20,10 +20,15 @@
 #' @source \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}
 "tw_qid_meps"
 
+#' A zero-rows tibble used internally when `tw_get()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 3 columns
+"tw_empty_item"
+
 #' A zero-rows tibble used internally when `tw_get_qualifiers()` would not return any value.
 #'
 #' @format A data frame with 0 rows and 8 columns
-"tw_empty_qualifiers_df"
+"tw_empty_qualifiers"
 
 #' A zero-rows tibble used internally when `tw_get_wikipedia_page_qid()` would not return any value.
 #'

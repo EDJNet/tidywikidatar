@@ -24,7 +24,7 @@ tw_extract_qualifier <- function(id,
 
     if (is.character(w)) {
       usethis::ui_oops(w)
-      return(tidywikidatar::tw_empty_qualifiers_df)
+      return(tidywikidatar::tw_empty_qualifiers)
     }
   }
 
@@ -38,7 +38,7 @@ tw_extract_qualifier <- function(id,
     tibble::as_tibble()
 
   if (is.element("qualifiers", colnames(qualifiers)) == FALSE) {
-    return(tidywikidatar::tw_empty_qualifiers_df)
+    return(tidywikidatar::tw_empty_qualifiers)
   }
 
   qualifiers_df <- purrr::map_dfr(
@@ -84,7 +84,7 @@ tw_extract_qualifier <- function(id,
             value <- value_df %>%
               dplyr::pull(.data$time)
           } else {
-            return(tidywikidatar::tw_empty_qualifiers_df %>%
+            return(tidywikidatar::tw_empty_qualifiers %>%
               dplyr::select(
                 -.data$id,
                 -.data$property

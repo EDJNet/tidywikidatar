@@ -56,7 +56,7 @@ tw_get_qualifiers_single <- function(id,
 
   if (is.character(w)) {
     usethis::ui_oops(w)
-    return(tidywikidatar::tw_empty_qualifiers_df)
+    return(tidywikidatar::tw_empty_qualifiers)
   } else {
     qualifiers_df <- tw_extract_qualifier(id = id, p = p, w = w)
   }
@@ -110,7 +110,7 @@ tw_get_qualifiers <- function(id,
   unique_id <- tw_check_qid(id)
 
   if (length(unique_id) == 0) {
-    return(tidywikidatar::tw_empty_qualifiers_df)
+    return(tidywikidatar::tw_empty_qualifiers)
   }
 
   if (length(id) == 0 | length(p) == 0) {
@@ -280,7 +280,7 @@ tw_get_cached_qualifiers <- function(id,
         language = language
       )
     }
-    return(tidywikidatar::tw_empty_qualifiers_df)
+    return(tidywikidatar::tw_empty_qualifiers)
   }
 
   db_result <- tryCatch(
@@ -302,7 +302,7 @@ tw_get_cached_qualifiers <- function(id,
         language = language
       )
     }
-    return(tidywikidatar::tw_empty_qualifiers_df)
+    return(tidywikidatar::tw_empty_qualifiers)
   }
 
   cached_qualifiers_df <- db_result %>%
