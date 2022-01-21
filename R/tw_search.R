@@ -40,15 +40,27 @@ tw_search_single <- function(search,
     usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
   }
 
+
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
+
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_search(
       search = search,
       type = type,
       include_search = include_search,
       language = language,
-      cache_connection = cache_connection
+      cache_connection = db
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db
+      )
+
       return(db_result %>%
         tibble::as_tibble())
     }
@@ -120,7 +132,12 @@ tw_search_single <- function(search,
   }
   search_response_df <- search_response_df %>%
     dplyr::mutate(search = search) %>%
-    dplyr::select(.data$search, .data$id, .data$label, .data$description)
+    dplyr::select(
+      .data$search,
+      .data$id,
+      .data$label,
+      .data$description
+    )
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_search_to_cache(
@@ -128,12 +145,12 @@ tw_search_single <- function(search,
       type = type,
       language = language,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection
+      cache_connection = db
     )
   }
   tw_disconnect_from_cache(
     cache = cache,
-    cache_connection = cache_connection,
+    cache_connection = db,
     disconnect_db = disconnect_db
   )
 
@@ -196,6 +213,11 @@ tw_search <- function(search,
 
   unique_search <- unique(search)
 
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
+
   if (length(unique_search) == 1) {
     search_df <-
       dplyr::left_join(
@@ -209,7 +231,7 @@ tw_search <- function(search,
           wait = wait,
           cache = cache,
           overwrite_cache = overwrite_cache,
-          cache_connection = cache_connection
+          cache_connection = db
         ),
         by = "search"
       )
@@ -223,10 +245,6 @@ tw_search <- function(search,
   } else if (length(unique_search) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_search))
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language
-      )
       search_df <- dplyr::left_join(
         x = tibble::tibble(search = search),
         y = purrr::map_dfr(
@@ -242,11 +260,18 @@ tw_search <- function(search,
               wait = wait,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = db
+              cache_connection = db,
+              disconnect_db = FALSE
             )
           }
         ),
         by = "search"
+      )
+
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db
       )
 
       if (include_search == TRUE) {
@@ -263,7 +288,8 @@ tw_search <- function(search,
         type = type,
         language = language,
         include_search = TRUE,
-        cache_connection = cache_connection
+        cache_connection = db,
+        disconnect_db = FALSE
       )
 
       search_not_in_cache_v <- unique_search[!is.element(unique_search, search_from_cache_df$search)]
@@ -274,6 +300,11 @@ tw_search <- function(search,
           y = search_from_cache_df,
           by = "search"
         )
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = db,
+          disconnect_db = disconnect_db
+        )
         if (include_search == TRUE) {
           return(search_df)
         } else {
@@ -282,10 +313,7 @@ tw_search <- function(search,
         }
       } else if (length(search_not_in_cache_v) > 0) {
         pb <- progress::progress_bar$new(total = length(search_not_in_cache_v))
-        db <- tw_connect_to_cache(
-          connection = cache_connection,
-          language = language
-        )
+
         items_not_in_cache_df <- purrr::map_dfr(
           .x = search_not_in_cache_v,
           .f = function(x) {
@@ -299,14 +327,15 @@ tw_search <- function(search,
               wait = wait,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = db
+              cache_connection = db,
+              disconnect_db = FALSE
             )
           }
         )
 
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
 

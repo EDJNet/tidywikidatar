@@ -8,7 +8,7 @@ tw_empty_item <- c(
   "rank"
 ) %>%
   purrr::map_dfc(setNames,
-                 object = list(character())
+    object = list(character())
   )
 
 

@@ -169,7 +169,8 @@ tw_get_qualifiers <- function(id,
 
       not_in_cache_df <- tibble::tibble(id = id, property = p) %>%
         dplyr::anti_join(qualifiers_from_cache_df,
-                         by = c("id", "property"))
+          by = c("id", "property")
+        )
 
 
       if (nrow(not_in_cache_df) == 0) {
@@ -436,7 +437,7 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = TRUE,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )

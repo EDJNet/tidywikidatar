@@ -16,11 +16,8 @@
 #' )
 #'
 #' tw_extract_single(w = item)
-
-
 tw_extract_single <- function(w,
                               language = tidywikidatar::tw_get_language()) {
-
   id <- w %>%
     purrr::pluck(1, "id")
 
@@ -30,7 +27,8 @@ tw_extract_single <- function(w,
   if (is.null(labels)) {
     labels_df <- tibble::tibble(
       property = as.character(NA),
-      value = as.character(NA)
+      value = as.character(NA),
+      rank = as.character(NA)
     ) %>%
       dplyr::slice(0)
   } else {
@@ -39,7 +37,8 @@ tw_extract_single <- function(w,
       function(current_label_l) {
         tibble::tibble(
           property = paste0("label_", current_label_l$language),
-          value = current_label_l$value
+          value = current_label_l$value,
+          rank = as.character(NA)
         )
       }
     )
@@ -58,7 +57,8 @@ tw_extract_single <- function(w,
   if (is.null(aliases)) {
     aliases_df <- tibble::tibble(
       property = as.character(NA),
-      values = as.character(NA)
+      values = as.character(NA),
+      rank = as.character(NA)
     ) %>%
       tidyr::drop_na()
   } else {
@@ -67,7 +67,8 @@ tw_extract_single <- function(w,
       function(current_alias_l) {
         tibble::tibble(
           property = paste0("alias_", current_alias_l$language),
-          value = current_alias_l$value
+          value = current_alias_l$value,
+          rank = as.character(NA)
         )
       }
     )
@@ -80,12 +81,14 @@ tw_extract_single <- function(w,
     }
   }
 
-  descriptions <- w %>% purrr::pluck(1, "descriptions")
+  descriptions <- w %>%
+    purrr::pluck(1, "descriptions")
 
   if (is.null(descriptions)) {
     descriptions_df <- tibble::tibble(
       property = as.character(NA),
-      values = as.character(NA)
+      values = as.character(NA),
+      rank = as.character(NA)
     ) %>%
       tidyr::drop_na()
   } else {
@@ -94,7 +97,8 @@ tw_extract_single <- function(w,
       function(current_description_l) {
         tibble::tibble(
           property = paste0("description_", current_description_l$language),
-          value = current_description_l$value
+          value = current_description_l$value,
+          rank = as.character(NA)
         )
       }
     )
@@ -107,12 +111,15 @@ tw_extract_single <- function(w,
     }
   }
 
-  claims <- w %>% purrr::pluck(1, "claims")
+  claims <- w %>%
+    purrr::pluck(1, "claims")
 
   claims_df <- purrr::map_dfr(
     .x = claims,
     .f = function(current_claim_l) {
       property <- current_claim_l$mainsnak$property
+
+      rank <- current_claim_l$rank
 
       value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][["value"]]
 
@@ -142,20 +149,23 @@ tw_extract_single <- function(w,
 
       tibble::tibble(
         property = property,
-        value = value
+        value = value,
+        rank = rank
       )
     }
   )
 
 
-  sitelinks <- w %>% purrr::pluck(1, "sitelinks")
+  sitelinks <- w %>%
+    purrr::pluck(1, "sitelinks")
 
   sitelinks_df <- purrr::map_dfr(
     .x = sitelinks,
     function(current_sitelink_l) {
       tibble::tibble(
         property = paste0("sitelink_", current_sitelink_l$site),
-        value = current_sitelink_l$title
+        value = current_sitelink_l$title,
+        rank = as.character(NA)
       )
     }
   )
@@ -190,7 +200,8 @@ tw_extract_single <- function(w,
     dplyr::transmute(
       id = id,
       .data$property,
-      .data$value
+      .data$value,
+      .data$rank
     )
   everything_df
 }

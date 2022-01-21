@@ -42,9 +42,15 @@ tw_write_item_to_cache <- function(item_df,
                                    overwrite_cache = FALSE,
                                    cache_connection = NULL,
                                    disconnect_db = TRUE) {
-  db <- tw_connect_to_cache(connection = cache_connection, language = language)
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
 
-  table_name <- tw_get_cache_table_name(type = "item", language = language)
+  table_name <- tw_get_cache_table_name(
+    type = "item",
+    language = language
+  )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there

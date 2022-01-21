@@ -35,11 +35,18 @@ tw_get_single <- function(id,
     usethis::ui_stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
   }
 
+  if (isTRUE(tw_check_cache(cache))) {
+    db <- tw_connect_to_cache(
+      connection = cache_connection,
+      language = language
+    )
+  }
+
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
     db_result <- tw_get_cached_item(
       id = id,
       language = language,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
@@ -58,7 +65,7 @@ tw_get_single <- function(id,
 
   if (is.character(item)) {
     usethis::ui_oops(item)
-    output <- tw_empty_item
+    output <- tidywikidatar::tw_empty_item
     attr(output, "warning") <- item
     return(output)
   }
@@ -78,28 +85,30 @@ tw_get_single <- function(id,
         language = language,
         cache = cache,
         overwrite_cache = overwrite_cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db,
         wait = wait
       )
     )
   }
 
-  everything_df <- tw_extract_single(w = item,
-                                     language = language)
+  everything_df <- tw_extract_single(
+    w = item,
+    language = language
+  )
 
   if (tw_check_cache(cache) == TRUE) {
     tw_write_item_to_cache(
       item_df = everything_df,
       language = language,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db
     )
   }
   tw_disconnect_from_cache(
     cache = cache,
-    cache_connection = cache_connection,
+    cache_connection = db,
     disconnect_db = disconnect_db
   )
   everything_df
@@ -180,7 +189,7 @@ tw_get <- function(id,
       )
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
       return(
@@ -240,9 +249,10 @@ tw_get <- function(id,
 
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
+
         dplyr::left_join(
           x = tibble::tibble(id = id),
           y = dplyr::bind_rows(
@@ -253,5 +263,56 @@ tw_get <- function(id,
         )
       }
     }
+  }
+}
+
+
+#' Reset qualifiers cache
+#'
+#' Removes the table where qualifiers are cached
+#'
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
+#'
+#' @return Nothing, used for its side effects.
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   tw_reset_item_cache()
+#' }
+tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
+                                cache_connection = NULL,
+                                disconnect_db = TRUE,
+                                ask = TRUE) {
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language
+  )
+
+  table_name <- tw_get_cache_table_name(
+    type = "item",
+    language = language
+  )
+
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
+    # do nothing: if table does not exist, nothing to delete
+  } else if (isFALSE(ask)) {
+    pool::dbRemoveTable(conn = db, name = table_name)
+    usethis::ui_info(paste0("Item cache reset for language ", sQuote(language), " completed"))
+  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the items table for language: ", sQuote(language), "?"))) {
+    pool::dbRemoveTable(conn = db, name = table_name)
+    usethis::ui_info(paste0("Items cache reset for language ", sQuote(language), " completed"))
+  }
+
+  if (disconnect_db == TRUE) {
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = db,
+      disconnect_db = db,
+      language = language
+    )
   }
 }
