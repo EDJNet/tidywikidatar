@@ -50,7 +50,9 @@ tw_extract_qualifier <- function(id,
         dplyr::pull(.data$datavalue) %>%
         dplyr::pull(.data$value)
 
-      if (is.element("id", colnames(qualifier_parent_pre))) {
+      if (is.character(qualifier_parent_pre)) {
+        qualifier_parent <- qualifier_parent_pre[[1]]
+      } else if (is.element("id", colnames(qualifier_parent_pre))) {
         qualifier_parent <- qualifier_parent_pre %>%
           dplyr::pull(.data$id)
       } else {
