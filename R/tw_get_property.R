@@ -60,7 +60,7 @@ tw_get_property <- function(id,
   if (is.null(id_df)) {
     id_df <- tw_get(
       id = unique_id,
-      cache = tw_check_cache(cache),
+      cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       language = language,
@@ -72,12 +72,7 @@ tw_get_property <- function(id,
   property_df <- id_df %>%
     dplyr::filter(.data$property %in% p)
   if (nrow(property_df) == 0) {
-    tibble::tibble(
-      id = as.character(NA),
-      property = as.character(NA),
-      value = as.character(NA)
-    ) %>%
-      dplyr::slice(0)
+    return(tidywikidatar::tw_empty_item)
   } else {
     if (length(p) > 1) {
       property_df <- tibble::tibble(property = p) %>%
@@ -86,7 +81,8 @@ tw_get_property <- function(id,
     }
     if (length(id) > 1) {
       property_df <- tibble::tibble(id = id) %>%
-        dplyr::left_join(y = property_df, by = "id")
+        dplyr::left_join(y = property_df,
+                         by = "id")
     }
 
     property_df
@@ -176,14 +172,11 @@ tw_get_property_same_length <- function(id,
     id <- id$id
   }
 
-  if (isTRUE(tw_check_cache(cache))) {
-    db <- tw_connect_to_cache(
-      connection = cache_connection,
-      language = language
-    )
-  } else {
-    db <- cache_connection
-  }
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
 
   property_df <- tw_get_property(
     id = id,
@@ -228,7 +221,24 @@ tw_get_property_same_length <- function(id,
     }
   }
 
-  if (preferred == TRUE | latest_start_time == TRUE) {
+
+
+  if (isTRUE(preferred)) {
+    preferred_df <- property_df %>%
+      dplyr::mutate(rank = factor(rank,
+                                  levels = c("preferred",
+                                             "normal",
+                                             "deprecated"))) %>%
+      dplyr::group_by(id) %>%
+      dplyr::arrange(.by_group = TRUE, .data$rank) %>%
+      dplyr::ungroup()
+
+    if (nrow(preferred_df) > 0) {
+      property_df <- preferred_df
+    }
+  }
+
+  if (isTRUE(latest_start_time)) {
     qualifiers_df <- tw_get_qualifiers(
       id = id,
       p = p,
@@ -240,75 +250,42 @@ tw_get_property_same_length <- function(id,
       wait = wait
     )
 
-    if (preferred == TRUE) {
-      qualifiers_preferred_df <- qualifiers_df %>%
-        dplyr::filter(rank == "preferred") %>%
-        dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_property, .keep_all = TRUE) %>%
-        dplyr::transmute(.data$id,
-          .data$property,
-          value = .data$qualifier_id
-        )
+    qualifiers_latest_start_time_df <- qualifiers_df %>%
+      dplyr::filter(.data$qualifier_property == "P580") %>%
+      dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_value, .keep_all = TRUE) %>%
+      dplyr::arrange(.data$qualifier_value) %>%
+      dplyr::group_by(.data$id) %>%
+      dplyr::slice_tail(n = 1) %>%
+      dplyr::ungroup() %>%
+      dplyr::transmute(.data$id,
+        .data$property,
+        value = .data$qualifier_id
+      )
 
-      if (nrow(qualifiers_preferred_df) > 0) {
-        qualifiers_preferred_post_df <- purrr::map_dfr(
-          .x = id,
-          .f = function(current_id) {
-            current_qualifiers_preferred_df <- qualifiers_preferred_df %>%
+    if (nrow(qualifiers_latest_start_time_df) > 0) {
+      qualifiers_latest_start_time_post_df <- purrr::map_dfr(
+        .x = id,
+        .f = function(current_id) {
+          current_latest_start_time_post_df <- qualifiers_latest_start_time_df %>%
+            dplyr::filter(.data$id == current_id)
+          if (nrow(current_latest_start_time_post_df) > 0) {
+            current_latest_start_time_post_df
+          } else {
+            property_df %>%
               dplyr::filter(.data$id == current_id)
-            if (nrow(current_qualifiers_preferred_df) > 0) {
-              current_qualifiers_preferred_df
-            } else {
-              property_df %>%
-                dplyr::filter(.data$id == current_id)
-            }
           }
-        )
-        property_df <- property_df %>%
-          dplyr::right_join(
-            y = qualifiers_preferred_post_df %>%
-              dplyr::select(-.data$property),
-            by = c("id", "value")
-          )
-      }
-    }
+        }
+      )
 
-    if (latest_start_time == TRUE) {
-      qualifiers_latest_start_time_df <- qualifiers_df %>%
-        dplyr::filter(.data$qualifier_property == "P580") %>%
-        dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_value, .keep_all = TRUE) %>%
-        dplyr::arrange(.data$qualifier_value) %>%
-        dplyr::group_by(.data$id) %>%
-        dplyr::slice_tail(n = 1) %>%
-        dplyr::ungroup() %>%
-        dplyr::transmute(.data$id,
-          .data$property,
-          value = .data$qualifier_id
+      property_df <- property_df %>%
+        dplyr::right_join(
+          y = qualifiers_latest_start_time_df %>%
+            dplyr::select(-.data$property),
+          by = c("id", "value")
         )
-
-      if (nrow(qualifiers_latest_start_time_df) > 0) {
-        qualifiers_latest_start_time_post_df <- purrr::map_dfr(
-          .x = id,
-          .f = function(current_id) {
-            current_latest_start_time_post_df <- qualifiers_latest_start_time_df %>%
-              dplyr::filter(.data$id == current_id)
-            if (nrow(current_latest_start_time_post_df) > 0) {
-              current_latest_start_time_post_df
-            } else {
-              property_df %>%
-                dplyr::filter(.data$id == current_id)
-            }
-          }
-        )
-
-        property_df <- property_df %>%
-          dplyr::right_join(
-            y = qualifiers_latest_start_time_df %>%
-              dplyr::select(-.data$property),
-            by = c("id", "value")
-          )
-      }
     }
   }
+
 
   if (only_first == TRUE) {
     property_df_post <- property_df %>%
@@ -334,16 +311,13 @@ tw_get_property_same_length <- function(id,
     )] <- list(as.character(NA))
   }
 
-  if (disconnect_db == TRUE) {
-    if (isTRUE(tw_check_cache(cache))) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = db,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
-  }
+
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 
   property_df_out %>%
     dplyr::pull(.data$value)

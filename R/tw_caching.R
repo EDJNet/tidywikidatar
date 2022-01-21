@@ -281,7 +281,8 @@ tw_disconnect_from_cache <- function(cache = NULL,
   if (tw_check_cache(cache) == TRUE) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
-      language = language
+      language = language,
+      cache = cache
     )
 
     if (pool::dbIsValid(dbObj = db) & isTRUE(disconnect_db)) {

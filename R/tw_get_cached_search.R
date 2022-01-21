@@ -3,6 +3,7 @@
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
@@ -25,12 +26,18 @@
 tw_get_cached_search <- function(search,
                                  type = "item",
                                  language = tidywikidatar::tw_get_language(),
+                                 cache = NULL,
                                  include_search = FALSE,
                                  cache_connection = NULL,
                                  disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -39,14 +46,14 @@ tw_get_cached_search <- function(search,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
+
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
+
     search_df <- tibble::tibble(
       search = as.character(NA),
       id = as.character(NA),

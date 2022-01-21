@@ -29,6 +29,7 @@ tw_get_qualifiers_single <- function(id,
       id = id,
       p = p,
       language = language,
+      cache = cache,
       cache_connection = cache_connection,
       disconnect_db = FALSE
     )
@@ -131,7 +132,8 @@ tw_get_qualifiers <- function(id,
       pb <- progress::progress_bar$new(total = length(id) * length(p))
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
       qualifiers_df <- purrr::map2_dfr(
         .x = id,
@@ -190,7 +192,8 @@ tw_get_qualifiers <- function(id,
         pb <- progress::progress_bar$new(total = nrow(not_in_cache_df))
         db <- tw_connect_to_cache(
           connection = cache_connection,
-          language = language
+          language = language,
+          cache = cache
         )
         qualifiers_not_in_cache_df <- purrr::map2_dfr(
           .x = unique(not_in_cache_df$id),
@@ -236,6 +239,7 @@ tw_get_qualifiers <- function(id,
 #' @param id A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
 #'
@@ -260,11 +264,17 @@ tw_get_qualifiers <- function(id,
 tw_get_cached_qualifiers <- function(id,
                                      p,
                                      language = tidywikidatar::tw_get_language(),
+                                     cache = NULL,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -326,6 +336,7 @@ tw_get_cached_qualifiers <- function(id,
 #'
 #' @param qualifiers_df A data frame typically generated with `tw_get_qualifiers()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
@@ -345,16 +356,23 @@ tw_get_cached_qualifiers <- function(id,
 #'
 #' tw_write_qualifiers_to_cache(
 #'   qualifiers_df = q_df,
-#'   language = "en"
-#' )
+#'   language = "en",
+#'   cache = TRUE
+#'   )
 tw_write_qualifiers_to_cache <- function(qualifiers_df,
                                          language = tidywikidatar::tw_get_language(),
+                                         cache = NULL,
                                          overwrite_cache = FALSE,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
@@ -399,6 +417,7 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
 #' Removes the table where qualifiers are cached
 #'
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
@@ -411,12 +430,14 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
 #'   tw_reset_qualifiers_cache()
 #' }
 tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(),
+                                      cache = NULL,
                                       cache_connection = NULL,
                                       disconnect_db = TRUE,
                                       ask = TRUE) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(

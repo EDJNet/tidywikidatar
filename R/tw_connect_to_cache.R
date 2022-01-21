@@ -3,6 +3,7 @@
 #' @param connection Defaults to NULL. If NULL, uses local SQLite database. If given, must be a connection object or a list with relevant connection settings (see example).
 #' @param RSQLite Defaults to NULL, expected either NULL or logical. If set to `FALSE`, details on the database connection must be given either as a named list in the connection parameter, or with `tw_set_cache_db()` as environment variables.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #'
 #' @return A connection object.
 #' @export
@@ -36,7 +37,12 @@
 #'
 tw_connect_to_cache <- function(connection = NULL,
                                 RSQLite = NULL,
-                                language = NULL) {
+                                language = NULL,
+                                cache = NULL) {
+  if (isFALSE(x = tw_check_cache(cache))) {
+    return(NULL)
+  }
+
   if (is.null(connection) == FALSE & is.list(connection) == FALSE) {
     if (DBI::dbIsValid(connection) == FALSE) {
       connection <- NULL

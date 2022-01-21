@@ -7,6 +7,7 @@
 tw_write_item_to_cache(
   item_df,
   language = tidywikidatar::tw_get_language(),
+  cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE
@@ -16,6 +17,8 @@ tw_write_item_to_cache(
 \item{item_df}{A data frame with three columns typically generated with \code{tw_get()}.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in \code{item_df}. Useful if the original Wikidata object has been updated.}
 
@@ -46,12 +49,14 @@ is.null(df_from_cache) # expect TRUE, as nothing has yet been stored in cache
 
 tw_write_item_to_cache(
   item_df = df_from_api,
-  language = "en"
+  language = "en",
+  cache = TRUE
 )
 
 df_from_cache <- tw_get_cached_item(
   id = "Q180099",
-  language = "en"
+  language = "en",
+  cache = TRUE
 )
 
 is.null(df_from_cache) # expect a data frame, same as df_from_api

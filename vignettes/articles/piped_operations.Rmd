@@ -225,13 +225,13 @@ Here we already start to meet some of the quirks of Wikidata.
 
 The question "in which country is this city located" seems straightforward, but as illustrated [in the package readme](https://edjnet.github.io/tidywikidatar/#getting-the-right-property-when-more-than-one-is-available) it actually isn't always the case, as, for example, London has many values for the property "country", all the way from "Roman Empire" through "United Kingdom". Enabling the `only_first` parameters, which is a the most efficient option in many circumstances, is not a sensible solution in this case, as predicting the order of properties is not straightforward. To make things easier `tidywikidatar` includes dedicated parameters: `preferred` (which gives back the value recorded as "preferred"), and `latest_start_time` (which checks the qualifiers, and selects the one with the most recent "start time").
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 meps9_pob_df %>% 
   mutate(pob_country_id = tw_get_p(id = place_of_birth_id,
                                    p = "P17",
-                                   preferred = TRUE,
-                                   only_first = TRUE)) %>% 
+                                   only_first = TRUE,
+                                   preferred = TRUE)) %>% 
   group_by(pob_country_id) %>% 
   tally(sort = TRUE) %>% 
-  mutate(pob_country = tw_get_label(pob_country_id))
+  mutate(pob_country = tw_get_label(pob_country_id)) 
 ```

@@ -43,7 +43,8 @@ tw_search_single <- function(search,
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
@@ -215,7 +216,8 @@ tw_search <- function(search,
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   if (length(unique_search) == 1) {

@@ -2,6 +2,7 @@
 #'
 #' @param id A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
 #'
@@ -23,11 +24,17 @@
 #' )
 tw_get_cached_item <- function(id,
                                language = tidywikidatar::tw_get_language(),
+                               cache = NULL,
                                cache_connection = NULL,
                                disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(tidywikidatar::tw_empty_item)
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -44,12 +51,7 @@ tw_get_cached_item <- function(id,
         language = language
       )
     }
-    return(tibble::tibble(
-      id = as.character(NA),
-      property = as.character(NA),
-      value = as.character(NA)
-    ) %>%
-      dplyr::slice(0))
+    return(tidywikidatar::tw_empty_item)
   }
 
   db_result <- tryCatch(
@@ -62,18 +64,13 @@ tw_get_cached_item <- function(id,
   if (isFALSE(db_result)) {
     if (disconnect_db == TRUE) {
       tw_disconnect_from_cache(
-        cache = TRUE,
+        cache = cache,
         cache_connection = cache_connection,
         disconnect_db = disconnect_db,
         language = language
       )
     }
-    return(tibble::tibble(
-      id = as.character(NA),
-      property = as.character(NA),
-      value = as.character(NA)
-    ) %>%
-      dplyr::slice(0))
+    return(tidywikidatar::tw_empty_item)
   }
 
   cached_items_df <- db_result %>%
@@ -81,7 +78,7 @@ tw_get_cached_item <- function(id,
 
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
-      cache = TRUE,
+      cache = cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,
       language = language

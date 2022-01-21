@@ -8,6 +8,7 @@ tw_write_search_to_cache(
   search_df,
   type = "item",
   language = tidywikidatar::tw_get_language(),
+  cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE
@@ -19,6 +20,8 @@ tw_write_search_to_cache(
 \item{type}{Defaults to "item". Either "item" or "property".}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in the provided \code{search_df}.}
 

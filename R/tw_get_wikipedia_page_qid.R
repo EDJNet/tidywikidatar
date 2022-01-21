@@ -131,7 +131,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
       pb <- progress::progress_bar$new(total = length(unique_title))
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
       df <- purrr::map_dfr(
         .x = unique_title,
@@ -191,7 +192,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         pb <- progress::progress_bar$new(total = length(titles_not_in_cache))
         db <- tw_connect_to_cache(
           connection = cache_connection,
-          language = language
+          language = language,
+          cache = cache
         )
         titles_not_in_cache_df <- purrr::map_dfr(
           .x = titles_not_in_cache,
@@ -278,6 +280,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
     db_result <- tw_get_cached_wikipedia_page_qid(
       title = title,
       language = language,
+      cache = cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db
     )
@@ -417,6 +420,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
   if (tw_check_cache(cache) == TRUE) {
     tw_write_qid_of_wikipedia_page_to_cache(
       df = df,
+      cache = cache,
       cache_connection = cache_connection,
       language = language,
       overwrite_cache = overwrite_cache,
@@ -435,6 +439,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
 #'
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
 #'
@@ -458,11 +463,17 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
 #' }
 tw_get_cached_wikipedia_page_qid <- function(title,
                                              language = tidywikidatar::tw_get_language(),
+                                             cache = cache,
                                              cache_connection = NULL,
                                              disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -526,6 +537,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
 #'
 #' @param df A data frame typically generated with `tw_get_wikipedia_page_qid()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
@@ -550,12 +562,18 @@ tw_get_cached_wikipedia_page_qid <- function(title,
 #' }
 tw_write_qid_of_wikipedia_page_to_cache <- function(df,
                                                     language = tidywikidatar::tw_get_language(),
+                                                    cache = NULL,
                                                     overwrite_cache = FALSE,
                                                     cache_connection = NULL,
                                                     disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -585,14 +603,13 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
     append = TRUE
   )
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = db,
-      language = language
-    )
-  }
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
+
   invisible(df)
 }
 
@@ -601,6 +618,7 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
 #' Removes the table where data typically gathered with `tw_get_wikipedia_page_qid()` from cache
 #'
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
@@ -613,12 +631,14 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
 #'   tw_reset_wikipedia_page_cache()
 #' }
 tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_language(),
+                                          cache = NULL,
                                           cache_connection = NULL,
                                           disconnect_db = TRUE,
                                           ask = TRUE) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(

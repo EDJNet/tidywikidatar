@@ -7,6 +7,7 @@
 tw_write_qualifiers_to_cache(
   qualifiers_df,
   language = tidywikidatar::tw_get_language(),
+  cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE
@@ -16,6 +17,8 @@ tw_write_qualifiers_to_cache(
 \item{qualifiers_df}{A data frame typically generated with \code{tw_get_qualifiers()}.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
 
@@ -40,6 +43,7 @@ q_df <- tw_get_qualifiers(
 
 tw_write_qualifiers_to_cache(
   qualifiers_df = q_df,
-  language = "en"
-)
+  language = "en",
+  cache = TRUE
+  )
 }

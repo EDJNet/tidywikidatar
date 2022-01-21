@@ -282,7 +282,8 @@ tw_get_image_metadata <- function(id,
       pb <- progress::progress_bar$new(total = nrow(input_df_distinct))
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
       image_metadata <- purrr::map2_dfr(
         .x = input_df_distinct$image_filename,
@@ -320,7 +321,8 @@ tw_get_image_metadata <- function(id,
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
 
       table_name <- tw_get_cache_table_name(
@@ -373,7 +375,8 @@ tw_get_image_metadata <- function(id,
       pb <- progress::progress_bar$new(total = nrow(image_metadata_not_in_cache))
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
       image_metadata_not_in_cache_df <- purrr::map2_dfr(
         .x = image_metadata_not_in_cache$image_filename,
@@ -473,7 +476,8 @@ tw_get_image_metadata_single <- function(id,
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
-      language = language
+      language = language,
+      cache = cache
     )
 
     table_name <- tw_get_cache_table_name(
@@ -697,7 +701,11 @@ tw_get_image_metadata_single <- function(id,
   )
 
   if (tw_check_cache(cache) == TRUE) {
-    db <- tw_connect_to_cache(connection = cache_connection, language = language)
+    db <- tw_connect_to_cache(
+      connection = cache_connection,
+      language = language,
+      cache = cache
+    )
 
     table_name <- tw_get_cache_table_name(type = "image_metadata", language = language)
 

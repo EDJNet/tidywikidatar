@@ -38,7 +38,8 @@ tw_get_single <- function(id,
   if (isTRUE(tw_check_cache(cache))) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
-      language = language
+      language = language,
+      cache = cache
     )
   }
 
@@ -46,6 +47,7 @@ tw_get_single <- function(id,
     db_result <- tw_get_cached_item(
       id = id,
       language = language,
+      cache = cache,
       cache_connection = db,
       disconnect_db = disconnect_db
     )
@@ -101,6 +103,7 @@ tw_get_single <- function(id,
     tw_write_item_to_cache(
       item_df = everything_df,
       language = language,
+      cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = db,
       disconnect_db = disconnect_db
@@ -170,7 +173,8 @@ tw_get <- function(id,
       pb <- progress::progress_bar$new(total = length(unique_id))
       db <- tw_connect_to_cache(
         connection = cache_connection,
-        language = language
+        language = language,
+        cache = cache
       )
       item_df <- purrr::map_dfr(
         .x = unique_id,
@@ -205,6 +209,7 @@ tw_get <- function(id,
       items_from_cache_df <- tw_get_cached_item(
         id = unique_id,
         language = language,
+        cache = cache,
         cache_connection = cache_connection,
         disconnect_db = FALSE
       )
@@ -228,7 +233,8 @@ tw_get <- function(id,
         pb <- progress::progress_bar$new(total = length(id_items_not_in_cache))
         db <- tw_connect_to_cache(
           connection = cache_connection,
-          language = language
+          language = language,
+          cache = cache
         )
         items_not_in_cache_df <- purrr::map_dfr(
           .x = id_items_not_in_cache,
@@ -272,6 +278,7 @@ tw_get <- function(id,
 #' Removes the table where qualifiers are cached
 #'
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
@@ -284,12 +291,14 @@ tw_get <- function(id,
 #'   tw_reset_item_cache()
 #' }
 tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
+                                cache = NULL,
                                 cache_connection = NULL,
                                 disconnect_db = TRUE,
                                 ask = TRUE) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -307,12 +316,11 @@ tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
     usethis::ui_info(paste0("Items cache reset for language ", sQuote(language), " completed"))
   }
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = db,
-      disconnect_db = db,
-      language = language
-    )
-  }
+
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 }

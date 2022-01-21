@@ -26,12 +26,12 @@ tw_get_wikipedia_page_links <- function(url = NULL,
                                         disconnect_db = TRUE,
                                         wait = 1,
                                         attempts = 5) {
-  if (isTRUE(tw_check_cache(cache))) {
-    db <- tw_connect_to_cache(
-      connection = cache_connection,
-      language = language
-    )
-  }
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
 
   wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
     title = title,
@@ -123,6 +123,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     db_result <- tw_get_cached_wikipedia_page_links(
       title = title,
       language = language,
+      cache = cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db
     )
@@ -311,6 +312,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
 #'
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
 #'
@@ -334,11 +336,18 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
 #' }
 tw_get_cached_wikipedia_page_links <- function(title,
                                                language = tidywikidatar::tw_get_language(),
+                                               cache = NULL,
                                                cache_connection = NULL,
                                                disconnect_db = TRUE) {
-  db <- tw_connect_to_cache(
+
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
+    db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -403,6 +412,7 @@ tw_get_cached_wikipedia_page_links <- function(title,
 #' @param df A data frame typically generated with `tw_get_wikipedia_page_links()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #'
@@ -425,12 +435,18 @@ tw_get_cached_wikipedia_page_links <- function(title,
 #' }
 tw_write_wikipedia_page_links_to_cache <- function(df,
                                                    language = tidywikidatar::tw_get_language(),
+                                                   cache = NULL,
                                                    overwrite_cache = FALSE,
                                                    cache_connection = NULL,
                                                    disconnect_db = TRUE) {
+  if (isFALSE(tw_check_cache(cache = cache))) {
+    return(invisible(NULL))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
@@ -463,8 +479,8 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = db,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
       language = language
     )
   }
@@ -476,6 +492,7 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
 #' Removes from cache the table where data typically gathered with `tw_get_wikipedia_page_links()` are stored
 #'
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database by default. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
@@ -488,12 +505,14 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
 #'   tw_reset_wikipedia_page_links_cache()
 #' }
 tw_reset_wikipedia_page_links_cache <- function(language = tidywikidatar::tw_get_language(),
+                                                cache = NULL,
                                                 cache_connection = NULL,
                                                 disconnect_db = TRUE,
                                                 ask = TRUE) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language
+    language = language,
+    cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
