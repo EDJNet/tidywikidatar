@@ -1,6 +1,6 @@
 library("testthat")
 
-test_that("check if tw_get returns tibble with three columns and meaningful number of rows", {
+test_that("check if tw_get returns tibble with four columns and meaningful number of rows", {
   testthat::skip_if_offline()
 
   expect_true(object = {
@@ -17,7 +17,7 @@ test_that("check if tw_get returns tibble with three columns and meaningful numb
       test_result <- Reduce(
         f = `|`,
         x = c(
-          ncol(item) == 3,
+          ncol(item) == 4,
           nrow(item) > 100
         )
       )
