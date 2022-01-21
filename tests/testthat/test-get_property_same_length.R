@@ -20,7 +20,7 @@ test_that("Preferred or latest result is chosen when requested", {
         dplyr::pull(qualifier_id)
     },
     expected = {
-      tw_get_p(id = "Q220", p = "P17", preferred = TRUE) %>%
+      tw_get_p(id = "Q220", p = "P17", preferred = TRUE, only_first = TRUE) %>%
         unlist()
     }
   )
