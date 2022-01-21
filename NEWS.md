@@ -41,8 +41,8 @@
 
 # tidywikidatar 0.5.0
 
-* `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property, as well as value type of the output (new format incompatible with previous cache)
-* `tw_get_qualifiers()` not returns correctly value when qualifier value type is string (not a Wikidata identifier, not a date)
+* `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property, as well as value type of the output (new format incompatible with previous cache, reset cache with `tw_reset_qualifiers_cache()`)
+* `tw_get_qualifiers()` not returns correctly value when qualifier value type is a string (not a Wikidata identifier, not a date)
 * `tw_get_image()` not respects all parameters consistently. `tw_get_image()` and `tw_get_image_metadata()` are now briefly described in the README.
 * `tw_get_wikipedia_page_links()` now caches results, and provides more consistent results as a data frame
 * introduce `tw_get_p()` as an alias of `tw_get_property_same_length()` for brevity
