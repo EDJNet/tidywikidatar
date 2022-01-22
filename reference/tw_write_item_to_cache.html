@@ -54,6 +54,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_write_item_to_cache</span><span class="op">(</span>
   <span class="va">item_df</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
@@ -66,6 +67,8 @@
 <dd><p>A data frame with three columns typically generated with <code><a href="tw_get.html">tw_get()</a></code>.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>cache</dt>
+<dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>
 <dd><p>Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in <code>item_df</code>. Useful if the original Wikidata object has been updated.</p></dd>
 <dt>cache_connection</dt>
@@ -97,12 +100,14 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">tw_write_item_to_cache</span><span class="op">(</span></span>
 <span class="r-in">  item_df <span class="op">=</span> <span class="va">df_from_api</span>,</span>
-<span class="r-in">  language <span class="op">=</span> <span class="st">"en"</span></span>
+<span class="r-in">  language <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span class="r-in">  cache <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">df_from_cache</span> <span class="op">&lt;-</span> <span class="fu"><a href="tw_get_cached_item.html">tw_get_cached_item</a></span><span class="op">(</span></span>
 <span class="r-in">  id <span class="op">=</span> <span class="st">"Q180099"</span>,</span>
-<span class="r-in">  language <span class="op">=</span> <span class="st">"en"</span></span>
+<span class="r-in">  language <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span class="r-in">  cache <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">df_from_cache</span><span class="op">)</span> <span class="co"># expect a data frame, same as df_from_api</span></span>

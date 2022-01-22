@@ -55,6 +55,7 @@
   <span class="va">search</span>,
   type <span class="op">=</span> <span class="st">"item"</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   include_search <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
@@ -69,6 +70,8 @@
 <dd><p>Defaults to "item". Either "item" or "property".</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>cache</dt>
+<dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>include_search</dt>
 <dd><p>Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.</p></dd>
 <dt>cache_connection</dt>

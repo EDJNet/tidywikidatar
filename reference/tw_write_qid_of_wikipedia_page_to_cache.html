@@ -54,6 +54,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_write_qid_of_wikipedia_page_to_cache</span><span class="op">(</span>
   <span class="va">df</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
@@ -66,6 +67,8 @@
 <dd><p>A data frame typically generated with <code><a href="tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code>.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>cache</dt>
+<dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>
 <dd><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></dd>
 <dt>cache_connection</dt>

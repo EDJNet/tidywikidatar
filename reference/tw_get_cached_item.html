@@ -54,6 +54,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_get_cached_item</span><span class="op">(</span>
   <span class="va">id</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
   disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
@@ -65,6 +66,8 @@
 <dd><p>A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with <code><a href="tw_search.html">tw_search()</a></code> or a combination of <code><a href="tw_search.html">tw_search()</a></code> and <code><a href="tw_filter_first.html">tw_filter_first()</a></code>.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>cache</dt>
+<dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>cache_connection</dt>
 <dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
 <dt>disconnect_db</dt>

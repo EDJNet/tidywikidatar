@@ -61,7 +61,10 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc>
   </url>
   <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers_df.html</loc>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_item.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc>
@@ -74,6 +77,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter.html</loc>
@@ -142,6 +148,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label_single.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_same_length.html</loc>
   </url>
   <url>
@@ -188,6 +197,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_query.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_item_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.html</loc>
