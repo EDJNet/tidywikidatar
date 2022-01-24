@@ -43,14 +43,13 @@ tw_get_cached_item <- function(id,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = db,
+      language = language
+    )
+
     return(tidywikidatar::tw_empty_item)
   }
 
@@ -61,29 +60,31 @@ tw_get_cached_item <- function(id,
       logical(1L)
     }
   )
+
   if (isFALSE(db_result)) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = cache,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
-    return(tidywikidatar::tw_empty_item)
-  }
-
-  cached_items_df <- db_result %>%
-    dplyr::collect()
-
-  if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,
       language = language
     )
+    return(tidywikidatar::tw_empty_item)
+  } else {
+    if (isFALSE(identical(colnames(tidywikidatar::tw_empty_item), colnames(db_result)))) {
+      usethis::ui_stop("The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version. You may want to delete the old cache or reset just this table with {usethis::ui_code('tw_reset_item_cache()')}")
+    }
   }
+
+  cached_items_df <- db_result %>%
+    dplyr::collect()
+
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db,
+    language = language
+  )
+
 
   cached_items_df
 }

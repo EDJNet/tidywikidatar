@@ -339,12 +339,11 @@ tw_get_cached_wikipedia_page_links <- function(title,
                                                cache = NULL,
                                                cache_connection = NULL,
                                                disconnect_db = TRUE) {
-
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
 
-    db <- tw_connect_to_cache(
+  db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
     cache = cache

@@ -278,7 +278,11 @@ tw_disconnect_from_cache <- function(cache = NULL,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
                                      language = tidywikidatar::tw_get_language()) {
-  if (isTRUE(tw_check_cache(cache)) & isTRUE(disconnect_db)) {
+  if (isFALSE(disconnect_db)) {
+    return(invisible(NULL))
+  }
+
+  if (isTRUE(tw_check_cache(cache))) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
       language = language,

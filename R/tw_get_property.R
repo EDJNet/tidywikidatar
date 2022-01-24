@@ -81,8 +81,10 @@ tw_get_property <- function(id,
     }
     if (length(id) > 1) {
       property_df <- tibble::tibble(id = id) %>%
-        dplyr::left_join(y = property_df,
-                         by = "id")
+        dplyr::left_join(
+          y = property_df,
+          by = "id"
+        )
     }
 
     property_df
@@ -226,9 +228,12 @@ tw_get_property_same_length <- function(id,
   if (isTRUE(preferred)) {
     preferred_df <- property_df %>%
       dplyr::mutate(rank = factor(rank,
-                                  levels = c("preferred",
-                                             "normal",
-                                             "deprecated"))) %>%
+        levels = c(
+          "preferred",
+          "normal",
+          "deprecated"
+        )
+      )) %>%
       dplyr::group_by(id) %>%
       dplyr::arrange(.by_group = TRUE, .data$rank) %>%
       dplyr::ungroup()

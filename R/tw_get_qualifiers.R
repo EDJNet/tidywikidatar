@@ -283,14 +283,12 @@ tw_get_cached_qualifiers <- function(id,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
+    tw_disconnect_from_cache(
+      cache = TRUE,
+      cache_connection = cache_connection,
+      disconnect_db = disconnect_db,
+      language = language
+    )
     return(tidywikidatar::tw_empty_qualifiers)
   }
 
@@ -305,28 +303,27 @@ tw_get_cached_qualifiers <- function(id,
     }
   )
   if (isFALSE(db_result)) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
-    return(tidywikidatar::tw_empty_qualifiers)
-  }
-
-  cached_qualifiers_df <- db_result %>%
-    tibble::as_tibble()
-
-  if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
       cache = TRUE,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,
       language = language
     )
+    return(tidywikidatar::tw_empty_qualifiers)
+  } else if (isFALSE(identical(colnames(tidywikidatar::tw_empty_qualifiers), colnames(db_result)))) {
+    usethis::ui_stop("The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version. You may want to delete the old cache or reset just this table with {usethis::ui_code('tw_reset_qualifiers_cache()()')}")
   }
+
+  cached_qualifiers_df <- db_result %>%
+    tibble::as_tibble()
+
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db,
+    language = language
+  )
+
   cached_qualifiers_df
 }
 
@@ -358,7 +355,7 @@ tw_get_cached_qualifiers <- function(id,
 #'   qualifiers_df = q_df,
 #'   language = "en",
 #'   cache = TRUE
-#'   )
+#' )
 tw_write_qualifiers_to_cache <- function(qualifiers_df,
                                          language = tidywikidatar::tw_get_language(),
                                          cache = NULL,
@@ -400,14 +397,13 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
     append = TRUE
   )
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 
   invisible(qualifiers_df)
 }
@@ -455,12 +451,10 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
     usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
   }
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = db,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 }

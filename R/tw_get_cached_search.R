@@ -46,7 +46,6 @@ tw_get_cached_search <- function(search,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-
     tw_disconnect_from_cache(
       cache = cache,
       cache_connection = cache_connection,
