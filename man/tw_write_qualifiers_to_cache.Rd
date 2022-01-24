@@ -45,5 +45,5 @@ tw_write_qualifiers_to_cache(
   qualifiers_df = q_df,
   language = "en",
   cache = TRUE
-  )
+)
 }

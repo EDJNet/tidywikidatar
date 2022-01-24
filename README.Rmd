@@ -67,6 +67,8 @@ These articles or repository demonstrate some use cases for `tidywikidatar`:
 
 While the code used there may not be fully compatible or be the most efficient with the latest version of Wikidata, they still provide a useful term of reference.
 
+See the vignette `vignette("wikipedia_start")` for an example of a possible workflow.
+
 ## Before you start
 
 This package assumes some familiarity with basic Wikidata concepts. For reference, see [the introduction on the official website](https://www.wikidata.org/wiki/Wikidata:Introduction).
@@ -213,7 +215,7 @@ tw_get_property(
 
 ## Piped operations
 
-Using the pipe (`%>%`) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. `tidywikidatar` offers dedicated functions to work with the pipe more consistently, in particular `tw_get_property_same_length()`.
+Using the pipe (`%>%`) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. `tidywikidatar` offers dedicated functions to work with the pipe more consistently, in particular `tw_get_property_same_length()` (or its shorter alias `tw_get_p()`).
 
 One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values. 
 
@@ -229,17 +231,17 @@ library("tidyr")
 students <-
   tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
   transmute(student_label = tw_get_label(value), # get their name
-                   student_id = value) # and keep their id
+            student_id = value) # and keep their id
 
 
 students %>%  
-  mutate(date_of_birth = tw_get_property_same_length(id = student_id,
-                                                     p = "P569", # property for date of birth
-                                                     only_first = TRUE)) %>%
+  mutate(date_of_birth = tw_get_p(id = student_id,
+                                  p = "P569", # property for date of birth
+                                  only_first = TRUE)) %>%
   # we don't care about possible multiple values on when they were born
-  mutate(place_of_birth = tw_get_property_same_length(id = student_id,
-                                                     p = "P19", # property for place of birth
-                                                     only_first = TRUE) %>% 
+  mutate(place_of_birth = tw_get_p(id = student_id,
+                                   p = "P19", # property for place of birth
+                                   only_first = TRUE) %>% 
            tw_get_label())
 ```
 
@@ -250,42 +252,42 @@ Here is how we may want to go if we want, for example, to create a map of all th
 
 ```{r}
 students %>% 
-  mutate(worked_at_id = tw_get_property_same_length(id = student_id,
-                                                     p = "P108", # property for employer
-                                                     only_first = FALSE)) %>% # not only the first result
+  mutate(worked_at_id = tw_get_p(id = student_id,
+                                 p = "P108", # property for employer
+                                 only_first = FALSE)) %>% # not only the first result
   unnest(worked_at_id) %>%
   filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
   mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
   # but keep in mind we are only interested in the employer if they are a university
   # so we ask what `instance of` the employer is. 
-  mutate(employer_instance_of = tw_get_property_same_length(id = worked_at_id,
-                                                            p = "P31",
-                                                            only_first = FALSE)) %>%  
+  mutate(employer_instance_of = tw_get_p(id = worked_at_id,
+                                         p = "P31",
+                                         only_first = FALSE)) %>%  
   unnest(employer_instance_of) %>% 
   mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
   # some institutions may be e.g. "instance of" -> "private university", not of "university"
   # so whe check what "subclass of" that id
-  mutate(employer_instance_of2 = tw_get_property_same_length(id = worked_at_id,
-                                                            p = "P31",
-                                                            only_first = FALSE)) %>% 
+  mutate(employer_instance_of2 = tw_get_p(id = worked_at_id,
+                                          p = "P31",
+                                          only_first = FALSE)) %>% 
   unnest(employer_instance_of2) %>% 
-  mutate(employer_instance_of2_subclass_of = tw_get_property_same_length(id = employer_instance_of2,
-                                                            p = "P279",
-                                                            only_first = FALSE)) %>% 
+  mutate(employer_instance_of2_subclass_of = tw_get_p(id = employer_instance_of2,
+                                                      p = "P279",
+                                                      only_first = FALSE)) %>% 
   unnest(employer_instance_of2_subclass_of) %>% 
   # keep only if employer is a university (or something which is a subclass of university)
   filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
   distinct(student_label, worked_at_id, worked_at_label) %>% 
-  mutate(worked_at_coordinates = tw_get_property_same_length(worked_at_id,
-                                                             p = "P625",
-                                                             only_first = TRUE)) %>% 
+  mutate(worked_at_coordinates = tw_get_p(worked_at_id,
+                                          p = "P625",
+                                          only_first = TRUE)) %>% 
   select(-worked_at_id) %>% 
   separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
-  
+
 
 ```
 
-Starting with version 0.5, to reduce typing, `tw_get_property_same_length()` has now an alias, `tw_get_p()`, which can be used in its stead.
+Starting with version 0.5, to reduce typing, `tw_get_p()` can be used instead of the more verbose `tw_get_property_same_length()`. 
 
 
 ## Qualifiers
@@ -401,7 +403,7 @@ tibble::tibble(city_qid = c("Q84", "Q220")) %>%
 
 Keep in mind that there may be more than one "preferred" statement, so setting `preferred` to TRUE is no guarantee of having a single result: for example, London is both "[capital of](https://www.wikidata.org/wiki/Q84#P1376)" ([P1376](https://www.wikidata.org/wiki/Property:P1376)) the United Kingdom and England, and both statements are "preferred". Rome is capital of Italy and Lazio (the region where it is located), and both are "preferred". 
 
-When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combination with `preferred`). 
+When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combination with `preferred`). This option slows a bit the process as it depends on a call to `tw_get_qualifiers()` to retrieve and cache relevant details.
 
 ```{r}
 tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
@@ -525,7 +527,9 @@ wikipedia_df %>%
   dplyr::filter(value == "Q5")
 ```
 
-All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage. 
+All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage.
+
+For a more extended example of exploring Wikidata starting from Wikipedia, consult the dedicated vignette with `vignette("wikipedia_start")`
 
 ## Getting images, including credits
 

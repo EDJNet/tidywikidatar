@@ -95,6 +95,9 @@ While the code used there may not be fully compatible or be the most
 efficient with the latest version of Wikidata, they still provide a
 useful term of reference.
 
+See the vignette `vignette("wikipedia_start")` for an example of a
+possible workflow.
+
 ## Before you start
 
 This package assumes some familiarity with basic Wikidata concepts. For
@@ -204,10 +207,10 @@ Where was she born? I can ask directly for P19, place of birth:
 
 ``` r
 tw_get_property(id = "Q180099", p = "P19")
-#> # A tibble: 1 × 3
-#>   id      property value
-#>   <chr>   <chr>    <chr>
-#> 1 Q180099 P19      Q1345
+#> # A tibble: 1 × 4
+#>   id      property value rank  
+#>   <chr>   <chr>    <chr> <chr> 
+#> 1 Q180099 P19      Q1345 normal
 ```
 
 which, as expected, will give me another wikidata id. But what does,
@@ -224,10 +227,10 @@ for the correspondent property, P17.
 
 ``` r
 tw_get_property(id = "Q1345", p = "P17")
-#> # A tibble: 1 × 3
-#>   id    property value
-#>   <chr> <chr>    <chr>
-#> 1 Q1345 P17      Q30
+#> # A tibble: 1 × 4
+#>   id    property value rank  
+#>   <chr> <chr>    <chr> <chr> 
+#> 1 Q1345 P17      Q30   normal
 ```
 
 Oh, no, another Wikidata id! That’s the way it works… let’s ask for its
@@ -318,23 +321,23 @@ tw_get_property(
   p = "P166",
   language = "en"
 ) 
-#> # A tibble: 14 × 3
-#>    id      property value    
-#>    <chr>   <chr>    <chr>    
-#>  1 Q180099 P166     Q17144   
-#>  2 Q180099 P166     Q782022  
-#>  3 Q180099 P166     Q8017107 
-#>  4 Q180099 P166     Q1967852 
-#>  5 Q180099 P166     Q52382875
-#>  6 Q228822 P166     Q1967852 
-#>  7 Q228822 P166     Q52382875
-#>  8 Q228822 P166     Q752297  
-#>  9 Q220480 P166     Q1316544 
-#> 10 Q220480 P166     Q1967852 
-#> 11 Q220480 P166     Q5461701 
-#> 12 Q220480 P166     Q5461189 
-#> 13 Q220480 P166     Q4765305 
-#> 14 Q220480 P166     Q1316544
+#> # A tibble: 14 × 4
+#>    id      property value     rank  
+#>    <chr>   <chr>    <chr>     <chr> 
+#>  1 Q180099 P166     Q17144    normal
+#>  2 Q180099 P166     Q782022   normal
+#>  3 Q180099 P166     Q8017107  normal
+#>  4 Q180099 P166     Q1967852  normal
+#>  5 Q180099 P166     Q52382875 normal
+#>  6 Q228822 P166     Q1967852  normal
+#>  7 Q228822 P166     Q52382875 normal
+#>  8 Q228822 P166     Q752297   normal
+#>  9 Q220480 P166     Q1316544  normal
+#> 10 Q220480 P166     Q1967852  normal
+#> 11 Q220480 P166     Q5461701  normal
+#> 12 Q220480 P166     Q5461189  normal
+#> 13 Q220480 P166     Q4765305  normal
+#> 14 Q220480 P166     Q1316544  normal
 ```
 
 Again, Wikidata ids. We can of course get their relative labels using
@@ -349,23 +352,23 @@ tw_get_property(
   language = "en"
 ) %>% 
   tw_label()
-#> # A tibble: 14 × 3
-#>    id                 property       value                                      
-#>    <chr>              <chr>          <chr>                                      
-#>  1 Margaret Mead      award received Presidential Medal of Freedom              
-#>  2 Margaret Mead      award received Kalinga Prize                              
-#>  3 Margaret Mead      award received William Procter Prize for Scientific Achie…
-#>  4 Margaret Mead      award received National Women's Hall of Fame              
-#>  5 Margaret Mead      award received AAAS Fellow                                
-#>  6 Ruth Benedict      award received National Women's Hall of Fame              
-#>  7 Ruth Benedict      award received AAAS Fellow                                
-#>  8 Ruth Benedict      award received Doctor of Philosophy                       
-#>  9 Zora Neale Hurston award received Guggenheim Fellowship                      
-#> 10 Zora Neale Hurston award received National Women's Hall of Fame              
-#> 11 Zora Neale Hurston award received Florida Women's Hall of Fame               
-#> 12 Zora Neale Hurston award received Florida Artists Hall of Fame               
-#> 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards                 
-#> 14 Zora Neale Hurston award received Guggenheim Fellowship
+#> # A tibble: 14 × 4
+#>    id                 property       value                                 rank 
+#>    <chr>              <chr>          <chr>                                 <chr>
+#>  1 Margaret Mead      award received Presidential Medal of Freedom         norm…
+#>  2 Margaret Mead      award received Kalinga Prize                         norm…
+#>  3 Margaret Mead      award received William Procter Prize for Scientific… norm…
+#>  4 Margaret Mead      award received National Women's Hall of Fame         norm…
+#>  5 Margaret Mead      award received AAAS Fellow                           norm…
+#>  6 Ruth Benedict      award received National Women's Hall of Fame         norm…
+#>  7 Ruth Benedict      award received AAAS Fellow                           norm…
+#>  8 Ruth Benedict      award received Doctor of Philosophy                  norm…
+#>  9 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
+#> 10 Zora Neale Hurston award received National Women's Hall of Fame         norm…
+#> 11 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…
+#> 12 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…
+#> 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…
+#> 14 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
 ```
 
 ## Piped operations
@@ -374,7 +377,7 @@ Using the pipe (`%>%`) when working with Wikidata is often not
 straightforward, due to the fact that a given property may have an
 unspecified number of values. `tidywikidatar` offers dedicated functions
 to work with the pipe more consistently, in particular
-`tw_get_property_same_length()`.
+`tw_get_property_same_length()` (or its shorter alias `tw_get_p()`).
 
 One main distinction to keep in mind in this context is that for some
 properties we really just expect to have a single value, and we are
@@ -405,17 +408,17 @@ library("tidyr")
 students <-
   tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
   transmute(student_label = tw_get_label(value), # get their name
-                   student_id = value) # and keep their id
+            student_id = value) # and keep their id
 
 
 students %>%  
-  mutate(date_of_birth = tw_get_property_same_length(id = student_id,
-                                                     p = "P569", # property for date of birth
-                                                     only_first = TRUE)) %>%
+  mutate(date_of_birth = tw_get_p(id = student_id,
+                                  p = "P569", # property for date of birth
+                                  only_first = TRUE)) %>%
   # we don't care about possible multiple values on when they were born
-  mutate(place_of_birth = tw_get_property_same_length(id = student_id,
-                                                     p = "P19", # property for place of birth
-                                                     only_first = TRUE) %>% 
+  mutate(place_of_birth = tw_get_p(id = student_id,
+                                   p = "P19", # property for place of birth
+                                   only_first = TRUE) %>% 
            tw_get_label())
 #> # A tibble: 20 × 4
 #>    student_label                 student_id date_of_birth         place_of_birth
@@ -455,35 +458,35 @@ institutions.
 
 ``` r
 students %>% 
-  mutate(worked_at_id = tw_get_property_same_length(id = student_id,
-                                                     p = "P108", # property for employer
-                                                     only_first = FALSE)) %>% # not only the first result
+  mutate(worked_at_id = tw_get_p(id = student_id,
+                                 p = "P108", # property for employer
+                                 only_first = FALSE)) %>% # not only the first result
   unnest(worked_at_id) %>%
   filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
   mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
   # but keep in mind we are only interested in the employer if they are a university
   # so we ask what `instance of` the employer is. 
-  mutate(employer_instance_of = tw_get_property_same_length(id = worked_at_id,
-                                                            p = "P31",
-                                                            only_first = FALSE)) %>%  
+  mutate(employer_instance_of = tw_get_p(id = worked_at_id,
+                                         p = "P31",
+                                         only_first = FALSE)) %>%  
   unnest(employer_instance_of) %>% 
   mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
   # some institutions may be e.g. "instance of" -> "private university", not of "university"
   # so whe check what "subclass of" that id
-  mutate(employer_instance_of2 = tw_get_property_same_length(id = worked_at_id,
-                                                            p = "P31",
-                                                            only_first = FALSE)) %>% 
+  mutate(employer_instance_of2 = tw_get_p(id = worked_at_id,
+                                          p = "P31",
+                                          only_first = FALSE)) %>% 
   unnest(employer_instance_of2) %>% 
-  mutate(employer_instance_of2_subclass_of = tw_get_property_same_length(id = employer_instance_of2,
-                                                            p = "P279",
-                                                            only_first = FALSE)) %>% 
+  mutate(employer_instance_of2_subclass_of = tw_get_p(id = employer_instance_of2,
+                                                      p = "P279",
+                                                      only_first = FALSE)) %>% 
   unnest(employer_instance_of2_subclass_of) %>% 
   # keep only if employer is a university (or something which is a subclass of university)
   filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
   distinct(student_label, worked_at_id, worked_at_label) %>% 
-  mutate(worked_at_coordinates = tw_get_property_same_length(worked_at_id,
-                                                             p = "P625",
-                                                             only_first = TRUE)) %>% 
+  mutate(worked_at_coordinates = tw_get_p(worked_at_id,
+                                          p = "P625",
+                                          only_first = TRUE)) %>% 
   select(-worked_at_id) %>% 
   separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
 #> # A tibble: 19 × 4
@@ -510,9 +513,8 @@ students %>%
 #> 19 Paul Radin                    Brandeis University        42.36566   -71.25974
 ```
 
-Starting with version 0.5, to reduce typing,
-`tw_get_property_same_length()` has now an alias, `tw_get_p()`, which
-can be used in its stead.
+Starting with version 0.5, to reduce typing, `tw_get_p()` can be used
+instead of the more verbose `tw_get_property_same_length()`.
 
 ## Qualifiers
 
@@ -538,8 +540,8 @@ purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
 )
-#> [1] "member of the European Parliament"   
-#> [2] "President of the European Parliament"
+#> [1] "President of the European Parliament"
+#> [2] "member of the European Parliament"   
 #> [3] "member of the European Parliament"   
 #> [4] "member of the European Parliament"
 ```
@@ -668,17 +670,17 @@ response we get:
 ``` r
 tw_get_property(id = "Q84", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
-#> # A tibble: 8 × 3
-#>   id    property value                                      
-#>   <chr> <chr>    <chr>                                      
-#> 1 Q84   P17      Roman Empire                               
-#> 2 Q84   P17      Kingdom of Essex                           
-#> 3 Q84   P17      Kingdom of Mercia                          
-#> 4 Q84   P17      Kingdom of Wessex                          
-#> 5 Q84   P17      Kingdom of England                         
-#> 6 Q84   P17      Great Britain                              
-#> 7 Q84   P17      United Kingdom of Great Britain and Ireland
-#> 8 Q84   P17      United Kingdom
+#> # A tibble: 8 × 4
+#>   id    property value                                       rank     
+#>   <chr> <chr>    <chr>                                       <chr>    
+#> 1 Q84   P17      Roman Empire                                normal   
+#> 2 Q84   P17      Kingdom of Essex                            normal   
+#> 3 Q84   P17      Kingdom of Mercia                           normal   
+#> 4 Q84   P17      Kingdom of Wessex                           normal   
+#> 5 Q84   P17      Kingdom of England                          normal   
+#> 6 Q84   P17      Great Britain                               normal   
+#> 7 Q84   P17      United Kingdom of Great Britain and Ireland normal   
+#> 8 Q84   P17      United Kingdom                              preferred
 ```
 
 These statements may all be fairly accurate at different points in time,
@@ -694,19 +696,19 @@ at same for property for Rome, this is not the case.
 ``` r
 tw_get_property(id = "Q220", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
-#> # A tibble: 10 × 3
-#>    id    property value                            
-#>    <chr> <chr>    <chr>                            
-#>  1 Q220  P17      Italy                            
-#>  2 Q220  P17      Papal States                     
-#>  3 Q220  P17      Kingdom of Italy                 
-#>  4 Q220  P17      Ostrogothic Kingdom              
-#>  5 Q220  P17      Byzantine Empire                 
-#>  6 Q220  P17      Kingdom of Italy                 
-#>  7 Q220  P17      Roman Kingdom                    
-#>  8 Q220  P17      Roman Republic                   
-#>  9 Q220  P17      Roman Empire                     
-#> 10 Q220  P17      Western Roman Empire (395-476 AD)
+#> # A tibble: 10 × 4
+#>    id    property value                             rank     
+#>    <chr> <chr>    <chr>                             <chr>    
+#>  1 Q220  P17      Italy                             preferred
+#>  2 Q220  P17      Papal States                      normal   
+#>  3 Q220  P17      Kingdom of Italy                  normal   
+#>  4 Q220  P17      Ostrogothic Kingdom               normal   
+#>  5 Q220  P17      Byzantine Empire                  normal   
+#>  6 Q220  P17      Kingdom of Italy                  normal   
+#>  7 Q220  P17      Roman Kingdom                     normal   
+#>  8 Q220  P17      Roman Republic                    normal   
+#>  9 Q220  P17      Roman Empire                      normal   
+#> 10 Q220  P17      Western Roman Empire (395-476 AD) normal
 ```
 
 So while we may be tempted to just keep the first statement returned by
@@ -762,7 +764,9 @@ more than one, in some cases it may be useful to use instead the
 parameter `latest_start_time`, to pick the statement that has the most
 recent “start time”
 ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this
-can also be used in combination with `preferred`).
+can also be used in combination with `preferred`). This option slows a
+bit the process as it depends on a call to `tw_get_qualifiers()` to
+retrieve and cache relevant details.
 
 ``` r
 tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
@@ -836,27 +840,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 762 Columns: 3
+#> Rows: 767 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 762 × 3
-#>    id       label            description                          
-#>    <chr>    <chr>            <chr>                                
-#>  1 Q3427151 Renée Jacqmotte  <NA>                                 
-#>  2 Q3446576 Ruby Summers     <NA>                                 
-#>  3 Q3455497 Régine Krochmal  <NA>                                 
-#>  4 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)
-#>  5 Q3484585 Simone Lurçat    <NA>                                 
-#>  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) 
-#>  7 Q3506010 Suzanne Moons    <NA>                                 
-#>  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)
-#>  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)
-#> 10 Q3574207 Yvonne Jospa     Belgian resistance member            
-#> # … with 752 more rows
+#> # A tibble: 767 × 3
+#>    id      label                  description                                   
+#>    <chr>   <chr>                  <chr>                                         
+#>  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         
+#>  2 Q276410 Marga Klompé           Dutch politician (1912-1986)                  
+#>  3 Q283654 Maria Skobtsova        Russian saint                                 
+#>  4 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…
+#>  5 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  
+#>  6 Q324718 Martha Dodd            American spy for the Soviet Union             
+#>  7 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…
+#>  8 Q394661 Agnes Wendland         <NA>                                          
+#>  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          
+#> 10 Q443262 Lozen                  Apache prophetess and warrior                 
+#> # … with 757 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -874,27 +878,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 126 Columns: 3
+#> Rows: 127 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 126 × 3
-#>    id        label                           description                       
-#>    <chr>     <chr>                           <chr>                             
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese  
-#>  2 Q30152162 Paulette Davin                  résistante française              
-#>  3 Q42218701 Yvette Grollet-Briand           aviatrice française               
-#>  4 Q42291666 Alice Vansteenberghe            résistante française              
-#>  5 Q42887213 Marie-Thérèse de Poix           infirmière et résistante française
-#>  6 Q47075790 Anne-Marie Bigot                juste parmi les Nations           
-#>  7 Q47107820 Madeleine Clément               juste parmi les Nations           
-#>  8 Q47367488 Marie-Louise Cloarec            résistante française              
-#>  9 Q47396640 Suzanne Mertzizen               résistante française              
-#> 10 Q50364851 Paulette Sauboua                <NA>                              
-#> # … with 116 more rows
+#> # A tibble: 127 × 3
+#>    id        label                           description                        
+#>    <chr>     <chr>                           <chr>                              
+#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
+#>  2 Q6837011  Michelle Dubois                 <NA>                               
+#>  3 Q10289954 Giselle Cossard                 résistante française, femme de let…
+#>  4 Q5257705  Denise Laroque                  <NA>                               
+#>  5 Q15970412 Raymonde Tillon                 femme politique française          
+#>  6 Q16262713 Simone Schloss                  résistante communiste française    
+#>  7 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
+#>  8 Q3009723  Cécile Cerf                     résistante française               
+#>  9 Q3081207  Francine Fromond                <NA>                               
+#> 10 Q3132483  Henriette Moriamé               <NA>                               
+#> # … with 117 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -913,7 +917,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 126 Columns: 3
+#> Rows: 127 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -1007,6 +1011,10 @@ wikipedia_df %>%
 
 All functions that interact with Wikipedia and the related MediaWiki API
 are not cached locally at this stage.
+
+For a more extended example of exploring Wikidata starting from
+Wikipedia, consult the dedicated vignette with
+`vignette("wikipedia_start")`
 
 ## Getting images, including credits
 

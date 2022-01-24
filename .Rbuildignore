@@ -10,3 +10,7 @@
 ^CRAN-RELEASE$
 ^data-raw$
 ^vignettes/articles$
+^vignettes/precompile.R$
+^vignettes/wikipedia_start.Rmd.orig$
+^doc$
+^Meta$

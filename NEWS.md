@@ -41,6 +41,7 @@
 
 # tidywikidatar 0.5.0
 
+* `tw_get()` now keeps rank by default, facilitating retrieving more relevant results
 * `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property, as well as value type of the output (new format incompatible with previous cache, reset cache with `tw_reset_qualifiers_cache()`)
 * `tw_get_qualifiers()` not returns correctly value when qualifier value type is a string (not a Wikidata identifier, not a date)
 * `tw_get_image()` not respects all parameters consistently. `tw_get_image()` and `tw_get_image_metadata()` are now briefly described in the README.
