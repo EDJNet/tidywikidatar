@@ -278,14 +278,14 @@ tw_disconnect_from_cache <- function(cache = NULL,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
                                      language = tidywikidatar::tw_get_language()) {
-  if (tw_check_cache(cache) == TRUE) {
+  if (isTRUE(tw_check_cache(cache)) & isTRUE(disconnect_db)) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
       language = language,
       cache = cache
     )
 
-    if (pool::dbIsValid(dbObj = db) & isTRUE(disconnect_db)) {
+    if (pool::dbIsValid(dbObj = db)) {
       if ("Pool" %in% class(db)) {
         pool::poolClose(db)
       } else {
