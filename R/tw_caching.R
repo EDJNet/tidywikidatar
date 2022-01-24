@@ -268,12 +268,13 @@ tw_check_cache_folder <- function() {
 #' @export
 #'
 #' @examples
-#'
-#' tw_get(
-#'   id = c("Q180099"),
-#'   language = "en"
-#' )
-#' tw_disconnect_from_cache()
+#' if (interactive()) {
+#'   tw_get(
+#'     id = c("Q180099"),
+#'     language = "en"
+#'   )
+#'   tw_disconnect_from_cache()
+#' }
 tw_disconnect_from_cache <- function(cache = NULL,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
