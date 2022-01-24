@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/caching.html">How caching works in tidywikidatar</a>
+    <a class="dropdown-item" href="articles/wikipedia_start.html">Using Wikipedia as a starting point</a>
   </div>
 </li>
 <li class="nav-item">
@@ -108,6 +109,7 @@
 <li><a href="https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77" class="external-link">Finding gendered street names</a></li>
 </ul>
 <p>While the code used there may not be fully compatible or be the most efficient with the latest version of Wikidata, they still provide a useful term of reference.</p>
+<p>See the vignette <code><a href="articles/wikipedia_start.html">vignette("wikipedia_start")</a></code> for an example of a possible workflow.</p>
 </div>
 <div class="section level2">
 <h2 id="before-you-start">Before you start<a class="anchor" aria-label="anchor" href="#before-you-start"></a>
@@ -161,10 +163,10 @@
 <p>Where was she born? I can ask directly for P19, place of birth:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span>, p <span class="op">=</span> <span class="st">"P19"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 3</span>
-<span class="co">#&gt;   id      property value</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Q180099 P19      Q1345</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 1 × 4</span>
+<span class="co">#&gt;   id      property value rank  </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Q180099 P19      Q1345 normal</span></code></pre></div>
 <p>which, as expected, will give me another wikidata id. But what does, “Q1345” stand for? I should ask for its label.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q1345"</span><span class="op">)</span>
@@ -172,10 +174,10 @@
 <p>Alright, I know where Philadelphia, but if it was a smaller place, perhaps I’d need to ask in which country it is located. So I would ask for the correspondent property, P17.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q1345"</span>, p <span class="op">=</span> <span class="st">"P17"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 3</span>
-<span class="co">#&gt;   id    property value</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Q1345 P17      Q30</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 1 × 4</span>
+<span class="co">#&gt;   id    property value rank  </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Q1345 P17      Q30   normal</span></code></pre></div>
 <p>Oh, no, another Wikidata id! That’s the way it works… let’s ask for its label:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q30"</span><span class="op">)</span>
@@ -239,23 +241,23 @@
   p <span class="op">=</span> <span class="st">"P166"</span>,
   language <span class="op">=</span> <span class="st">"en"</span>
 <span class="op">)</span> 
-<span class="co">#&gt; # A tibble: 14 × 3</span>
-<span class="co">#&gt;    id      property value    </span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    </span>
-<span class="co">#&gt;  1 Q180099 P166     Q17144   </span>
-<span class="co">#&gt;  2 Q180099 P166     Q782022  </span>
-<span class="co">#&gt;  3 Q180099 P166     Q8017107 </span>
-<span class="co">#&gt;  4 Q180099 P166     Q1967852 </span>
-<span class="co">#&gt;  5 Q180099 P166     Q52382875</span>
-<span class="co">#&gt;  6 Q228822 P166     Q1967852 </span>
-<span class="co">#&gt;  7 Q228822 P166     Q52382875</span>
-<span class="co">#&gt;  8 Q228822 P166     Q752297  </span>
-<span class="co">#&gt;  9 Q220480 P166     Q1316544 </span>
-<span class="co">#&gt; 10 Q220480 P166     Q1967852 </span>
-<span class="co">#&gt; 11 Q220480 P166     Q5461701 </span>
-<span class="co">#&gt; 12 Q220480 P166     Q5461189 </span>
-<span class="co">#&gt; 13 Q220480 P166     Q4765305 </span>
-<span class="co">#&gt; 14 Q220480 P166     Q1316544</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 14 × 4</span>
+<span class="co">#&gt;    id      property value     rank  </span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Q180099 P166     Q17144    normal</span>
+<span class="co">#&gt;  2 Q180099 P166     Q782022   normal</span>
+<span class="co">#&gt;  3 Q180099 P166     Q8017107  normal</span>
+<span class="co">#&gt;  4 Q180099 P166     Q1967852  normal</span>
+<span class="co">#&gt;  5 Q180099 P166     Q52382875 normal</span>
+<span class="co">#&gt;  6 Q228822 P166     Q1967852  normal</span>
+<span class="co">#&gt;  7 Q228822 P166     Q52382875 normal</span>
+<span class="co">#&gt;  8 Q228822 P166     Q752297   normal</span>
+<span class="co">#&gt;  9 Q220480 P166     Q1316544  normal</span>
+<span class="co">#&gt; 10 Q220480 P166     Q1967852  normal</span>
+<span class="co">#&gt; 11 Q220480 P166     Q5461701  normal</span>
+<span class="co">#&gt; 12 Q220480 P166     Q5461189  normal</span>
+<span class="co">#&gt; 13 Q220480 P166     Q4765305  normal</span>
+<span class="co">#&gt; 14 Q220480 P166     Q1316544  normal</span></code></pre></div>
 <p>Again, Wikidata ids. We can of course get their relative labels using the functions outlined above, but <code>tidywikidatar</code> has a convenience function - <code><a href="reference/tw_label.html">tw_label()</a></code> that will achieve what you want in most such cases.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>
@@ -264,28 +266,28 @@
   language <span class="op">=</span> <span class="st">"en"</span>
 <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="reference/tw_label.html">tw_label</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 14 × 3</span>
-<span class="co">#&gt;    id                 property       value                                      </span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;                                      </span>
-<span class="co">#&gt;  1 Margaret Mead      award received Presidential Medal of Freedom              </span>
-<span class="co">#&gt;  2 Margaret Mead      award received Kalinga Prize                              </span>
-<span class="co">#&gt;  3 Margaret Mead      award received William Procter Prize for Scientific Achie…</span>
-<span class="co">#&gt;  4 Margaret Mead      award received National Women's Hall of Fame              </span>
-<span class="co">#&gt;  5 Margaret Mead      award received AAAS Fellow                                </span>
-<span class="co">#&gt;  6 Ruth Benedict      award received National Women's Hall of Fame              </span>
-<span class="co">#&gt;  7 Ruth Benedict      award received AAAS Fellow                                </span>
-<span class="co">#&gt;  8 Ruth Benedict      award received Doctor of Philosophy                       </span>
-<span class="co">#&gt;  9 Zora Neale Hurston award received Guggenheim Fellowship                      </span>
-<span class="co">#&gt; 10 Zora Neale Hurston award received National Women's Hall of Fame              </span>
-<span class="co">#&gt; 11 Zora Neale Hurston award received Florida Women's Hall of Fame               </span>
-<span class="co">#&gt; 12 Zora Neale Hurston award received Florida Artists Hall of Fame               </span>
-<span class="co">#&gt; 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards                 </span>
-<span class="co">#&gt; 14 Zora Neale Hurston award received Guggenheim Fellowship</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 14 × 4</span>
+<span class="co">#&gt;    id                 property       value                                 rank </span>
+<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;                                 &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Margaret Mead      award received Presidential Medal of Freedom         norm…</span>
+<span class="co">#&gt;  2 Margaret Mead      award received Kalinga Prize                         norm…</span>
+<span class="co">#&gt;  3 Margaret Mead      award received William Procter Prize for Scientific… norm…</span>
+<span class="co">#&gt;  4 Margaret Mead      award received National Women's Hall of Fame         norm…</span>
+<span class="co">#&gt;  5 Margaret Mead      award received AAAS Fellow                           norm…</span>
+<span class="co">#&gt;  6 Ruth Benedict      award received National Women's Hall of Fame         norm…</span>
+<span class="co">#&gt;  7 Ruth Benedict      award received AAAS Fellow                           norm…</span>
+<span class="co">#&gt;  8 Ruth Benedict      award received Doctor of Philosophy                  norm…</span>
+<span class="co">#&gt;  9 Zora Neale Hurston award received Guggenheim Fellowship                 norm…</span>
+<span class="co">#&gt; 10 Zora Neale Hurston award received National Women's Hall of Fame         norm…</span>
+<span class="co">#&gt; 11 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…</span>
+<span class="co">#&gt; 12 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…</span>
+<span class="co">#&gt; 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…</span>
+<span class="co">#&gt; 14 Zora Neale Hurston award received Guggenheim Fellowship                 norm…</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="piped-operations">Piped operations<a class="anchor" aria-label="anchor" href="#piped-operations"></a>
 </h2>
-<p>Using the pipe (<code>%&gt;%</code>) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. <code>tidywikidatar</code> offers dedicated functions to work with the pipe more consistently, in particular <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code>.</p>
+<p>Using the pipe (<code>%&gt;%</code>) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. <code>tidywikidatar</code> offers dedicated functions to work with the pipe more consistently, in particular <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> (or its shorter alias <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code>).</p>
 <p>One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values.</p>
 <p>For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and process them further in subsequent steps of the pipe.</p>
 <p>Let’s look at some of these issues with an example.</p>
@@ -296,17 +298,17 @@
 <span class="va">students</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q76857"</span>, p <span class="op">=</span> <span class="st">"P185"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>  <span class="co"># who were Boas' doctoral students?</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">transmute</a></span><span class="op">(</span>student_label <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>, <span class="co"># get their name</span>
-                   student_id <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="co"># and keep their id</span>
+            student_id <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="co"># and keep their id</span>
 
 
 <span class="va">students</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>  
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date_of_birth <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
-                                                     p <span class="op">=</span> <span class="st">"P569"</span>, <span class="co"># property for date of birth</span>
-                                                     only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date_of_birth <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
+                                  p <span class="op">=</span> <span class="st">"P569"</span>, <span class="co"># property for date of birth</span>
+                                  only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="co"># we don't care about possible multiple values on when they were born</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>place_of_birth <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
-                                                     p <span class="op">=</span> <span class="st">"P19"</span>, <span class="co"># property for place of birth</span>
-                                                     only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>place_of_birth <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
+                                   p <span class="op">=</span> <span class="st">"P19"</span>, <span class="co"># property for place of birth</span>
+                                   only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
            <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 20 × 4</span>
 <span class="co">#&gt;    student_label                 student_id date_of_birth         place_of_birth</span>
@@ -335,35 +337,35 @@
 <p>Here is how we may want to go if we want, for example, to create a map of all the universities where one of Franz Boas’ doctoral students has worked. We get the id of all the places where they have worked, check if they are universities or not, and then get the coordinates for the given institutions.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">students</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>worked_at_id <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
-                                                     p <span class="op">=</span> <span class="st">"P108"</span>, <span class="co"># property for employer</span>
-                                                     only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># not only the first result</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>worked_at_id <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">student_id</span>,
+                                 p <span class="op">=</span> <span class="st">"P108"</span>, <span class="co"># property for employer</span>
+                                 only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># not only the first result</span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">worked_at_id</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">worked_at_id</span><span class="op">)</span><span class="op">==</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># remove those for which we have no employer</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>worked_at_label <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">worked_at_id</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="co"># but keep in mind we are only interested in the employer if they are a university</span>
   <span class="co"># so we ask what `instance of` the employer is. </span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">worked_at_id</span>,
-                                                            p <span class="op">=</span> <span class="st">"P31"</span>,
-                                                            only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>  
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">worked_at_id</span>,
+                                         p <span class="op">=</span> <span class="st">"P31"</span>,
+                                         only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>  
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">employer_instance_of</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of_label <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">employer_instance_of</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="co"># some institutions may be e.g. "instance of" -&gt; "private university", not of "university"</span>
   <span class="co"># so whe check what "subclass of" that id</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of2 <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">worked_at_id</span>,
-                                                            p <span class="op">=</span> <span class="st">"P31"</span>,
-                                                            only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of2 <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">worked_at_id</span>,
+                                          p <span class="op">=</span> <span class="st">"P31"</span>,
+                                          only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">employer_instance_of2</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of2_subclass_of <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">employer_instance_of2</span>,
-                                                            p <span class="op">=</span> <span class="st">"P279"</span>,
-                                                            only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>employer_instance_of2_subclass_of <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">employer_instance_of2</span>,
+                                                      p <span class="op">=</span> <span class="st">"P279"</span>,
+                                                      only_first <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">employer_instance_of2_subclass_of</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="co"># keep only if employer is a university (or something which is a subclass of university)</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">employer_instance_of</span> <span class="op">==</span> <span class="st">"Q3918"</span> <span class="op">|</span> <span class="va">employer_instance_of2_subclass_of</span> <span class="op">==</span> <span class="st">"Q3918"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">student_label</span>, <span class="va">worked_at_id</span>, <span class="va">worked_at_label</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>worked_at_coordinates <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length</a></span><span class="op">(</span><span class="va">worked_at_id</span>,
-                                                             p <span class="op">=</span> <span class="st">"P625"</span>,
-                                                             only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>worked_at_coordinates <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span><span class="va">worked_at_id</span>,
+                                          p <span class="op">=</span> <span class="st">"P625"</span>,
+                                          only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">worked_at_id</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">worked_at_coordinates</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lat"</span>, <span class="st">"lon"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 19 × 4</span>
@@ -388,7 +390,7 @@
 <span class="co">#&gt; 17 Paul Radin                    University of Chicago      41.789722… -87.5997…</span>
 <span class="co">#&gt; 18 Paul Radin                    Fisk University            36.1688    -86.8047 </span>
 <span class="co">#&gt; 19 Paul Radin                    Brandeis University        42.36566   -71.25974</span></code></pre></div>
-<p>Starting with version 0.5, to reduce typing, <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> has now an alias, <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code>, which can be used in its stead.</p>
+<p>Starting with version 0.5, to reduce typing, <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code> can be used instead of the more verbose <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="qualifiers">Qualifiers<a class="anchor" aria-label="anchor" href="#qualifiers"></a>
@@ -402,8 +404,8 @@
   .x <span class="op">=</span> <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q2391857"</span>, p <span class="op">=</span> <span class="st">"P39"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>,
   .f <span class="op">=</span> <span class="va">tw_get_label</span>
 <span class="op">)</span>
-<span class="co">#&gt; [1] "member of the European Parliament"   </span>
-<span class="co">#&gt; [2] "President of the European Parliament"</span>
+<span class="co">#&gt; [1] "President of the European Parliament"</span>
+<span class="co">#&gt; [2] "member of the European Parliament"   </span>
 <span class="co">#&gt; [3] "member of the European Parliament"   </span>
 <span class="co">#&gt; [4] "member of the European Parliament"</span></code></pre></div>
 <p>He has been more than once “member of the European Parliament”, and once “President of the European Parliament”. But this is not all that Wikidata knows about it: each of these properties comes with qualifiers.</p>
@@ -697,34 +699,34 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q84"</span>, p <span class="op">=</span> <span class="st">"P17"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 × 3</span>
-<span class="co">#&gt;   id    property value                                      </span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                                      </span>
-<span class="co">#&gt; 1 Q84   P17      Roman Empire                               </span>
-<span class="co">#&gt; 2 Q84   P17      Kingdom of Essex                           </span>
-<span class="co">#&gt; 3 Q84   P17      Kingdom of Mercia                          </span>
-<span class="co">#&gt; 4 Q84   P17      Kingdom of Wessex                          </span>
-<span class="co">#&gt; 5 Q84   P17      Kingdom of England                         </span>
-<span class="co">#&gt; 6 Q84   P17      Great Britain                              </span>
-<span class="co">#&gt; 7 Q84   P17      United Kingdom of Great Britain and Ireland</span>
-<span class="co">#&gt; 8 Q84   P17      United Kingdom</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 8 × 4</span>
+<span class="co">#&gt;   id    property value                                       rank     </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                                       &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Q84   P17      Roman Empire                                normal   </span>
+<span class="co">#&gt; 2 Q84   P17      Kingdom of Essex                            normal   </span>
+<span class="co">#&gt; 3 Q84   P17      Kingdom of Mercia                           normal   </span>
+<span class="co">#&gt; 4 Q84   P17      Kingdom of Wessex                           normal   </span>
+<span class="co">#&gt; 5 Q84   P17      Kingdom of England                          normal   </span>
+<span class="co">#&gt; 6 Q84   P17      Great Britain                               normal   </span>
+<span class="co">#&gt; 7 Q84   P17      United Kingdom of Great Britain and Ireland normal   </span>
+<span class="co">#&gt; 8 Q84   P17      United Kingdom                              preferred</span></code></pre></div>
 <p>These statements may all be fairly accurate at different points in time, as we would see if we looked at the qualifiers of each of these statements (see above) or check the respective <a href="https://www.wikidata.org/wiki/Q84#P17" class="external-link">section on Wikidata’s website</a>. The order, however, is determined by a number of factors and this may lead to inconsistent results. If we are interested in having just one result, as is often the case when processing large amounts of items, can we safely pick the first (or last) and be sure it’s the more recent? As it emerges looking at same for property for Rome, this is not the case.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q220"</span>, p <span class="op">=</span> <span class="st">"P17"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 10 × 3</span>
-<span class="co">#&gt;    id    property value                            </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                            </span>
-<span class="co">#&gt;  1 Q220  P17      Italy                            </span>
-<span class="co">#&gt;  2 Q220  P17      Papal States                     </span>
-<span class="co">#&gt;  3 Q220  P17      Kingdom of Italy                 </span>
-<span class="co">#&gt;  4 Q220  P17      Ostrogothic Kingdom              </span>
-<span class="co">#&gt;  5 Q220  P17      Byzantine Empire                 </span>
-<span class="co">#&gt;  6 Q220  P17      Kingdom of Italy                 </span>
-<span class="co">#&gt;  7 Q220  P17      Roman Kingdom                    </span>
-<span class="co">#&gt;  8 Q220  P17      Roman Republic                   </span>
-<span class="co">#&gt;  9 Q220  P17      Roman Empire                     </span>
-<span class="co">#&gt; 10 Q220  P17      Western Roman Empire (395-476 AD)</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 10 × 4</span>
+<span class="co">#&gt;    id    property value                             rank     </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                             &lt;chr&gt;    </span>
+<span class="co">#&gt;  1 Q220  P17      Italy                             preferred</span>
+<span class="co">#&gt;  2 Q220  P17      Papal States                      normal   </span>
+<span class="co">#&gt;  3 Q220  P17      Kingdom of Italy                  normal   </span>
+<span class="co">#&gt;  4 Q220  P17      Ostrogothic Kingdom               normal   </span>
+<span class="co">#&gt;  5 Q220  P17      Byzantine Empire                  normal   </span>
+<span class="co">#&gt;  6 Q220  P17      Kingdom of Italy                  normal   </span>
+<span class="co">#&gt;  7 Q220  P17      Roman Kingdom                     normal   </span>
+<span class="co">#&gt;  8 Q220  P17      Roman Republic                    normal   </span>
+<span class="co">#&gt;  9 Q220  P17      Roman Empire                      normal   </span>
+<span class="co">#&gt; 10 Q220  P17      Western Roman Empire (395-476 AD) normal</span></code></pre></div>
 <p>So while we may be tempted to just keep the first statement returned by Wikidata for the given property, this is probably not what we want.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>city_qid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q84"</span>, <span class="st">"Q220"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
@@ -753,7 +755,7 @@
 <span class="co">#&gt; 1 Q84      London     Q145        United Kingdom</span>
 <span class="co">#&gt; 2 Q220     Rome       Q38         Italy</span></code></pre></div>
 <p>Keep in mind that there may be more than one “preferred” statement, so setting <code>preferred</code> to TRUE is no guarantee of having a single result: for example, London is both “<a href="https://www.wikidata.org/wiki/Q84#P1376" class="external-link">capital of</a>” (<a href="https://www.wikidata.org/wiki/Property:P1376" class="external-link">P1376</a>) the United Kingdom and England, and both statements are “preferred”. Rome is capital of Italy and Lazio (the region where it is located), and both are “preferred”.</p>
-<p>When the “preferred” option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter <code>latest_start_time</code>, to pick the statement that has the most recent “start time” (<a href="https://www.wikidata.org/wiki/Property:P580" class="external-link">P580</a>) qualifier (this can also be used in combination with <code>preferred</code>).</p>
+<p>When the “preferred” option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter <code>latest_start_time</code>, to pick the statement that has the most recent “start time” (<a href="https://www.wikidata.org/wiki/Property:P580" class="external-link">P580</a>) qualifier (this can also be used in combination with <code>preferred</code>). This option slows a bit the process as it depends on a call to <code><a href="reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code> to retrieve and cache relevant details.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>city_qid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q84"</span>, <span class="st">"Q220"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>city_label <span class="op">=</span> <span class="fu"><a href="reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">city_qid</span><span class="op">)</span>, 
@@ -797,27 +799,27 @@
 <p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 762 Columns: 3</span>
+<span class="co">#&gt; Rows: 767 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
-<span class="co">#&gt; # A tibble: 762 × 3</span>
-<span class="co">#&gt;    id       label            description                          </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;                                </span>
-<span class="co">#&gt;  1 Q3427151 Renée Jacqmotte  &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  2 Q3446576 Ruby Summers     &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  3 Q3455497 Régine Krochmal  &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  4 Q3473353 Sarah Goldberg   Polish resistance fighter (1921-2003)</span>
-<span class="co">#&gt;  5 Q3484585 Simone Lurçat    &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  6 Q3490832 Sofia Antoniadis Greek university teacher (1895-1972) </span>
-<span class="co">#&gt;  7 Q3506010 Suzanne Moons    &lt;NA&gt;                                 </span>
-<span class="co">#&gt;  8 Q3574046 Yvette Farnoux   French resistance fighter (1919-2015)</span>
-<span class="co">#&gt;  9 Q3574174 Yvonne Abbas     French resistance fighter (1922-2014)</span>
-<span class="co">#&gt; 10 Q3574207 Yvonne Jospa     Belgian resistance member            </span>
-<span class="co">#&gt; # … with 752 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 767 × 3</span>
+<span class="co">#&gt;    id      label                  description                                   </span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;                                         </span>
+<span class="co">#&gt;  1 Q274041 Nanny of the Maroons   leader of Windward Maroons in Jamaica         </span>
+<span class="co">#&gt;  2 Q276410 Marga Klompé           Dutch politician (1912-1986)                  </span>
+<span class="co">#&gt;  3 Q283654 Maria Skobtsova        Russian saint                                 </span>
+<span class="co">#&gt;  4 Q285995 Maria Restituta Kafka  Franciscan nun and nurse; Nazi critic; victim…</span>
+<span class="co">#&gt;  5 Q304262 Hannie van Leeuwen     Dutch politician (1926-2018)                  </span>
+<span class="co">#&gt;  6 Q324718 Martha Dodd            American spy for the Soviet Union             </span>
+<span class="co">#&gt;  7 Q354512 Adele Stürzl           Austrian politician, member of the Austrian r…</span>
+<span class="co">#&gt;  8 Q394661 Agnes Wendland         &lt;NA&gt;                                          </span>
+<span class="co">#&gt;  9 Q441439 Henriette Roland Holst Dutch politician, editor (1869-1952)          </span>
+<span class="co">#&gt; 10 Q443262 Lozen                  Apache prophetess and warrior                 </span>
+<span class="co">#&gt; # … with 757 more rows</span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142" class="external-link">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27" class="external-link">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -827,27 +829,27 @@
   <span class="st">"P27"</span>, <span class="st">"Q142"</span>
 <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># Country of citizenship: France</span>
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"it"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 126 Columns: 3</span>
+<span class="co">#&gt; Rows: 127 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
-<span class="co">#&gt; # A tibble: 126 × 3</span>
-<span class="co">#&gt;    id        label                           description                       </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                           &lt;chr&gt;                             </span>
-<span class="co">#&gt;  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese  </span>
-<span class="co">#&gt;  2 Q30152162 Paulette Davin                  résistante française              </span>
-<span class="co">#&gt;  3 Q42218701 Yvette Grollet-Briand           aviatrice française               </span>
-<span class="co">#&gt;  4 Q42291666 Alice Vansteenberghe            résistante française              </span>
-<span class="co">#&gt;  5 Q42887213 Marie-Thérèse de Poix           infirmière et résistante française</span>
-<span class="co">#&gt;  6 Q47075790 Anne-Marie Bigot                juste parmi les Nations           </span>
-<span class="co">#&gt;  7 Q47107820 Madeleine Clément               juste parmi les Nations           </span>
-<span class="co">#&gt;  8 Q47367488 Marie-Louise Cloarec            résistante française              </span>
-<span class="co">#&gt;  9 Q47396640 Suzanne Mertzizen               résistante française              </span>
-<span class="co">#&gt; 10 Q50364851 Paulette Sauboua                &lt;NA&gt;                              </span>
-<span class="co">#&gt; # … with 116 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 127 × 3</span>
+<span class="co">#&gt;    id        label                           description                        </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                           &lt;chr&gt;                              </span>
+<span class="co">#&gt;  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   </span>
+<span class="co">#&gt;  2 Q6837011  Michelle Dubois                 &lt;NA&gt;                               </span>
+<span class="co">#&gt;  3 Q10289954 Giselle Cossard                 résistante française, femme de let…</span>
+<span class="co">#&gt;  4 Q5257705  Denise Laroque                  &lt;NA&gt;                               </span>
+<span class="co">#&gt;  5 Q15970412 Raymonde Tillon                 femme politique française          </span>
+<span class="co">#&gt;  6 Q16262713 Simone Schloss                  résistante communiste française    </span>
+<span class="co">#&gt;  7 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…</span>
+<span class="co">#&gt;  8 Q3009723  Cécile Cerf                     résistante française               </span>
+<span class="co">#&gt;  9 Q3081207  Francine Fromond                &lt;NA&gt;                               </span>
+<span class="co">#&gt; 10 Q3132483  Henriette Moriamé               &lt;NA&gt;                               </span>
+<span class="co">#&gt; # … with 117 more rows</span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -859,7 +861,7 @@
   <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 126 Columns: 3</span>
+<span class="co">#&gt; Rows: 127 Columns: 3</span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: ","</span>
 <span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span>
@@ -923,6 +925,7 @@
   <span class="fu"><a href="reference/tw_get_property.html">tw_get_property</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">value</span> <span class="op">==</span> <span class="st">"Q5"</span><span class="op">)</span></code></pre></div>
 <p>All functions that interact with Wikipedia and the related MediaWiki API are not cached locally at this stage.</p>
+<p>For a more extended example of exploring Wikidata starting from Wikipedia, consult the dedicated vignette with <code><a href="articles/wikipedia_start.html">vignette("wikipedia_start")</a></code></p>
 </div>
 <div class="section level2">
 <h2 id="getting-images-including-credits">Getting images, including credits<a class="anchor" aria-label="anchor" href="#getting-images-including-credits"></a>
@@ -1000,8 +1003,9 @@
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 

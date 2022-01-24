@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/caching.html">How caching works in tidywikidatar</a>
+    <a class="dropdown-item" href="../articles/wikipedia_start.html">Using Wikipedia as a starting point</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -92,6 +93,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="tidywikidatar-050">tidywikidatar 0.5.0<a class="anchor" aria-label="anchor" href="#tidywikidatar-050"></a></h2>
 <ul><li>
+<code><a href="../reference/tw_get.html">tw_get()</a></code> now keeps rank by default, facilitating retrieving more relevant results</li>
+<li>
 <code><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code> now includes ranking such as “preferred”, “normal”, and “deprecated” associated with each property, as well as value type of the output (new format incompatible with previous cache, reset cache with <code><a href="../reference/tw_reset_qualifiers_cache.html">tw_reset_qualifiers_cache()</a></code>)</li>
 <li>
 <code><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code> not returns correctly value when qualifier value type is a string (not a Wikidata identifier, not a date)</li>
