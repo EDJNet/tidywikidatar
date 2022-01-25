@@ -41,6 +41,7 @@
 
 # tidywikidatar 0.5.0
 
+* new vignette with examples starting from a Wikipedia page, with more examples using piped operations, and clearer references that separate group of functions in official documentation website
 * `tw_get()` now keeps rank by default, facilitating retrieving more relevant results
 * `tw_get_qualifiers()` now includes ranking such as "preferred", "normal", and "deprecated" associated with each property, as well as value type of the output (new format incompatible with previous cache, reset cache with `tw_reset_qualifiers_cache()`)
 * `tw_get_qualifiers()` not returns correctly value when qualifier value type is a string (not a Wikidata identifier, not a date)
@@ -51,4 +52,5 @@
 * add example datasets for illustrative purposes and forthcoming additional vignettes and examples, `tw_qid_meps` and `tw_qid_airports`
 * drop legacy `include_id_and_p` parameter `tw_get_qualifiers()`
 * add support for setting database connection parameters with `tw_set_cache_db()` for easier use of alternatives to SQLite
+* improve handling of connections to reduce the risk of connections remaining open, aiming at higher efficency for integration with shiny apps
 * bug fix: fix error when Wikidata item has no label in any language

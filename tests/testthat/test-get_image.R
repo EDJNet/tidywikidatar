@@ -1,4 +1,5 @@
 library("testthat")
+library("tidywikidatar")
 
 test_that("check if image returned when valid id given", {
   testthat::skip_if_offline()
