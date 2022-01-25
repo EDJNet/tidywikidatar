@@ -1,3 +1,67 @@
 url: https://edjnet.github.io/tidywikidatar
 template:
   bootstrap: 5
+reference:
+- title: "Core functions used to get data from Wikidata as data frames"
+  contents:
+  - tw_get
+  - tw_get_property
+  - tw_get_qualifiers
+- title: "Core functions that return character vectors of the same length as input"
+  desc: "These are commonly used with piped operations."
+  contents:
+  - tw_get_label
+  - tw_get_description
+  - tw_get_property_same_length
+- title: "Filters"
+  desc: "These are convenience functions; the result is similar to using `tw_get()` and `dplyr::filter()`, but with less typing."
+  contents:
+  - starts_with("tw_filter")
+- title: "Functions to interact with Wikidata via Wikipedia"
+  contents:
+  - starts_with("tw_get_wikipedia")
+- title: "Search Wikidata"
+  contents:
+  - starts_with("tw_search")
+  - tw_query
+- title: "Cache settings"
+  contents:
+  - tw_create_cache_folder
+  - tw_enable_cache
+  - tw_disable_cache
+  - tw_set_cache_db
+  - tw_set_cache_folder
+  - tw_set_language
+- title: "Functions for resetting the cache"
+  desc: "After upgrading to a new `tidywikidatar` version, or in the unlikely case of database corruption, these can be used to delete specific cache tables. Consider deleting the whole cache if these do not help."
+  contents:
+  - starts_with("tw_reset_")
+- title: "Functions used internally for dealing with cache"
+  desc: "They are exported for easier access to advanced users, but should be disregarded by most."
+  contents:
+  - tw_connect_to_cache
+  - tw_check_cache
+  - tw_check_cache_folder
+  - tw_check_cached_items
+  - tw_disconnect_from_cache
+  - starts_with("tw_get_cache")
+  - starts_with("tw_write_")
+- title: "Functions used internally to check for validity of data"
+  desc: "They are exported for easier access to advanced users, but should be disregarded by most."
+  contents:
+  - tw_check_qid
+  - tw_check_search
+- title: "Extractors"
+  desc: "These functions are mostly used internally to extract selected data to an object previously downloaded with `WikidataR`"
+  - starts_with("tw_extract_")
+- title: "Functions made to process only inputs of length one, mostly used internally"
+  desc: "The user can safely rely on the correspondent core functions, these have been created separetely mostly for testing and code structure."
+  contents:
+  - ends:with("_single")
+- title: "Reference data frames"
+  desc: "These are empty data frames (with zero rows), mostly used internally when a function does not have relevant results to return. They can also serve as reference data frames to know what to expect from a given function or as placeholders."
+  contents:
+  - starts_with("tw_empty_")
+- title: "Example datasets"
+  desc: "Just a couple of datasets with a bunch of Wikidata Q identifiers to be used for examples or testing"
+  - starts_with("tw_qid_")
