@@ -55,6 +55,18 @@ tw_label <- function(df,
     )
   }
 
+  if (is.element("qualifier_value", colnames(df))) {
+    df[["qualifier_value"]] <- tw_get_label(
+      id = df[["qualifier_value"]],
+      language = language,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      cache_connection = db,
+      disconnect_db = FALSE,
+      wait = wait
+    )
+  }
+
   if (is.element("property", colnames(df))) {
     df[["property"]] <- tw_get_property_label(
       property = df[["property"]],
