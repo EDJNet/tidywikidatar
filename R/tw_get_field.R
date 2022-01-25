@@ -5,7 +5,7 @@
 #' @param id A character vector, typically of Wikidata identifiers. The output will be of the same length and in the same order as the identifiers provided with this parameter.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #'
-#' @return A character vector of the same length, with data in the same order, as `id`.
+#' @return A character vector of the same length, and with data in the same order, as `id`.
 #' @export
 #'
 #' @examples

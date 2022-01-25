@@ -108,11 +108,11 @@ tw_get_qualifiers <- function(id,
     id <- id$id
   }
 
-  unique_id <- tw_check_qid(id)
-
-  if (length(unique_id) == 0) {
-    return(tidywikidatar::tw_empty_qualifiers)
-  }
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
 
   if (length(id) == 0 | length(p) == 0) {
     usethis::ui_stop("`tw_get_qualifiers()` requires `id` and `p` of length 1 or more.")
@@ -123,18 +123,14 @@ tw_get_qualifiers <- function(id,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       wait = wait
     ))
   } else if (length(id) > 1 | length(p) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(id) * length(p))
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language,
-        cache = cache
-      )
+
       qualifiers_df <- purrr::map2_dfr(
         .x = id,
         .y = p,
@@ -154,7 +150,7 @@ tw_get_qualifiers <- function(id,
       )
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
       return(qualifiers_df)
@@ -165,7 +161,7 @@ tw_get_qualifiers <- function(id,
         id = id,
         p = p,
         language = language,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = FALSE
       )
 
@@ -178,7 +174,7 @@ tw_get_qualifiers <- function(id,
       if (nrow(not_in_cache_df) == 0) {
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
         return(
@@ -190,11 +186,7 @@ tw_get_qualifiers <- function(id,
         )
       } else if (nrow(not_in_cache_df) > 0) {
         pb <- progress::progress_bar$new(total = nrow(not_in_cache_df))
-        db <- tw_connect_to_cache(
-          connection = cache_connection,
-          language = language,
-          cache = cache
-        )
+
         qualifiers_not_in_cache_df <- purrr::map2_dfr(
           .x = unique(not_in_cache_df$id),
           .y = unique(not_in_cache_df$property),
@@ -215,7 +207,7 @@ tw_get_qualifiers <- function(id,
 
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
 
@@ -268,7 +260,7 @@ tw_get_cached_qualifiers <- function(id,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE) {
   if (isFALSE(tw_check_cache(cache = cache))) {
-    return(invisible(NULL))
+    return(invisible(tidywikidatar::tw_empty_qualifiers))
   }
 
   db <- tw_connect_to_cache(
@@ -284,8 +276,8 @@ tw_get_cached_qualifiers <- function(id,
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
+      cache = cache,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )
@@ -304,8 +296,8 @@ tw_get_cached_qualifiers <- function(id,
   )
   if (isFALSE(db_result)) {
     tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
+      cache = cache,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )
@@ -318,8 +310,8 @@ tw_get_cached_qualifiers <- function(id,
     tibble::as_tibble()
 
   tw_disconnect_from_cache(
-    cache = TRUE,
-    cache_connection = cache_connection,
+    cache = cache,
+    cache_connection = db,
     disconnect_db = disconnect_db,
     language = language
   )
@@ -363,7 +355,7 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE) {
   if (isFALSE(tw_check_cache(cache = cache))) {
-    return(invisible(NULL))
+    return(invisible(qualifiers_df))
   }
 
   db <- tw_connect_to_cache(
@@ -399,7 +391,7 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
 
 
   tw_disconnect_from_cache(
-    cache = TRUE,
+    cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language

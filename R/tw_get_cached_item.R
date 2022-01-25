@@ -45,8 +45,8 @@ tw_get_cached_item <- function(id,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     tw_disconnect_from_cache(
       cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = db,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
       language = language
     )
 
@@ -64,7 +64,7 @@ tw_get_cached_item <- function(id,
   if (isFALSE(db_result)) {
     tw_disconnect_from_cache(
       cache = cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )
@@ -80,11 +80,10 @@ tw_get_cached_item <- function(id,
 
   tw_disconnect_from_cache(
     cache = cache,
-    cache_connection = cache_connection,
+    cache_connection = db,
     disconnect_db = disconnect_db,
     language = language
   )
-
 
   cached_items_df
 }

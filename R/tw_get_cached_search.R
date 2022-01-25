@@ -48,18 +48,12 @@ tw_get_cached_search <- function(search,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     tw_disconnect_from_cache(
       cache = cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
     )
 
-    search_df <- tibble::tibble(
-      search = as.character(NA),
-      id = as.character(NA),
-      label = as.character(NA),
-      description = as.character(NA)
-    ) %>%
-      dplyr::slice(0)
+    search_df <- tidywikidatar::tw_empty_search
 
     if (include_search == TRUE) {
       return(search_df)
@@ -78,20 +72,20 @@ tw_get_cached_search <- function(search,
     }
   )
   if (isFALSE(db_result)) {
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = TRUE,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
+    search_df <- tidywikidatar::tw_empty_search
+
+    if (include_search == TRUE) {
+      return(search_df)
+    } else {
+      return(search_df %>%
+        dplyr::select(-.data$search))
     }
-    return(tibble::tibble(
-      id = as.character(NA),
-      label = as.character(NA),
-      value = as.character(NA)
-    ) %>%
-      dplyr::slice(0))
   }
 
 
@@ -104,14 +98,12 @@ tw_get_cached_search <- function(search,
       dplyr::select(-.data$search)
   }
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 
   cached_items_df
 }

@@ -108,6 +108,12 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
     return(NULL)
   }
 
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
   if (length(unique_title) == 1) {
     return(
       dplyr::left_join(
@@ -118,7 +124,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           language = language,
           cache = cache,
           overwrite_cache = overwrite_cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db,
           wait = wait,
           attempts = attempts
@@ -129,11 +135,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
   } else if (length(unique_title) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_title))
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language,
-        cache = cache
-      )
+
       df <- purrr::map_dfr(
         .x = unique_title,
         .f = function(x) {
@@ -169,7 +171,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
       titles_in_cache_df <- tw_get_cached_wikipedia_page_qid(
         title = unique_title,
         language = language,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = FALSE
       )
 
@@ -178,7 +180,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
       if (length(titles_not_in_cache) == 0) {
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
         return(
@@ -190,11 +192,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         )
       } else if (length(titles_not_in_cache) > 0) {
         pb <- progress::progress_bar$new(total = length(titles_not_in_cache))
-        db <- tw_connect_to_cache(
-          connection = cache_connection,
-          language = language,
-          cache = cache
-        )
+
         titles_not_in_cache_df <- purrr::map_dfr(
           .x = titles_not_in_cache,
           .f = function(x) {
@@ -215,7 +213,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
 
         tw_disconnect_from_cache(
           cache = cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db
         )
         dplyr::left_join(
@@ -275,13 +273,18 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
     )
   }
 
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_wikipedia_page_qid(
       title = title,
       language = language,
       cache = cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = disconnect_db
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
@@ -421,7 +424,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
     tw_write_qid_of_wikipedia_page_to_cache(
       df = df,
       cache = cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       language = language,
       overwrite_cache = overwrite_cache,
       disconnect_db = disconnect_db
@@ -604,7 +607,7 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(df,
   )
 
   tw_disconnect_from_cache(
-    cache = TRUE,
+    cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language
@@ -656,12 +659,11 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
     usethis::ui_info(paste0("Wikipedia page cache reset for language ", sQuote(language), " completed"))
   }
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = db,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+
+  tw_disconnect_from_cache(
+    cache = TRUE,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 }

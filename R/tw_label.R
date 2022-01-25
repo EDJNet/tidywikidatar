@@ -25,13 +25,19 @@ tw_label <- function(df,
                      cache_connection = NULL,
                      disconnect_db = TRUE,
                      wait = 0) {
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
   if (is.element("id", colnames(df))) {
     df[["id"]] <- tw_get_label(
       id = df[["id"]],
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = FALSE,
       wait = wait
     )
@@ -43,7 +49,7 @@ tw_label <- function(df,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = FALSE,
       wait = wait
     )
@@ -55,7 +61,7 @@ tw_label <- function(df,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = FALSE,
       wait = wait
     )
@@ -67,7 +73,7 @@ tw_label <- function(df,
       language = language,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
+      cache_connection = db,
       disconnect_db = FALSE,
       wait = wait
     )
@@ -90,7 +96,7 @@ tw_label <- function(df,
               language = language,
               cache = cache,
               overwrite_cache = overwrite_cache,
-              cache_connection = cache_connection,
+              cache_connection = db,
               disconnect_db = FALSE,
               wait = wait
             )
@@ -105,7 +111,7 @@ tw_label <- function(df,
 
   tw_disconnect_from_cache(
     cache = cache,
-    cache_connection = cache_connection,
+    cache_connection = db,
     disconnect_db = disconnect_db
   )
 

@@ -175,3 +175,4 @@ test_that("check if property are returned correctly when multiple NA included", 
       sum()
   }, expected = 2)
 })
+

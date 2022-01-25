@@ -45,8 +45,8 @@ tw_get_label <- function(id,
 
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = tw_check_qid(id),
-      cache = tw_check_cache(cache),
+      id = id,
+      cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       language = language,
@@ -100,8 +100,8 @@ tw_get_description <- function(id,
 
   if (is.null(id_df)) {
     id_df <- tw_get(
-      id = tw_check_qid(id),
-      cache = tw_check_cache(cache),
+      id = id,
+      cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       language = language,
@@ -151,7 +151,7 @@ tw_get_wikipedia <- function(id,
   if (is.null(id_df)) {
     id_df <- tw_get(
       id = id,
-      cache = tw_check_cache(cache),
+      cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,

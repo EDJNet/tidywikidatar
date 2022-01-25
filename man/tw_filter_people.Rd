@@ -6,10 +6,13 @@
 \usage{
 tw_filter_people(
   search,
-  language = "en",
+  language = tidywikidatar::tw_get_language(),
   limit = 10,
   stop_at_first = TRUE,
-  wait = 0
+  wait = 0,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
 )
 }
 \arguments{
@@ -22,6 +25,12 @@ tw_filter_people(
 \item{stop_at_first}{Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
+
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
 \value{
 A data frame with three columns, \code{id}, \code{label}, and \code{description}; all rows refer to a human being.

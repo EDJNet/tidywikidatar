@@ -30,6 +30,11 @@
 #' @format A data frame with 0 rows and 8 columns
 "tw_empty_qualifiers"
 
+#' A zero-rows tibble used internally when `tw_search()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 4 columns
+"tw_empty_search"
+
 #' A zero-rows tibble used internally when `tw_get_wikipedia_page_qid()` would not return any value.
 #'
 #' @format A data frame with 0 rows and 6 columns
@@ -40,3 +45,9 @@
 #'
 #' @format A data frame with 0 rows and 8 columns
 "tw_empty_wikipedia_page_links"
+
+
+#' A zero-rows tibble used internally when `tw_get_image_metadata()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 19 columns
+"tw_empty_image_metadata"

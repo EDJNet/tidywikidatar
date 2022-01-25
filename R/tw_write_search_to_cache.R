@@ -79,12 +79,10 @@ tw_write_search_to_cache <- function(search_df,
     append = TRUE
   )
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = TRUE,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 }

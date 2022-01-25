@@ -233,6 +233,12 @@ tw_get_image_metadata <- function(id,
     id <- id$id
   }
 
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
   if (is.null(image_filename)) {
     image_filename <- tw_get_image_same_length(
       id = id,
@@ -243,8 +249,8 @@ tw_get_image_metadata <- function(id,
       id_df = id_df,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
+      cache_connection = db,
+      disconnect_db = FALSE,
       wait = wait
     )
   }
@@ -269,7 +275,7 @@ tw_get_image_metadata <- function(id,
           id_df = id_df,
           cache = cache,
           overwrite_cache = overwrite_cache,
-          cache_connection = cache_connection,
+          cache_connection = db,
           disconnect_db = disconnect_db,
           wait = wait,
           attempts = attempts
@@ -280,11 +286,7 @@ tw_get_image_metadata <- function(id,
   } else if (nrow(input_df_distinct) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = nrow(input_df_distinct))
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language,
-        cache = cache
-      )
+
       image_metadata <- purrr::map2_dfr(
         .x = input_df_distinct$image_filename,
         .y = input_df_distinct$id,
@@ -306,7 +308,7 @@ tw_get_image_metadata <- function(id,
       )
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
       return(
@@ -319,12 +321,6 @@ tw_get_image_metadata <- function(id,
     }
 
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language,
-        cache = cache
-      )
-
       table_name <- tw_get_cache_table_name(
         type = "image_metadata",
         language = language
@@ -361,7 +357,7 @@ tw_get_image_metadata <- function(id,
     if (nrow(image_metadata_not_in_cache) == 0) {
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
       return(
@@ -373,11 +369,7 @@ tw_get_image_metadata <- function(id,
       )
     } else if (nrow(image_metadata_not_in_cache) > 0) {
       pb <- progress::progress_bar$new(total = nrow(image_metadata_not_in_cache))
-      db <- tw_connect_to_cache(
-        connection = cache_connection,
-        language = language,
-        cache = cache
-      )
+
       image_metadata_not_in_cache_df <- purrr::map2_dfr(
         .x = image_metadata_not_in_cache$image_filename,
         .y = image_metadata_not_in_cache$id,
@@ -401,7 +393,7 @@ tw_get_image_metadata <- function(id,
 
       tw_disconnect_from_cache(
         cache = cache,
-        cache_connection = cache_connection,
+        cache_connection = db,
         disconnect_db = disconnect_db
       )
 
@@ -457,6 +449,15 @@ tw_get_image_metadata_single <- function(id,
   if (length(id) > 1) {
     usethis::ui_stop("`tw_get_image_metadata_single()` requires `id` of length 1. Consider using `tw_get_image_metadata()`.")
   }
+
+
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
+
   if (is.null(image_filename)) {
     image_filename <- tw_get_image_same_length(
       id = stringr::str_to_upper(id),
@@ -466,20 +467,14 @@ tw_get_image_metadata_single <- function(id,
       id_df = id_df,
       cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = cache_connection,
-      disconnect_db = disconnect_db,
+      cache_connection = db,
+      disconnect_db = FALSE,
       wait = wait
     )
   }
 
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
-    db <- tw_connect_to_cache(
-      connection = cache_connection,
-      language = language,
-      cache = cache
-    )
-
     table_name <- tw_get_cache_table_name(
       type = "image_metadata",
       language = language
@@ -500,6 +495,11 @@ tw_get_image_metadata_single <- function(id,
           tibble::as_tibble() %>%
           dplyr::distinct()
         if (nrow(image_metadata_from_cache_df) > 0) {
+          tw_disconnect_from_cache(
+            cache = cache,
+            cache_connection = db,
+            disconnect_db = disconnect_db
+          )
           return(image_metadata_from_cache_df)
         } else {
           image_metadata_from_cache_df <- logical(1L)
@@ -512,26 +512,27 @@ tw_get_image_metadata_single <- function(id,
 
   Sys.sleep(time = wait)
 
+  empty_df <- data.frame(matrix(
+    ncol = 19,
+    nrow = 1,
+    data = as.character(NA),
+    dimnames = list(
+      NULL,
+      c(
+        "id", "image_filename", "object_name", "image_description",
+        "categories", "assessments", "credit", "artist", "permission",
+        "license_short_name", "license_url", "license", "usage_terms",
+        "attribution_required", "copyrighted", "restrictions", "date_time",
+        "date_time_original", "commons_metadata_extension"
+      )
+    )
+  )) %>%
+    tibble::as_tibble()
+
   image_metadata <- purrr::map_dfr(
     .x = image_filename,
     .f = function(current_image_filename) {
       if (is.na(current_image_filename)) {
-        empty_df <- data.frame(matrix(
-          ncol = 19,
-          nrow = 1,
-          data = as.character(NA),
-          dimnames = list(
-            NULL,
-            c(
-              "id", "image_filename", "object_name", "image_description",
-              "categories", "assessments", "credit", "artist", "permission",
-              "license_short_name", "license_url", "license", "usage_terms",
-              "attribution_required", "copyrighted", "restrictions", "date_time",
-              "date_time_original", "commons_metadata_extension"
-            )
-          )
-        )) %>%
-          tibble::as_tibble()
         empty_df$id[1] <- stringr::str_to_upper(id)
         empty_df$copyrighted <- as.logical(NA)
         empty_df$attribution_required <- as.logical(NA)
@@ -701,12 +702,6 @@ tw_get_image_metadata_single <- function(id,
   )
 
   if (tw_check_cache(cache) == TRUE) {
-    db <- tw_connect_to_cache(
-      connection = cache_connection,
-      language = language,
-      cache = cache
-    )
-
     table_name <- tw_get_cache_table_name(type = "image_metadata", language = language)
 
     if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
@@ -731,18 +726,16 @@ tw_get_image_metadata_single <- function(id,
       append = TRUE
     )
 
-    if (disconnect_db == TRUE) {
-      tw_disconnect_from_cache(
-        cache = cache,
-        cache_connection = cache_connection,
-        disconnect_db = disconnect_db,
-        language = language
-      )
-    }
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
   }
   tw_disconnect_from_cache(
     cache = cache,
-    cache_connection = cache_connection,
+    cache_connection = db,
     disconnect_db = disconnect_db
   )
   image_metadata
