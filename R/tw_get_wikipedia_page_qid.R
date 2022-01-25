@@ -47,6 +47,54 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
   api_url
 }
 
+#' Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page
+#'
+#' Mostly used internally
+#'
+#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
+#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#'
+#' @return A character vector of base urls to be used with the MediaWiki API
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   tw_get_wikipedia_sections_api_url(title = "Margaret Mead", language = "en")
+#' }
+tw_get_wikipedia_sections_api_url <- function(url = NULL,
+                                              title = NULL,
+                                              language = tidywikidatar::tw_get_language()) {
+  if (is.null(url) == TRUE) {
+    if (is.null(title) == TRUE) {
+      usethis::ui_stop("Either url or title must be provided")
+    }
+    if (is.null(language) == TRUE) {
+      usethis::ui_stop("Either language or full url must be provided")
+    }
+  } else {
+    title <- stringr::str_extract(
+      string = url,
+      pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
+    )
+  }
+
+  if (is.null(language) == TRUE) {
+    language <- stringr::str_extract(
+      string = url,
+      pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
+    )
+  }
+
+  api_url <- stringr::str_c(
+    "https://",
+    language,
+    ".wikipedia.org/w/api.php?action=parse&prop=sections&redirects=true&format=json&page=",
+    utils::URLencode(URL = title)
+  )
+  api_url
+}
+
 #' Gets the Wikidata Q identifier of one or more Wikipedia pages
 #'
 #' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
