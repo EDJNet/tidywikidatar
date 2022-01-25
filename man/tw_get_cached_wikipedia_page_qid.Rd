@@ -7,7 +7,7 @@
 tw_get_cached_wikipedia_page_qid(
   title,
   language = tidywikidatar::tw_get_language(),
-  cache = cache,
+  cache = NULL,
   cache_connection = NULL,
   disconnect_db = TRUE
 )
