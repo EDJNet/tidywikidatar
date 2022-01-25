@@ -71,17 +71,17 @@ Get Wikidata property of an item as a character vector of the same length as inp
 
 # By default, it returns a list of the same length as input,
 # no matter how many values for each id/property
-tw_get_property_same_length(
-  id = c(
-    "Q180099",
-    "Q228822",
-    "Q76857"
-  ),
-  p = "P26"
-)
 
 
 if (interactive()) {
+  tw_get_property_same_length(
+    id = c(
+      "Q180099",
+      "Q228822",
+      "Q76857"
+    ),
+    p = "P26"
+  )
   # Notice that if no relevant match is found, it returns a NA
   # This is useful for piped operations
 

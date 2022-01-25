@@ -160,7 +160,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
 
   if (isFALSE(api_result)) {
     usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
-  } else if (length(api_result)==1) {
+  } else if (length(api_result) == 1) {
     usethis::ui_stop("Page not found. Make sure that language parameter is consistent with the language of the input title or url.")
   } else {
     base_json <- api_result
@@ -227,7 +227,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
   linked_df <- purrr::map_dfr(
     .x = all_pages,
     .f = function(current_page) {
-
       description <- current_page %>%
         purrr::pluck(
           "pageprops",
