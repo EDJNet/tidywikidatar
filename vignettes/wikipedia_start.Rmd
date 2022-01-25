@@ -246,7 +246,7 @@ meps9_pob_df <- meps9_df %>%
 
 ```
 
-We have a place of birth on the records for 795 MEPs out of 801. Not bad. We could use some proxy for the cases when such information is unavailable, for example using properties such as "residence" ([P551](residence)) or the earliest place where they got their education, but for the time being we will leave it at that.
+We have a place of birth on the records for 795 MEPs out of 801. Not bad. We could use some proxy for the cases when such information is unavailable, for example using properties such as "residence" ([P551](https://www.wikidata.org/wiki/Property:P551)) or the earliest place where they got their education, but for the time being we will leave it at that.
 
 We could now easily place these data on a map (code example not run to remove dependency on external files and packages).
 
