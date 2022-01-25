@@ -53,6 +53,7 @@ reference:
   - tw_check_search
 - title: "Extractors"
   desc: "These functions are mostly used internally to extract selected data to an object previously downloaded with `WikidataR`"
+  contents:
   - starts_with("tw_extract_")
 - title: "Functions made to process only inputs of length one, mostly used internally"
   desc: "The user can safely rely on the correspondent core functions, these have been created separetely mostly for testing and code structure."
@@ -64,4 +65,5 @@ reference:
   - starts_with("tw_empty_")
 - title: "Example datasets"
   desc: "Just a couple of datasets with a bunch of Wikidata Q identifiers to be used for examples or testing"
+  contents:
   - starts_with("tw_qid_")
