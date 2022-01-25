@@ -24,14 +24,13 @@ test_that(
         tw_set_cache_folder(path = tempdir())
         tw_enable_cache()
         tw_get_cache_file(
-          type = "item",
           language = "en"
         )
       },
       expected = {
         fs::path(
           tempdir(),
-          "tw_item_db_en.sqlite"
+          "tw_cache_en.sqlite"
         )
       }
     )

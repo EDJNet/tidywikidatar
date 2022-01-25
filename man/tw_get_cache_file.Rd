@@ -4,10 +4,10 @@
 \alias{tw_get_cache_file}
 \title{Gets location of cache file}
 \usage{
-tw_get_cache_file(type = "item", language = tidywikidatar::tw_get_language())
+tw_get_cache_file(type = NULL, language = tidywikidatar::tw_get_language())
 }
 \arguments{
-\item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search", and "qualifier".}
+\item{type}{Defaults to NULL. Deprecated. If given, type of cache file to output. Values typically used by \code{tidywikidatar} in versions up to 4.2 include "item", "search", and "qualifier".}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 }

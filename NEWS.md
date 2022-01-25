@@ -52,5 +52,6 @@
 * add example datasets for illustrative purposes and forthcoming additional vignettes and examples, `tw_qid_meps` and `tw_qid_airports`
 * drop legacy `include_id_and_p` parameter `tw_get_qualifiers()`
 * add support for setting database connection parameters with `tw_set_cache_db()` for easier use of alternatives to SQLite
+* new naming convention for local SQLite database, to reflect change that there is now one database per language
 * improve handling of connections to reduce the risk of connections remaining open, aiming at higher efficency for integration with shiny apps
 * bug fix: fix error when Wikidata item has no label in any language

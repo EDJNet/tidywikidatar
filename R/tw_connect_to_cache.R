@@ -61,7 +61,6 @@ tw_connect_to_cache <- function(connection = NULL,
     if (isTRUE(RSQLite)) {
       tw_check_cache_folder()
       db_file <- tw_get_cache_file(
-        type = "item",
         language = language
       )
 
