@@ -53,5 +53,5 @@
 * drop legacy `include_id_and_p` parameter `tw_get_qualifiers()`
 * add support for setting database connection parameters with `tw_set_cache_db()` for easier use of alternatives to SQLite
 * new naming convention for local SQLite database, to reflect change that there is now one database per language
-* improve handling of connections to reduce the risk of connections remaining open, aiming at higher efficency for integration with shiny apps
+* improve handling of connections to reduce the risk of connections remaining open, aiming at higher efficiency for integration with shiny apps
 * bug fix: fix error when Wikidata item has no label in any language
