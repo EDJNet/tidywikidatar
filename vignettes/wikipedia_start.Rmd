@@ -37,7 +37,7 @@ tw_set_language(language = "en")
 tw_create_cache_folder(ask = FALSE)
 ```
 
-More advanced users, especially those relying on `tidywikidatar` in Shiny apps, may instead prefer relying on a MySql database, setting up the connection at the beginning of eash session as follows.
+More advanced users, especially those relying on `tidywikidatar` in Shiny apps, may instead prefer relying on a MySql database, setting up the connection at the beginning of each session as follows.
 
 
 ```r
@@ -131,7 +131,7 @@ meps_df <- humans_df %>%
 
 It appears we have 819 humans, and 805 among them who have been members of the European Parliament mentioned in this page. Perhaps some of those mentioned in the page are people who never took their place, or perhaps MEPs in previous legislatures?
 
-To get a step closer to clarifying this, we can check the qualifers of a property. So if you look at the property ["position held" for a member of the European Parliament (2019-2024)](https://www.wikidata.org/wiki/Q2391857#P39), you may notice that the "position held" -> "member of the European Parliament" has a few qualifiers, including "parliamentary term" which may have value "Ninth European Parliament".
+To get a step closer to clarifying this, we can check the qualifiers of a property. So if you look at the property ["position held" for a member of the European Parliament (2019-2024)](https://www.wikidata.org/wiki/Q2391857#P39), you may notice that the "position held" -> "member of the European Parliament" has a few qualifiers, including "parliamentary term" which may have value "Ninth European Parliament".
 
 
 
@@ -145,7 +145,7 @@ meps9_df <- meps_df %>%
 
 It appears that 801 have actually been members of the "Ninth European Parliament".
 
-Out of curiosity, and as a quality check, let's see who are the MEPs mentioned in the page who have not been members of the 9th legislature.
+Out of curiosity, and as a quality check, let's see who are the MEPs mentioned in the page who have not been members of the ninth legislature.
 
 
 
