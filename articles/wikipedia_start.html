@@ -73,18 +73,14 @@
 
     
     
-<p>This document provides an updated and efficient version of the Wikidata-related part of those works, and points at some patterns that are common when processing a large number of Wikidata items with <code>tidywikidatar</code>.</p>
-<div class="section level2">
-<h2 id="wikipedia-as-a-starting-point">Wikipedia as a starting point<a class="anchor" aria-label="anchor" href="#wikipedia-as-a-starting-point"></a>
-</h2>
-<p>In the world of Wikidata, the most efficient way of getting data is usually through well-crafted <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial" class="external-link">SPARQL queries</a>. However, what is technically most efficient, may not be so efficient if someone is unfamiliar with the structure of such queries or with how they can be best applied to to get the most out of Wikidata.</p>
+<p>In the world of Wikidata, the most efficient way of getting data is usually through well-crafted <a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial" class="external-link">SPARQL queries</a>. However, what is theoretically technically most efficient, may be highly impractical if someone is unfamiliar with the structure of such queries or with how they can be best applied to to get the most out of Wikidata.</p>
 <p>Most people who turn to Wikidata will however be familiar with its more famous sister project, Wikipedia. As this post will explain, Wikipedia pages can be used as a starting point for getting data out of Wikidata.</p>
-</div>
 <div class="section level2">
 <h2 id="setup-and-caching">Setup and caching<a class="anchor" aria-label="anchor" href="#setup-and-caching"></a>
 </h2>
-<p>It is generally advisable to enable cache at the beginning of each script. Thanks to caching, when a block of code based on <code>tidywikidatar</code> is re-run it gives results almost instantly. But given that <code>tidywikidatar</code> queries for Wikidata items one at a time, it can be relatively time-consuming when it is run for the first time. So be patient when you run some of the commands below for the first time, and considering testing code with only a sample of the data at first (e.g. by adding something such as <code>slice_sample(n = 100)</code> to the data frame you use as a starting point).</p>
-<p>Especially if you intend to use Wikidata in different projects, it may make sense to have the cache stored in a folder outside the current project. As the data can be recovered, it is usually unnecessary to backup the cache folder. Most users should be perfectly fine using the default SQLite database for caching.</p>
+<p>An introductory note on caching. It is generally advisable to enable cache at the beginning of each script. Thanks to caching, when a block of code based on <code>tidywikidatar</code> is re-run it gives results almost instantly. But given that <code>tidywikidatar</code> queries for Wikidata items one at a time, it can be relatively time-consuming when it is run for the first time. So be patient when you run some of the commands below for the first time, and considering testing code with only a sample of the data at first (e.g. by adding something such as <code>slice_sample(n = 100)</code> to the data frame you use as a starting point).</p>
+<p>Especially if you intend to use Wikidata in different projects, it may make sense to have the cache stored in a folder outside the current project. As the data can be recovered, it is usually unnecessary to backup the cache folder, and unwise to keep it in folder that are constantly synced with online services.</p>
+<p>Most users should be perfectly fine using the default SQLite database for caching.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://edjnet.github.io/tidywikidatar/">"tidywikidatar"</a></span><span class="op">)</span>
@@ -175,7 +171,7 @@
          <span class="va">qualifier_value</span> <span class="op">==</span> <span class="st">"Q64038205"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></code></pre></div>
 <p>It appears that 801 have actually been members of the “Ninth European Parliament”.</p>
-<p>Out of curiosity, and as a quality check, let’s see who are the MEPs mentioned in the page who have not been members of the ninth legislature.</p>
+<p>Out of curiosity, and as a quality check, let’s see who are the MEPs mentioned in the page who <em>have not</em> been members of the ninth legislature.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="va">meps_df</span>,
           <span class="va">meps9_df</span>,
@@ -188,10 +184,10 @@
 <span class="co">#&gt; 2 Q11769926 Mariya Gabriel    </span>
 <span class="co">#&gt; 3 Q1055449  Matteo Salvini    </span>
 <span class="co">#&gt; 4 Q57630    Valdis Dombrovskis</span></code></pre></div>
-<p>Indeed, all of them gave up their seat for one reason of another.</p>
-<p>So we can proceed working on the assumption that we now have a reasonably complete list of MEPs. We can then take it as a starting point for all sorts questions, such as which position they held before becoming MEPs (or at the same time as being MEPs), or who among them joined the European Parliament after the beginning of the legislature. This is, for example, a list of MEPs who joined the parliament only in 2021, and who did they replace:</p>
+<p>Indeed, all of them gave up their seat for one reason or another.</p>
+<p>As we have reason to believe the Wikipedia page we have used as a starting point is reasonably complete, we can now proceed assuming that we now a reasonably complete list of MEPs of the ninth legislature. We can then take it as a starting point for all sorts questions, such as which position they held before becoming MEPs (or at the same time as being MEPs), or who among them joined the European Parliament after the beginning of the legislature. This is, for example, a list of MEPs who joined the parliament only in 2021, and with reference to whom did they replace:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">meps9_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">replacing_meps_df</span> <span class="op">&lt;-</span> <span class="va">meps9_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P39"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">qualifier_id</span> <span class="op">==</span> <span class="st">"Q27169"</span>, <span class="co"># member of the european parliament</span>
          <span class="va">qualifier_property</span> <span class="op">==</span> <span class="st">"P580"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># start time</span>
@@ -204,6 +200,8 @@
             new_mep <span class="op">=</span> <span class="fu"><a href="../reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span>,
             previous_mep_id <span class="op">=</span> <span class="va">qualifier_value</span>,
             previous_mep <span class="op">=</span> <span class="fu"><a href="../reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">qualifier_value</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">replacing_meps_df</span>
 <span class="co">#&gt; # A tibble: 9 × 4</span>
 <span class="co">#&gt;   new_mep_id new_mep                       previous_mep_id previous_mep     </span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                         &lt;chr&gt;           &lt;chr&gt;            </span>
@@ -216,9 +214,28 @@
 <span class="co">#&gt; 7 Q18225970  Tom Vandenkendelaere          Q270530         Marianne Thyssen </span>
 <span class="co">#&gt; 8 Q18225970  Tom Vandenkendelaere          Q12869          Kris Peeters     </span>
 <span class="co">#&gt; 9 Q63224243  Ernő Schaller-Baross          Q731042         József Szájer</span></code></pre></div>
+<p>Curiously, we find that there are two current MEPs who have replaced a colleague after the beginning of the legislature more than once. Can we confirm in which legislatures those who have replaced a colleague more than once have served as MEPs? Of course.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">replacing_meps_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">new_mep_id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">new_mep_id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers</a></span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P39"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">qualifier_property</span> <span class="op">==</span> <span class="st">"P2937"</span>, <span class="co"># parliamentary term</span>
+         <span class="va">qualifier_id</span> <span class="op">==</span> <span class="st">"Q27169"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># as MEP</span>
+  <span class="fu"><a href="../reference/tw_label.html">tw_label</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">transmute</a></span><span class="op">(</span>mep <span class="op">=</span> <span class="va">id</span>, legislature <span class="op">=</span> <span class="va">qualifier_value</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 4 × 2</span>
+<span class="co">#&gt;   mep                  legislature               </span>
+<span class="co">#&gt;   &lt;chr&gt;                &lt;chr&gt;                     </span>
+<span class="co">#&gt; 1 Tom Vandenkendelaere Eighth European Parliament</span>
+<span class="co">#&gt; 2 Tom Vandenkendelaere Ninth European Parliament </span>
+<span class="co">#&gt; 3 João Pimenta Lopes   Eighth European Parliament</span>
+<span class="co">#&gt; 4 João Pimenta Lopes   Ninth European Parliament</span></code></pre></div>
 <p>This <a href="https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440" class="external-link">blog post</a> presents some examples of the way Wikidata works based on MEPs, and they can easily be replicated taking it from here.</p>
 <p>Let’s make some more examples.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">meps9_pob_df</span> <span class="op">&lt;-</span> <span class="va">meps9_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mep <span class="op">=</span> <span class="fu"><a href="../reference/tw_get_label.html">tw_get_label</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>place_of_birth_id <span class="op">=</span> <span class="fu"><a href="../reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>, p <span class="op">=</span> <span class="st">"P19"</span>, only_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -237,9 +254,9 @@
       convert <span class="op">=</span> <span class="cn">TRUE</span>
     <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">pob_latitude</span><span class="op">)</span><span class="op">==</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>We have a place of birth on the records for 795 MEPs out of 801. Not bad. We could use some proxy for the cases when such information is unavailable, for example using properties such as “residence” (<a href="residence">P551</a>) or the earliest place where they got their education, but for the time being we’ll live it at that.</p>
+<p>We have a place of birth on the records for 795 MEPs out of 801. Not bad. We could use some proxy for the cases when such information is unavailable, for example using properties such as “residence” (<a href="residence">P551</a>) or the earliest place where they got their education, but for the time being we will leave it at that.</p>
 <p>We could now easily place these data on a map (code example not run to remove dependency on external files and packages).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">world_sf_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"world_geo_data"</span>, <span class="st">"world_sf.rds"</span><span class="op">)</span>
 
@@ -268,10 +285,11 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">world_sf</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>And we can notice that quite a few MEPs were not born in an EU country. We could then geocode the locations, or ask Wikidata in which country the place of birth is located.</p>
+<p>And we can notice that quite a few MEPs were not born in an EU country. We could then geocode the locations, or ask Wikidata in which country their place of birth is located.</p>
 <p>Here we already start to meet some of the quirks of Wikidata.</p>
-<p>The question “in which country is this city located” seems straightforward, but as illustrated <a href="https://edjnet.github.io/tidywikidatar/#getting-the-right-property-when-more-than-one-is-available">in the package readme</a> it actually isn’t always the case, as, for example, London has many values for the property “country”, all the way from “Roman Empire” through “United Kingdom”. Enabling the <code>only_first</code> parameters, which is a the most efficient option in many circumstances, is not a sensible solution in this case, as predicting the order of properties is not straightforward. To make things easier <code>tidywikidatar</code> includes dedicated parameters: <code>preferred</code> (which gives back the value recorded as “preferred”), and <code>latest_start_time</code> (which checks the qualifiers, and selects the one with the most recent “start time”).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>The question “in which country is this city located” seems straightforward, but as illustrated <a href="https://edjnet.github.io/tidywikidatar/#getting-the-right-property-when-more-than-one-is-available">in the package readme</a> it actually isn’t always the case, as, for example, London has many values for the property “country”, all the way from “Roman Empire” through “United Kingdom”. Enabling the <code>only_first</code> parameters, which is a the most efficient option in many circumstances, is not a sensible solution in this case, as predicting the order of properties is not straightforward.</p>
+<p>To make things easier in such circumstances <code>tidywikidatar</code> includes dedicated parameters: <code>preferred</code> (which gives back the value recorded as “preferred”), and <code>latest_start_time</code> (which checks the qualifiers, and selects the one with the most recent “start time”).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">meps9_pob_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pob_country_id <span class="op">=</span> <span class="fu"><a href="../reference/tw_get_property_same_length.html">tw_get_p</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">place_of_birth_id</span>,
                                    p <span class="op">=</span> <span class="st">"P17"</span>,

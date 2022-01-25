@@ -79,7 +79,7 @@
 <div class="section level2">
 <h2 id="what-data-are-cached-locally">What data are cached locally<a class="anchor" aria-label="anchor" href="#what-data-are-cached-locally"></a>
 </h2>
-<p>There are mainly three types of data that are cached locally:</p>
+<p>There are a few types of data that are cached locally:</p>
 <ul>
 <li>searches run with <code><a href="../reference/tw_search.html">tw_search()</a></code>
 </li>
@@ -88,6 +88,8 @@
 <li>labels or description of properties, typically retrieved with <code><a href="../reference/tw_get_property_label.html">tw_get_property_label()</a></code> and <code><a href="../reference/tw_get_property_description.html">tw_get_property_description()</a></code>
 </li>
 <li>qualifiers of properties, typically retrieved with <code><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code>
+</li>
+<li>data retrieved from (or about) Wikipedia pages, with <code><a href="../reference/tw_get_wikipedia.html">tw_get_wikipedia()</a></code>, and <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code>
 </li>
 </ul>
 <p>To reduce space used for local caching and speed up processing time, it is possible to store only labels and information available in a given language when relevant.</p>
@@ -109,35 +111,26 @@
 <div class="section level2">
 <h2 id="caching-with-other-database-backends">Caching with other database backends<a class="anchor" aria-label="anchor" href="#caching-with-other-database-backends"></a>
 </h2>
-<p>Early support for other database backends is now available, and will be implemented more consistently across all functions in a forthcoming version. In the current version, by default, connections are closed at the end of each function call, so you will need to provide a fresh one with each call. If you see the error <code>external pointer is not valid</code> it probably means the connection has already been closed.</p>
+<p>Support for other database backends is now available. They can be accessed most easily using the following approach, having ensured that the relevant driver (and <code>odbc</code> package) have previously been installed:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">item_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tw_get.html">tw_get</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span><span class="op">)</span>,
-                  cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/odbc/man/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,
-                                   Driver <span class="op">=</span> <span class="st">"MariaDB"</span>,
-                                   Host <span class="op">=</span> <span class="st">"localhost"</span>,
-                                   database <span class="op">=</span> <span class="st">"Zu5oobei9heloquoa6Shahwu"</span>,
-                                   UID <span class="op">=</span> <span class="st">"Xeit6dieSho7eongamuiyieW"</span>,
-                                   PWD <span class="op">=</span> <span class="st">"Oot7moo4einguJahgahwi8oh"</span>
-<span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/tw_enable_cache.html">tw_enable_cache</a></span><span class="op">(</span>SQLite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/tw_set_cache_db.html">tw_set_cache_db</a></span><span class="op">(</span>driver <span class="op">=</span> <span class="st">"MySQL"</span>,
+                host <span class="op">=</span> <span class="st">"localhost"</span>,
+                port <span class="op">=</span> <span class="fl">3306</span>,
+                database <span class="op">=</span> <span class="st">"tidywikidatar"</span>,
+                user <span class="op">=</span> <span class="st">"secret_username"</span>,
+                pwd <span class="op">=</span> <span class="st">"secret_password"</span><span class="op">)</span>
 
 
-<span class="fu"><a href="../reference/tw_get_cached_item.html">tw_get_cached_item</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span><span class="op">)</span>,
-                   cache_connection <span class="op">=</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/odbc/man/odbc.html" class="external-link">odbc</a></span><span class="op">(</span><span class="op">)</span>,
-                                                     Driver <span class="op">=</span> <span class="st">"MariaDB"</span>,
-                                                     Host <span class="op">=</span> <span class="st">"localhost"</span>,
-                                                     database <span class="op">=</span> <span class="st">"Zu5oobei9heloquoa6Shahwu"</span>,
-                                                     UID <span class="op">=</span> <span class="st">"Xeit6dieSho7eongamuiyieW"</span>,
-                                                     PWD <span class="op">=</span> <span class="st">"Oot7moo4einguJahgahwi8oh"</span>
-                   <span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="co"># for testing, consider running a local database e.g. with:</span>
+<span class="co"># docker run --name tidywikidatar_db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret_root_password -e MYSQL_USER=secret_username -e MYSQL_PASSWORD=secret_password -e MYSQL_DATABASE=tidywikidatar mysql:latest</span></code></pre></div>
+<p>It is also technically possible to pass directly a connection generated with <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect()</a></code> to each function.</p>
 </div>
 <div class="section level2">
 <h2 id="name-of-tables-in-cached-databases">Name of tables in cached databases<a class="anchor" aria-label="anchor" href="#name-of-tables-in-cached-databases"></a>
 </h2>
 <p>Each database has a table for each language and type of content. For example, item information retrieved with <code>tw_get(id = "Q180099", language = "en")</code> will be stored in a table called <code>tw_item_en</code>.</p>
-<p>When caching with a local SQLite database, each type of of contents (e.g. “item” or “property” or “search”) and each language is stored in a separate file.</p>
-<p>When caching with another database, e.g. SQL, all tables are stored inside a single database. In either case, the name of the table is unique and is generated by <code><a href="../reference/tw_get_cache_table_name.html">tw_get_cache_table_name()</a></code>. For example:</p>
+<p>The name of the table is unique and is generated by <code><a href="../reference/tw_get_cache_table_name.html">tw_get_cache_table_name()</a></code>. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tw_get_cache_table_name.html">tw_get_cache_table_name</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"item"</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "tw_item_en"</span></code></pre></div>
