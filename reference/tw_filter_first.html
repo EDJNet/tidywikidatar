@@ -56,10 +56,14 @@
   <span class="va">search</span>,
   <span class="va">p</span>,
   <span class="va">q</span>,
-  language <span class="op">=</span> <span class="st">"en"</span>,
+  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   limit <span class="op">=</span> <span class="fl">10</span>,
+  include_search <span class="op">=</span> <span class="cn">FALSE</span>,
   wait <span class="op">=</span> <span class="fl">0</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
+  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
+  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
+  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -75,10 +79,18 @@
 <dd><p>Language to be used for the search.</p></dd>
 <dt>limit</dt>
 <dd><p>Maximum numbers of responses to be given.</p></dd>
+<dt>include_search</dt>
+<dd><p>Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.</p></dd>
 <dt>wait</dt>
 <dd><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
 <dt>cache</dt>
 <dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code></p></dd>
+<dt>overwrite_cache</dt>
+<dd><p>Defaults to FALSE. If TRUE, overwrites cache.</p></dd>
+<dt>cache_connection</dt>
+<dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
+<dt>disconnect_db</dt>
+<dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

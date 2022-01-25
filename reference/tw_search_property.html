@@ -60,8 +60,8 @@
   wait <span class="op">=</span> <span class="fl">0</span>,
   cache <span class="op">=</span> <span class="cn">NULL</span>,
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
-  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,
-  cache_connection <span class="op">=</span> <span class="cn">NULL</span>
+  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
+  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -81,10 +81,10 @@
 <dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>
 <dd><p>Defaults to FALSE. If TRUE, overwrites cache.</p></dd>
-<dt>disconnect_db</dt>
-<dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
 <dt>cache_connection</dt>
 <dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
+<dt>disconnect_db</dt>
+<dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

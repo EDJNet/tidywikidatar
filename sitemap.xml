@@ -64,10 +64,16 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_image_metadata.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_item.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_search.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc>
