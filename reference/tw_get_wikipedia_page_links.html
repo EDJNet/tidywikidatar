@@ -54,8 +54,8 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_get_wikipedia_page_links</span><span class="op">(</span>
   url <span class="op">=</span> <span class="cn">NULL</span>,
-  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
+  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   cache <span class="op">=</span> <span class="cn">NULL</span>,
   overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,
   cache_connection <span class="op">=</span> <span class="cn">NULL</span>,
@@ -69,10 +69,10 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>url</dt>
 <dd><p>Full URL to a Wikipedia page. If given, title and language can be left empty.</p></dd>
-<dt>language</dt>
-<dd><p>Two-letter language code used to define the Wikipedia version to use. Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". If url given, this can be left empty.</p></dd>
 <dt>title</dt>
 <dd><p>Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.</p></dd>
+<dt>language</dt>
+<dd><p>Two-letter language code used to define the Wikipedia version to use. Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". If url given, this can be left empty.</p></dd>
 <dt>cache</dt>
 <dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>

@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   caching: caching.html
   wikipedia_start: wikipedia_start.html
-last_built: 2022-01-25T17:25Z
+last_built: 2022-01-25T21:20Z
 urls:
   reference: https://edjnet.github.io/tidywikidatar/reference
   article: https://edjnet.github.io/tidywikidatar/articles
