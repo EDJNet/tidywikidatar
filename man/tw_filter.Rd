@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_filter.R
 \name{tw_filter}
 \alias{tw_filter}
-\title{Filter search result and keep only items with matching property and Q id}
+\title{Filter search result and keep only items with matching property and Q identifier}
 \usage{
 tw_filter(
   search,
@@ -45,7 +45,7 @@ tw_filter(
 A data frame with three columns, \code{id}, \code{label}, and \code{description}, filtered by the above criteria.
 }
 \description{
-Filter search result and keep only items with matching property and Q id
+Filter search result and keep only items with matching property and Q identifier
 }
 \examples{
 tw_search(search = "Margaret Mead", limit = 3) \%>\%

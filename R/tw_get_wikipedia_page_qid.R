@@ -466,7 +466,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
 #' }
 tw_get_cached_wikipedia_page_qid <- function(title,
                                              language = tidywikidatar::tw_get_language(),
-                                             cache = cache,
+                                             cache = NULL,
                                              cache_connection = NULL,
                                              disconnect_db = TRUE) {
   if (isFALSE(tw_check_cache(cache = cache))) {
