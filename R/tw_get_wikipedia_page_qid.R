@@ -11,7 +11,9 @@
 #' @export
 #'
 #' @examples
-#' tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+#' if (interactive()) {
+#'   tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+#' }
 tw_get_wikipedia_base_api_url <- function(url = NULL,
                                           title = NULL,
                                           language = tidywikidatar::tw_get_language(),

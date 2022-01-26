@@ -27,5 +27,7 @@ A character vector of base urls to be used with the MediaWiki API
 Mostly used internally
 }
 \examples{
-tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+if (interactive()) {
+  tw_get_wikipedia_base_api_url(title = "Margaret Mead", language = "en")
+}
 }
