@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_get_wikipedia_base_api_url</span><span class="op">(</span>
   url <span class="op">=</span> <span class="cn">NULL</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
-  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>
+  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  action <span class="op">=</span> <span class="st">"query"</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -67,6 +68,8 @@
 <dd><p>Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.</p></dd>
 <dt>language</dt>
 <dd><p>Two-letter language code used to define the Wikipedia version to use. Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". If url given, this can be left empty.</p></dd>
+<dt>action</dt>
+<dd><p>Defaults to "query". Usually either "query" or "parse". In principle, any valid action value, see: https://www.mediawiki.org/w/api.php</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -75,9 +78,8 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu">tw_get_wikipedia_base_api_url</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">tw_get_wikipedia_base_api_url</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://en.wikipedia.org/w/api.php?action=query&amp;redirects=true&amp;format=json&amp;titles=Margaret%20Mead"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

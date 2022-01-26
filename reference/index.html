@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,6 +191,26 @@
         <dd>Gets the Wikidata id of a Wikipedia page</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_get_wikipedia_page_section_links.html">tw_get_wikipedia_page_section_links()</a></code> 
+        </dt>
+        <dd>Get links from a specific section of a Wikipedia page</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_sections.html">tw_get_wikipedia_page_sections()</a></code> 
+        </dt>
+        <dd>Get sections of a Wikipedia page</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_page_sections_single.html">tw_get_wikipedia_page_sections_single()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_section_links_api_url.html">tw_get_wikipedia_section_links_api_url()</a></code> 
+        </dt>
+        <dd>Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_get_wikipedia_sections_api_url.html">tw_get_wikipedia_sections_api_url()</a></code> 
         </dt>
         <dd>Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page</dd>
@@ -354,6 +374,11 @@
           <code><a href="tw_reset_wikipedia_page_links_cache.html">tw_reset_wikipedia_page_links_cache()</a></code> 
         </dt>
         <dd>Reset Wikipedia page link cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_reset_wikipedia_page_sections_cache.html">tw_reset_wikipedia_page_sections_cache()</a></code> 
+        </dt>
+        <dd>Reset Wikipedia page link cache</dd>
       </dl></div><div class="section level2">
       <h2 id="functions-used-internally-for-dealing-with-cache">Functions used internally for dealing with cache<a class="anchor" aria-label="anchor" href="#functions-used-internally-for-dealing-with-cache"></a></h2>
       
@@ -432,6 +457,11 @@
         <dd>Gets id of Wikipedia pages from local cache</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_get_cached_wikipedia_page_sections.html">tw_get_cached_wikipedia_page_sections()</a></code> 
+        </dt>
+        <dd>Gets sections of Wikipedia pages from local cache</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_set_cache_folder.html">tw_set_cache_folder()</a></code> <code><a href="tw_set_cache_folder.html">tw_get_cache_folder()</a></code> 
         </dt>
         <dd>Set folder for caching data</dd>
@@ -458,6 +488,11 @@
       </dl><dl><dt>
           
           <code><a href="tw_write_wikipedia_page_links_to_cache.html">tw_write_wikipedia_page_links_to_cache()</a></code> 
+        </dt>
+        <dd>Write Wikipedia page links to cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_write_wikipedia_page_sections_to_cache.html">tw_write_wikipedia_page_sections_to_cache()</a></code> 
         </dt>
         <dd>Write Wikipedia page links to cache</dd>
       </dl></div><div class="section level2">
@@ -560,6 +595,11 @@
         <dd>Gets the Wikidata id of a Wikipedia page</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_get_wikipedia_page_sections_single.html">tw_get_wikipedia_page_sections_single()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_search_single.html">tw_search_single()</a></code> 
         </dt>
         <dd>Search for Wikidata items or properties and return Wikidata id, label, and description.</dd>
@@ -604,6 +644,11 @@
           <code><a href="tw_empty_wikipedia_page_links.html">tw_empty_wikipedia_page_links</a></code> 
         </dt>
         <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> would not return any value.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_empty_wikipedia_page_sections.html">tw_empty_wikipedia_page_sections</a></code> 
+        </dt>
+        <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_get_wikipedia_page_sections.html">tw_get_wikipedia_page_sections()</a></code> would not return any value.</dd>
       </dl></div><div class="section level2">
       <h2 id="example-datasets">Example datasets<a class="anchor" aria-label="anchor" href="#example-datasets"></a></h2>
       

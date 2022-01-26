@@ -82,6 +82,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_links.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_sections.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc>
   </url>
   <url>
@@ -125,6 +128,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_qid.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_sections.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
@@ -196,6 +202,18 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid_single.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_section_links.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections_single.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_section_links_api_url.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_sections_api_url.html</loc>
   </url>
   <url>
@@ -221,6 +239,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_links_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_sections_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search.html</loc>
@@ -257,5 +278,8 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_links_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_sections_to_cache.html</loc>
   </url>
 </urlset>
