@@ -3,6 +3,8 @@
 #' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
 #' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
 #' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#' @param section_title Defaults to NULL. If given, it should correspond to the human-readable title of a section of the relevant Wikipedia page. See also `tw_get_wikipedia_page_sections()`
+#' @param section_index Defaults to NULL. If given, it should correspond to the ordinal of a section of the relevant Wikipedia page. See also `tw_get_wikipedia_page_sections()`
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -30,20 +32,27 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
                                                 wait = 1,
                                                 attempts = 5,
                                                 wikipedia_page_qid_df = NULL) {
-
-  if (is.null(section_index)&is.null(section_title)) {
+  if (is.null(section_index) & is.null(section_title)) {
     usethis::ui_stop("Either {usethis::ui_code('section_index')} or {usethis::ui_code('section_title')} must be given. See also {usethis::ui_code('tw_get_wikipedia_page_sections()')}")
   }
 
-  sections_df <- tw_get_wikipedia_page_sections(url = url,
-                                                title = title,
-                                                language = language,
-                                                cache = cache,
-                                                overwrite_cache = overwrite_cache,
-                                                cache_connection = db,
-                                                disconnect_db = FALSE,
-                                                wait = wait,
-                                                attempts = attempts)
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
+  sections_df <- tw_get_wikipedia_page_sections(
+    url = url,
+    title = title,
+    language = language,
+    cache = cache,
+    overwrite_cache = overwrite_cache,
+    cache_connection = db,
+    disconnect_db = FALSE,
+    wait = wait,
+    attempts = attempts
+  )
 
   if (is.null(section_index)) {
     section_index <- sections_df %>%
@@ -51,7 +60,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
       dplyr::pull(.data$index) %>%
       head(1)
 
-    if (length(section_index)==0) {
+    if (length(section_index) == 0) {
       usethis::ui_stop("Section title does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
     }
   }
@@ -62,7 +71,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
       dplyr::pull(.data$fromtitle) %>%
       head(1)
 
-    if (length(section_index)==0) {
+    if (length(section_index) == 0) {
       usethis::ui_stop("Section index does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
     }
   }
@@ -160,9 +169,9 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
 #' @examples
 #' tw_get_wikipedia_section_links_api_url(title = "Margaret Mead", section_index = 1, language = "en")
 tw_get_wikipedia_section_links_api_url <- function(url = NULL,
-                                              title = NULL,
-                                              section_index,
-                                              language = tidywikidatar::tw_get_language()) {
+                                                   title = NULL,
+                                                   section_index,
+                                                   language = tidywikidatar::tw_get_language()) {
   stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,
