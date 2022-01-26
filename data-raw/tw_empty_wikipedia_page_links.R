@@ -14,7 +14,7 @@ tw_empty_wikipedia_page_links <- c(
     object = list(character())
   )
 
-tw_empty_wikipedia_page$wikipedia_id <- as.integer()
+tw_empty_wikipedia_page_links$wikipedia_id <- as.integer()
 
 
 usethis::use_data(tw_empty_wikipedia_page_links, overwrite = TRUE)
