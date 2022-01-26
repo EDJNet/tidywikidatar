@@ -37,12 +37,19 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
     )
   }
 
+  if (action == "parse") {
+    title_reference <- "&page="
+  } else {
+    title_reference <- "&titles="
+  }
+
   api_url <- stringr::str_c(
     "https://",
     language,
     ".wikipedia.org/w/api.php?action=",
     action,
-    "&redirects=true&format=json&titles=",
+    "&redirects=true&format=json",
+    title_reference,
     utils::URLencode(URL = title)
   )
 
@@ -61,40 +68,19 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
-#'   tw_get_wikipedia_sections_api_url(title = "Margaret Mead", language = "en")
-#' }
+#' tw_get_wikipedia_sections_api_url(title = "Margaret Mead", language = "en")
 tw_get_wikipedia_sections_api_url <- function(url = NULL,
                                               title = NULL,
                                               language = tidywikidatar::tw_get_language()) {
-  if (is.null(url) == TRUE) {
-    if (is.null(title) == TRUE) {
-      usethis::ui_stop("Either url or title must be provided")
-    }
-    if (is.null(language) == TRUE) {
-      usethis::ui_stop("Either language or full url must be provided")
-    }
-  } else {
-    title <- stringr::str_extract(
-      string = url,
-      pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
-    )
-  }
-
-  if (is.null(language) == TRUE) {
-    language <- stringr::str_extract(
-      string = url,
-      pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
-    )
-  }
-
-  api_url <- stringr::str_c(
-    "https://",
-    language,
-    ".wikipedia.org/w/api.php?action=parse&prop=sections&redirects=true&format=json&page=",
-    utils::URLencode(URL = title)
+  stringr::str_c(
+    tw_get_wikipedia_base_api_url(
+      url = url,
+      title = title,
+      language = language,
+      action = "parse"
+    ),
+    "&prop=sections"
   )
-  api_url
 }
 
 #' Gets the Wikidata Q identifier of one or more Wikipedia pages
