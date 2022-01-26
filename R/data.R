@@ -46,6 +46,11 @@
 #' @format A data frame with 0 rows and 8 columns
 "tw_empty_wikipedia_page_links"
 
+#' A zero-rows tibble used internally when `tw_get_wikipedia_page_sections()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 8 columns
+"tw_empty_wikipedia_page_sections"
+
 
 #' A zero-rows tibble used internally when `tw_get_image_metadata()` would not return any value.
 #'
