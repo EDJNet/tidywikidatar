@@ -117,7 +117,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
   unique_title <- unique(title)
 
   if (length(unique_title) == 0) {
-    return(tw_empty_wikipedia_page)
+    return(tidywikidatar::tw_empty_wikipedia_page)
   }
 
   db <- tw_connect_to_cache(

@@ -58,7 +58,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
     section_index <- sections_df %>%
       dplyr::filter(.data$line == section_title) %>%
       dplyr::pull(.data$index) %>%
-      head(1)
+      utils::head(1)
 
     if (length(section_index) == 0) {
       usethis::ui_stop("Section title does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
@@ -67,9 +67,9 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
 
   if (is.null(section_title)) {
     section_title <- sections_df %>%
-      dplyr::filter(.data$index == as.character(index)) %>%
+      dplyr::filter(.data$index == as.character(section_index)) %>%
       dplyr::pull(.data$fromtitle) %>%
-      head(1)
+      utils::head(1)
 
     if (length(section_index) == 0) {
       usethis::ui_stop("Section index does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
@@ -125,7 +125,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
     .f = tibble::as_tibble_row
   )
 
-  if (nrow(sections_df) < 1) {
+  if (nrow(links_df) < 1) {
     return(tidywikidatar::tw_empty_wikipedia_page)
   }
 
