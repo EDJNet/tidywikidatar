@@ -117,7 +117,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
   unique_title <- unique(title)
 
   if (length(unique_title) == 0) {
-    return(NULL)
+    return(tw_empty_wikipedia_page)
   }
 
   db <- tw_connect_to_cache(
@@ -173,7 +173,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
       return(
         dplyr::left_join(
           x = tibble::tibble(title_url = title),
-          y = df,
+          y = df %>%
+            dplyr::distinct(.data$title_url, .keep_all = TRUE),
           by = "title_url"
         )
       )
@@ -187,7 +188,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         disconnect_db = FALSE
       )
 
-      titles_not_in_cache <- unique_title[!is.element(unique_title, titles_in_cache_df$title)]
+      titles_not_in_cache <- unique_title[!is.element(unique_title, titles_in_cache_df$title_url)]
 
       if (length(titles_not_in_cache) == 0) {
         tw_disconnect_from_cache(
@@ -198,7 +199,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         return(
           dplyr::left_join(
             x = tibble::tibble(title_url = title),
-            y = titles_in_cache_df,
+            y = titles_in_cache_df %>%
+              dplyr::distinct(.data$title_url, .keep_all = TRUE),
             by = "title_url"
           )
         )
@@ -233,7 +235,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           y = dplyr::bind_rows(
             titles_in_cache_df,
             titles_not_in_cache_df
-          ),
+          ) %>%
+            dplyr::distinct(.data$title_url, .keep_all = TRUE),
           by = "title_url"
         )
       }
@@ -485,6 +488,8 @@ tw_get_cached_wikipedia_page_qid <- function(title,
     return(invisible(NULL))
   }
 
+  title_url <- title
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -511,7 +516,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$title_url %in% stringr::str_c(title)
+        .data$title_url %in% stringr::str_c(title_url)
       ),
     error = function(e) {
       logical(1L)

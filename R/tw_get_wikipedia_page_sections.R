@@ -32,6 +32,20 @@ tw_get_wikipedia_page_sections <- function(url = NULL,
     cache = cache
   )
 
+
+  wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
+    title = title,
+    language = language,
+    url = url,
+    cache = cache,
+    overwrite_cache = overwrite_cache,
+    cache_connection = db,
+    disconnect_db = FALSE,
+    wait = wait,
+    attempts = attempts
+  )
+
+
   source_df <- wikipedia_page_qid_df %>%
     dplyr::transmute(
       source_title_url = .data$title_url,
@@ -126,7 +140,6 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
   }
 
 
-
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_wikipedia_page_sections(
       title = title,
@@ -136,7 +149,6 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
       disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
-
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
