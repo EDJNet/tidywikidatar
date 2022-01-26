@@ -10,7 +10,7 @@
 #' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
-#' @return A data frame (a tibble) with wight columns: `source_title_url`, `source_wikipedia_title`, `source_qid`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, and `language`.
+#' @return A data frame (a tibble) with eight columns: `source_title_url`, `source_wikipedia_title`, `source_qid`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, and `language`.
 #' @export
 #'
 #' @examples
@@ -124,16 +124,23 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     cache = cache
   )
 
-
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_wikipedia_page_links(
       title = title,
       language = language,
       cache = cache,
       cache_connection = db,
-      disconnect_db = disconnect_db
+      disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
+
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db,
+        language = language
+      )
+
       return(db_result %>%
         dplyr::collect())
     }

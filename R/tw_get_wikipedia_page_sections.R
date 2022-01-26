@@ -10,7 +10,7 @@
 #' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
-#' @return A data frame (a tibble) with wight columns: `source_title_url`, `source_wikipedia_title`, `source_qid`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, and `language`.
+#' @return A data frame (a tibble), with the same columns as `tw_empty_wikipedia_page_sections`.
 #' @export
 #'
 #' @examples
@@ -30,18 +30,6 @@ tw_get_wikipedia_page_sections <- function(url = NULL,
     connection = cache_connection,
     language = language,
     cache = cache
-  )
-
-  wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
-    title = title,
-    language = language,
-    url = url,
-    cache = cache,
-    overwrite_cache = overwrite_cache,
-    cache_connection = db,
-    disconnect_db = FALSE,
-    wait = wait,
-    attempts = attempts
   )
 
   source_df <- wikipedia_page_qid_df %>%
@@ -68,8 +56,7 @@ tw_get_wikipedia_page_sections <- function(url = NULL,
         cache_connection = db,
         disconnect_db = FALSE,
         wait = wait,
-        attempts = attempts,
-        wikipedia_page_qid_df = wikipedia_page_qid_df
+        attempts = attempts
       )
     }
   )
@@ -124,17 +111,20 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
   )
 
 
-  wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
-    title = title,
-    language = language,
-    url = url,
-    cache = cache,
-    overwrite_cache = overwrite_cache,
-    cache_connection = db,
-    disconnect_db = FALSE,
-    wait = wait,
-    attempts = attempts
-  )
+  if (is.null(wikipedia_page_qid_df)) {
+    wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
+      title = title,
+      language = language,
+      url = url,
+      cache = cache,
+      overwrite_cache = overwrite_cache,
+      cache_connection = db,
+      disconnect_db = FALSE,
+      wait = wait,
+      attempts = attempts
+    )
+  }
+
 
 
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
@@ -143,9 +133,17 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
       language = language,
       cache = cache,
       cache_connection = db,
-      disconnect_db = disconnect_db
+      disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
+
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db,
+        language = language
+      )
+
       return(db_result %>%
         dplyr::collect())
     }
@@ -443,5 +441,32 @@ tw_reset_wikipedia_page_sections_cache <- function(language = tidywikidatar::tw_
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language
+  )
+}
+
+#' Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page
+#'
+#' Mostly used internally
+#'
+#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
+#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
+#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#'
+#' @return A character vector of base urls to be used with the MediaWiki API
+#' @export
+#'
+#' @examples
+#' tw_get_wikipedia_sections_api_url(title = "Margaret Mead", language = "en")
+tw_get_wikipedia_sections_api_url <- function(url = NULL,
+                                              title = NULL,
+                                              language = tidywikidatar::tw_get_language()) {
+  stringr::str_c(
+    tw_get_wikipedia_base_api_url(
+      url = url,
+      title = title,
+      language = language,
+      action = "parse"
+    ),
+    "&prop=sections"
   )
 }

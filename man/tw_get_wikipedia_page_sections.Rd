@@ -36,7 +36,7 @@ tw_get_wikipedia_page_sections(
 \item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
 }
 \value{
-A data frame (a tibble) with wight columns: \code{source_title_url}, \code{source_wikipedia_title}, \code{source_qid}, \code{wikipedia_title}, \code{wikipedia_id}, \code{qid}, \code{description}, and \code{language}.
+A data frame (a tibble), with the same columns as \code{tw_empty_wikipedia_page_sections}.
 }
 \description{
 Get sections of a Wikipedia page
