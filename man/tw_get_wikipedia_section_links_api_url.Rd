@@ -16,6 +16,8 @@ tw_get_wikipedia_section_links_api_url(
 
 \item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
 
+\item{section_index}{Required. It should correspond to the ordinal of a section of the relevant Wikipedia page. See also \code{tw_get_wikipedia_page_sections()}.}
+
 \item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
 }
 \value{
