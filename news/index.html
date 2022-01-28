@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,6 +113,13 @@
 <li>new naming convention for local SQLite database, to reflect change that there is now one database per language</li>
 <li>improve handling of connections to reduce the risk of connections remaining open, aiming at higher efficiency for integration with shiny apps</li>
 <li>bug fix: fix error when Wikidata item has no label in any language</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.1" id="tidywikidatar-051">tidywikidatar 0.5.1<a class="anchor" aria-label="anchor" href="#tidywikidatar-051"></a></h2>
+<ul><li>introduce functions to get list of sections of Wikipedia pages - <code><a href="../reference/tw_get_wikipedia_page_sections.html">tw_get_wikipedia_page_sections()</a></code> - and then extract the links from a specific section - <code><a href="../reference/tw_get_wikipedia_page_section_links.html">tw_get_wikipedia_page_section_links()</a></code>
+</li>
+<li>fix <code><a href="../reference/tw_get_qualifiers.html">tw_get_qualifiers()</a></code> when qualifier value is of type quantity</li>
+<li>minor bug fixes</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
