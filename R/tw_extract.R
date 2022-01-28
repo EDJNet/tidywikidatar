@@ -292,6 +292,9 @@ tw_extract_qualifier <- function(id,
           } else if (is.element("value", names(value_df)) == TRUE) {
             value <- value_df %>%
               dplyr::pull(.data$value)
+          } else if (is.element("amount", names(value_df)) == TRUE) {
+            value <- value_df %>%
+              dplyr::pull(.data$amount)
           } else if (is.element("time", names(value_df)) == TRUE) {
             value <- value_df %>%
               dplyr::pull(.data$time)
@@ -302,7 +305,6 @@ tw_extract_qualifier <- function(id,
                 -.data$property
               ))
           }
-
 
           tibble::tibble(
             qualifier_id = qualifier_parent,
