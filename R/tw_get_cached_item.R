@@ -136,7 +136,7 @@ tw_get_cache_file <- function(type = NULL,
 #' @export
 #'
 #' @examples
-#' # outputs name of table used in  of cache file
+#' # outputs name of table used in the cache database
 #' tw_get_cache_table_name(type = "item", language = "en")
 tw_get_cache_table_name <- function(type = "item",
                                     language = tidywikidatar::tw_get_language()) {

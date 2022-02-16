@@ -21,6 +21,6 @@ A character vector of length one with the name of the relevant table in the cach
 Gets name of table inside the database
 }
 \examples{
-# outputs name of table used in  of cache file
+# outputs name of table used in the cache database
 tw_get_cache_table_name(type = "item", language = "en")
 }

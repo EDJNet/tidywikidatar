@@ -99,6 +99,15 @@ tw_get_single <- function(id,
     language = language
   )
 
+  # keep one row, otherwise nothing remains in cache, and it will query
+  # each time the script is re-run
+  if (nrow(everything_df)==0) {
+    everything_df <- tibble::tibble(id = id,
+                                    property = stringr::str_c("label_", language),
+                                    value = as.character(NA),
+                                    rank = as.character(NA))
+  }
+
   if (tw_check_cache(cache) == TRUE) {
     tw_write_item_to_cache(
       item_df = everything_df,
