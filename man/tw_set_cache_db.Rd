@@ -8,10 +8,11 @@ tw_set_cache_db(
   db_settings = NULL,
   driver = NULL,
   host = NULL,
-  port,
-  database,
-  user,
-  pwd
+  server = NULL,
+  port = NULL,
+  database = NULL,
+  user = NULL,
+  pwd = NULL
 )
 }
 \arguments{
@@ -19,7 +20,9 @@ tw_set_cache_db(
 
 \item{driver}{A database driver. Common database drivers include \code{MySQL}, \code{PostgreSQL}, and \code{MariaDB}. See \code{unique(odbc::odbcListDrivers()[[1]])} for a list of locally available drivers.}
 
-\item{host}{Host address, e.g. "localhost".}
+\item{host}{Host address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.}
+
+\item{server}{Server address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.}
 
 \item{port}{Port to use to connect to the database.}
 
@@ -43,6 +46,7 @@ if (interactive()) {
   db_settings <- list(
     driver = "MySQL",
     host = "localhost",
+    server = "localhost",
     port = 3306,
     database = "tidywikidatar",
     user = "secret_username",
@@ -56,7 +60,17 @@ if (interactive()) {
   tw_set_cache_db(
     driver = "MySQL",
     host = "localhost",
+    server = "localhost",
     port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
+
+  # or ignoring fields that can be left to default values, such as "localhost" and port 3306
+
+  tw_set_cache_db(
+    driver = "MySQL",
     database = "tidywikidatar",
     user = "secret_username",
     pwd = "secret_password"

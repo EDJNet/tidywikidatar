@@ -43,6 +43,7 @@ if (interactive()) {
   db_settings <- list(
     driver = "MySQL",
     host = "localhost",
+    server = "localhost",
     port = 3306,
     database = "tidywikidatar",
     user = "secret_username",

@@ -66,9 +66,11 @@ tw_get_cache_folder <- tw_set_cache_folder
 
 #' Set database connection settings for the session
 #'
+#'
 #' @param db_settings A list of database connection settings (see example)
 #' @param driver A database driver. Common database drivers include `MySQL`, `PostgreSQL`, and `MariaDB`. See `unique(odbc::odbcListDrivers()[[1]])` for a list of locally available drivers.
-#' @param host Host address, e.g. "localhost".
+#' @param host Host address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.
+#' @param server Server address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.
 #' @param port Port to use to connect to the database.
 #' @param database Database name.
 #' @param user Database user name.
@@ -85,6 +87,7 @@ tw_get_cache_folder <- tw_set_cache_folder
 #'   db_settings <- list(
 #'     driver = "MySQL",
 #'     host = "localhost",
+#'     server = "localhost",
 #'     port = 3306,
 #'     database = "tidywikidatar",
 #'     user = "secret_username",
@@ -98,7 +101,17 @@ tw_get_cache_folder <- tw_set_cache_folder
 #'   tw_set_cache_db(
 #'     driver = "MySQL",
 #'     host = "localhost",
+#'     server = "localhost",
 #'     port = 3306,
+#'     database = "tidywikidatar",
+#'     user = "secret_username",
+#'     pwd = "secret_password"
+#'   )
+#'
+#'   # or ignoring fields that can be left to default values, such as "localhost" and port 3306
+#'
+#'   tw_set_cache_db(
+#'     driver = "MySQL",
 #'     database = "tidywikidatar",
 #'     user = "secret_username",
 #'     pwd = "secret_password"
@@ -108,13 +121,15 @@ tw_get_cache_folder <- tw_set_cache_folder
 tw_set_cache_db <- function(db_settings = NULL,
                             driver = NULL,
                             host = NULL,
-                            port,
-                            database,
-                            user,
-                            pwd) {
+                            server = NULL,
+                            port = NULL,
+                            database = NULL,
+                            user = NULL,
+                            pwd = NULL) {
   if (is.null(db_settings) == TRUE) {
     if (is.null(driver) == FALSE) Sys.setenv(tw_db_driver = driver)
     if (is.null(host) == FALSE) Sys.setenv(tw_db_host = host)
+    if (is.null(server) == FALSE) Sys.setenv(tw_db_host = server)
     if (is.null(port) == FALSE) Sys.setenv(tw_db_port = port)
     if (is.null(database) == FALSE) Sys.setenv(tw_db_database = database)
     if (is.null(user) == FALSE) Sys.setenv(tw_db_user = user)
@@ -123,6 +138,7 @@ tw_set_cache_db <- function(db_settings = NULL,
       list(
         driver = driver,
         host = host,
+        server = server,
         port = port,
         database = database,
         user = user,
@@ -132,6 +148,7 @@ tw_set_cache_db <- function(db_settings = NULL,
   } else {
     Sys.setenv(tw_db_driver = db_settings$driver)
     Sys.setenv(tw_db_host = db_settings$host)
+    Sys.setenv(tw_db_server = db_settings$server)
     Sys.setenv(tw_db_port = db_settings$port)
     Sys.setenv(tw_db_database = db_settings$database)
     Sys.setenv(tw_db_user = db_settings$user)
@@ -154,6 +171,7 @@ tw_get_cache_db <- function() {
   list(
     driver = Sys.getenv("tw_db_driver"),
     host = Sys.getenv("tw_db_host"),
+    server = Sys.getenv("tw_db_server"),
     port = Sys.getenv("tw_db_port"),
     database = Sys.getenv("tw_db_database"),
     user = Sys.getenv("tw_db_user"),
