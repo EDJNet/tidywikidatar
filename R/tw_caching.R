@@ -146,13 +146,13 @@ tw_set_cache_db <- function(db_settings = NULL,
       )
     ))
   } else {
-    if (is.null(db_settings$driver)==FALSE) Sys.setenv(tw_db_driver = db_settings$driver)
-    if (is.null(db_settings$host)==FALSE)  Sys.setenv(tw_db_host = db_settings$host)
-    if (is.null(db_settings$server)==FALSE)  Sys.setenv(tw_db_server = db_settings$server)
-    if (is.null(db_settings$port)==FALSE)  Sys.setenv(tw_db_port = db_settings$port)
-    if (is.null(db_settings$database)==FALSE)  Sys.setenv(tw_db_database = db_settings$database)
-    if (is.null(db_settings$user)==FALSE)  Sys.setenv(tw_db_user = db_settings$user)
-    if (is.null(db_settings$pwd)==FALSE)  Sys.setenv(tw_db_pwd = db_settings$pwd)
+    if (is.null(db_settings$driver) == FALSE) Sys.setenv(tw_db_driver = db_settings$driver)
+    if (is.null(db_settings$host) == FALSE) Sys.setenv(tw_db_host = db_settings$host)
+    if (is.null(db_settings$server) == FALSE) Sys.setenv(tw_db_server = db_settings$server)
+    if (is.null(db_settings$port) == FALSE) Sys.setenv(tw_db_port = db_settings$port)
+    if (is.null(db_settings$database) == FALSE) Sys.setenv(tw_db_database = db_settings$database)
+    if (is.null(db_settings$user) == FALSE) Sys.setenv(tw_db_user = db_settings$user)
+    if (is.null(db_settings$pwd) == FALSE) Sys.setenv(tw_db_pwd = db_settings$pwd)
     return(invisible(db_settings))
   }
 }

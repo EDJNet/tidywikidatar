@@ -133,7 +133,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
       disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
-
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
