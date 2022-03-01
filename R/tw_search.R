@@ -53,7 +53,9 @@ tw_search_single <- function(search,
       type = type,
       include_search = include_search,
       language = language,
-      cache_connection = db
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
       tw_disconnect_from_cache(
