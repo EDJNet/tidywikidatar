@@ -147,8 +147,10 @@ tw_search_single <- function(search,
       search_df = search_response_df,
       type = type,
       language = language,
+      cache = cache,
       overwrite_cache = overwrite_cache,
-      cache_connection = db
+      cache_connection = db,
+      disconnect_db = FALSE
     )
   }
 

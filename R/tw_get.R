@@ -49,9 +49,14 @@ tw_get_single <- function(id,
       language = language,
       cache = cache,
       cache_connection = db,
-      disconnect_db = disconnect_db
+      disconnect_db = FALSE
     )
     if (is.data.frame(db_result) & nrow(db_result) > 0) {
+      tw_disconnect_from_cache(
+        cache = cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db
+      )
       return(db_result %>%
         tibble::as_tibble())
     }

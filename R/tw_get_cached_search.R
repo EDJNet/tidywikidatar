@@ -31,7 +31,7 @@ tw_get_cached_search <- function(search,
                                  cache_connection = NULL,
                                  disconnect_db = TRUE) {
   if (isFALSE(tw_check_cache(cache = cache))) {
-    return(invisible(NULL))
+    return(tidywikidatar::tw_empty_search)
   }
 
   db <- tw_connect_to_cache(
