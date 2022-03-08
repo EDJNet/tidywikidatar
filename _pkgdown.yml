@@ -30,6 +30,7 @@ reference:
   contents:
   - starts_with("tw_search")
   - tw_query
+  - tw_get_all_with_p
 - title: "Retrieve information about images"
   desc: "Since images are not stored within Wikidata, but often relevant to those working with Wikidata, these functions wrap relevant APIs to facilitate getting data about images associated with a Wikidata Q identifier"
   contents:

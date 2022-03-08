@@ -59,6 +59,7 @@
 # tidywikidatar 0.5.1
 
 * introduce functions to get list of sections of Wikipedia pages - `tw_get_wikipedia_page_sections()` - and then extract the links from a specific section - `tw_get_wikipedia_page_section_links()`
+* introduce convenience function to get all items that have a given property, irrespective of the value, `tw_get_all_with_p()`
 * fix `tw_get_qualifiers()` when qualifier value is of type quantity
 * keep smooth caching also when a Wikidata item has no values and no label in the current language
 * introduce additional settings in database connections for drivers that need them

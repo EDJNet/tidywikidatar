@@ -18,7 +18,7 @@ tw_get_wikipedia_base_api_url(
 
 \item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
 
-\item{action}{Defaults to "query". Usually either "query" or "parse". In principle, any valid action value, see: https://www.mediawiki.org/w/api.php}
+\item{action}{Defaults to "query". Usually either "query" or "parse". In principle, any valid action value, see: "https://www.mediawiki.org/w/api.php"}
 }
 \value{
 A character vector of base urls to be used with the MediaWiki API

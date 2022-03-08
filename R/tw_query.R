@@ -1,10 +1,12 @@
 #' Perform simple Wikidata queries
 #'
-#' This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use `WikidataQueryServiceR::query_wikidata()`
+#' This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use `WikidataQueryServiceR::query_wikidata()`.
+#'
+#' Consider `tw_get_all_with_p()` if you want to get all items with a given property, irrespective of the value.
 #'
 #' @param query A list of named vectors, or a data frame (see example and readme).
 #' @param fields A character vector of Wikidata fields. Ignored if `return_as_tw_search` is set to TRUE (as per default). Defaults to `("item", "itemLabel", "itemDescription")`
-#' @param language Two letter code of preferred language, defaults to "en". If more than one, can be set in order of preference, e.g. `c("it", "fr", "en")`
+#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". If more than one, can be set in order of preference, e.g. `c("it", "fr", "en")`. Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param return_as_tw_search Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other `tw_` functions. If FALSE, a data frame with as many columns as fields.
 #'
 #' @return A data frame
@@ -21,7 +23,7 @@
 #' }
 tw_query <- function(query,
                      fields = c("item", "itemLabel", "itemDescription"),
-                     language = "en",
+                     language = tidywikidatar::tw_get_language(),
                      return_as_tw_search = TRUE) {
   if (is.data.frame(query) == FALSE) {
     query_df <- dplyr::bind_rows(query)
