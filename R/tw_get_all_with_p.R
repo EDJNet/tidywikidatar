@@ -5,7 +5,7 @@
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param wait Defaults to 0.1. Used only in method is set to "JSON".
 #' @param method Defaults to "SPARQL". The only accepted alternative value is "JSON", to use instead json-based API.
-#' @param limit Defaults to 100000. Set to `Inf` to remove any limits.
+#' @param limit Defaults to `Inf`. Set to smaller values for testing and cache locally when possible to reduce load on servers.
 #' @inheritParams tw_query
 #'
 #' @return A data frame with three columns is method is set to "SPARQL", or as many columns as fields if more are given and `return_as_tw_search` is set to FALSE. A single column with Wikidata identifier if method is set to "JSON".
@@ -21,7 +21,7 @@ tw_get_all_with_p <- function(p,
                               language = tidywikidatar::tw_get_language(),
                               method = "SPARQL",
                               wait = 0.1,
-                              limit = 100000,
+                              limit = Inf,
                               return_as_tw_search = TRUE) {
   p <- stringr::str_to_upper(string = p)
 

@@ -10,7 +10,7 @@ tw_get_all_with_p(
   language = tidywikidatar::tw_get_language(),
   method = "SPARQL",
   wait = 0.1,
-  limit = 1e+05,
+  limit = Inf,
   return_as_tw_search = TRUE
 )
 }
@@ -25,7 +25,7 @@ tw_get_all_with_p(
 
 \item{wait}{Defaults to 0.1. Used only in method is set to "JSON".}
 
-\item{limit}{Defaults to 100000. Set to \code{Inf} to remove any limits.}
+\item{limit}{Defaults to \code{Inf}. Set to smaller values for testing and cache locally when possible to reduce load on servers.}
 
 \item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other \code{tw_} functions. If FALSE, a data frame with as many columns as fields.}
 }
