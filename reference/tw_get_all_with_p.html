@@ -58,7 +58,7 @@
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   method <span class="op">=</span> <span class="st">"SPARQL"</span>,
   wait <span class="op">=</span> <span class="fl">0.1</span>,
-  limit <span class="op">=</span> <span class="fl">1e+05</span>,
+  limit <span class="op">=</span> <span class="cn">Inf</span>,
   return_as_tw_search <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -76,7 +76,7 @@
 <dt>wait</dt>
 <dd><p>Defaults to 0.1. Used only in method is set to "JSON".</p></dd>
 <dt>limit</dt>
-<dd><p>Defaults to 100000. Set to <code>Inf</code> to remove any limits.</p></dd>
+<dd><p>Defaults to <code>Inf</code>. Set to smaller values for testing and cache locally when possible to reduce load on servers.</p></dd>
 <dt>return_as_tw_search</dt>
 <dd><p>Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other <code>tw_</code> functions. If FALSE, a data frame with as many columns as fields.</p></dd>
 </dl></div>
