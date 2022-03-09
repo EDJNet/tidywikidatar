@@ -5,7 +5,7 @@
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
 #' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param language_text Language to be used for the returned labels and descriptions. Corresponds to the `uselang` parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param response_language Language to be used for the returned labels and descriptions. Corresponds to the `uselang` parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
 #' @param limit Maximum numbers of responses to be given.
 #' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
@@ -22,7 +22,7 @@
 tw_search <- function(search,
                       type = "item",
                       language = tidywikidatar::tw_get_language(),
-                      language_text = tidywikidatar::tw_get_language(),
+                      response_language = tidywikidatar::tw_get_language(),
                       limit = 10,
                       include_search = FALSE,
                       wait = 0,
@@ -42,7 +42,7 @@ tw_search <- function(search,
     usethis::ui_stop("A search language must be given.")
   }
 
-  language_combo <- stringr::str_c(language, "_", language_text)
+  language_combo <- stringr::str_c(language, "_", response_language)
 
   unique_search <- unique(search)
 
@@ -60,7 +60,7 @@ tw_search <- function(search,
           search = search,
           type = type,
           language = language,
-          language_text = language_text,
+          response_language = response_language,
           limit = limit,
           include_search = TRUE,
           wait = wait,
@@ -91,7 +91,7 @@ tw_search <- function(search,
               search = x,
               type = type,
               language = language,
-              language_text = language_text,
+              response_language = response_language,
               limit = limit,
               include_search = TRUE,
               wait = wait,
@@ -125,7 +125,7 @@ tw_search <- function(search,
         search = unique_search,
         type = type,
         language = language,
-        language_text = language_text,
+        response_language = response_language,
         include_search = TRUE,
         cache_connection = db,
         disconnect_db = FALSE
@@ -162,7 +162,7 @@ tw_search <- function(search,
               search = x,
               type = type,
               language = language,
-              language_text = language_text,
+              response_language = response_language,
               limit = limit,
               include_search = TRUE,
               wait = wait,
@@ -218,7 +218,7 @@ tw_search <- function(search,
 tw_search_single <- function(search,
                              type = "item",
                              language = tidywikidatar::tw_get_language(),
-                             language_text = tidywikidatar::tw_get_language(),
+                             response_language = tidywikidatar::tw_get_language(),
                              limit = 10,
                              include_search = FALSE,
                              cache = NULL,
@@ -238,7 +238,7 @@ tw_search_single <- function(search,
     usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
   }
 
-  language_combo <- stringr::str_c(language, "_", language_text)
+  language_combo <- stringr::str_c(language, "_", response_language)
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
@@ -252,7 +252,7 @@ tw_search_single <- function(search,
       type = type,
       include_search = include_search,
       language = language,
-      language_text = language_text,
+      response_language = response_language,
       cache = cache,
       cache_connection = db,
       disconnect_db = FALSE
@@ -284,7 +284,7 @@ tw_search_single <- function(search,
           language = language,
           limit = limit,
           search = search,
-          uselang = language_text
+          uselang = response_language
         )
       )[["search"]],
       error = function(e) {
@@ -308,7 +308,7 @@ tw_search_single <- function(search,
           language = language,
           limit = limit,
           search = search,
-          uselang = language_text
+          uselang = response_language
         )
       )[["search"]],
       error = function(e) {
@@ -364,7 +364,7 @@ tw_search_single <- function(search,
       search_df = search_response_df,
       type = type,
       language = language,
-      language_text = language_text,
+      response_language = response_language,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = db,
@@ -406,7 +406,7 @@ tw_search_single <- function(search,
 #' tw_search_item(search = "Sylvia Pankhurst")
 tw_search_item <- function(search,
                            language = tidywikidatar::tw_get_language(),
-                           language_text = tidywikidatar::tw_get_language(),
+                           response_language = tidywikidatar::tw_get_language(),
                            limit = 10,
                            include_search = FALSE,
                            wait = 0,
@@ -418,7 +418,7 @@ tw_search_item <- function(search,
     search = search,
     type = "item",
     language = language,
-    language_text = language_text,
+    response_language = response_language,
     limit = limit,
     include_search = include_search,
     wait = wait,
@@ -444,7 +444,7 @@ tw_search_item <- function(search,
 #' tw_search_property(search = "gender")
 tw_search_property <- function(search,
                                language = tidywikidatar::tw_get_language(),
-                               language_text = tidywikidatar::tw_get_language(),
+                               response_language = tidywikidatar::tw_get_language(),
                                limit = 10,
                                include_search = FALSE,
                                wait = 0,
@@ -456,7 +456,7 @@ tw_search_property <- function(search,
     search = search,
     type = "property",
     language = language,
-    language_text = language_text,
+    response_language = response_language,
     limit = limit,
     include_search = include_search,
     wait = wait,

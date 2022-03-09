@@ -28,7 +28,7 @@
 tw_write_search_to_cache <- function(search_df,
                                      type = "item",
                                      language = tidywikidatar::tw_get_language(),
-                                     language_text = tidywikidatar::tw_get_language(),
+                                     response_language = tidywikidatar::tw_get_language(),
                                      cache = NULL,
                                      overwrite_cache = FALSE,
                                      cache_connection = NULL,
@@ -41,7 +41,7 @@ tw_write_search_to_cache <- function(search_df,
     return(invisible(NULL))
   }
 
-  language_combo <- stringr::str_c(language, "_", language_text)
+  language_combo <- stringr::str_c(language, "_", response_language)
 
   db <- tw_connect_to_cache(
     connection = cache_connection,

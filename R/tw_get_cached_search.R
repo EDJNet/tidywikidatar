@@ -20,7 +20,7 @@
 tw_get_cached_search <- function(search,
                                  type = "item",
                                  language = tidywikidatar::tw_get_language(),
-                                 language_text = tidywikidatar::tw_get_language(),
+                                 response_language = tidywikidatar::tw_get_language(),
                                  cache = NULL,
                                  include_search = FALSE,
                                  cache_connection = NULL,
@@ -29,7 +29,7 @@ tw_get_cached_search <- function(search,
     return(tidywikidatar::tw_empty_search)
   }
 
-  language_combo <- stringr::str_c(language, "_", language_text)
+  language_combo <- stringr::str_c(language, "_", response_language)
 
   db <- tw_connect_to_cache(
     connection = cache_connection,

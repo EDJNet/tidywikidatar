@@ -8,7 +8,7 @@ tw_write_search_to_cache(
   search_df,
   type = "item",
   language = tidywikidatar::tw_get_language(),
-  language_text = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -22,7 +22,7 @@ tw_write_search_to_cache(
 
 \item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{language_text}{Language to be used for the returned labels and descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{response_language}{Language to be used for the returned labels and descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
