@@ -168,7 +168,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(
         dplyr::left_join(
@@ -194,7 +195,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
         return(
           dplyr::left_join(
@@ -228,7 +230,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
         dplyr::left_join(
           x = tibble::tibble(title_url = title),

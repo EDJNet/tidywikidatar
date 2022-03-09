@@ -38,7 +38,8 @@ tw_get_qualifiers_single <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = cache_connection,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
 
 
@@ -151,7 +152,8 @@ tw_get_qualifiers <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(qualifiers_df)
     }
@@ -175,7 +177,8 @@ tw_get_qualifiers <- function(id,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
         return(
           dplyr::left_join(
@@ -208,7 +211,8 @@ tw_get_qualifiers <- function(id,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
 
         dplyr::left_join(

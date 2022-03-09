@@ -51,7 +51,8 @@ tw_filter <- function(search,
     tw_disconnect_from_cache(
       cache = cache,
       cache_connection = db,
-      disconnect_db = disconnect_db
+      disconnect_db = disconnect_db,
+      language = language
     )
 
     return(search_result)
@@ -72,7 +73,8 @@ tw_filter <- function(search,
   tw_disconnect_from_cache(
     cache = cache,
     cache_connection = db,
-    disconnect_db = disconnect_db
+    disconnect_db = disconnect_db,
+    language = language
   )
 
   search_result %>%

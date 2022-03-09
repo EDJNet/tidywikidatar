@@ -309,7 +309,8 @@ tw_get_image_metadata <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(
         dplyr::left_join(
@@ -358,7 +359,8 @@ tw_get_image_metadata <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(
         dplyr::left_join(
@@ -394,7 +396,8 @@ tw_get_image_metadata <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
 
       dplyr::left_join(
@@ -498,7 +501,8 @@ tw_get_image_metadata_single <- function(id,
           tw_disconnect_from_cache(
             cache = cache,
             cache_connection = db,
-            disconnect_db = disconnect_db
+            disconnect_db = disconnect_db,
+            language = language
           )
           return(image_metadata_from_cache_df)
         } else {

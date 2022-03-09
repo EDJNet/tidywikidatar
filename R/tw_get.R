@@ -55,7 +55,8 @@ tw_get_single <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(db_result %>%
         tibble::as_tibble())
@@ -128,7 +129,8 @@ tw_get_single <- function(id,
   tw_disconnect_from_cache(
     cache = cache,
     cache_connection = db,
-    disconnect_db = disconnect_db
+    disconnect_db = disconnect_db,
+    language = language
   )
   everything_df
 }
@@ -212,7 +214,8 @@ tw_get <- function(id,
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
-        disconnect_db = disconnect_db
+        disconnect_db = disconnect_db,
+        language = language
       )
       return(
         dplyr::left_join(
@@ -238,7 +241,8 @@ tw_get <- function(id,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
         return(
           dplyr::left_join(
@@ -270,7 +274,8 @@ tw_get <- function(id,
         tw_disconnect_from_cache(
           cache = cache,
           cache_connection = db,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          language = language
         )
 
         dplyr::left_join(

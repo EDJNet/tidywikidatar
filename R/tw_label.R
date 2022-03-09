@@ -140,7 +140,8 @@ tw_label <- function(df,
   tw_disconnect_from_cache(
     cache = cache,
     cache_connection = db,
-    disconnect_db = disconnect_db
+    disconnect_db = disconnect_db,
+    language = language
   )
 
   df
