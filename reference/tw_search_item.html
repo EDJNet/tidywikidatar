@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,6 +55,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_search_item</span><span class="op">(</span>
   <span class="va">search</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  response_language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   limit <span class="op">=</span> <span class="fl">10</span>,
   include_search <span class="op">=</span> <span class="cn">FALSE</span>,
   wait <span class="op">=</span> <span class="fl">0</span>,
@@ -71,12 +72,14 @@
 <dd><p>A string to be searched in Wikidata</p></dd>
 <dt>language</dt>
 <dd><p>Language to be used for the search. Can be set once per session with <code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>response_language</dt>
+<dd><p>Language to be used for the returned labels and descriptions. Corresponds to the <code>uselang</code> parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&amp;modules=wbsearchentities. Can be set once per session with <code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 <dt>limit</dt>
 <dd><p>Maximum numbers of responses to be given.</p></dd>
 <dt>include_search</dt>
 <dd><p>Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.</p></dd>
 <dt>wait</dt>
-<dd><p>In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.</p></dd>
+<dd><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
 <dt>cache</dt>
 <dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>

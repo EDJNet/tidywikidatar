@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +56,7 @@
   <span class="va">search</span>,
   type <span class="op">=</span> <span class="st">"item"</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
+  response_language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   limit <span class="op">=</span> <span class="fl">10</span>,
   include_search <span class="op">=</span> <span class="cn">FALSE</span>,
   wait <span class="op">=</span> <span class="fl">0</span>,
@@ -74,6 +75,8 @@
 <dd><p>Defaults to "item". Either "item" or "property".</p></dd>
 <dt>language</dt>
 <dd><p>Language to be used for the search. Can be set once per session with <code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>response_language</dt>
+<dd><p>Language to be used for the returned labels and descriptions. Corresponds to the <code>uselang</code> parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&amp;modules=wbsearchentities. Can be set once per session with <code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 <dt>limit</dt>
 <dd><p>Maximum numbers of responses to be given.</p></dd>
 <dt>include_search</dt>
