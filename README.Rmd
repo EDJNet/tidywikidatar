@@ -52,10 +52,6 @@ remotes::install_github("EDJNet/tidywikidatar")
 
 `tidywikidatar` is most useful in particular for the exploratory analysis of relatively small numbers of wikidata items (dozens or hundreds), but becomes quickly less efficient when asking for many properties or thousands of items. Functions will take their time, but will eventually complete. Some performance improvements may come with future versions of `tidywikidatar`, but for larger batches of data (large number of items/many properties), well formed queries will remain more efficient. 
 
-### Known issues
-
-- `tw_search()` always returns label and description in English (to be fixed)
-
 ## Use cases and publicly available examples
 
 These articles or repository demonstrate some use cases for `tidywikidatar`:

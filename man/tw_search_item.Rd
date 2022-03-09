@@ -7,6 +7,7 @@
 tw_search_item(
   search,
   language = tidywikidatar::tw_get_language(),
+  language_text = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -21,11 +22,13 @@ tw_search_item(
 
 \item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
+\item{language_text}{Language to be used for the returned labels and descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
 \item{limit}{Maximum numbers of responses to be given.}
 
 \item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
 
-\item{wait}{In seconds, defaults to 0.1. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 

@@ -1,12 +1,6 @@
 #' Retrieve cached search
 #'
-#' @param search A string to be searched in Wikidata
-#' @param type Defaults to "item". Either "item" or "property".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @inheritParams tw_search
 #'
 #' @return If data present in cache, returns a data frame with cached data.
 #' @export
@@ -26,6 +20,7 @@
 tw_get_cached_search <- function(search,
                                  type = "item",
                                  language = tidywikidatar::tw_get_language(),
+                                 language_text = tidywikidatar::tw_get_language(),
                                  cache = NULL,
                                  include_search = FALSE,
                                  cache_connection = NULL,
@@ -34,15 +29,17 @@ tw_get_cached_search <- function(search,
     return(tidywikidatar::tw_empty_search)
   }
 
+  language_combo <- stringr::str_c(language, "_", language_text)
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language,
+    language = language_combo,
     cache = cache
   )
 
   table_name <- tw_get_cache_table_name(
     type = stringr::str_c("search_", type),
-    language = language
+    language = language_combo
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
@@ -50,7 +47,7 @@ tw_get_cached_search <- function(search,
       cache = cache,
       cache_connection = db,
       disconnect_db = disconnect_db,
-      language = language
+      language = language_combo
     )
 
     search_df <- tidywikidatar::tw_empty_search
@@ -76,7 +73,7 @@ tw_get_cached_search <- function(search,
       cache = cache,
       cache_connection = db,
       disconnect_db = disconnect_db,
-      language = language
+      language = language_combo
     )
     search_df <- tidywikidatar::tw_empty_search
 
@@ -102,7 +99,7 @@ tw_get_cached_search <- function(search,
     cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
-    language = language
+    language = language_combo
   )
 
   cached_items_df

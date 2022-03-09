@@ -8,6 +8,7 @@ tw_search(
   search,
   type = "item",
   language = tidywikidatar::tw_get_language(),
+  language_text = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -23,6 +24,8 @@ tw_search(
 \item{type}{Defaults to "item". Either "item" or "property".}
 
 \item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+
+\item{language_text}{Language to be used for the returned labels and descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
 \item{limit}{Maximum numbers of responses to be given.}
 
