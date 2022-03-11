@@ -23,14 +23,16 @@
 #' )
 #'
 #' # If a label is not available, a NA value is returned
-#' tw_get_label(
-#'   id = c(
-#'     "Q64733534",
-#'     "Q4773904",
-#'     "Q220480"
-#'   ),
-#'   language = "sc"
-#' )
+#' if (interactive()) {
+#'   tw_get_label(
+#'     id = c(
+#'       "Q64733534",
+#'       "Q4773904",
+#'       "Q220480"
+#'     ),
+#'     language = "sc"
+#'   )
+#' }
 tw_get_label <- function(id,
                          language = tidywikidatar::tw_get_language(),
                          id_df = NULL,

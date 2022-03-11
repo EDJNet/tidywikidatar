@@ -49,12 +49,14 @@ tw_get_label(
 )
 
 # If a label is not available, a NA value is returned
-tw_get_label(
-  id = c(
-    "Q64733534",
-    "Q4773904",
-    "Q220480"
-  ),
-  language = "sc"
-)
+if (interactive()) {
+  tw_get_label(
+    id = c(
+      "Q64733534",
+      "Q4773904",
+      "Q220480"
+    ),
+    language = "sc"
+  )
+}
 }

@@ -49,12 +49,14 @@ tw_get_image("Q180099",
   format = "filename"
 )
 
-tw_get_image("Q180099",
-  format = "commons"
-)
+if (interactive()) {
+  tw_get_image("Q180099",
+    format = "commons"
+  )
 
-tw_get_image("Q180099",
-  format = "embed",
-  width = 300
-)
+  tw_get_image("Q180099",
+    format = "embed",
+    width = 300
+  )
+}
 }
