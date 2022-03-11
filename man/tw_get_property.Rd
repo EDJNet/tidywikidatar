@@ -50,17 +50,17 @@ advisors
 
 # It is also possible to get one property for many id
 
-tw_get_property(
-  id = c(
-    "Q180099",
-    "Q228822"
-  ),
-  p = "P31"
-)
-
-# Or many properties for a single id
-
 if (interactive()) {
+  tw_get_property(
+    id = c(
+      "Q180099",
+      "Q228822"
+    ),
+    p = "P31"
+  )
+
+  # Or many properties for a single id
+
   tw_get_property(
     id = "Q180099",
     p = c("P21", "P31")

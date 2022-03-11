@@ -118,14 +118,16 @@ tw_get_image <- function(id,
 #'   format = "filename"
 #' )
 #'
-#' tw_get_image_same_length("Q180099",
-#'   format = "commons"
-#' )
+#' if (interactive()) {
+#'   tw_get_image_same_length("Q180099",
+#'     format = "commons"
+#'   )
 #'
-#' tw_get_image_same_length("Q180099",
-#'   format = "embed",
-#'   width = 300
-#' )
+#'   tw_get_image_same_length("Q180099",
+#'     format = "embed",
+#'     width = 300
+#'   )
+#' }
 tw_get_image_same_length <- function(id,
                                      format = "filename",
                                      as_tibble = FALSE,
