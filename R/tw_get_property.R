@@ -309,7 +309,7 @@ tw_get_property_same_length <- function(id,
       by = "id"
     )
 
-  if (class(property_df_out$value) == "list") {
+  if (is.list(property_df_out$value) == "list") {
     property_df_out$value[purrr::map_lgl(
       .x = property_df_out$value,
       .f = is.null
