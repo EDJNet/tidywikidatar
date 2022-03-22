@@ -435,7 +435,6 @@ tw_get_image_metadata <- function(id,
 #' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A character vector, corresponding to reference to the image in the requested format.
-#' @export
 #'
 #' @examples
 #' if (interactive()) {

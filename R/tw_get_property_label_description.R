@@ -105,10 +105,9 @@ tw_get_property_label <- function(property,
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A character vector of length 1, with the Wikidata label in the requested language.
-#' @export
 #'
 #' @examples
-#' tw_get_property_label_single(property = "P31")
+#' tidywikidatar:::tw_get_property_label_single(property = "P31")
 tw_get_property_label_single <- function(property,
                                          language = tidywikidatar::tw_get_language(),
                                          cache = NULL,

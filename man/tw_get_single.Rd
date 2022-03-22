@@ -39,7 +39,7 @@ A data.frame (a tibble) with three columns (id, property, and value). If item no
 Return (most) information from a Wikidata item in a tidy format
 }
 \examples{
-tw_get_single(
+tidywikidatar:::tw_get_single(
   id = "Q180099",
   language = "en"
 )

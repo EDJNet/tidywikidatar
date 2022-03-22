@@ -19,5 +19,5 @@ Gets all details of a property
 }
 \examples{
 # Get "female form of label", including language
-tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
+tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
 }

@@ -39,5 +39,5 @@ A data frame (a tibble) with eight columns: \code{id} for the input id, \code{pr
 N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
 }
 \examples{
-tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
 }

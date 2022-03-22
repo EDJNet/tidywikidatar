@@ -211,10 +211,9 @@ tw_search <- function(search,
 #' @inheritParams tw_search
 #'
 #' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
-#' @export
 #'
 #' @examples
-#' tw_search_single(search = "Sylvia Pankhurst")
+#' tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
 tw_search_single <- function(search,
                              type = "item",
                              language = tidywikidatar::tw_get_language(),

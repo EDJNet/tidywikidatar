@@ -24,5 +24,5 @@ item <- tryCatch(WikidataR::get_item(id = "Q180099"),
   }
 )
 
-tw_extract_single(w = item)
+tidywikidatar:::tw_extract_single(w = item)
 }

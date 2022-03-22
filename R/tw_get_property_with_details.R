@@ -4,11 +4,10 @@
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #'
 #' @return A tibble, corresponding to the details for the given property. NULL if no relevant property found.
-#' @export
 #'
 #' @examples
 #' # Get "female form of label", including language
-#' tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
+#' tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
 tw_get_property_with_details_single <- function(id,
                                                 p) {
   item <- tryCatch(WikidataR::get_item(id = id),

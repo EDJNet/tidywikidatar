@@ -69,3 +69,4 @@
 # tidywikidatar 0.5.2
 
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
+* all `_single` functions used internally are now not exported to facilitate auto-complete

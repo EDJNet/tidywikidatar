@@ -260,7 +260,6 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
 #' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A data frame (a tibble) with eight columns: `title`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`, and `language`.
-#' @export
 #'
 #' @examples
 #' if (interactive()) {

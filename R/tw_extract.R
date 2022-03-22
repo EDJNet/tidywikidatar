@@ -6,7 +6,6 @@
 #' @inheritParams tw_get
 #'
 #' @return A data frame (a tibble) with four columns, such as the one created by `tw_get`.
-#' @export
 #'
 #' @examples
 #' item <- tryCatch(WikidataR::get_item(id = "Q180099"),
@@ -15,7 +14,7 @@
 #'   }
 #' )
 #'
-#' tw_extract_single(w = item)
+#' tidywikidatar:::tw_extract_single(w = item)
 tw_extract_single <- function(w,
                               language = tidywikidatar::tw_get_language()) {
   id <- w %>%

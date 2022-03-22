@@ -36,5 +36,5 @@ A character vector of length 1, with the Wikidata label in the requested languag
 Get label of a Wikidata property in a given language
 }
 \examples{
-tw_get_property_label_single(property = "P31")
+tidywikidatar:::tw_get_property_label_single(property = "P31")
 }

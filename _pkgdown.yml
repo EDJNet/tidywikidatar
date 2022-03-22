@@ -71,7 +71,7 @@ reference:
   contents:
   - starts_with("tw_extract_")
   - tw_get_field
-- title: "Functions made to process only inputs of length one, mostly used internally"
+- title: "Functions made to process only inputs of length one, used internally"
   desc: "The user can safely rely on the correspondent core functions, these have been created separetely mostly for testing and code structure."
   contents:
   - ends_with("_single")

@@ -48,5 +48,5 @@ A data frame (a tibble) with three columns (id, label, and description), and as 
 This search returns only items, use \code{tw_search_property()} for properties.
 }
 \examples{
-tw_search_single(search = "Sylvia Pankhurst")
+tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
 }

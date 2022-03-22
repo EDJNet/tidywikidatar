@@ -10,10 +10,9 @@
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
 #' @return A data.frame (a tibble) with three columns (id, property, and value). If item not found or trouble connecting with the server, an data frame with three columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
-#' @export
 #'
 #' @examples
-#' tw_get_single(
+#' tidywikidatar:::tw_get_single(
 #'   id = "Q180099",
 #'   language = "en"
 #' )
