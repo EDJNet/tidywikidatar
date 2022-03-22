@@ -507,7 +507,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     if (disconnect_db == TRUE) {
       tw_disconnect_from_cache(
-        cache = TRUE,
+        cache = cache,
         cache_connection = db,
         disconnect_db = disconnect_db,
         language = language
@@ -528,7 +528,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
   if (isFALSE(db_result)) {
     if (disconnect_db == TRUE) {
       tw_disconnect_from_cache(
-        cache = TRUE,
+        cache = cache,
         cache_connection = db,
         disconnect_db = disconnect_db,
         language = language
@@ -543,7 +543,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
 
   if (disconnect_db == TRUE) {
     tw_disconnect_from_cache(
-      cache = TRUE,
+      cache = cache,
       cache_connection = db,
       disconnect_db = disconnect_db,
       language = language
@@ -681,7 +681,7 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
 
 
   tw_disconnect_from_cache(
-    cache = TRUE,
+    cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language

@@ -448,7 +448,7 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
   }
 
   tw_disconnect_from_cache(
-    cache = TRUE,
+    cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language

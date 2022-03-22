@@ -44,7 +44,7 @@ tw_get_cached_item <- function(id,
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     tw_disconnect_from_cache(
-      cache = TRUE,
+      cache = cache,
       cache_connection = db,
       disconnect_db = disconnect_db,
       language = language

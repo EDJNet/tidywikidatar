@@ -193,28 +193,20 @@ tw_get_property_same_length <- function(id,
   )
 
   if (is.null(property_df)) {
-    if (disconnect_db == TRUE) {
-      if (isTRUE(tw_check_cache(cache))) {
-        tw_disconnect_from_cache(
-          cache = TRUE,
-          cache_connection = db,
-          disconnect_db = disconnect_db,
-          language = language
-        )
-      }
-    }
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
     return(rep(as.character(NA), length(id)))
   } else if (nrow(property_df) == 0) {
-    if (disconnect_db == TRUE) {
-      if (isTRUE(tw_check_cache(cache))) {
-        tw_disconnect_from_cache(
-          cache = TRUE,
-          cache_connection = db,
-          disconnect_db = disconnect_db,
-          language = language
-        )
-      }
-    }
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
     if (only_first == TRUE) {
       return(rep(as.character(NA), length(id)))
     } else {
@@ -318,7 +310,7 @@ tw_get_property_same_length <- function(id,
 
 
   tw_disconnect_from_cache(
-    cache = TRUE,
+    cache = cache,
     cache_connection = db,
     disconnect_db = disconnect_db,
     language = language

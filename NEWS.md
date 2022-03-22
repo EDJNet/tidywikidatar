@@ -65,3 +65,7 @@
 * keep smooth caching also when a Wikidata item has no values and no label in the current language
 * introduce additional settings in database connections for drivers that need them
 * minor bug fixes
+
+# tidywikidatar 0.5.2
+
+* fix: don't look for cache folder when cache disabled in `tw_get_p()`
