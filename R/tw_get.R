@@ -123,7 +123,7 @@ tw_get_single <- function(id,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = db,
-      disconnect_db = disconnect_db
+      disconnect_db = FALSE
     )
   }
   tw_disconnect_from_cache(

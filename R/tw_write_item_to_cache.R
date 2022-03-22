@@ -82,12 +82,10 @@ tw_write_item_to_cache <- function(item_df,
     append = TRUE
   )
 
-  if (disconnect_db == TRUE) {
-    tw_disconnect_from_cache(
-      cache = cache,
-      cache_connection = db,
-      disconnect_db = disconnect_db,
-      language = language
-    )
-  }
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
+  )
 }
