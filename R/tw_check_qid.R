@@ -11,6 +11,10 @@
 #'
 #' tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA))
 tw_check_qid <- function(id) {
+  if (is.null(id)) {
+    return(character(0L))
+  }
+
   tibble::tibble(id = id) %>%
     dplyr::filter(is.na(id) == FALSE) %>%
     dplyr::distinct(id) %>%

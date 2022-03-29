@@ -159,15 +159,15 @@ tw_get <- function(id,
                    cache_connection = NULL,
                    disconnect_db = TRUE,
                    wait = 0) {
-  if (length(id) == 0) {
-    usethis::ui_stop("`tw_get()` requires `id` of length 1 or more.")
-  }
-
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
 
   unique_id <- tw_check_qid(id)
+
+  if (length(unique_id) == 0) {
+    return(tidywikidatar::tw_empty_item)
+  }
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
