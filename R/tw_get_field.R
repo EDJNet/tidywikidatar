@@ -16,6 +16,10 @@ tw_get_field <- function(df,
                          field,
                          id,
                          language = tidywikidatar::tw_get_language()) {
+  if (sum(is.na(id))==length(id)) {
+    return(rep(as.character(NA),length(id)))
+  }
+
   field_df <- df %>%
     dplyr::filter(
       stringr::str_starts(
