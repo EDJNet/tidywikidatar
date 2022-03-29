@@ -131,6 +131,7 @@
 <h2 class="pkg-version" data-toc-text="0.5.2" id="tidywikidatar-052">tidywikidatar 0.5.2<a class="anchor" aria-label="anchor" href="#tidywikidatar-052"></a></h2>
 <ul><li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
 </li>
+<li>fix: functions depending on <code><a href="../reference/tw_get_field.html">tw_get_field()</a></code> (e.g. <code><a href="../reference/tw_get_label.html">tw_get_label()</a></code>, <code><a href="../reference/tw_get_description.html">tw_get_description()</a></code>) now behaved as expected (return vector of NA of the same length as input) if id input is only NA or a string that is not a Q identifier (with no valid value)</li>
 <li>all <code>_single</code> functions used internally are now not exported to facilitate auto-complete</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
