@@ -733,12 +733,6 @@ tw_get_image_metadata_single <- function(id,
       append = TRUE
     )
 
-    tw_disconnect_from_cache(
-      cache = cache,
-      cache_connection = db,
-      disconnect_db = disconnect_db,
-      language = language
-    )
   }
   tw_disconnect_from_cache(
     cache = cache,
