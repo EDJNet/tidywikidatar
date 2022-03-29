@@ -33,7 +33,7 @@ tw_get_description(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A character vector of length 1, with the Wikidata description in the requested language.
+A character vector of the same length as the vector of id given, with the Wikidata description in the requested language.
 }
 \description{
 Get Wikidata description in given language

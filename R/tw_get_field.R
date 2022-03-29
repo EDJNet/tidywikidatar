@@ -16,12 +16,12 @@ tw_get_field <- function(df,
                          field,
                          id,
                          language = tidywikidatar::tw_get_language()) {
-  if (sum(is.na(id))==length(id)) {
-    return(rep(as.character(NA),length(id)))
+  if (sum(is.na(id)) == length(id)) {
+    return(rep(as.character(NA), length(id)))
   }
 
-  if (length(tw_check_qid(id = id))==0) {
-    return(rep(as.character(NA),length(id)))
+  if (length(tw_check_qid(id = id)) == 0) {
+    return(rep(as.character(NA), length(id)))
   }
 
   field_df <- df %>%

@@ -6,6 +6,7 @@
 \usage{
 tw_get_wikipedia(
   id,
+  full_link = TRUE,
   language = tidywikidatar::tw_get_language(),
   id_df = NULL,
   cache = NULL,
@@ -17,6 +18,8 @@ tw_get_wikipedia(
 }
 \arguments{
 \item{id}{A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart}
+
+\item{full_link}{Logical, defaults to TRUE. If FALSE, returns only the part of the url that corresponds to the title.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -33,7 +36,7 @@ tw_get_wikipedia(
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A character vector of length 1, with the Wikidata label in the requested language.
+A character vector of the same length as the vector of id given, with the Wikipedia link in the requested language.
 }
 \description{
 Get Wikipedia article in given language
