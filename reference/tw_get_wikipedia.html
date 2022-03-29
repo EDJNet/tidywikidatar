@@ -54,6 +54,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tw_get_wikipedia</span><span class="op">(</span>
   <span class="va">id</span>,
+  full_link <span class="op">=</span> <span class="cn">TRUE</span>,
   language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,
   id_df <span class="op">=</span> <span class="cn">NULL</span>,
   cache <span class="op">=</span> <span class="cn">NULL</span>,
@@ -68,6 +69,8 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>id</dt>
 <dd><p>A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart</p></dd>
+<dt>full_link</dt>
+<dd><p>Logical, defaults to TRUE. If FALSE, returns only the part of the url that corresponds to the title.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 <dt>id_df</dt>
@@ -85,7 +88,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A character vector of length 1, with the Wikidata label in the requested language.</p>
+    <p>A character vector of the same length as the vector of id given, with the Wikipedia link in the requested language.</p>
     </div>
 
     <div class="section level2">
