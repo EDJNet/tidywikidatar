@@ -20,6 +20,10 @@ tw_get_field <- function(df,
     return(rep(as.character(NA),length(id)))
   }
 
+  if (length(tw_check_qid(id = id))==0) {
+    return(rep(as.character(NA),length(id)))
+  }
+
   field_df <- df %>%
     dplyr::filter(
       stringr::str_starts(

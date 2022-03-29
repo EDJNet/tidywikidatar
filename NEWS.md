@@ -69,5 +69,5 @@
 # tidywikidatar 0.5.2
 
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
-* fix: functions depending on `tw_get_field()` (e.g. `tw_get_label()`, `tw_get_description()`) now behave as expected if id input is only NA, and no valid value
+* fix: functions depending on `tw_get_field()` (e.g. `tw_get_label()`, `tw_get_description()`) now behaved as expected (return vector of NA of the same length as input) if id input is only NA or a string that is not a Q identifier (with no valid value)
 * all `_single` functions used internally are now not exported to facilitate auto-complete
