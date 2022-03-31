@@ -21,7 +21,7 @@ tw_check_qid <- function(id) {
     dplyr::mutate(id = stringr::str_to_upper(.data$id)) %>%
     dplyr::filter(stringr::str_starts(
       string = .data$id,
-      pattern = "Q[[:digit:]]"
+      pattern = "Q[[:digit:]]+$"
     )) %>%
     dplyr::pull(.data$id)
 }
