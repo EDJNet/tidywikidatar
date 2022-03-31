@@ -4,10 +4,14 @@
 \alias{tw_check_qid}
 \title{Ensures that input appears to be a valid Wikidata id}
 \usage{
-tw_check_qid(id)
+tw_check_qid(id, logical_vector = FALSE, non_id_as_NA = FALSE)
 }
 \arguments{
 \item{id}{A character vector of one or more Wikidata id.}
+
+\item{logical_vector}{Logical, defaults to FALSE. If TRUE, returns a logical vector of the same length as input, where TRUE corresponds to seemingly meaningful Q identifiers.}
+
+\item{non_id_as_NA}{Logical, defaults to FALSE. If TRUE (and if \code{logical_vector} is set to FALSE), a vector of the same length is returned, with NA replacing items that are seemingly not meaningful Q identifiers.}
 }
 \value{
 A character vector with only strings appearing to be Wikidata identifiers; possibly shorter than input
@@ -17,5 +21,11 @@ Mostly used internally by other functions.
 }
 \examples{
 
-tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA))
+tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"))
+
+tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+             logical_vector = TRUE)
+
+tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+             non_id_as_NA = TRUE)
 }
