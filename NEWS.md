@@ -71,5 +71,6 @@
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
 * fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions
 * fix: `tw_get_wikipedia()` consistently returns vector of the same length as input
+* fix: `rank` column mistakenly dropped in some cases when using `tw_get_property()`
 * new: `tw_check_qid()` has more parameters to deal with different use cases
 * all `_single` functions used internally are now not exported to facilitate auto-complete
