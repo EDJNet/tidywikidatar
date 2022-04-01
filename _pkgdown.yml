@@ -7,6 +7,7 @@ reference:
   - tw_get
   - tw_get_property
   - tw_get_qualifiers
+  - tw_get_p_wide
 - title: "Core functions that return character vectors of the same length as input"
   desc: "These are commonly used with piped operations."
   contents:
