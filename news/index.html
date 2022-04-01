@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,7 +129,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.2" id="tidywikidatar-052">tidywikidatar 0.5.2<a class="anchor" aria-label="anchor" href="#tidywikidatar-052"></a></h2>
-<ul><li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
+<ul><li>new feature: <code><a href="../reference/tw_get_p_wide.html">tw_get_p_wide()</a></code> offers a more efficient way to get wide data frames with a number of properties (with relative labels) for a set of Wikidata id; it also facilitates collapsing values for ease of export to csv.</li>
+<li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
 </li>
 <li>fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions</li>
 <li>fix: <code><a href="../reference/tw_get_wikipedia.html">tw_get_wikipedia()</a></code> consistently returns vector of the same length as input</li>
