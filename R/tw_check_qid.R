@@ -13,11 +13,15 @@
 #'
 #' tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"))
 #'
-#' tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
-#'              logical_vector = TRUE)
+#' tw_check_qid(
+#'   id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+#'   logical_vector = TRUE
+#' )
 #'
-#' tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
-#'              non_id_as_NA = TRUE)
+#' tw_check_qid(
+#'   id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+#'   non_id_as_NA = TRUE
+#' )
 tw_check_qid <- function(id,
                          logical_vector = FALSE,
                          non_id_as_NA = FALSE) {
@@ -39,9 +43,10 @@ tw_check_qid <- function(id,
     output_l <- stringr::str_to_upper(id) %in% output_v
     if (non_id_as_NA == TRUE) {
       return(dplyr::if_else(condition = output_l,
-                            true = stringr::str_to_upper(id),
-                            false = as.character(NA),
-                            missing = as.character(NA)))
+        true = stringr::str_to_upper(id),
+        false = as.character(NA),
+        missing = as.character(NA)
+      ))
     } else {
       return(output_l)
     }

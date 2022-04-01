@@ -23,9 +23,13 @@ Mostly used internally by other functions.
 
 tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"))
 
-tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
-             logical_vector = TRUE)
+tw_check_qid(
+  id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+  logical_vector = TRUE
+)
 
-tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
-             non_id_as_NA = TRUE)
+tw_check_qid(
+  id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"),
+  non_id_as_NA = TRUE
+)
 }
