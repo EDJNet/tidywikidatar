@@ -732,7 +732,6 @@ tw_get_image_metadata_single <- function(id,
       value = image_metadata,
       append = TRUE
     )
-
   }
   tw_disconnect_from_cache(
     cache = cache,

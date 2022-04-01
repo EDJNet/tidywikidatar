@@ -100,7 +100,7 @@ tw_get_property <- function(id,
 #' @param preferred Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.
 #' @param latest_start_time Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
+#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or replying on cache.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -217,7 +217,7 @@ tw_get_property_same_length <- function(id,
 
 
 
-  if (preferred==TRUE) {
+  if (preferred == TRUE) {
     preferred_df <- property_df %>%
       dplyr::mutate(rank = factor(rank,
         levels = c(
@@ -235,7 +235,7 @@ tw_get_property_same_length <- function(id,
     }
   }
 
-  if (latest_start_time==TRUE) {
+  if (latest_start_time == TRUE) {
     qualifiers_df <- tw_get_qualifiers(
       id = id,
       p = p,

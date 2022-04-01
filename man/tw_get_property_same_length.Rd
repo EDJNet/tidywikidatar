@@ -48,7 +48,7 @@ tw_get_p(
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{id_df}{Default to NULL. If given, it should be a dataframe typically generated with \code{tw_get_()}, and is used instead of calling Wikidata or using SQLite cache. Ignored when \code{id} is of length more than one.}
+\item{id_df}{Default to NULL. If given, it should be a dataframe typically generated with \code{tw_get_()}, and is used instead of calling Wikidata or replying on cache.}
 
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 

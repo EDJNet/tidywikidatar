@@ -175,7 +175,7 @@ tw_get_wikipedia <- function(id,
   base_string <- stringr::str_c("sitelink_", language, "wiki")
 
   field_df <- id_df %>%
-    dplyr::filter(property == base_string) %>%
+    dplyr::filter(.data$property == base_string) %>%
     dplyr::distinct(.data$id,
       .keep_all = TRUE
     )
