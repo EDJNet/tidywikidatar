@@ -32,7 +32,8 @@ Imports:
     progress,
     jsonlite,
     pool,
-    WikipediR
+    WikipediR,
+    vctrs
 Suggests: 
     spelling,
     roxygen2,

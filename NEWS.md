@@ -68,6 +68,7 @@
 
 # tidywikidatar 0.5.2
 
+* new feature: `tw_get_p_wide()` offers a more efficient way to get wide data frames with a number of properties (with relative labels) for a set of Wikidata id; it also facilitates collapsing values for ease of export to csv.
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
 * fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions
 * fix: `tw_get_wikipedia()` consistently returns vector of the same length as input

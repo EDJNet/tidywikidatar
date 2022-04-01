@@ -283,7 +283,29 @@ students %>%
 
 ```
 
-Starting with version 0.5, to reduce typing, `tw_get_p()` can be used instead of the more verbose `tw_get_property_same_length()`. 
+Starting with version 0.5, to reduce typing, `tw_get_p()` can be used instead of the more verbose `tw_get_property_same_length()`.
+
+Starting with version 0.5.2, a more efficient `tw_get_p_wide()` has been introduced to replicate a common use pattern, i.e. getting a number of property of a given set of identifiers, and retrieving their labels. 
+
+```{r tw_get_p_wide with first}
+tw_get_p_wide(id =  c("Q180099", "Q228822", "Q191095"), 
+              p = c("P27", "P19", "P20"),
+              only_first = TRUE,
+              preferred = TRUE,
+              label = TRUE)
+```
+It is however common for properties to have more than one meaningful value. By default, `tw_get_p_wide()` would get these as lists columns, but there is also an additional parameter to facilitate sharing the result, for example, as a csv file. 
+
+
+```{r tw_get_p_wide collapsed}
+tw_get_p_wide(id = c("Q180099", "Q228822", "Q191095"), 
+              p = c("P108", "P26", "P451"),
+              only_first = TRUE,
+              preferred = TRUE,
+              label = TRUE,
+              unlist = TRUE,
+              collapse = ";")
+```
 
 
 ## Qualifiers
