@@ -54,6 +54,7 @@ tw_get_p_wide <- function(id,
                           cache_connection = NULL,
                           disconnect_db = TRUE,
                           wait = 0) {
+
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -295,7 +296,7 @@ tw_get_p_wide <- function(id,
       dplyr::group_by(id) %>%
       dplyr::mutate(
         dplyr::across(
-          ~ is.list,
+          where(is.list),
           function(x) {
             stringr::str_c(unique(unlist(x)),
               collapse = collapse

@@ -45,3 +45,7 @@
 #' @aliases expr enquo enquos sym syms .data := as_name as_label
 #' @export expr enquo enquos sym syms .data := as_name as_label
 NULL
+
+
+#' @import utils
+utils::globalVariables("where")

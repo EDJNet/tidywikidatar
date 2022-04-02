@@ -33,7 +33,8 @@ Imports:
     jsonlite,
     pool,
     WikipediR,
-    vctrs
+    vctrs,
+    tidyselect
 Suggests: 
     spelling,
     roxygen2,
