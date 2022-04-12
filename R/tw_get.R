@@ -32,9 +32,11 @@ tw_get_single <- function(id,
 
   if (length(id) > 1) {
     usethis::ui_stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
+  } else if (length(id)==0) {
+    return(tidywikidatar::tw_empty_item)
   }
 
-  if (isTRUE(tw_check_cache(cache))) {
+  if (tw_check_cache(cache)==TRUE) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
       language = language,
