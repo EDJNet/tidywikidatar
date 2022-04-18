@@ -117,6 +117,14 @@ tw_filter_first <- function(search,
                             overwrite_cache = FALSE,
                             cache_connection = NULL,
                             disconnect_db = TRUE) {
+  if (tw_check_cache(cache)==TRUE) {
+    db <- tw_connect_to_cache(
+      connection = cache_connection,
+      language = language,
+      cache = cache
+    )
+  }
+
   search_result <- tw_check_search(
     search = search,
     language = language,
@@ -125,8 +133,8 @@ tw_filter_first <- function(search,
     wait = wait,
     cache = cache,
     overwrite_cache = overwrite_cache,
-    cache_connection = cache_connection,
-    disconnect_db = disconnect_db
+    cache_connection = db,
+    disconnect_db = FALSE
   )
 
   if (nrow(search_result) == 0) {
@@ -138,10 +146,26 @@ tw_filter_first <- function(search,
     .f = function(current_row_number) {
       search_result %>%
         dplyr::slice(current_row_number) %>%
-        tw_filter(p = p, q = q) %>%
+        tw_filter(p = p,
+                  q = q,
+                  language = language,
+                  limit = limit,
+                  include_search = include_search,
+                  wait = wait,
+                  cache = cache,
+                  overwrite_cache = overwrite_cache,
+                  cache_connection = cache_connection,
+                  disconnect_db = FALSE) %>%
         nrow() %>%
         `>`(0)
     }
+  )
+
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db,
+    language = language
   )
 
   if (is.null(first_match_id)) {
