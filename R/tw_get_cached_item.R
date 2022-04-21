@@ -129,9 +129,9 @@ tw_get_cache_file <- function(type = NULL,
 
 #' Gets name of table inside the database
 #'
-#' @param type Defaults to "item". Type of cache file to output. Values typically used by `tidywikidatar` include "item", "search", and "qualifier".
+#' @param type Defaults to "item". Type of cache file to output. Values typically used by `tidywikidatar` include "item", "search_item", "search_property", and "qualifier".
 #' @param language Defaults to language set with `tw_set_language()`; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#'
+#' @param response_language Defaults to language set with `tw_set_language()`; "en" if not set. Relevant only when type is set to "search_item" or "search_property". See `tw_search()` for details.
 #' @return A character vector of length one with the name of the relevant table in the cache file.
 #' @export
 #'
@@ -139,7 +139,11 @@ tw_get_cache_file <- function(type = NULL,
 #' # outputs name of table used in the cache database
 #' tw_get_cache_table_name(type = "item", language = "en")
 tw_get_cache_table_name <- function(type = "item",
-                                    language = tidywikidatar::tw_get_language()) {
+                                    language = tidywikidatar::tw_get_language(),
+                                    response_language = tidywikidatar::tw_get_language()) {
+  if (stringr::str_starts(string = type, pattern = "search")) {
+    language <- stringr::str_c(language, "_", response_language)
+  }
   stringr::str_c("tw_", type, "_", language)
 }
 

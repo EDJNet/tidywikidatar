@@ -29,8 +29,6 @@ tw_get_cached_search <- function(search,
     return(tidywikidatar::tw_empty_search)
   }
 
-  language_combo <- stringr::str_c(language, "_", response_language)
-
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language_combo,
@@ -39,7 +37,8 @@ tw_get_cached_search <- function(search,
 
   table_name <- tw_get_cache_table_name(
     type = stringr::str_c("search_", type),
-    language = language_combo
+    language = language,
+    response_language = response_language
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {

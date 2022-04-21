@@ -41,18 +41,16 @@ tw_write_search_to_cache <- function(search_df,
     return(invisible(NULL))
   }
 
-  language_combo <- stringr::str_c(language, "_", response_language)
-
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language_combo,
     cache = cache
   )
 
-
   table_name <- tw_get_cache_table_name(
     type = stringr::str_c("search_", type),
-    language = language_combo
+    language = language,
+    response_language = response_language
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
