@@ -29,6 +29,8 @@ tw_get_cached_search <- function(search,
     return(tidywikidatar::tw_empty_search)
   }
 
+  language_combo <- stringr::str_c(language, "_", response_language)
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language_combo,
