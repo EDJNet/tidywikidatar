@@ -367,7 +367,10 @@ tw_write_qualifiers_to_cache <- function(qualifiers_df,
     cache = cache
   )
 
-  table_name <- tw_get_cache_table_name(type = "qualifiers", language = language)
+  table_name <- tw_get_cache_table_name(
+    type = "qualifiers",
+    language = language
+  )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there

@@ -54,7 +54,6 @@ tw_get_p_wide <- function(id,
                           cache_connection = NULL,
                           disconnect_db = TRUE,
                           wait = 0) {
-
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }

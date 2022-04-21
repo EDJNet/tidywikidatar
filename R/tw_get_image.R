@@ -709,7 +709,10 @@ tw_get_image_metadata_single <- function(id,
   )
 
   if (tw_check_cache(cache) == TRUE) {
-    table_name <- tw_get_cache_table_name(type = "image_metadata", language = language)
+    table_name <- tw_get_cache_table_name(
+      type = "image_metadata",
+      language = language
+    )
 
     if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
       # do nothing: if table does not exist, previous data cannot be there
