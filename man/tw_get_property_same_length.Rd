@@ -3,7 +3,7 @@
 \name{tw_get_property_same_length}
 \alias{tw_get_property_same_length}
 \alias{tw_get_p}
-\title{Get Wikidata property of an item as a character vector of the same length as input}
+\title{Get Wikidata property of an item as a vector or list of the same length as input}
 \usage{
 tw_get_property_same_length(
   id,
@@ -64,7 +64,7 @@ tw_get_p(
 A list of the same length of input (or a character vector is only_first is set to TRUE)
 }
 \description{
-Get Wikidata property of an item as a character vector of the same length as input
+Get Wikidata property of an item as a vector or list of the same length as input
 }
 \examples{
 

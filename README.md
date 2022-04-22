@@ -372,7 +372,9 @@ Using the pipe (`%>%`) when working with Wikidata is often not
 straightforward, due to the fact that a given property may have an
 unspecified number of values. `tidywikidatar` offers dedicated functions
 to work with the pipe more consistently, in particular
-`tw_get_property_same_length()` (or its shorter alias `tw_get_p()`).
+`tw_get_property_same_length()` (or its shorter alias `tw_get_p()`, or
+`tw_get_p1()` to always get a character vector with the first property
+in response).
 
 One main distinction to keep in mind in this context is that for some
 properties we really just expect to have a single value, and we are
@@ -509,7 +511,12 @@ students %>%
 ```
 
 Starting with version 0.5, to reduce typing, `tw_get_p()` can be used
-instead of the more verbose `tw_get_property_same_length()`.
+instead of the more verbose `tw_get_property_same_length()`. By default,
+`tw_get_p()` returns a vector of lists, as it is common for a property
+to have multiple values. If one is interested only in the first
+preferred value associated with a given property, `tw_get_p1()`, which
+consistently returns a character vector of the same length as the input,
+can be used instead.
 
 Starting with version 0.5.2, a more efficient `tw_get_p_wide()` has been
 introduced to replicate a common use pattern, i.e. getting a number of

@@ -92,7 +92,7 @@ tw_get_property <- function(id,
 }
 
 
-#' Get Wikidata property of an item as a character vector of the same length as input
+#' Get Wikidata property of an item as a vector or list of the same length as input
 #'
 #' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
@@ -325,3 +325,40 @@ tw_get_property_same_length <- function(id,
 #' @examples tw_get_p(id = "Q180099", "P26")
 #' @export
 tw_get_p <- tw_get_property_same_length
+
+
+#' Get Wikidata property of an item as a character vector of the same length as input
+#'
+#' This function wraps `tw_get_p()`, but always sets `only_first` and `preferred` to TRUE in order to give back always a character vector.
+#'
+#' @inheritParams tw_get_property_same_length
+#'
+#' @return A character vector of the same length as the input.
+#' @export
+#'
+#' @examples
+#' tw_get_p1(id = "Q180099", "P26")
+tw_get_p1 <- function(id,
+                      p,
+                      latest_start_time = FALSE,
+                      language = tidywikidatar::tw_get_language(),
+                      id_df = NULL,
+                      cache = NULL,
+                      overwrite_cache = FALSE,
+                      cache_connection = NULL,
+                      disconnect_db = TRUE,
+                      wait = 0) {
+  tw_get_property_same_length(id = id,
+                              p = p,
+                              only_first = TRUE,
+                              preferred = TRUE,
+                              latest_start_time = latest_start_time,
+                              language = language,
+                              id_df = id_df,
+                              cache = cache,
+                              overwrite_cache = overwrite_cache,
+                              cache_connection = cache_connection,
+                              disconnect_db = disconnect_db,
+                              wait = wait)
+
+}
