@@ -159,7 +159,7 @@ tw_index_cache_search <- function(table_name = NULL,
                                   disconnect_db = TRUE) {
   if (is.null(table_name) == TRUE) {
     table_name <- tw_get_cache_table_name(
-      type = type,
+      type = stringr::str_c("search_", type),
       language = language,
       response_language = response_language
     )
@@ -198,28 +198,30 @@ tw_index_cache_search <- function(table_name = NULL,
   }
 
   db_no_pool <- pool::poolCheckout(db)
+  driver <- db$fetch()
+
+  if (class(driver) != "SQLiteConnection") {
+    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY search VARCHAR(255);",
+      table_name = table_name,
+      .con = db_no_pool
+    )
+
+    index_odbc_result <- DBI::dbSendQuery(
+      conn = db_no_pool,
+      statement = statement
+    )
 
 
-  statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY search VARCHAR(255);",
-    table_name = table_name,
-    .con = db_no_pool
-  )
+    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
+      table_name = table_name,
+      .con = db_no_pool
+    )
 
-  index_odbc_result <- DBI::dbSendQuery(
-    conn = db_no_pool,
-    statement = statement
-  )
-
-
-  statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
-    table_name = table_name,
-    .con = db_no_pool
-  )
-
-  index_odbc_result <- DBI::dbSendQuery(
-    conn = db_no_pool,
-    statement = statement
-  )
+    index_odbc_result <- DBI::dbSendQuery(
+      conn = db_no_pool,
+      statement = statement
+    )
+  }
 
   statement <- glue::glue_sql("CREATE INDEX search on {`table_name`} (search);",
     table_name = table_name,
@@ -231,6 +233,146 @@ tw_index_cache_search <- function(table_name = NULL,
     statement = statement
   )
 
+  pool::poolReturn(db_no_pool)
+  if (show_details == TRUE) {
+    output <- tw_check_cache_index(
+      table_name = table_name,
+      type = type,
+      show_details = TRUE,
+      language = language,
+      response_language = response_language,
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = FALSE
+    )
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db
+    )
+
+    return(output)
+  }
+
+  tw_disconnect_from_cache(
+    cache = cache,
+    cache_connection = db,
+    disconnect_db = disconnect_db
+  )
+}
+
+
+
+#' Add index to caching table for search queries for increased speed
+#'
+#' Tested only with SQLite and MySql. May work with other drivers.
+#'
+#' To ensure smooth functioning, the search column in the cache table is transformed into a column of type `varchar` and length 255.
+#'
+#' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
+#' @param check_first Logical, defaults to TRUE. If TRUE, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
+#' @param show_details Logical, defaults to FALSE. If FALSE, returnthe function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
+#'
+#' @inheritParams tw_get_cache_table_name
+#' @inheritParams tw_get
+#'
+#' @return If `show_details` is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of `tw_check_cache_index(show_details = TRUE)`.
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   tw_enable_cache()
+#'   tw_set_cache_folder(path = fs::path(
+#'     fs::path_home_r(),
+#'     "R",
+#'     "tw_data"
+#'   ))
+#'
+#'   tw_index_cache_search()
+#' }
+tw_index_cache_item <- function(table_name = NULL,
+                                check_first = TRUE,
+                                type = "item",
+                                show_details = FALSE,
+                                language = tidywikidatar::tw_get_language(),
+                                cache = NULL,
+                                cache_connection = NULL,
+                                disconnect_db = TRUE) {
+  if (is.null(table_name) == TRUE) {
+    table_name <- tw_get_cache_table_name(
+      type = type,
+      language = language
+    )
+  } else {
+    language <- stringr::str_extract(string = table_name, "[a-z][a-z]$")
+  }
+
+  db <- tw_connect_to_cache(
+    connection = cache_connection,
+    language = language,
+    cache = cache
+  )
+
+  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
+    usethis::ui_warn("Table `{table_name}` does not exist.")
+    invisible(return(NULL))
+  }
+
+  if (check_first == TRUE) {
+    check <- tw_check_cache_index(
+      table_name = table_name,
+      type = type,
+      show_details = FALSE,
+      language = language,
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = FALSE
+    )
+
+    if (check == TRUE) {
+      usethis::ui_info("The table {usethis::ui_code(table_name)} is already indexed. No action taken. Set `check` to FALSE to ignore this check.")
+      return(invisible(NULL))
+    }
+  }
+
+  db_no_pool <- pool::poolCheckout(db)
+
+  driver <- db$fetch()
+
+  if (class(driver) != "SQLiteConnection") {
+    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
+      table_name = table_name,
+      .con = db_no_pool
+    )
+
+    index_odbc_result <- DBI::dbSendQuery(
+      conn = db_no_pool,
+      statement = statement
+    )
+
+
+    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY property VARCHAR(50);",
+      table_name = table_name,
+      .con = db_no_pool
+    )
+
+    index_odbc_result <- DBI::dbSendQuery(
+      conn = db_no_pool,
+      statement = statement
+    )
+  }
+
+  statement <- glue::glue_sql("CREATE INDEX qid on {`table_name`} (id, property);",
+    table_name = table_name,
+    .con = db_no_pool
+  )
+
+  index_odbc_result <- DBI::dbSendQuery(
+    conn = db_no_pool,
+    statement = statement
+  )
+
+  pool::poolReturn(db_no_pool)
 
   if (show_details == TRUE) {
     output <- tw_check_cache_index(
@@ -243,6 +385,7 @@ tw_index_cache_search <- function(table_name = NULL,
       cache_connection = db,
       disconnect_db = FALSE
     )
+
     tw_disconnect_from_cache(
       cache = cache,
       cache_connection = db,

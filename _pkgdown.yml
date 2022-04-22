@@ -61,6 +61,8 @@ reference:
   - tw_check_cached_items
   - tw_disconnect_from_cache
   - tw_check_cache_index
+  - tw_index_cache_search
+  - tw_index_cache_item
   - starts_with("tw_get_cache")
   - starts_with("tw_write_")
 - title: "Functions used internally to check for validity of data"
