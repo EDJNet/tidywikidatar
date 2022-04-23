@@ -75,5 +75,5 @@
 * fix: `tw_get_wikipedia()` consistently returns vector of the same length as input
 * fix: `rank` column mistakenly dropped in some cases when using `tw_get_property()`
 * new: `tw_check_qid()` has more parameters to deal with different use cases
-* new: new set of functions to add index to databases to improve efficency when the local cache grows to many millions rows (`tw_check_cache_index()`, `tw_index_cache_item()`, and `tw_index_cache_search()`). Tested with MySql.
+* new: new set of functions to add index to databases to improve performance when the local cache grows to many millions rows (`tw_check_cache_index()`, `tw_index_cache_item()`, and `tw_index_cache_search()`). Tested with MySql.
 * all `_single` functions used internally are now not exported to facilitate auto-complete

@@ -22,7 +22,7 @@ tw_index_cache_item(
 
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search_item", "search_property", and "qualifier".}
 
-\item{show_details}{Logical, defaults to FALSE. If FALSE, returnthe function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.}
+\item{show_details}{Logical, defaults to FALSE. If FALSE, return the function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 

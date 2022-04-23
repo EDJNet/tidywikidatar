@@ -129,7 +129,7 @@ tw_check_cache_index <- function(table_name = NULL,
 #'
 #' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
 #' @param check_first Logical, defaults to TRUE. If TRUE, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
-#' @param show_details Logical, defaults to FALSE. If FALSE, returnthe function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
+#' @param show_details Logical, defaults to FALSE. If FALSE, return the function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
@@ -271,7 +271,7 @@ tw_index_cache_search <- function(table_name = NULL,
 #'
 #' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
 #' @param check_first Logical, defaults to TRUE. If TRUE, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
-#' @param show_details Logical, defaults to FALSE. If FALSE, returnthe function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
+#' @param show_details Logical, defaults to FALSE. If FALSE, return the function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
@@ -380,7 +380,6 @@ tw_index_cache_item <- function(table_name = NULL,
       type = type,
       show_details = TRUE,
       language = language,
-      response_language = response_language,
       cache = cache,
       cache_connection = db,
       disconnect_db = FALSE
