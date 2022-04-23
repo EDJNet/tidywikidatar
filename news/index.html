@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,6 +132,7 @@
 <ul><li>new feature: <code><a href="../reference/tw_get_p_wide.html">tw_get_p_wide()</a></code> offers a more efficient way to get wide data frames with a number of properties (with relative labels) for a set of Wikidata id; it also facilitates collapsing values for ease of export to csv.</li>
 <li>new: introduce <code><a href="../reference/tw_get_p1.html">tw_get_p1()</a></code> as a shorthand for <code>tw_get_p(only_first = TRUE, preferred = TRUE)</code>
 </li>
+<li>new: when pre-cached data is given to functions such as <code><a href="../reference/tw_get_property.html">tw_get_property()</a></code> or <code><a href="../reference/tw_get_label.html">tw_get_label()</a></code>, it looks for missing data if not all are present in given data frame</li>
 <li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
 </li>
 <li>fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions</li>
