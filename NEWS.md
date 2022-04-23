@@ -70,6 +70,7 @@
 
 * new feature: `tw_get_p_wide()` offers a more efficient way to get wide data frames with a number of properties (with relative labels) for a set of Wikidata id; it also facilitates collapsing values for ease of export to csv.
 * new: introduce `tw_get_p1()` as a shorthand for `tw_get_p(only_first = TRUE, preferred = TRUE)`
+* new: when pre-cached data is given to functions such as `tw_get_property()` or `tw_get_label()`, it looks for missing data if not all are present in given data frame
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
 * fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions
 * fix: `tw_get_wikipedia()` consistently returns vector of the same length as input

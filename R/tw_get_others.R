@@ -59,6 +59,23 @@ tw_get_label <- function(id,
     current_id <- id
     id_df <- id_df %>%
       dplyr::filter(.data$id %in% current_id)
+
+    missing_id_v <- current_id[!current_id %in% id_df$id]
+
+    if (length(missing_id_v) > 0) {
+      id_df <- dplyr::bind_rows(
+        id_df,
+        tw_get(
+          id = missing_id_v,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          language = language,
+          wait = wait,
+          disconnect_db = disconnect_db
+        )
+      )
+    }
   }
 
   tw_get_field(
@@ -114,6 +131,27 @@ tw_get_description <- function(id,
       wait = wait,
       disconnect_db = disconnect_db
     )
+  } else {
+    current_id <- id
+    id_df <- id_df %>%
+      dplyr::filter(.data$id %in% current_id)
+
+    missing_id_v <- current_id[!current_id %in% id_df$id]
+
+    if (length(missing_id_v) > 0) {
+      id_df <- dplyr::bind_rows(
+        id_df,
+        tw_get(
+          id = missing_id_v,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          language = language,
+          wait = wait,
+          disconnect_db = disconnect_db
+        )
+      )
+    }
   }
 
   tw_get_field(
@@ -173,6 +211,27 @@ tw_get_wikipedia <- function(id,
       language = language,
       wait = wait
     )
+  } else {
+    current_id <- id
+    id_df <- id_df %>%
+      dplyr::filter(.data$id %in% current_id)
+
+    missing_id_v <- current_id[!current_id %in% id_df$id]
+
+    if (length(missing_id_v) > 0) {
+      id_df <- dplyr::bind_rows(
+        id_df,
+        tw_get(
+          id = missing_id_v,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          language = language,
+          wait = wait,
+          disconnect_db = disconnect_db
+        )
+      )
+    }
   }
 
 

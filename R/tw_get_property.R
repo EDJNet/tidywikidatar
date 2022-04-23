@@ -67,6 +67,26 @@ tw_get_property <- function(id,
       wait = wait,
       disconnect_db = disconnect_db
     )
+  } else {
+    id_df <- id_df %>%
+      dplyr::filter(.data$id %in% unique_id)
+
+    missing_id_v <- unique_id[!unique_id %in% id_df$id]
+
+    if (length(missing_id_v) > 0) {
+      id_df <- dplyr::bind_rows(
+        id_df,
+        tw_get(
+          id = missing_id_v,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = cache_connection,
+          language = language,
+          wait = wait,
+          disconnect_db = disconnect_db
+        )
+      )
+    }
   }
 
   property_df <- id_df %>%
@@ -348,17 +368,18 @@ tw_get_p1 <- function(id,
                       cache_connection = NULL,
                       disconnect_db = TRUE,
                       wait = 0) {
-  tw_get_property_same_length(id = id,
-                              p = p,
-                              only_first = TRUE,
-                              preferred = TRUE,
-                              latest_start_time = latest_start_time,
-                              language = language,
-                              id_df = id_df,
-                              cache = cache,
-                              overwrite_cache = overwrite_cache,
-                              cache_connection = cache_connection,
-                              disconnect_db = disconnect_db,
-                              wait = wait)
-
+  tw_get_property_same_length(
+    id = id,
+    p = p,
+    only_first = TRUE,
+    preferred = TRUE,
+    latest_start_time = latest_start_time,
+    language = language,
+    id_df = id_df,
+    cache = cache,
+    overwrite_cache = overwrite_cache,
+    cache_connection = cache_connection,
+    disconnect_db = disconnect_db,
+    wait = wait
+  )
 }
