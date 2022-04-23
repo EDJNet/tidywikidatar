@@ -55,6 +55,10 @@ tw_get_label <- function(id,
       wait = wait,
       disconnect_db = disconnect_db
     )
+  } else {
+    current_id <- id
+    id_df <- id_df %>%
+      dplyr::filter(.data$id %in% current_id)
   }
 
   tw_get_field(
