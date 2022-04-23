@@ -160,6 +160,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_label.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p1.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p_wide.html</loc>
   </url>
   <url>
@@ -224,6 +227,12 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_sections_api_url.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_item.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_search.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_label.html</loc>

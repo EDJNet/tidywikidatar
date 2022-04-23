@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +80,7 @@
 <p>For the latest fixes and improvements, you can install the development version from <a href="https://github.com/EDJNet/tidywikidatar" class="external-link">Github</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"EDJNet/tidywikidatar"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EDJNet/tidywikidatar"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="limitations-and-known-issues">Limitations and known issues<a class="anchor" aria-label="anchor" href="#limitations-and-known-issues"></a>
@@ -279,7 +279,7 @@
 <div class="section level2">
 <h2 id="piped-operations">Piped operations<a class="anchor" aria-label="anchor" href="#piped-operations"></a>
 </h2>
-<p>Using the pipe (<code>%&gt;%</code>) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. <code>tidywikidatar</code> offers dedicated functions to work with the pipe more consistently, in particular <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> (or its shorter alias <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code>).</p>
+<p>Using the pipe (<code>%&gt;%</code>) when working with Wikidata is often not straightforward, due to the fact that a given property may have an unspecified number of values. <code>tidywikidatar</code> offers dedicated functions to work with the pipe more consistently, in particular <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code> (or its shorter alias <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code>, or <code><a href="reference/tw_get_p1.html">tw_get_p1()</a></code> to always get a character vector with the first property in response).</p>
 <p>One main distinction to keep in mind in this context is that for some properties we really just expect to have a single value, and we are happy to dismiss other values that may be present, while in other cases we expect and want to retain more values.</p>
 <p>For example, some Wikidata items have two reported dates of birth for a single individual, possibly due to disagreements among historians about the actual date of birth of the given person. If this is not specifically the issue we are interested it, we may well be want just to keep the first reported date of birth and dismiss the others. In other cases, we probably want to retain all properties, and process them further in subsequent steps of the pipe.</p>
 <p>Let’s look at some of these issues with an example.</p>
@@ -382,7 +382,7 @@
 <span class="co">#&gt; 17 Paul Radin                    University of Chicago      41.7897222222… -87.…</span>
 <span class="co">#&gt; 18 Paul Radin                    Fisk University            36.1688        -86.…</span>
 <span class="co">#&gt; 19 Paul Radin                    Brandeis University        42.36566       -71.…</span></code></pre></div>
-<p>Starting with version 0.5, to reduce typing, <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code> can be used instead of the more verbose <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code>.</p>
+<p>Starting with version 0.5, to reduce typing, <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code> can be used instead of the more verbose <code><a href="reference/tw_get_property_same_length.html">tw_get_property_same_length()</a></code>. By default, <code><a href="reference/tw_get_property_same_length.html">tw_get_p()</a></code> returns a vector of lists, as it is common for a property to have multiple values. If one is interested only in the first preferred value associated with a given property, <code><a href="reference/tw_get_p1.html">tw_get_p1()</a></code>, which consistently returns a character vector of the same length as the input, can be used instead.</p>
 <p>Starting with version 0.5.2, a more efficient <code><a href="reference/tw_get_p_wide.html">tw_get_p_wide()</a></code> has been introduced to replicate a common use pattern, i.e. getting a number of property of a given set of identifiers, and retrieving their labels.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tw_get_p_wide.html">tw_get_p_wide</a></span><span class="op">(</span>id <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q180099"</span>, <span class="st">"Q228822"</span>, <span class="st">"Q191095"</span><span class="op">)</span>, 

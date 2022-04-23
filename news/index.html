@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,6 +130,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.2" id="tidywikidatar-052">tidywikidatar 0.5.2<a class="anchor" aria-label="anchor" href="#tidywikidatar-052"></a></h2>
 <ul><li>new feature: <code><a href="../reference/tw_get_p_wide.html">tw_get_p_wide()</a></code> offers a more efficient way to get wide data frames with a number of properties (with relative labels) for a set of Wikidata id; it also facilitates collapsing values for ease of export to csv.</li>
+<li>new: introduce <code><a href="../reference/tw_get_p1.html">tw_get_p1()</a></code> as a shorthand for <code>tw_get_p(only_first = TRUE, preferred = TRUE)</code>
+</li>
 <li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
 </li>
 <li>fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions</li>
@@ -137,6 +139,7 @@
 <li>fix: <code>rank</code> column mistakenly dropped in some cases when using <code><a href="../reference/tw_get_property.html">tw_get_property()</a></code>
 </li>
 <li>new: <code><a href="../reference/tw_check_qid.html">tw_check_qid()</a></code> has more parameters to deal with different use cases</li>
+<li>new: new set of functions to add index to databases to improve performance when the local cache grows to many millions rows (<code><a href="../reference/tw_check_cache_index.html">tw_check_cache_index()</a></code>, <code><a href="../reference/tw_index_cache_item.html">tw_index_cache_item()</a></code>, and <code><a href="../reference/tw_index_cache_search.html">tw_index_cache_search()</a></code>). Tested with MySql.</li>
 <li>all <code>_single</code> functions used internally are now not exported to facilitate auto-complete</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
