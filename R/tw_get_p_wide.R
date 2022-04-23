@@ -295,7 +295,7 @@ tw_get_p_wide <- function(id,
         overwrite_cache = overwrite_cache,
         cache_connection = db,
         disconnect_db = FALSE,
-        id_df = id_df,
+        id_df = id_df_label,
         wait = wait
       )) %>%
       dplyr::left_join(
@@ -318,7 +318,7 @@ tw_get_p_wide <- function(id,
 
   if (unlist == TRUE & only_first == FALSE) {
     output_df %>%
-      dplyr::group_by(id) %>%
+      dplyr::group_by(.data$id) %>%
       dplyr::mutate(
         dplyr::across(
           where(is.list),
