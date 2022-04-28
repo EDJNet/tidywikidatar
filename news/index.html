@@ -133,6 +133,7 @@
 <li>new: introduce <code><a href="../reference/tw_get_p1.html">tw_get_p1()</a></code> as a shorthand for <code>tw_get_p(only_first = TRUE, preferred = TRUE)</code>
 </li>
 <li>new: when pre-cached data is given to functions such as <code><a href="../reference/tw_get_property.html">tw_get_property()</a></code> or <code><a href="../reference/tw_get_label.html">tw_get_label()</a></code>, it looks for missing data if not all are present in given data frame</li>
+<li>new: introduce cache indexing convenience functions, <code><a href="../reference/tw_index_cache_item.html">tw_index_cache_item()</a></code> and <code><a href="../reference/tw_index_cache_search.html">tw_index_cache_search()</a></code>. These should be significantly improved performance on the caching backend, but these are currently introduced as an opt-in as they have not been thoroughly tested with different database drivers. Running them once drastically improve performance with MySql when the cache goes into million of items. See also the vignette on caching.</li>
 <li>fix: don’t look for cache folder when cache disabled in <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code>
 </li>
 <li>fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions</li>
