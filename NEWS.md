@@ -73,6 +73,7 @@
 * new: when pre-cached data is given to functions such as `tw_get_property()` or `tw_get_label()`, it looks for missing data if not all are present in given data frame
 * fix: don't look for cache folder when cache disabled in `tw_get_p()`
 * fix: better handling of cases when NA (including, a vector with only NA), or NULL, are given as input to various functions
+* fix: when only a partial pre-cached data frame is passed to `tw_get()` and other functions as input, missing items are queried
 * fix: `tw_get_wikipedia()` consistently returns vector of the same length as input
 * fix: `rank` column mistakenly dropped in some cases when using `tw_get_property()`
 * new: `tw_check_qid()` has more parameters to deal with different use cases
