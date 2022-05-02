@@ -316,23 +316,25 @@ tw_get_property(
   p = "P166",
   language = "en"
 ) 
-#> # A tibble: 14 × 4
-#>    id      property value     rank  
-#>    <chr>   <chr>    <chr>     <chr> 
-#>  1 Q180099 P166     Q17144    normal
-#>  2 Q180099 P166     Q782022   normal
-#>  3 Q180099 P166     Q8017107  normal
-#>  4 Q180099 P166     Q1967852  normal
-#>  5 Q180099 P166     Q52382875 normal
-#>  6 Q228822 P166     Q1967852  normal
-#>  7 Q228822 P166     Q52382875 normal
-#>  8 Q228822 P166     Q752297   normal
-#>  9 Q220480 P166     Q1316544  normal
-#> 10 Q220480 P166     Q1967852  normal
-#> 11 Q220480 P166     Q5461701  normal
-#> 12 Q220480 P166     Q5461189  normal
-#> 13 Q220480 P166     Q4765305  normal
-#> 14 Q220480 P166     Q1316544  normal
+#> # A tibble: 16 × 4
+#>    id      property value      rank  
+#>    <chr>   <chr>    <chr>      <chr> 
+#>  1 Q180099 P166     Q17144     normal
+#>  2 Q180099 P166     Q782022    normal
+#>  3 Q180099 P166     Q8017107   normal
+#>  4 Q180099 P166     Q1967852   normal
+#>  5 Q180099 P166     Q52382875  normal
+#>  6 Q180099 P166     Q110471679 normal
+#>  7 Q180099 P166     Q110939855 normal
+#>  8 Q228822 P166     Q1967852   normal
+#>  9 Q228822 P166     Q52382875  normal
+#> 10 Q228822 P166     Q752297    normal
+#> 11 Q220480 P166     Q1316544   normal
+#> 12 Q220480 P166     Q1967852   normal
+#> 13 Q220480 P166     Q5461701   normal
+#> 14 Q220480 P166     Q5461189   normal
+#> 15 Q220480 P166     Q4765305   normal
+#> 16 Q220480 P166     Q1316544   normal
 ```
 
 Again, Wikidata ids. We can of course get their relative labels using
@@ -347,7 +349,7 @@ tw_get_property(
   language = "en"
 ) %>% 
   tw_label()
-#> # A tibble: 14 × 4
+#> # A tibble: 16 × 4
 #>    id                 property       value                                 rank 
 #>    <chr>              <chr>          <chr>                                 <chr>
 #>  1 Margaret Mead      award received Presidential Medal of Freedom         norm…
@@ -355,15 +357,17 @@ tw_get_property(
 #>  3 Margaret Mead      award received William Procter Prize for Scientific… norm…
 #>  4 Margaret Mead      award received National Women's Hall of Fame         norm…
 #>  5 Margaret Mead      award received AAAS Fellow                           norm…
-#>  6 Ruth Benedict      award received National Women's Hall of Fame         norm…
-#>  7 Ruth Benedict      award received AAAS Fellow                           norm…
-#>  8 Ruth Benedict      award received Doctor of Philosophy                  norm…
-#>  9 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
-#> 10 Zora Neale Hurston award received National Women's Hall of Fame         norm…
-#> 11 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…
-#> 12 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…
-#> 13 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…
-#> 14 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
+#>  6 Margaret Mead      award received honorary doctor of the University of… norm…
+#>  7 Margaret Mead      award received Gold Medal of the Society of Woman G… norm…
+#>  8 Ruth Benedict      award received National Women's Hall of Fame         norm…
+#>  9 Ruth Benedict      award received AAAS Fellow                           norm…
+#> 10 Ruth Benedict      award received Doctor of Philosophy                  norm…
+#> 11 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
+#> 12 Zora Neale Hurston award received National Women's Hall of Fame         norm…
+#> 13 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…
+#> 14 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…
+#> 15 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…
+#> 16 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
 ```
 
 ## Piped operations
@@ -594,7 +598,7 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 ``` r
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
-#> # A tibble: 26 × 8
+#> # A tibble: 27 × 8
 #>    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…
 #>    <chr> <chr>    <chr>        <chr>            <chr>           <chr>           
 #>  1 Q239… P39      Q740126      P580             +2019-07-03T00… time            
@@ -605,9 +609,9 @@ qualifiers_df
 #>  6 Q239… P39      Q27169       P580             +2019-07-02T00… time            
 #>  7 Q239… P39      Q27169       P582             +2022-01-11T00… time            
 #>  8 Q239… P39      Q27169       P1534            Q5247364        wikibase-entity…
-#>  9 Q239… P39      Q27169       P2937            Q64038205       wikibase-entity…
-#> 10 Q239… P39      Q27169       P4100            Q507343         wikibase-entity…
-#> # … with 16 more rows, and 2 more variables: rank <chr>, set <dbl>
+#>  9 Q239… P39      Q27169       P1366            Q110513292      wikibase-entity…
+#> 10 Q239… P39      Q27169       P2937            Q64038205       wikibase-entity…
+#> # … with 17 more rows, and 2 more variables: rank <chr>, set <dbl>
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -655,10 +659,11 @@ qualifiers_labelled_df %>%
 | David Sassoli | position held | President of the European Parliament | replaces            | Antonio Tajani                                   |   1 |
 | David Sassoli | position held | President of the European Parliament | end time            | 2022-01-11                                       |   1 |
 | David Sassoli | position held | President of the European Parliament | end cause           | death in office                                  |   1 |
-| David Sassoli | position held | President of the European Parliament | replaced by         | Roberta Metsola Tedesco Triccas                  |   1 |
+| David Sassoli | position held | President of the European Parliament | replaced by         | Roberta Metsola                                  |   1 |
 | David Sassoli | position held | member of the European Parliament    | start time          | 2019-07-02                                       |   2 |
 | David Sassoli | position held | member of the European Parliament    | end time            | 2022-01-11                                       |   2 |
 | David Sassoli | position held | member of the European Parliament    | end cause           | death in office                                  |   2 |
+| David Sassoli | position held | member of the European Parliament    | replaced by         | Camilla Laureti                                  |   2 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary term  | Ninth European Parliament                        |   2 |
 | David Sassoli | position held | member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   2 |
 | David Sassoli | position held | member of the European Parliament    | electoral district  | Italy                                            |   2 |
@@ -881,27 +886,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 793 Columns: 3
+#> Rows: 809 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 793 × 3
-#>    id       label                        description                            
-#>    <chr>    <chr>                        <chr>                                  
-#>  1 Q2619347 Dinie Aikema                 <NA>                                   
-#>  2 Q2635392 Anda Kerkhoven               Dutch resistance fighter               
-#>  3 Q2639558 Jet Berdenis van Berlekom    <NA>                                   
-#>  4 Q2646969 Alice Wosikowski             German politician                      
-#>  5 Q2660374 Nina Baumgarten              <NA>                                   
-#>  6 Q2696526 Ada van Rossem               Dutch resistance fighter (1915-2000)   
-#>  7 Q2696536 Yolande Beekman              French SOE agent                       
-#>  8 Q2706683 Gerritdina Benders-Letteboer <NA>                                   
-#>  9 Q2719616 Tosia Altman                 Member of the Polish resistance in Wor…
-#> 10 Q2784601 Mathilde Verspyck            <NA>                                   
-#> # … with 783 more rows
+#> # A tibble: 809 × 3
+#>    id       label                     description                               
+#>    <chr>    <chr>                     <chr>                                     
+#>  1 Q2918619 Hester van Lennep         <NA>                                      
+#>  2 Q2937677 Truus Menger-Oversteegen  Dutch sculptor, painter, and wartime resi…
+#>  3 Q3009723 Cécile Cerf               French resistance member (1916-1973)      
+#>  4 Q3018636 Reina Prinsen Geerligs    Dutch writer and resistance fighter (1922…
+#>  5 Q3032952 Djignabo Badji            Senegalese activist                       
+#>  6 Q3058929 Estera Heiber-Fajersztejn <NA>                                      
+#>  7 Q3061239 Eva Fastag                polish-born Holocaust survivor            
+#>  8 Q3081207 Francine Fromond          <NA>                                      
+#>  9 Q3092277 Felicie Perelman          Polish writer                             
+#> 10 Q3104187 Germaine Guérin Dirique   <NA>                                      
+#> # … with 799 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -919,27 +924,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 131 Columns: 3
+#> Rows: 134 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 131 × 3
-#>    id        label                           description                        
-#>    <chr>     <chr>                           <chr>                              
-#>  1 Q270319   Christiane Desroches Noblecourt egittologa e archeologa francese   
-#>  2 Q2696536  Yolande Beekman                 espionne et agente secret des Spec…
-#>  3 Q78072194 Aimée Stitelmann                passeuse franco-suisse durant la s…
-#>  4 Q79800420 Gabrielle Martinez-Picabia      résistante française               
-#>  5 Q83832570 Alice Gillig                    résistante française               
-#>  6 Q84080188 Lucienne Welschinger            résistante alsacienne              
-#>  7 Q84184167 Marcelle Bidault                résistante française               
-#>  8 Q84608915 Q84608915                       <NA>                               
-#>  9 Q85621169 Marie-Antoinette Pappé          bibliothécaire française           
-#> 10 Q88766484 Paulette Fink                   résistante et activiste juive      
-#> # … with 121 more rows
+#> # A tibble: 134 × 3
+#>    id         label                 description                                 
+#>    <chr>      <chr>                 <chr>                                       
+#>  1 Q2696536   Yolande Beekman       espionne et agente secret des Special Opera…
+#>  2 Q3009723   Cécile Cerf           résistante française                        
+#>  3 Q3081207   Francine Fromond      <NA>                                        
+#>  4 Q3132483   Henriette Moriamé     <NA>                                        
+#>  5 Q18121470  Antoinette d'Harcourt poétesse et résistante française            
+#>  6 Q19300907  Lucette Pla-Justafré  enseignante et personnalité politique franç…
+#>  7 Q19606396  Anise Postel-Vinay    résistante française                        
+#>  8 Q19631204  Cécile Rol-Tanguy     résistante française                        
+#>  9 Q109251934 Jeanne Bleton-Barraud résistante française                        
+#> 10 Q109252587 Louise Losserand      résistante et déportée française            
+#> # … with 124 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -958,7 +963,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 131 Columns: 3
+#> Rows: 134 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -966,9 +971,9 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 1 × 4
-#>   label                           description        year_of_birth year_of_death
-#>   <chr>                           <chr>                      <dbl>         <dbl>
-#> 1 Christiane Desroches Noblecourt French egyptologi…          1913          2011
+#>   label         description year_of_birth year_of_death
+#>   <chr>         <chr>               <dbl>         <dbl>
+#> 1 Simone Lurçat <NA>                 1915          2009
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
@@ -1022,7 +1027,7 @@ wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
 wikipedia_df
-#> # A tibble: 892 × 8
+#> # A tibble: 793 × 8
 #>    source_title_url source_wikipedia_ti… source_qid wikipedia_title wikipedia_id
 #>    <chr>            <chr>                <chr>      <chr>                  <int>
 #>  1 Margaret Mead    Margaret Mead        Q180099    Alex Barker               NA
@@ -1031,11 +1036,11 @@ wikipedia_df
 #>  4 Margaret Mead    Margaret Mead        Q180099    Continuities i…           NA
 #>  5 Margaret Mead    Margaret Mead        Q180099    Culture and Co…           NA
 #>  6 Margaret Mead    Margaret Mead        Q180099    John P. Gillin            NA
-#>  7 Margaret Mead    Margaret Mead        Q180099    A Darwinian Le…      3890352
-#>  8 Margaret Mead    Margaret Mead        Q180099    A Rap on Race       14527943
-#>  9 Margaret Mead    Margaret Mead        Q180099    Abby Kelley          4056835
-#> 10 Margaret Mead    Margaret Mead        Q180099    Abigail Adams         102745
-#> # … with 882 more rows, and 3 more variables: qid <chr>, description <chr>,
+#>  7 Margaret Mead    Margaret Mead        Q180099    Martin Orans              NA
+#>  8 Margaret Mead    Margaret Mead        Q180099    A Darwinian Le…      3890352
+#>  9 Margaret Mead    Margaret Mead        Q180099    A Rap on Race       14527943
+#> 10 Margaret Mead    Margaret Mead        Q180099    Abby Kelley          4056835
+#> # … with 783 more rows, and 3 more variables: qid <chr>, description <chr>,
 #> #   language <chr>
 ```
 
@@ -1101,7 +1106,7 @@ tw_get_image_metadata(id = "Q180099") %>%
 #>  2 image_filename             "Margaret Mead (1901-1978).jpg"                   
 #>  3 object_name                "Margaret Mead (1901-1978)"                       
 #>  4 image_description          "<b>Subject</b>: Mead, Margaret\n<p>       Intern…
-#>  5 categories                 "Black and white photographs of female heads|Blac…
+#>  5 categories                 "!Mais Teoria da História na Wiki (Mulheres)|Blac…
 #>  6 assessments                ""                                                
 #>  7 credit                     "<p><a rel=\"nofollow\" class=\"external text\" h…
 #>  8 artist                     "<a rel=\"nofollow\" class=\"external text\" href…
@@ -1110,8 +1115,8 @@ tw_get_image_metadata(id = "Q180099") %>%
 #> 11 license_url                "https://www.flickr.com/commons/usage/"           
 #> 12 license                     <NA>                                             
 #> 13 usage_terms                "No known copyright restrictions"                 
-#> 14 attribution_required       "0"                                               
-#> 15 copyrighted                "1"                                               
+#> 14 attribution_required       "FALSE"                                           
+#> 15 copyrighted                "TRUE"                                            
 #> 16 restrictions               ""                                                
 #> 17 date_time                  "2019-07-02 03:33:00"                             
 #> 18 date_time_original         "18 July 2011, 16:02"                             
