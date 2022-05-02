@@ -34,7 +34,6 @@ Imports:
     pool,
     WikipediR,
     vctrs,
-    tidyselect,
     pool
 Suggests: 
     spelling,
