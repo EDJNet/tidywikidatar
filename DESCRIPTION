@@ -34,7 +34,8 @@ Imports:
     pool,
     WikipediR,
     vctrs,
-    tidyselect
+    tidyselect,
+    pool
 Suggests: 
     spelling,
     roxygen2,
