@@ -7,7 +7,7 @@
 tw_connect_to_cache(
   connection = NULL,
   RSQLite = NULL,
-  language = NULL,
+  language = tidywikidatar::tw_get_language(),
   cache = NULL
 )
 }
