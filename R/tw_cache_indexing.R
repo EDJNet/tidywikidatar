@@ -204,7 +204,7 @@ tw_index_cache_search <- function(table_name = NULL,
   db_no_pool <- pool::poolCheckout(db)
   driver <- db$fetch()
 
-  if (class(driver) != "SQLiteConnection") {
+  if (inherits(x = driver, "SQLiteConnection") == FALSE) {
     statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY search VARCHAR(255);",
       table_name = table_name,
       .con = db_no_pool
