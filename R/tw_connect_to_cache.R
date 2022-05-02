@@ -40,7 +40,7 @@ tw_connect_to_cache <- function(connection = NULL,
                                 RSQLite = NULL,
                                 language = tidywikidatar::tw_get_language(),
                                 cache = NULL) {
-  if (tw_check_cache(cache)==FALSE) {
+  if (tw_check_cache(cache) == FALSE) {
     return(NULL)
   }
 
@@ -51,7 +51,7 @@ tw_connect_to_cache <- function(connection = NULL,
   }
 
   if (is.null(connection)) {
-    if (is.null(language) == FALSE) {
+    if (is.null(language) == TRUE) {
       language <- tw_get_language()
     }
 
