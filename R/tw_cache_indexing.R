@@ -50,6 +50,10 @@ tw_check_cache_index <- function(table_name = NULL,
     cache = cache
   )
 
+  if (is.null(db)) {
+    usethis::ui_stop("No valid connection found. Enable caching with `tw_enable_cache()` or through the relevant parameters.")
+  }
+
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     usethis::ui_warn("Table `{table_name}` does not exist.")
     invisible(return(NULL))
