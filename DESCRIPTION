@@ -6,7 +6,7 @@ Authors@R:
              family = "Comai",
              role = c("aut", "cre", "cph"),
              email = "g@giorgiocomai.eu",
-             comment = c(ORCID = "0000-0002-0515-9542")), 
+             comment = c(ORCID = "0000-0002-0515-9542")),
       person(given = "EDJNet",
              role = "fnd"))
 Description: Query 'Wikidata' API <https://www.wikidata.org/wiki/Wikidata:Main_Page> with ease, get tidy data frames in response, and cache data in a local 'SQLite' database.
