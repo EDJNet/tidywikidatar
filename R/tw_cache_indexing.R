@@ -57,7 +57,7 @@ tw_check_cache_index <- function(table_name = NULL,
 
   driver <- db$fetch()
 
-  if (class(driver) == "SQLiteConnection") {
+  if (inherits(x = driver, "SQLiteConnection")) {
     db_no_pool <- pool::poolCheckout(db)
 
     statement <- glue::glue_sql("PRAGMA INDEX_LIST({`table_name`});",
