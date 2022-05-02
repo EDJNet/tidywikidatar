@@ -141,6 +141,7 @@
 <li>fix: <code><a href="../reference/tw_get_wikipedia.html">tw_get_wikipedia()</a></code> consistently returns vector of the same length as input</li>
 <li>fix: <code>rank</code> column mistakenly dropped in some cases when using <code><a href="../reference/tw_get_property.html">tw_get_property()</a></code>
 </li>
+<li>fix: when caching language is set manually via parameter (instead of via environment variable), a separate SQLite databse is used, as expected</li>
 <li>new: <code><a href="../reference/tw_check_qid.html">tw_check_qid()</a></code> has more parameters to deal with different use cases</li>
 <li>new: new set of functions to add index to databases to improve performance when the local cache grows to many millions rows (<code><a href="../reference/tw_check_cache_index.html">tw_check_cache_index()</a></code>, <code><a href="../reference/tw_index_cache_item.html">tw_index_cache_item()</a></code>, and <code><a href="../reference/tw_index_cache_search.html">tw_index_cache_search()</a></code>). Tested with MySql.</li>
 <li>all <code>_single</code> functions used internally are now not exported to facilitate auto-complete</li>
