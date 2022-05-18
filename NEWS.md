@@ -81,4 +81,4 @@
 * new: `tw_check_qid()` has more parameters to deal with different use cases
 * new: new set of functions to add index to databases to improve performance when the local cache grows to many millions rows (`tw_check_cache_index()`, `tw_index_cache_item()`, and `tw_index_cache_search()`). Tested with MySql.
 * all `_single` functions used internally are now not exported to facilitate auto-complete
-* new mantainer email address due to CRAN issues
+* new maintainer email address due to CRAN issues
