@@ -5,7 +5,7 @@ Authors@R:
     c(person(given = "Giorgio",
              family = "Comai",
              role = c("aut", "cre", "cph"),
-             email = "g@giorgiocomai.eu",
+             email = "giorgio.comai@cci.tn.it",
              comment = c(ORCID = "0000-0002-0515-9542")),
       person(given = "EDJNet",
              role = "fnd"))
