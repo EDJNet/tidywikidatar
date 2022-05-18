@@ -13,7 +13,7 @@ Description: Query 'Wikidata' API <https://www.wikidata.org/wiki/Wikidata:Main_P
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Imports: 
     magrittr,
     dplyr,
