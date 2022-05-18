@@ -343,7 +343,7 @@ tw_index_cache_item <- function(table_name = NULL,
 
   driver <- db$fetch()
 
-  if (class(driver) != "SQLiteConnection") {
+  if (inherits(x = driver, "SQLiteConnection") == FALSE) {
     statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
       table_name = table_name,
       .con = db_no_pool
