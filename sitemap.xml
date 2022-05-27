@@ -79,6 +79,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_search.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_category_members.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc>
   </url>
   <url>
@@ -128,6 +131,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_search.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_category_members.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_links.html</loc>
@@ -202,6 +208,12 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_base_api_url.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members_single.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links.html</loc>
   </url>
   <url>
@@ -253,6 +265,9 @@
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.html</loc>
   </url>
   <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_category_members_cache.html</loc>
+  </url>
+  <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_cache.html</loc>
   </url>
   <url>
@@ -293,6 +308,9 @@
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_category_members_to_cache.html</loc>
   </url>
   <url>
     <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_links_to_cache.html</loc>

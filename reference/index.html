@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -180,6 +180,16 @@ Wikidata identifiers</dd>
           <code><a href="tw_get_wikipedia_base_api_url.html">tw_get_wikipedia_base_api_url()</a></code> 
         </dt>
         <dd>Facilitates the creation of MediaWiki API base URLs</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages (or files, or subcategories) that are members of the given category,</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_get_wikipedia_category_members_single.html">tw_get_wikipedia_category_members_single()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
       </dl><dl><dt>
           
           <code><a href="tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> 
@@ -382,6 +392,11 @@ Wikidata identifiers</dd>
         <dd>Reset qualifiers cache</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_reset_wikipedia_category_members_cache.html">tw_reset_wikipedia_category_members_cache()</a></code> 
+        </dt>
+        <dd>Reset Wikipedia category members cache</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_reset_wikipedia_page_cache.html">tw_reset_wikipedia_page_cache()</a></code> 
         </dt>
         <dd>Reset Wikipedia page cache</dd>
@@ -478,6 +493,11 @@ Wikidata identifiers</dd>
         <dd>Retrieve cached search</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_get_cached_wikipedia_category_members.html">tw_get_cached_wikipedia_category_members()</a></code> 
+        </dt>
+        <dd>Gets members of Wikipedia categories from local cache</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_get_cached_wikipedia_page_links.html">tw_get_cached_wikipedia_page_links()</a></code> 
         </dt>
         <dd>Gets links of Wikipedia pages from local cache</dd>
@@ -516,6 +536,11 @@ Wikidata identifiers</dd>
           <code><a href="tw_write_search_to_cache.html">tw_write_search_to_cache()</a></code> 
         </dt>
         <dd>Writes search to cache</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_write_wikipedia_category_members_to_cache.html">tw_write_wikipedia_category_members_to_cache()</a></code> 
+        </dt>
+        <dd>Write Wikipedia page links to cache</dd>
       </dl><dl><dt>
           
           <code><a href="tw_write_wikipedia_page_links_to_cache.html">tw_write_wikipedia_page_links_to_cache()</a></code> 
@@ -616,6 +641,11 @@ Wikidata identifiers</dd>
         <dd>Return (most) information from a Wikidata item in a tidy format</dd>
       </dl><dl><dt>
           
+          <code><a href="tw_get_wikipedia_category_members_single.html">tw_get_wikipedia_category_members_single()</a></code> 
+        </dt>
+        <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
+      </dl><dl><dt>
+          
           <code><a href="tw_get_wikipedia_page_links_single.html">tw_get_wikipedia_page_links_single()</a></code> 
         </dt>
         <dd>Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given page</dd>
@@ -665,6 +695,11 @@ Wikidata identifiers</dd>
           <code><a href="tw_empty_search.html">tw_empty_search</a></code> 
         </dt>
         <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_search.html">tw_search()</a></code> would not return any value.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tw_empty_wikipedia_category_members.html">tw_empty_wikipedia_category_members</a></code> 
+        </dt>
+        <dd>A zero-rows tibble used internally when <code><a href="../reference/tw_empty_wikipedia_category_members.html">tw_empty_wikipedia_category_members()</a></code> would not return any value.</dd>
       </dl><dl><dt>
           
           <code><a href="tw_empty_wikipedia_page.html">tw_empty_wikipedia_page</a></code> 
