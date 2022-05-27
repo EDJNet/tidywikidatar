@@ -69,6 +69,8 @@
 <dd><p>A data frame typically generated with <code><a href="tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code>.</p></dd>
 <dt>language</dt>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dt>type</dt>
+<dd><p>Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to <code>cmtype</code>. For details, see <a href="https://www.mediawiki.org/wiki/API:Categorymembers" class="external-link">https://www.mediawiki.org/wiki/API:Categorymembers</a></p></dd>
 <dt>cache</dt>
 <dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 <dt>overwrite_cache</dt>
