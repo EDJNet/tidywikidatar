@@ -56,3 +56,8 @@
 #'
 #' @format A data frame with 0 rows and 19 columns
 "tw_empty_image_metadata"
+
+#' A zero-rows tibble used internally when `tw_empty_wikipedia_category_members()` would not return any value.
+#'
+#' @format A data frame with 0 rows and 3 columns
+"tw_empty_wikipedia_category_members"
