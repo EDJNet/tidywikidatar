@@ -16,8 +16,9 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   sub_categories <- tw_get_wikipedia_category_members(category = "Category:American women anthropologists",
-#'                                                       type = "subcat")
+#'   sub_categories <- tw_get_wikipedia_category_members(
+#'     category = "Category:American women anthropologists",
+#'     type = "subcat")
 #'
 #'   sub_categories
 #'
@@ -68,7 +69,7 @@ tw_get_wikipedia_category_members <- function(url = NULL,
       current_slice_df <- source_df %>%
         dplyr::slice(i)
 
-      linked_df <- tidywikidatar:::tw_get_wikipedia_category_members_single(
+      linked_df <- tw_get_wikipedia_category_members_single(
         category = current_slice_df$source_title_url,
         language = current_slice_df$language,
         url = NULL,
@@ -104,11 +105,13 @@ tw_get_wikipedia_category_members <- function(url = NULL,
 #'
 #' @examples
 #' if (interactive()) {
-#'   tidywikidatar:::tw_get_wikipedia_category_members_single(category = "Category:American women anthropologists",
-#'   type = "subcat")
+#'   tidywikidatar:::tw_get_wikipedia_category_members_single(
+#'     category = "Category:American women anthropologists",
+#'     type = "subcat")
 #'
-#'   tidywikidatar:::tw_get_wikipedia_category_members_single(category = "Category:Puerto Rican women anthropologists",
-#'   type = "page")
+#'   tidywikidatar:::tw_get_wikipedia_category_members_single(
+#'     category = "Category:Puerto Rican women anthropologists",
+#'     type = "page")
 #'
 #' }
 tw_get_wikipedia_category_members_single <- function(url = NULL,
@@ -410,6 +413,7 @@ tw_get_cached_wikipedia_category_members <- function(category,
 #'
 #' @param df A data frame typically generated with `tw_get_wikipedia_category_members()`.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param type Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to `cmtype`. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
@@ -489,7 +493,9 @@ tw_write_wikipedia_category_members_to_cache <- function(df,
 
 #' Reset Wikipedia category members cache
 #'
-#' Removes from cache the table where data typically gathered with `tw_get_wikipedia_category_members()` are stored
+#' Removes from cache the table where data typically gathered with `tw_get_wikipedia_category_members()` are stored.
+#'
+#' @param type Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to `cmtype`. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}
 #'
 #' @inheritParams tw_reset_wikipedia_page_links_cache
 #'

@@ -46,11 +46,13 @@ Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given pag
 }
 \examples{
 if (interactive()) {
-  tidywikidatar:::tw_get_wikipedia_category_members_single(category = "Category:American women anthropologists",
-  type = "subcat")
+  tidywikidatar:::tw_get_wikipedia_category_members_single(
+    category = "Category:American women anthropologists",
+    type = "subcat")
 
-  tidywikidatar:::tw_get_wikipedia_category_members_single(category = "Category:Puerto Rican women anthropologists",
-  type = "page")
+  tidywikidatar:::tw_get_wikipedia_category_members_single(
+    category = "Category:Puerto Rican women anthropologists",
+    type = "page")
 
 }
 }

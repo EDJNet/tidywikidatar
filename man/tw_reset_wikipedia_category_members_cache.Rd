@@ -16,6 +16,8 @@ tw_reset_wikipedia_category_members_cache(
 \arguments{
 \item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
+\item{type}{Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to \code{cmtype}. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}}
+
 \item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
 \item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database by default. A custom connection to other databases can be given (see vignette \code{caching} for details).}
@@ -28,7 +30,7 @@ tw_reset_wikipedia_category_members_cache(
 Nothing, used for its side effects.
 }
 \description{
-Removes from cache the table where data typically gathered with \code{tw_get_wikipedia_category_members()} are stored
+Removes from cache the table where data typically gathered with \code{tw_get_wikipedia_category_members()} are stored.
 }
 \examples{
 if (interactive()) {
