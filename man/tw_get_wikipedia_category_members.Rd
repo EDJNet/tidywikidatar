@@ -48,12 +48,14 @@ Get all Wikidata Q identifiers of all Wikipedia pages (or files, or subcategorie
 if (interactive()) {
   sub_categories <- tw_get_wikipedia_category_members(
     category = "Category:American women anthropologists",
-    type = "subcat")
+    type = "subcat"
+  )
 
   sub_categories
 
-  tw_get_wikipedia_category_members(category = sub_categories$wikipedia_title,
-                                   type = "page")
-
+  tw_get_wikipedia_category_members(
+    category = sub_categories$wikipedia_title,
+    type = "page"
+  )
 }
 }

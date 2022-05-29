@@ -18,13 +18,15 @@
 #' if (interactive()) {
 #'   sub_categories <- tw_get_wikipedia_category_members(
 #'     category = "Category:American women anthropologists",
-#'     type = "subcat")
+#'     type = "subcat"
+#'   )
 #'
 #'   sub_categories
 #'
-#'   tw_get_wikipedia_category_members(category = sub_categories$wikipedia_title,
-#'                                    type = "page")
-#'
+#'   tw_get_wikipedia_category_members(
+#'     category = sub_categories$wikipedia_title,
+#'     type = "page"
+#'   )
 #' }
 tw_get_wikipedia_category_members <- function(url = NULL,
                                               category = NULL,
@@ -107,12 +109,13 @@ tw_get_wikipedia_category_members <- function(url = NULL,
 #' if (interactive()) {
 #'   tidywikidatar:::tw_get_wikipedia_category_members_single(
 #'     category = "Category:American women anthropologists",
-#'     type = "subcat")
+#'     type = "subcat"
+#'   )
 #'
 #'   tidywikidatar:::tw_get_wikipedia_category_members_single(
 #'     category = "Category:Puerto Rican women anthropologists",
-#'     type = "page")
-#'
+#'     type = "page"
+#'   )
 #' }
 tw_get_wikipedia_category_members_single <- function(url = NULL,
                                                      category = NULL,
