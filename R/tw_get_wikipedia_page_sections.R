@@ -287,7 +287,7 @@ tw_get_cached_wikipedia_page_sections <- function(title,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$fromtitle %in% stringr::str_c(title)
+        .data$fromtitle %in% !!stringr::str_c(title)
       ),
     error = function(e) {
       logical(1L)

@@ -305,8 +305,8 @@ tw_get_cached_qualifiers <- function(id,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$id %in% stringr::str_to_upper(id),
-        .data$property %in% stringr::str_to_upper(p)
+        .data$id %in% !!stringr::str_to_upper(id),
+        .data$property %in% !!stringr::str_to_upper(p)
       ),
     error = function(e) {
       logical(1L)

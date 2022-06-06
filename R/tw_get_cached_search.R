@@ -64,7 +64,7 @@ tw_get_cached_search <- function(search,
   search_string <- search
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
-      dplyr::filter(search %in% search_string),
+      dplyr::filter(.data$search %in% !!search_string),
     error = function(e) {
       logical(1L)
     }

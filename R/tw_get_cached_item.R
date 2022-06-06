@@ -55,7 +55,7 @@ tw_get_cached_item <- function(id,
 
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
-      dplyr::filter(.data$id %in% stringr::str_to_upper(id)),
+      dplyr::filter(.data$id %in% !!stringr::str_to_upper(id)),
     error = function(e) {
       logical(1L)
     }

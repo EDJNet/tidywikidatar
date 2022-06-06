@@ -538,7 +538,7 @@ tw_get_cached_wikipedia_page_qid <- function(title,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$title_url %in% stringr::str_c(title_url)
+        .data$title_url %in% !!stringr::str_c(title_url)
       ),
     error = function(e) {
       logical(1L)

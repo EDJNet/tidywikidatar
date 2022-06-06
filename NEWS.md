@@ -87,3 +87,4 @@
 
 * new feature: get identifiers of pages that are members of a category on Wikipedia with `tw_get_wikipedia_category_members()`
 * fix: return a data frame of single row with `NA` when  `tw_get_qualifiers()` would return no information on a given item/property combination; this ensures caching works as expected also in such cases.
+* fix: error in caching functions apparently due to `dbplyr` update/incompatibility with the `pool` package

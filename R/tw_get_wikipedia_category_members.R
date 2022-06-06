@@ -375,7 +375,7 @@ tw_get_cached_wikipedia_category_members <- function(category,
   db_result <- tryCatch(
     dplyr::tbl(src = db, table_name) %>%
       dplyr::filter(
-        .data$category %in% stringr::str_c(category)
+        .data$category %in% !!stringr::str_c(category)
       ),
     error = function(e) {
       logical(1L)
