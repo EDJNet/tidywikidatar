@@ -7,8 +7,8 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 note
 
 ## Comments
 
-New email address: CRAN could not send confirmation email to my previous address, and cran-sysadmin apparently could not fix it.
+Fix errors on CRAN due to issues emerged with update to dependency (`dbplyr` package)
