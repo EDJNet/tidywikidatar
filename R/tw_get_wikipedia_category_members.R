@@ -157,6 +157,8 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
     } else {
       category_df <- tidywikidatar::tw_empty_wikipedia_category_members
     }
+  } else {
+    category_df <- tidywikidatar::tw_empty_wikipedia_category_members
   }
 
   if (nrow(category_df) == 0) {
