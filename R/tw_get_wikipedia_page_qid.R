@@ -58,7 +58,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
       action,
       "&redirects=true&format=json",
       title_reference,
-      utils::URLencode(URL = title)
+      utils::URLencode(URL = title, reserved = TRUE)
     )
   } else if (type == "category") {
     title_reference <- "&cmtitle="
@@ -70,7 +70,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
       action,
       "&redirects=true&format=json",
       title_reference,
-      utils::URLencode(URL = title),
+      utils::URLencode(URL = title, reserved = TRUE),
       "&list=categorymembers"
     )
   }
@@ -172,7 +172,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         .x = unique_title,
         .f = function(x) {
           pb$tick()
-          tw_get_wikipedia_page_qid_single(
+          tidywikidatar:::tw_get_wikipedia_page_qid_single(
             url = NULL,
             title = x,
             language = unique_language,

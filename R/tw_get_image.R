@@ -548,7 +548,7 @@ tw_get_image_metadata_single <- function(id,
 
       api_link <- stringr::str_c(
         "https://commons.wikimedia.org/w/api.php?action=query&titles=File:",
-        utils::URLencode(current_image_filename),
+        utils::URLencode(current_image_filename, reserved = TRUE),
         "&prop=imageinfo&iiprop=metadata%7Ccommonmetadata%7Cextmetadata",
         "&format=json"
       )

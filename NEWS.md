@@ -92,3 +92,4 @@
 # tidywikidatar 0.5.4
 
 * fix: `tw_get_wikipedia_category_members()` now works as expected also when caching is disabled
+* fix: deal consistently with Wikipedia pages that have "&" in their title
