@@ -309,7 +309,7 @@ tw_disconnect_from_cache <- function(cache = NULL,
     )
 
     if (pool::dbIsValid(dbObj = db)) {
-      if ("Pool" %in% class(db)) {
+      if (inherits(db, "Pool")) {
         pool::poolClose(db)
       } else {
         DBI::dbDisconnect(db)
