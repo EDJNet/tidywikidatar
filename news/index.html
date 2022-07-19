@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,8 +156,12 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.4" id="tidywikidatar-054">tidywikidatar 0.5.4<a class="anchor" aria-label="anchor" href="#tidywikidatar-054"></a></h2>
-<ul><li>fix: <code><a href="../reference/tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> now works as expected also when caching is disabled</li>
+<ul><li>enhancement: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works more efficiently with cache</li>
+<li>fix: <code><a href="../reference/tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> now works as expected also when caching is disabled</li>
 <li>fix: deal consistently with Wikipedia pages that have “&amp;” in their title</li>
+<li>fix: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works consistently when non-standard characters or non-latin alphabets found in url</li>
+<li>fix: <code><a href="../reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code> now works consistently when url given is not in the language set with <code><a href="../reference/tw_set_language.html">tw_set_language()</a></code>
+</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
