@@ -16,7 +16,7 @@ tw_get_image_metadata_single(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 1,
-  attempts = 5
+  attempts = 10
 )
 }
 \arguments{
@@ -42,7 +42,7 @@ tw_get_image_metadata_single(
 
 \item{wait}{In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
-\item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
+\item{attempts}{Defaults to 10. Number of times it re-attempts to reach the API before failing.}
 }
 \value{
 A character vector, corresponding to reference to the image in the requested format.

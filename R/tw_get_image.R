@@ -213,7 +213,7 @@ tw_get_image_same_length <- function(id,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A character vector, corresponding to reference to the image in the requested format.
 #' @export
@@ -232,7 +232,7 @@ tw_get_image_metadata <- function(id,
                                   cache_connection = NULL,
                                   disconnect_db = TRUE,
                                   wait = 1,
-                                  attempts = 5) {
+                                  attempts = 10) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -432,7 +432,7 @@ tw_get_image_metadata <- function(id,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A character vector, corresponding to reference to the image in the requested format.
 #'
@@ -451,7 +451,7 @@ tw_get_image_metadata_single <- function(id,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
                                          wait = 1,
-                                         attempts = 5) {
+                                         attempts = 10) {
   if (length(id) > 1) {
     usethis::ui_stop("`tw_get_image_metadata_single()` requires `id` of length 1. Consider using `tw_get_image_metadata()`.")
   }

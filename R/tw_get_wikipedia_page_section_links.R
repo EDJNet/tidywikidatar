@@ -10,7 +10,7 @@
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
 #' @param wikipedia_page_qid_df Defaults to NULL. If given, used to reduce calls to cache. A data frame
 #'
 #' @return A data frame (a tibble).
@@ -30,7 +30,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
                                                 cache_connection = NULL,
                                                 disconnect_db = TRUE,
                                                 wait = 1,
-                                                attempts = 5,
+                                                attempts = 10,
                                                 wikipedia_page_qid_df = NULL) {
   if (is.null(section_index) & is.null(section_title)) {
     usethis::ui_stop("Either {usethis::ui_code('section_index')} or {usethis::ui_code('section_title')} must be given. See also {usethis::ui_code('tw_get_wikipedia_page_sections()')}")

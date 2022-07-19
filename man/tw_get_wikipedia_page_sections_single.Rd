@@ -13,7 +13,7 @@ tw_get_wikipedia_page_sections_single(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 1,
-  attempts = 5,
+  attempts = 10,
   wikipedia_page_qid_df = NULL
 )
 }
@@ -34,7 +34,7 @@ tw_get_wikipedia_page_sections_single(
 
 \item{wait}{In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
-\item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
+\item{attempts}{Defaults to 10. Number of times it re-attempts to reach the API before failing.}
 
 \item{wikipedia_page_qid_df}{Defaults to NULL. If given, used to reduce calls to cache. A data frame}
 }

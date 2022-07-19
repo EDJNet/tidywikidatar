@@ -89,7 +89,7 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A a data frame with six columns, including `qid` with Wikidata identifiers, and a logical `disambiguation` to flag when disambiguation pages are returned.
 #' @export
@@ -109,7 +109,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
                                       cache_connection = NULL,
                                       disconnect_db = TRUE,
                                       wait = 1,
-                                      attempts = 5) {
+                                      attempts = 10) {
   if (is.null(url) == FALSE) {
     if (is.null(title)) {
       title <- stringr::str_extract(
@@ -277,7 +277,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 5. Number of times it re-attempts to reach the API before failing.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
 #'
 #' @return A data frame (a tibble) with eight columns: `title`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`, and `language`.
 #'
@@ -293,7 +293,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
                                              cache_connection = NULL,
                                              disconnect_db = TRUE,
                                              wait = 1,
-                                             attempts = 5) {
+                                             attempts = 10) {
   if (is.null(url) == FALSE & is.function(url) == FALSE) {
     if (is.null(title) & is.function(title) == FALSE) {
       title <- stringr::str_extract(

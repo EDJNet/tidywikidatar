@@ -13,7 +13,7 @@ tw_get_wikipedia_page_links(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 1,
-  attempts = 5
+  attempts = 10
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ tw_get_wikipedia_page_links(
 
 \item{wait}{In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 
-\item{attempts}{Defaults to 5. Number of times it re-attempts to reach the API before failing.}
+\item{attempts}{Defaults to 10. Number of times it re-attempts to reach the API before failing.}
 }
 \value{
 A data frame (a tibble) with eight columns: \code{source_title_url}, \code{source_wikipedia_title}, \code{source_qid}, \code{wikipedia_title}, \code{wikipedia_id}, \code{qid}, \code{description}, and \code{language}.
