@@ -53,7 +53,7 @@ tw_get_wikipedia_page_sections <- function(url = NULL,
       source_qid = .data$qid,
       language = .data$language
     ) %>%
-    dplyr::distinct(.data$source_qid, .keep_all = TRUE)
+    dplyr::distinct(.data$source_title_url, .keep_all = TRUE)
 
   wikipedia_page_sections_df <- purrr::map_dfr(
     .x = seq_along(source_df$source_wikipedia_title),

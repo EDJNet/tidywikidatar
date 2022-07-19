@@ -52,11 +52,46 @@ tw_get_wikipedia_page_links <- function(url = NULL,
       source_qid = .data$qid,
       language = .data$language
     ) %>%
-    dplyr::distinct(.data$source_qid, .keep_all = TRUE)
+    dplyr::distinct(.data$source_title_url, .keep_all = TRUE)
 
-  wikipedia_page_links_df <- purrr::map_dfr(
-    .x = seq_along(source_df$source_wikipedia_title),
+  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+    db_result <- tw_get_cached_wikipedia_page_links(
+      title = title,
+      language = language,
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = FALSE
+    )
+    if (is.data.frame(db_result) & nrow(db_result) > 0) {
+      previously_cached_df <- db_result %>%
+        dplyr::collect()
+      unique_title <- unique(title)
+      titles_not_in_cache <- unique_title[!is.element(unique_title, previously_cached_df$source_title_url)]
+
+      if (length(titles_not_in_cache) == 0) {
+        tw_disconnect_from_cache(
+          cache = cache,
+          cache_connection = db,
+          disconnect_db = disconnect_db,
+          language = language
+        )
+        return(previously_cached_df)
+      }
+      source_df <- source_df %>%
+        dplyr::filter(.data$source_title_url %in% titles_not_in_cache)
+    } else {
+      previously_cached_df <- tw_empty_wikipedia_page_links
+    }
+  } else {
+    previously_cached_df <- tw_empty_wikipedia_page_links
+  }
+
+  pb <- progress::progress_bar$new(total = nrow(source_df))
+  wikipedia_page_links_new_df <- purrr::map_dfr(
+    .x = seq_along(source_df$source_title_url),
     .f = function(i) {
+      pb$tick()
+
       current_slice_df <- source_df %>%
         dplyr::slice(i)
 
@@ -70,7 +105,12 @@ tw_get_wikipedia_page_links <- function(url = NULL,
         disconnect_db = FALSE,
         wait = wait,
         attempts = attempts,
-        wikipedia_page_qid_df = wikipedia_page_qid_df
+        wikipedia_page_qid_df = current_slice_df %>%
+          dplyr::transmute(title_url = .data$source_title_url) %>%
+          dplyr::left_join(
+            y = wikipedia_page_qid_df,
+            by = "title_url"
+          )
       )
 
       linked_df
@@ -84,7 +124,15 @@ tw_get_wikipedia_page_links <- function(url = NULL,
     language = language
   )
 
-  wikipedia_page_links_df
+  wikipedia_page_qid_df %>%
+    dplyr::distinct(.data$title_url) %>%
+    dplyr::rename(source_title_url = .data$title_url) %>%
+    dplyr::left_join(dplyr::bind_rows(
+      previously_cached_df,
+      wikipedia_page_links_new_df
+    ),
+    by = "source_title_url"
+    )
 }
 
 
@@ -295,7 +343,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
         source_wikipedia_title = .data$wikipedia_title,
         source_qid = .data$qid
       ) %>%
-      dplyr::distinct(.data$source_qid, .keep_all = TRUE),
+      dplyr::distinct(.data$source_title_url, .keep_all = TRUE),
     linked_df
   )
 

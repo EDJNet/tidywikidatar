@@ -129,7 +129,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
   unique_language <- unique(language)
 
   if (length(unique_language) == 0) {
-    return(NULL)
+    return(tidywikidatar::tw_empty_wikipedia_page)
   } else if (length(unique_language) > 1) {
     usethis::ui_stop(x = "{usethis::ui_code('tw_get_wikipedia_page_qid()')} currently accepts only inputs with one language at a time.")
   }
@@ -142,7 +142,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
-    language = language,
+    language = unique_language,
     cache = cache
   )
 
@@ -153,7 +153,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         y = tw_get_wikipedia_page_qid_single(
           url = NULL,
           title = unique_title,
-          language = language,
+          language = unique_language,
           cache = cache,
           overwrite_cache = overwrite_cache,
           cache_connection = db,
@@ -189,7 +189,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         cache = cache,
         cache_connection = db,
         disconnect_db = disconnect_db,
-        language = language
+        language = unique_language
       )
       return(
         dplyr::left_join(
@@ -204,7 +204,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
     if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
       titles_in_cache_df <- tw_get_cached_wikipedia_page_qid(
         title = unique_title,
-        language = language,
+        language = unique_language,
         cache_connection = db,
         disconnect_db = FALSE
       )
@@ -216,7 +216,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           cache = cache,
           cache_connection = db,
           disconnect_db = disconnect_db,
-          language = language
+          language = unique_language
         )
         return(
           dplyr::left_join(
@@ -236,7 +236,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
             tw_get_wikipedia_page_qid_single(
               url = NULL,
               title = x,
-              language = language,
+              language = unique_language,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = db,
@@ -251,7 +251,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           cache = cache,
           cache_connection = db,
           disconnect_db = disconnect_db,
-          language = language
+          language = unique_language
         )
         dplyr::left_join(
           x = tibble::tibble(title_url = title),

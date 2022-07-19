@@ -63,7 +63,7 @@ tw_get_wikipedia_category_members <- function(url = NULL,
       source_qid = .data$qid,
       language = .data$language
     ) %>%
-    dplyr::distinct(.data$source_qid, .keep_all = TRUE)
+    dplyr::distinct(.data$source_title_url, .keep_all = TRUE)
 
   wikipedia_category_members_df <- purrr::map_dfr(
     .x = seq_along(source_df$source_wikipedia_category),
