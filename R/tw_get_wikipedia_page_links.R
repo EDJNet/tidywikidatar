@@ -195,7 +195,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     json_url <- stringr::str_c(
       json_url,
       "&gplcontinue=",
-      continue_check
+      utils::URLencode(URL = continue_check, reserved = TRUE)
     )
 
     api_result <- FALSE
