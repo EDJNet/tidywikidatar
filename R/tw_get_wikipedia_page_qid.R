@@ -172,7 +172,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         .x = unique_title,
         .f = function(x) {
           pb$tick()
-          tidywikidatar:::tw_get_wikipedia_page_qid_single(
+          tw_get_wikipedia_page_qid_single(
             url = NULL,
             title = x,
             language = unique_language,
