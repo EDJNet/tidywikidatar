@@ -80,10 +80,10 @@ tw_get_wikipedia_page_links <- function(url = NULL,
       source_df <- source_df %>%
         dplyr::filter(.data$source_title_url %in% titles_not_in_cache)
     } else {
-      previously_cached_df <- tw_empty_wikipedia_page_links
+      previously_cached_df <- tidywikidatar::tw_empty_wikipedia_page_links
     }
   } else {
-    previously_cached_df <- tw_empty_wikipedia_page_links
+    previously_cached_df <- tidywikidatar::tw_empty_wikipedia_page_links
   }
 
   pb <- progress::progress_bar$new(total = nrow(source_df))
