@@ -156,9 +156,9 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.4" id="tidywikidatar-054">tidywikidatar 0.5.4<a class="anchor" aria-label="anchor" href="#tidywikidatar-054"></a></h2>
-<ul><li>enhancement: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works more efficiently with cache</li>
+<ul><li>enhancement: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works more efficiently with cache and deals more graciously when given links to non-existing Wikipedia pages</li>
 <li>fix: <code><a href="../reference/tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> now works as expected also when caching is disabled</li>
-<li>fix: deal consistently with Wikipedia pages that have “&amp;” in their title</li>
+<li>fix: deal consistently with Wikipedia pages that have “&amp;” or other special characters in their title</li>
 <li>fix: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works consistently when non-standard characters or non-latin alphabets found in url</li>
 <li>fix: <code><a href="../reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code> now works consistently when url given is not in the language set with <code><a href="../reference/tw_set_language.html">tw_set_language()</a></code>
 </li>
