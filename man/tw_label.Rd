@@ -39,8 +39,11 @@ A data frame, with the same shape as the input data frame, but with labels inste
 Gets labels for all columns with names such as "id" and "property".
 }
 \examples{
-
+\donttest{
+if (interactive()) {
 tw_get_qualifiers(id = "Q180099", p = "P26", language = "en") \%>\%
   head(2) \%>\%
   tw_label()
+  }
+}
 }
