@@ -24,7 +24,7 @@ if (interactive()) {
         type = "subcat"
       )
 
-      nrow(sub_category_members_df) > 0
+      nrow(sub_category_members_df) > 1
     })
   })
 
