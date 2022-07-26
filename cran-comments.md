@@ -11,4 +11,3 @@
 
 ## Comments
 
-Fix errors on CRAN due to issues emerged with update to dependency (`dbplyr` package)
