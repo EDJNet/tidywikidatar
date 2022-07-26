@@ -378,10 +378,11 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
       "pageid"
     )
 
-  wikipedia_id <- dplyr::if_else(condition = is.null(wikipedia_id),
-    true = as.integer(NA),
-    false = as.integer(wikipedia_id)
-  )
+  if (is.null(wikipedia_id)) {
+    wikipedia_id <- as.numeric(NA)
+  } else {
+    wikipedia_id <- as.numeric(wikipedia_id)
+  }
 
   wikidata_id <- wikidata_id_l %>%
     purrr::pluck(
@@ -459,7 +460,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
   df <- tibble::tibble(
     title_url = as.character(title),
     wikipedia_title = as.character(wikipedia_title),
-    wikipedia_id = as.integer(wikipedia_id),
+    wikipedia_id = as.numeric(wikipedia_id),
     qid = as.character(wikidata_id),
     description = as.character(description),
     disambiguation = as.logical(disambiguation),
