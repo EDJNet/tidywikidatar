@@ -42,10 +42,5 @@ name, a call to a function, or an unquoted constant), then use
 \code{as_label()}. If you know you have quoted a simple variable
 name, or would like to enforce this, use \code{as_name()}.
 }
-
-To learn more about tidy eval and how to use these tools, visit
-\url{https://tidyeval.tidyverse.org} and the
-\href{https://adv-r.hadley.nz/metaprogramming.html}{Metaprogramming
-section} of \href{https://adv-r.hadley.nz}{Advanced R}.
 }
 \keyword{internal}
