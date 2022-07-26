@@ -32,12 +32,12 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
     }
   } else {
     check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
-    if (sum(is.na(check_url_lv))>0) {
-      url <- url[is.na(check_url_lv)==FALSE]
+    if (sum(is.na(check_url_lv)) > 0) {
+      url <- url[is.na(check_url_lv) == FALSE]
       usethis::ui_warn("One or more of the given URLs is actually NA. Only valid URLs will be processed.")
     }
     check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
-    if (sum(check_url_lv)!=length(check_url_lv)) {
+    if (sum(check_url_lv) != length(check_url_lv)) {
       usethis::ui_stop(x = "One or more of the Wikipedia URL provided does not start with `http` as expected for a URL. If you are actually providing Wikipedia page titles, leave the `url` parameter to NULL, and use the `title` parameter instead.")
     }
     title <- stringr::str_extract(

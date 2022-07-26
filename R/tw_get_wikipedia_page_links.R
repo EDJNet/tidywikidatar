@@ -265,7 +265,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     )
 
     return(output_linked_df)
-
   } else {
     base_json <- api_result
   }
