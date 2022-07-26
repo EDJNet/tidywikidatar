@@ -220,7 +220,52 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
   if (isFALSE(api_result)) {
     usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
   } else if (length(api_result) == 1) {
-    usethis::ui_stop("Page not found. Make sure that language parameter is consistent with the language of the input title or url.")
+    if (is.null(wikipedia_page_qid_df)) {
+      wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
+        title = title,
+        language = language,
+        url = url,
+        cache = cache,
+        overwrite_cache = overwrite_cache,
+        cache_connection = cache_connection,
+        disconnect_db = FALSE,
+        wait = wait,
+        attempts = attempts
+      )
+    }
+
+
+    output_linked_df <- wikipedia_page_qid_df %>%
+      dplyr::transmute(
+        source_title_url = .data$title_url,
+        source_wikipedia_title = .data$wikipedia_title,
+        source_qid = .data$qid,
+        wikipedia_title = as.character(NA),
+        wikipedia_id = as.numeric(NA),
+        qid = as.character(NA),
+        description = as.character(NA),
+        language = as.character(wikipedia_page_qid_df$language),
+      )
+
+    if (tw_check_cache(cache) == TRUE) {
+      tw_write_wikipedia_page_links_to_cache(
+        df = output_linked_df,
+        cache_connection = db,
+        language = language,
+        overwrite_cache = overwrite_cache,
+        disconnect_db = disconnect_db
+      )
+    }
+
+    tw_disconnect_from_cache(
+      cache = cache,
+      cache_connection = db,
+      disconnect_db = disconnect_db,
+      language = language
+    )
+
+    return(output_linked_df)
+
   } else {
     base_json <- api_result
   }
