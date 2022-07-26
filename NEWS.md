@@ -91,8 +91,8 @@
 
 # tidywikidatar 0.5.4
 
-* enhancement: `tw_get_wikipedia_page_links()` now works more efficiently with cache
+* enhancement: `tw_get_wikipedia_page_links()` now works more efficiently with cache and deals more graciously when given links to non-existing Wikipedia pages
 * fix: `tw_get_wikipedia_category_members()` now works as expected also when caching is disabled
-* fix: deal consistently with Wikipedia pages that have "&" in their title
+* fix: deal consistently with Wikipedia pages that have "&" or other special characters in their title
 * fix: `tw_get_wikipedia_page_links()` now works consistently when non-standard characters or non-latin alphabets found in url
 * fix: `tw_get_wikipedia_page_qid()` now works consistently when url given is not in the language set with `tw_set_language()`
