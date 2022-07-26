@@ -393,10 +393,9 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
       "wikibase_item"
     )
 
-  wikidata_id <- dplyr::if_else(condition = is.null(wikidata_id),
-    true = as.character(NA),
-    false = wikidata_id
-  )
+  if (is.null(wikidata_id)) {
+    wikidata_id <- as.character(NA)
+  }
 
   description <- wikidata_id_l %>%
     purrr::pluck(
@@ -407,10 +406,9 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
       "wikibase-shortdesc"
     )
 
-  description <- dplyr::if_else(condition = is.null(description),
-    true = as.character(NA),
-    false = description
-  )
+  if (is.null(description)) {
+    description <- as.character(NA)
+  }
 
   disambiguation <- is.element(
     el = "disambiguation",
@@ -432,10 +430,9 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
       "to"
     )
 
-  normalised <- dplyr::if_else(condition = is.null(normalised),
-    true = as.character(NA),
-    false = normalised
-  )
+  if (is.null(normalised)) {
+    normalised <- as.character(NA)
+  }
 
   redirected <- wikidata_id_l %>%
     purrr::pluck(
@@ -445,10 +442,9 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
       "to"
     )
 
-  redirected <- dplyr::if_else(condition = is.null(redirected),
-    true = as.character(NA),
-    false = redirected
-  )
+  if (is.null(redirected)) {
+    redirected <- as.character(NA)
+  }
 
   wikipedia_title <- dplyr::case_when(
     is.na(redirected) == FALSE ~ redirected,
