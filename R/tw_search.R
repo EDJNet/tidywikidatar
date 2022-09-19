@@ -126,6 +126,7 @@ tw_search <- function(search,
         type = type,
         language = language,
         response_language = response_language,
+        cache = cache,
         include_search = TRUE,
         cache_connection = db,
         disconnect_db = FALSE

@@ -96,3 +96,7 @@
 * fix: deal consistently with Wikipedia pages that have "&" or other special characters in their title
 * fix: `tw_get_wikipedia_page_links()` now works consistently when non-standard characters or non-latin alphabets found in url
 * fix: `tw_get_wikipedia_page_qid()` now works consistently when url given is not in the language set with `tw_set_language()`
+
+# tidywikidatar 0.5.5
+
+* fix: `tw_search` now checks cache efficiently also when cache settings are passed as parameters

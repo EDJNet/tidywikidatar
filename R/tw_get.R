@@ -286,7 +286,8 @@ tw_get <- function(id,
             items_not_in_cache_df
           ),
           by = "id"
-        )
+        ) %>%
+          dplyr::filter(is.na(.data$id)==FALSE)
       }
     }
   }
