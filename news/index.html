@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,7 +155,7 @@
 <li>fix: error in caching functions apparently due to <code>dbplyr</code> update/incompatibility with the <code>pool</code> package</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.4" id="tidywikidatar-054">tidywikidatar 0.5.4<a class="anchor" aria-label="anchor" href="#tidywikidatar-054"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.5.4" id="tidywikidatar-054">tidywikidatar 0.5.4<a class="anchor" aria-label="anchor" href="#tidywikidatar-054"></a></h2><p class="text-muted">CRAN release: 2022-08-06</p>
 <ul><li>enhancement: <code><a href="../reference/tw_get_wikipedia_page_links.html">tw_get_wikipedia_page_links()</a></code> now works more efficiently with cache and deals more graciously when given links to non-existing Wikipedia pages</li>
 <li>fix: <code><a href="../reference/tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> now works as expected also when caching is disabled</li>
 <li>fix: deal consistently with Wikipedia pages that have “&amp;” or other special characters in their title</li>
@@ -163,6 +163,9 @@
 <li>fix: <code><a href="../reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid()</a></code> now works consistently when url given is not in the language set with <code><a href="../reference/tw_set_language.html">tw_set_language()</a></code>
 </li>
 </ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.5" id="tidywikidatar-055">tidywikidatar 0.5.5<a class="anchor" aria-label="anchor" href="#tidywikidatar-055"></a></h2>
+<ul><li>fix: <code>tw_search</code> now checks cache efficiently also when cache settings are passed as parameters</li></ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
