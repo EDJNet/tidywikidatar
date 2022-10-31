@@ -248,10 +248,10 @@ tw_get_wikipedia <- function(id,
   } else if (nrow(field_df) < length(id)) {
     base_link <- tibble::tibble(id = id) %>%
       dplyr::left_join(y = field_df, by = "id") %>%
-      dplyr::pull(.data$value)
+      dplyr::pull("value")
   } else {
     base_link <- field_df %>%
-      dplyr::pull(.data$value)
+      dplyr::pull("value")
   }
 
   if (length(base_link) == 0) {

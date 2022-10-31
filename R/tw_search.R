@@ -76,7 +76,7 @@ tw_search <- function(search,
       return(search_df)
     } else {
       return(search_df %>%
-        dplyr::select(-.data$search))
+        dplyr::select(-"search"))
     }
   } else if (length(unique_search) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
@@ -116,7 +116,7 @@ tw_search <- function(search,
         return(search_df)
       } else {
         return(search_df %>%
-          dplyr::select(-.data$search))
+          dplyr::select(-"search"))
       }
     }
 
@@ -150,7 +150,7 @@ tw_search <- function(search,
           return(search_df)
         } else {
           return(search_df %>%
-            dplyr::select(-.data$search))
+            dplyr::select(-"search"))
         }
       } else if (length(search_not_in_cache_v) > 0) {
         pb <- progress::progress_bar$new(total = length(search_not_in_cache_v))
@@ -196,7 +196,7 @@ tw_search <- function(search,
           search_merged_df
         } else {
           search_merged_df %>%
-            dplyr::select(-.data$search)
+            dplyr::select(-"search")
         }
       }
     }
@@ -353,10 +353,10 @@ tw_search_single <- function(search,
   search_response_df <- search_response_df %>%
     dplyr::mutate(search = search) %>%
     dplyr::select(
-      .data$search,
-      .data$id,
-      .data$label,
-      .data$description
+      "search",
+      "id",
+      "label",
+      "description"
     )
 
   if (tw_check_cache(cache) == TRUE) {
@@ -386,7 +386,7 @@ tw_search_single <- function(search,
   } else {
     search_response_df %>%
       dplyr::filter(is.na(.data$id) == FALSE) %>%
-      dplyr::select(-search) %>%
+      dplyr::select(-"search") %>%
       tibble::as_tibble()
   }
 }

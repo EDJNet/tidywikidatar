@@ -359,10 +359,10 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     }
   ) %>%
     dplyr::select(
-      .data$wikipedia_title,
-      .data$wikipedia_id,
-      .data$qid,
-      .data$description
+      "wikipedia_title",
+      "wikipedia_id",
+      "qid",
+      "description"
     ) %>%
     dplyr::mutate(language = language)
 

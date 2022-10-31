@@ -163,18 +163,18 @@ tw_get_p_wide <- function(id,
       if (only_first == TRUE) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
-            id_cols = .data$id,
-            names_from = .data$property,
-            values_from = c(.data$value, .data$label),
+            id_cols = "id",
+            names_from = "property",
+            values_from = c("value", "label"),
             values_fill = as.character(NA),
             names_glue = "{property}_{.value}"
           )
       } else if (only_first == FALSE) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
-            id_cols = .data$id,
-            names_from = .data$property,
-            values_from = c(.data$value, .data$label),
+            id_cols = "id",
+            names_from = "property",
+            values_from = c("value", "label"),
             values_fill = list(as.character(NA)),
             names_glue = "{property}_{.value}"
           )
@@ -183,17 +183,17 @@ tw_get_p_wide <- function(id,
       if (only_first == TRUE) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
-            id_cols = .data$id,
-            names_from = .data$property,
-            values_from = .data$label,
+            id_cols = "id",
+            names_from = "property",
+            values_from = "label",
             values_fill = as.character(NA)
           )
       } else if (only_first == FALSE) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
-            id_cols = .data$id,
-            names_from = .data$property,
-            values_from = .data$label,
+            id_cols = "id",
+            names_from = "property",
+            values_from = "label",
             values_fill = list(as.character(NA))
           )
       }
@@ -232,17 +232,17 @@ tw_get_p_wide <- function(id,
     if (only_first == TRUE) {
       property_df_wide <- property_df %>%
         tidyr::pivot_wider(
-          id_cols = .data$id,
-          names_from = .data$property,
-          values_from = .data$value,
+          id_cols = "id",
+          names_from = "property",
+          values_from = "value",
           values_fill = as.character(NA)
         )
     } else if (only_first == FALSE) {
       property_df_wide <- property_df %>%
         tidyr::pivot_wider(
-          id_cols = .data$id,
-          names_from = .data$property,
-          values_from = .data$value,
+          id_cols = "id",
+          names_from = "property",
+          values_from = "value",
           values_fill = list(as.character(NA))
         )
     }

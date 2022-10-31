@@ -37,7 +37,7 @@ tw_check_qid <- function(id,
       string = .data$id,
       pattern = "Q[[:digit:]]+$"
     )) %>%
-    dplyr::pull(.data$id)
+    dplyr::pull("id")
 
   if (logical_vector == TRUE | non_id_as_NA == TRUE) {
     output_l <- stringr::str_to_upper(id) %in% output_v

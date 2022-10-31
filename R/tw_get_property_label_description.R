@@ -57,7 +57,7 @@ tw_get_property_label <- function(property,
           y = unique_processed,
           by = "property"
         ) %>%
-        dplyr::pull(.data$label)
+        dplyr::pull("label")
     } else {
       label_output <- purrr::map_chr(
         .x = property,
@@ -125,7 +125,7 @@ tw_get_property_label_single <- function(property,
     wait = wait
   ) %>%
     dplyr::filter(.data$id == stringr::str_to_upper(property)) %>%
-    dplyr::pull(.data$label)
+    dplyr::pull("label")
 
   if (length(label) == 0) {
     as.character(NA)
@@ -180,7 +180,7 @@ tw_get_property_description <- function(property,
         wait = wait
       ) %>%
         dplyr::filter(.data$id == stringr::str_to_upper(x)) %>%
-        dplyr::pull(.data$description)
+        dplyr::pull("description")
     }
   )
 

@@ -45,7 +45,7 @@ tw_get_property_with_details_single <- function(id,
   value_pre %>%
     tibble::as_tibble() %>%
     dplyr::mutate(id = id, p = p) %>%
-    dplyr::select(id, p, dplyr::everything())
+    dplyr::select("id", "p", dplyr::everything())
 }
 
 

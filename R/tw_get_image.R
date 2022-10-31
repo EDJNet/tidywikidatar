@@ -186,7 +186,7 @@ tw_get_image_same_length <- function(id,
           dplyr::ungroup(),
         by = "id"
       ) %>%
-        dplyr::pull(.data$image)
+        dplyr::pull("image")
     } else {
       dplyr::left_join(tibble::tibble(id = id),
         image_df %>%
@@ -194,7 +194,7 @@ tw_get_image_same_length <- function(id,
           dplyr::summarise(image = list(.data$image)),
         by = "id"
       ) %>%
-        dplyr::pull(.data$image)
+        dplyr::pull("image")
     }
   }
 }
