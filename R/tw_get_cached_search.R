@@ -57,7 +57,7 @@ tw_get_cached_search <- function(search,
       return(search_df)
     } else {
       return(search_df %>%
-        dplyr::select(-.data$search))
+        dplyr::select(-"search"))
     }
   }
 
@@ -82,7 +82,7 @@ tw_get_cached_search <- function(search,
       return(search_df)
     } else {
       return(search_df %>%
-        dplyr::select(-.data$search))
+        dplyr::select(-"search"))
     }
   }
 
@@ -93,7 +93,7 @@ tw_get_cached_search <- function(search,
   } else {
     cached_items_df <- db_result %>%
       dplyr::collect() %>%
-      dplyr::select(-.data$search)
+      dplyr::select(-"search")
   }
 
   tw_disconnect_from_cache(

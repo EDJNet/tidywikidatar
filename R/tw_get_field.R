@@ -46,9 +46,9 @@ tw_get_field <- function(df,
   } else if (nrow(field_df) < length(id)) {
     tibble::tibble(id = id) %>%
       dplyr::left_join(y = field_df, by = "id") %>%
-      dplyr::pull(.data$value)
+      dplyr::pull("value")
   } else {
     field_df %>%
-      dplyr::pull(.data$value)
+      dplyr::pull("value")
   }
 }

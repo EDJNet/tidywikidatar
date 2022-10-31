@@ -57,7 +57,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
   if (is.null(section_index)) {
     section_index <- sections_df %>%
       dplyr::filter(.data$line == section_title) %>%
-      dplyr::pull(.data$index) %>%
+      dplyr::pull("index") %>%
       utils::head(1)
 
     if (length(section_index) == 0) {
@@ -68,7 +68,7 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
   if (is.null(section_title)) {
     section_title <- sections_df %>%
       dplyr::filter(.data$index == as.character(section_index)) %>%
-      dplyr::pull(.data$fromtitle) %>%
+      dplyr::pull("fromtitle") %>%
       utils::head(1)
 
     if (length(section_index) == 0) {

@@ -97,7 +97,7 @@ tw_get_property <- function(id,
     if (length(p) > 1) {
       property_df <- tibble::tibble(property = p) %>%
         dplyr::left_join(y = property_df, by = "property") %>%
-        dplyr::select(.data$id, .data$property, .data$value, .data$rank)
+        dplyr::select("id", "property", "value", "rank")
     }
     if (length(id) > 1) {
       property_df <- tibble::tibble(id = id) %>%
@@ -297,7 +297,7 @@ tw_get_property_same_length <- function(id,
       property_df <- property_df %>%
         dplyr::right_join(
           y = qualifiers_latest_start_time_df %>%
-            dplyr::select(-.data$property),
+            dplyr::select(-"property"),
           by = c("id", "value")
         )
     }
@@ -337,7 +337,7 @@ tw_get_property_same_length <- function(id,
   )
 
   property_df_out %>%
-    dplyr::pull(.data$value)
+    dplyr::pull("value")
 }
 
 

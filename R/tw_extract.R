@@ -257,15 +257,15 @@ tw_extract_qualifier <- function(id,
     function(i) {
       qualifier_parent_pre <- qualifiers %>%
         dplyr::slice(i) %>%
-        dplyr::pull(.data$mainsnak) %>%
-        dplyr::pull(.data$datavalue) %>%
-        dplyr::pull(.data$value)
+        dplyr::pull("mainsnak") %>%
+        dplyr::pull("datavalue") %>%
+        dplyr::pull("value")
 
       if (is.character(qualifier_parent_pre)) {
         qualifier_parent <- qualifier_parent_pre[[1]]
       } else if (is.element("id", colnames(qualifier_parent_pre))) {
         qualifier_parent <- qualifier_parent_pre %>%
-          dplyr::pull(.data$id)
+          dplyr::pull("id")
       } else {
         qualifier_parent <- qualifier_parent_pre %>%
           dplyr::pull(1)
@@ -273,7 +273,7 @@ tw_extract_qualifier <- function(id,
 
       qualifiers_set <- qualifiers %>%
         dplyr::slice(i) %>%
-        dplyr::pull(.data$qualifiers)
+        dplyr::pull("qualifiers")
 
 
       purrr::map_dfr(
@@ -287,21 +287,21 @@ tw_extract_qualifier <- function(id,
             tibble::as_tibble()
           if (is.element("id", names(value_df)) == TRUE) {
             value <- value_df %>%
-              dplyr::pull(.data$id)
+              dplyr::pull("id")
           } else if (is.element("value", names(value_df)) == TRUE) {
             value <- value_df %>%
-              dplyr::pull(.data$value)
+              dplyr::pull("value")
           } else if (is.element("amount", names(value_df)) == TRUE) {
             value <- value_df %>%
-              dplyr::pull(.data$amount)
+              dplyr::pull("amount")
           } else if (is.element("time", names(value_df)) == TRUE) {
             value <- value_df %>%
-              dplyr::pull(.data$time)
+              dplyr::pull("time")
           } else {
             return(tidywikidatar::tw_empty_qualifiers %>%
               dplyr::select(
-                -.data$id,
-                -.data$property
+                -"id",
+                -"property"
               ))
           }
 
@@ -323,8 +323,8 @@ tw_extract_qualifier <- function(id,
       property = p
     ) %>%
     dplyr::select(
-      .data$id,
-      .data$property,
+      "id",
+      "property",
       dplyr::everything()
     )
   qualifiers_df
