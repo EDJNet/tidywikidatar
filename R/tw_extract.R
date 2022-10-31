@@ -23,7 +23,7 @@ tw_extract_single <- function(w,
   labels <- w %>%
     purrr::pluck(1, "labels")
 
-  if (is.null(labels)) {
+  if (length(labels) == 0) {
     labels_df <- tibble::tibble(
       property = as.character(NA),
       value = as.character(NA),
@@ -53,7 +53,7 @@ tw_extract_single <- function(w,
 
   aliases <- w %>% purrr::pluck(1, "aliases")
 
-  if (is.null(aliases)) {
+  if (length(aliases) == 0) {
     aliases_df <- tibble::tibble(
       property = as.character(NA),
       values = as.character(NA),
@@ -83,7 +83,7 @@ tw_extract_single <- function(w,
   descriptions <- w %>%
     purrr::pluck(1, "descriptions")
 
-  if (is.null(descriptions)) {
+  if (length(descriptions) == 0) {
     descriptions_df <- tibble::tibble(
       property = as.character(NA),
       values = as.character(NA),
