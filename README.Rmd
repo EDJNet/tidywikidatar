@@ -143,6 +143,7 @@ tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_get_property(p = "P19") %>% # ask for the place of birth
   dplyr::pull(value) %>% # take its result and
   tw_get_property(p = "P17") %>% # ask for the country where that place of birth is located
+  dplyr::pull(value) %>% # take its result and
   tw_get_label() # ask what that id stands for
 ```
 

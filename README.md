@@ -246,8 +246,9 @@ tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_get_property(p = "P19") %>% # ask for the place of birth
   dplyr::pull(value) %>% # take its result and
   tw_get_property(p = "P17") %>% # ask for the country where that place of birth is located
+  dplyr::pull(value) %>% # take its result and
   tw_get_label() # ask what that id stands for
-#> [1] "Philadelphia"
+#> [1] "United States of America"
 ```
 
 And here we are, we know in which country Margaret Mead was born.
@@ -311,6 +312,7 @@ and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
 Hurston, we can achieve that in a single call:
 
 ``` r
+
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
@@ -581,6 +583,7 @@ If we look at his “positions held”
 following:
 
 ``` r
+
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -1129,9 +1132,10 @@ This function does not currently cache data.
 
 `tidywikidatar` tries to reduce load on Wikidata’s server and speeding
 up re-processing of scripts by caching data locally in sqlite databases.
-They are stored locally in the folder defined by `tw_set_cache_folder()`
-- by default, in the current working directory - when cache is enabled
-(typically, with `tw_enable_cache()` at the beginning of a session).
+They are stored locally in the folder defined by
+`tw_set_cache_folder()` - by default, in the current working directory -
+when cache is enabled (typically, with `tw_enable_cache()` at the
+beginning of a session).
 
 To reduce the size of local files, if data are requested in a specific
 language, then only data in that language are stored locally.
