@@ -287,7 +287,7 @@ tw_get <- function(id,
           ),
           by = "id"
         ) %>%
-          dplyr::filter(is.na(.data$id)==FALSE)
+          dplyr::filter(is.na(.data$id) == FALSE)
       }
     }
   }
