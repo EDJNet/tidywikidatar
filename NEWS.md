@@ -101,3 +101,7 @@
 
 * fix: `tw_search` now checks cache efficiently also when cache settings are passed as parameters
 * fix: minor adjustments to prevent warnings and error with latest `purrr` and `tidyselect`
+
+# tidywikidatar 0.5.6
+
+* fix: `tw_get` now caches Wikidata items that have been deleted, storing the error message as the value of property "error"

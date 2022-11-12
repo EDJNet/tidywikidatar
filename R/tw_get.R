@@ -74,7 +74,27 @@ tw_get_single <- function(id,
 
   if (is.character(item)) {
     usethis::ui_oops(item)
-    output <- tidywikidatar::tw_empty_item
+    output <- tibble::tibble(
+      id = as.character(id),
+      property = "error",
+      value = stringr::str_remove(
+        string = item,
+        pattern = "The API returned an error: "
+      ),
+      rank = as.character(NA)
+    )
+
+    if (tw_check_cache(cache) == TRUE) {
+      tw_write_item_to_cache(
+        item_df = output,
+        language = language,
+        cache = cache,
+        overwrite_cache = overwrite_cache,
+        cache_connection = db,
+        disconnect_db = disconnect_db
+      )
+    }
+
     attr(output, "warning") <- item
     return(output)
   }
