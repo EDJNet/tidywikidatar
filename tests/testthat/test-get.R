@@ -1,5 +1,5 @@
 library("testthat")
-
+library("tidywikidatar")
 test_that("check if tw_get returns tibble with four columns and meaningful number of rows", {
   testthat::skip_if_offline()
 
@@ -53,24 +53,5 @@ test_that("check if tw_get works when more than one id as input", {
       )
     }
     test_result
-  })
-})
-
-
-test_that("check if tw_get cached correctly deleted Wikidata items", {
-  testthat::skip_if_offline()
-
-  tw_set_cache_folder(path = tempdir())
-  tw_enable_cache()
-
-  expect_true(object = {
-    item <- tw_get(
-      id = c(
-        "Q4007665"
-      )
-    )
-    cached_item_df <- tw_get_cached_item(id = "Q4007665")
-
-    cached_item_df$property == "error"
   })
 })
