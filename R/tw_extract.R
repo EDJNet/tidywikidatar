@@ -116,11 +116,17 @@ tw_extract_single <- function(w,
   claims_df <- purrr::map_dfr(
     .x = claims,
     .f = function(current_claim_l) {
+      if (length(current_claim_l) == 1) {
+        current_claim_l <- current_claim_l[[1]]
+        value_pre <- current_claim_l[["mainsnak"]][["datavalue"]][["value"]] %>%
+          as.data.frame()
+      } else {
+        value_pre <- current_claim_l[["mainsnak"]][["datavalue"]][["value"]]
+      }
+
       property <- current_claim_l$mainsnak$property
 
       rank <- current_claim_l$rank
-
-      value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][["value"]]
 
       if (is.null(value_pre)) {
         value <- as.character("NA")

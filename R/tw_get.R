@@ -365,3 +365,58 @@ tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
     language = language
   )
 }
+
+
+#' Get information about multiple Q identifiers in a single API call
+#'
+#' @inheritParams tw_get
+#'
+#' @return A data.frame (a tibble) with four columns (id, property, value, and rank). If item not found or trouble connecting with the server, a data frame with four columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
+#' @export
+#'
+#' @examples
+#'
+#' tw_get_multi(
+#'   id = c("Q180099", "Q228822"),
+#'   language = "en"
+#' )
+tw_get_multi <- function(id,
+                         language = tidywikidatar::tw_get_language(),
+                         cache = NULL,
+                         overwrite_cache = FALSE,
+                         cache_connection = NULL,
+                         disconnect_db = TRUE,
+                         wait = 0) {
+  api_url <- stringr::str_c(
+    "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=",
+    stringr::str_c(id, collapse = "|"),
+    "&format=json"
+  )
+
+  if (language != "all_languages") {
+    api_url <- stringr::str_c(
+      api_url,
+      "&languages=",
+      stringr::str_c(language, collapse = "|")
+    )
+  }
+
+  raw <- httr::GET(
+    url = api_url,
+    httr::user_agent("tidywikidatar - https://github.com/EDJNet/tidywikidatar/")
+  )
+
+  content_l <- httr::content(raw)
+
+  all_df <- purrr::map_dfr(
+    .x = content_l[[1]],
+    .f = function(x) {
+      tw_extract_single(
+        w = list(x),
+        language = language
+      )
+    }
+  )
+
+  all_df
+}

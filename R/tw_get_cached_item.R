@@ -89,7 +89,6 @@ tw_get_cached_item <- function(id,
 }
 
 
-
 #' Gets location of cache file
 #'
 #' @param type Defaults to NULL. Deprecated. If given, type of cache file to output. Values typically used by `tidywikidatar` in versions up to 4.2 include "item", "search", and "qualifier".
