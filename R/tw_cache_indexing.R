@@ -232,7 +232,7 @@ tw_index_cache_search <- function(table_name = NULL,
     .con = db_no_pool
   )
 
-  index_odbc_result <- DBI::dbSendQuery(
+  index_odbc_result <- DBI::dbExecute(
     conn = db_no_pool,
     statement = statement
   )
