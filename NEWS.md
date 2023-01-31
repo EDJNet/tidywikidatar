@@ -105,3 +105,4 @@
 # tidywikidatar 0.5.6
 
 * fix: `tw_get` now caches Wikidata items that have been deleted, storing the error message as the value of property "error"
+* fix: `tw_search` now returns results consistently also when description missing in given language (issue stemming from update in a dependency)
