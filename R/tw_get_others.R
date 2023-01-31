@@ -162,7 +162,7 @@ tw_get_description <- function(id,
   )
 }
 
-#' Get URL to a Wikipedia article corrisponding to a Wikidata Q identifier in given language
+#' Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in given language
 #'
 #' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
 #' @param full_link Logical, defaults to TRUE. If FALSE, returns only the part of the url that corresponds to the title.

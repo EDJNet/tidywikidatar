@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get_others.R
 \name{tw_get_wikipedia}
 \alias{tw_get_wikipedia}
-\title{Get URL to a Wikipedia article corrisponding to a Wikidata Q identifier in given language}
+\title{Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in given language}
 \usage{
 tw_get_wikipedia(
   id,
@@ -39,7 +39,7 @@ tw_get_wikipedia(
 A character vector of the same length as the vector of id given, with the Wikipedia link in the requested language.
 }
 \description{
-Get URL to a Wikipedia article corrisponding to a Wikidata Q identifier in given language
+Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in given language
 }
 \examples{
 tw_get_wikipedia(id = "Q180099")
