@@ -1,4 +1,4 @@
-if (Sys.getenv("tidywikidatar_testing")=="manual") {
+if (Sys.getenv("tidywikidatar_testing") == "manual") {
   test_that("check if tw_get cached correctly deleted Wikidata items", {
     testthat::skip_if_offline()
 
@@ -16,4 +16,3 @@ if (Sys.getenv("tidywikidatar_testing")=="manual") {
     })
   })
 }
-

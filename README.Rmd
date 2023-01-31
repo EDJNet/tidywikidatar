@@ -192,12 +192,11 @@ In the meantime, let us just say that if we wanted to have a list of all the "aw
 
 
 ```{r}
-
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) 
+)
 ```
 Again, Wikidata ids. We can of course get their relative labels using the functions outlined above, but `tidywikidatar` has a convenience function - `tw_label()` that will achieve what you want in most such cases. 
 
@@ -206,7 +205,7 @@ tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) %>% 
+) %>%
   tw_label()
 ```
 
@@ -226,20 +225,26 @@ The anthropologist Franz Boas ([Q76857](https://www.wikidata.org/wiki/Q76857)) h
 library("dplyr", warn.conflicts = FALSE)
 library("tidyr")
 students <-
-  tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
-  transmute(student_label = tw_get_label(value), # get their name
-            student_id = value) # and keep their id
+  tw_get_property(id = "Q76857", p = "P185") %>% # who were Boas' doctoral students?
+  transmute(
+    student_label = tw_get_label(value), # get their name
+    student_id = value
+  ) # and keep their id
 
 
-students %>%  
-  mutate(date_of_birth = tw_get_p(id = student_id,
-                                  p = "P569", # property for date of birth
-                                  only_first = TRUE)) %>%
+students %>%
+  mutate(date_of_birth = tw_get_p(
+    id = student_id,
+    p = "P569", # property for date of birth
+    only_first = TRUE
+  )) %>%
   # we don't care about possible multiple values on when they were born
-  mutate(place_of_birth = tw_get_p(id = student_id,
-                                   p = "P19", # property for place of birth
-                                   only_first = TRUE) %>% 
-           tw_get_label())
+  mutate(place_of_birth = tw_get_p(
+    id = student_id,
+    p = "P19", # property for place of birth
+    only_first = TRUE
+  ) %>%
+    tw_get_label())
 ```
 
 In other cases, however, we do expect multiple valid values. For example, we expect them to have a single place and date of birth, but quite possibly to have worked in different locations at different points in their career. 
@@ -248,40 +253,47 @@ Here is how we may want to go if we want, for example, to create a map of all th
 
 
 ```{r}
-students %>% 
-  mutate(worked_at_id = tw_get_p(id = student_id,
-                                 p = "P108", # property for employer
-                                 only_first = FALSE)) %>% # not only the first result
+students %>%
+  mutate(worked_at_id = tw_get_p(
+    id = student_id,
+    p = "P108", # property for employer
+    only_first = FALSE
+  )) %>% # not only the first result
   unnest(worked_at_id) %>%
-  filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
-  mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
+  filter(is.na(worked_at_id) == FALSE) %>% # remove those for which we have no employer
+  mutate(worked_at_label = tw_get_label(worked_at_id)) %>%
   # but keep in mind we are only interested in the employer if they are a university
-  # so we ask what `instance of` the employer is. 
-  mutate(employer_instance_of = tw_get_p(id = worked_at_id,
-                                         p = "P31",
-                                         only_first = FALSE)) %>%  
-  unnest(employer_instance_of) %>% 
-  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
+  # so we ask what `instance of` the employer is.
+  mutate(employer_instance_of = tw_get_p(
+    id = worked_at_id,
+    p = "P31",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of) %>%
+  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>%
   # some institutions may be e.g. "instance of" -> "private university", not of "university"
   # so whe check what "subclass of" that id
-  mutate(employer_instance_of2 = tw_get_p(id = worked_at_id,
-                                          p = "P31",
-                                          only_first = FALSE)) %>% 
-  unnest(employer_instance_of2) %>% 
-  mutate(employer_instance_of2_subclass_of = tw_get_p(id = employer_instance_of2,
-                                                      p = "P279",
-                                                      only_first = FALSE)) %>% 
-  unnest(employer_instance_of2_subclass_of) %>% 
+  mutate(employer_instance_of2 = tw_get_p(
+    id = worked_at_id,
+    p = "P31",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of2) %>%
+  mutate(employer_instance_of2_subclass_of = tw_get_p(
+    id = employer_instance_of2,
+    p = "P279",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of2_subclass_of) %>%
   # keep only if employer is a university (or something which is a subclass of university)
-  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
-  distinct(student_label, worked_at_id, worked_at_label) %>% 
+  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>%
+  distinct(student_label, worked_at_id, worked_at_label) %>%
   mutate(worked_at_coordinates = tw_get_p(worked_at_id,
-                                          p = "P625",
-                                          only_first = TRUE)) %>% 
-  select(-worked_at_id) %>% 
+    p = "P625",
+    only_first = TRUE
+  )) %>%
+  select(-worked_at_id) %>%
   separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
-
-
 ```
 
 Starting with version 0.5, to reduce typing, `tw_get_p()` can be used instead of the more verbose `tw_get_property_same_length()`. By default, `tw_get_p()` returns a vector of lists, as it is common for a property to have multiple values. If one is interested only in the first preferred value associated with a given property, `tw_get_p1()`, which consistently returns a character vector of the same length as the input, can be used instead.
@@ -289,23 +301,27 @@ Starting with version 0.5, to reduce typing, `tw_get_p()` can be used instead of
 Starting with version 0.5.2, a more efficient `tw_get_p_wide()` has been introduced to replicate a common use pattern, i.e. getting a number of property of a given set of identifiers, and retrieving their labels. 
 
 ```{r tw_get_p_wide with first}
-tw_get_p_wide(id =  c("Q180099", "Q228822", "Q191095"), 
-              p = c("P27", "P19", "P20"),
-              only_first = TRUE,
-              preferred = TRUE,
-              label = TRUE)
+tw_get_p_wide(
+  id = c("Q180099", "Q228822", "Q191095"),
+  p = c("P27", "P19", "P20"),
+  only_first = TRUE,
+  preferred = TRUE,
+  label = TRUE
+)
 ```
 It is however common for properties to have more than one meaningful value. By default, `tw_get_p_wide()` would get these as lists columns, but there is also an additional parameter to facilitate sharing the result, for example, as a csv file. 
 
 
 ```{r tw_get_p_wide collapsed}
-tw_get_p_wide(id = c("Q180099", "Q228822", "Q191095"), 
-              p = c("P108", "P26", "P451"),
-              only_first = TRUE,
-              preferred = TRUE,
-              label = TRUE,
-              unlist = TRUE,
-              collapse = ";")
+tw_get_p_wide(
+  id = c("Q180099", "Q228822", "Q191095"),
+  p = c("P108", "P26", "P451"),
+  only_first = TRUE,
+  preferred = TRUE,
+  label = TRUE,
+  unlist = TRUE,
+  collapse = ";"
+)
 ```
 
 
@@ -321,7 +337,6 @@ If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property
 
 
 ```{r}
-
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -400,23 +415,31 @@ tw_get_property(id = "Q220", p = "P17") %>%
 So while we may be tempted to just keep the first statement returned by Wikidata for the given property, this is probably not what we want.
 
 ```{r london_rome_first_df}
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 ```
 
 Besides looking at the qualifiers, the standard way for Wikidata to choose which is the "preferred" statement is the dedicated ranking element (in the online interface, a small dot with arrows next to the label), which can either be "preferred", "normal", or "deprecated". In piped operations, we get the "preferred" property by setting `preferred` to `TRUE` in `tw_get_p()`.
 
 ```{r}
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       preferred = TRUE,
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      preferred = TRUE,
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 ```
 
@@ -425,12 +448,16 @@ Keep in mind that there may be more than one "preferred" statement, so setting `
 When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combination with `preferred`). This option slows a bit the process as it depends on a call to `tw_get_qualifiers()` to retrieve and cache relevant details.
 
 ```{r}
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       latest_start_time = TRUE, 
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      latest_start_time = TRUE,
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 ```
 
@@ -529,20 +556,19 @@ tw_get_wikipedia(id = "Q180099")
 Who and what is mentioned in Margaret Mead's Wikipedia page? As it turns out, hundreds of pages, including a variety of people, places, concepts, etc.  
 
 ```{r}
-wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
+wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
 wikipedia_df
-
 ```
 
 
 What if we are potentially interested only in the people mentioned in this page? We proceed as usual, checking which of these are "instance of" ("P19") "human" ("Q5"), and take it from there. 
 
 ```{r eval=FALSE}
-wikipedia_df %>% 
-  dplyr::pull(wikidata_id) %>% 
-  tw_get_property(p = "P31") %>% 
+wikipedia_df %>%
+  dplyr::pull(wikidata_id) %>%
+  tw_get_property(p = "P31") %>%
   dplyr::filter(value == "Q5")
 ```
 
@@ -555,12 +581,12 @@ For a more extended example of exploring Wikidata starting from Wikipedia, consu
 Many Wikidata items have an image that can be used for illustrative purposes. `tw_get_image()` facilitate getting the link to the WikiMedia Commons page where more details about the image can be found, as well as a direct link to the image at the desired resolution for direct embeds.
 
 ```{r}
-tw_get_image(id = "Q180099", format = "commons") %>% 
+tw_get_image(id = "Q180099", format = "commons") %>%
   dplyr::pull(image)
 ```
 
 ```{r}
-tw_get_image(id = "Q180099", format = "embed", width = 300) %>% 
+tw_get_image(id = "Q180099", format = "embed", width = 300) %>%
   dplyr::pull(image)
 ```
 
@@ -570,11 +596,13 @@ Wikidata itself does not include details about copyright of the image, nor an ea
 
 
 ```{r}
-tw_get_image_metadata(id = "Q180099") %>% 
-  tidyr::pivot_longer(cols = dplyr::everything(),
-                      names_to = "property",
-                      values_to = "values",
-                      values_transform = list(values = as.character))
+tw_get_image_metadata(id = "Q180099") %>%
+  tidyr::pivot_longer(
+    cols = dplyr::everything(),
+    names_to = "property",
+    values_to = "values",
+    values_transform = list(values = as.character)
+  )
 ```
 
 This function does not currently cache data. 

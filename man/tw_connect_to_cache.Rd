@@ -31,7 +31,7 @@ Return a connection to be used for caching
 if (interactive()) {
   cache_connection <- pool::dbPool(
     RSQLite::SQLite(), # or e.g. odbc::odbc(),
-    Driver =  ":memory:", # or e.g. "MariaDB",
+    Driver = ":memory:", # or e.g. "MariaDB",
     Host = "localhost",
     database = "example_db",
     UID = "example_user",

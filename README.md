@@ -16,10 +16,10 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blu
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 
--   all responses are transformed into data frames or simple character
-    vectors
--   it is easy to enable efficient caching in a local sqlite database
-    (integration with other databases is also available)
+- all responses are transformed into data frames or simple character
+  vectors
+- it is easy to enable efficient caching in a local sqlite database
+  (integration with other databases is also available)
 
 If you want to benefit of the wealth of information stored by Wikidata,
 but you do not like SPARQL queries and nested lists, then you may find
@@ -75,16 +75,16 @@ more efficient.
 These articles or repository demonstrate some use cases for
 `tidywikidatar`:
 
--   [Finding out more about Members of the European Parliament with
-    Wikidata](https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440)
--   [Retrieve details about Olympics 2020 medalists via Wikipedia and
-    Wikidata](https://edjnet.github.io/olympics2020nuts/) / see also
-    [this interactive map based on
-    Wikidata](https://edjnet.github.io/olympics2020nuts/medalists_map.html)
--   [Which among the busiest air routes in Europe could actually be
-    travelled by land?](https://edjnet.github.io/european_routes/)
--   [Finding gendered street
-    names](https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77)
+- [Finding out more about Members of the European Parliament with
+  Wikidata](https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440)
+- [Retrieve details about Olympics 2020 medalists via Wikipedia and
+  Wikidata](https://edjnet.github.io/olympics2020nuts/) / see also [this
+  interactive map based on
+  Wikidata](https://edjnet.github.io/olympics2020nuts/medalists_map.html)
+- [Which among the busiest air routes in Europe could actually be
+  travelled by land?](https://edjnet.github.io/european_routes/)
+- [Finding gendered street
+  names](https://medium.com/european-data-journalism-network/finding-gendered-street-names-a-step-by-step-walkthrough-with-r-7608c2d36a77)
 
 While the code used there may not be fully compatible or be the most
 efficient with the latest version of Wikidata, they still provide a
@@ -312,12 +312,11 @@ and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
 Hurston, we can achieve that in a single call:
 
 ``` r
-
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) 
+)
 #> # A tibble: 16 × 4
 #>    id      property value      rank  
 #>    <chr>   <chr>    <chr>      <chr> 
@@ -349,7 +348,7 @@ tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
   language = "en"
-) %>% 
+) %>%
   tw_label()
 #> # A tibble: 16 × 4
 #>    id                 property       value                                 rank 
@@ -409,20 +408,26 @@ that may be recorded in Wikidata.
 library("dplyr", warn.conflicts = FALSE)
 library("tidyr")
 students <-
-  tw_get_property(id = "Q76857", p = "P185") %>%  # who were Boas' doctoral students?
-  transmute(student_label = tw_get_label(value), # get their name
-            student_id = value) # and keep their id
+  tw_get_property(id = "Q76857", p = "P185") %>% # who were Boas' doctoral students?
+  transmute(
+    student_label = tw_get_label(value), # get their name
+    student_id = value
+  ) # and keep their id
 
 
-students %>%  
-  mutate(date_of_birth = tw_get_p(id = student_id,
-                                  p = "P569", # property for date of birth
-                                  only_first = TRUE)) %>%
+students %>%
+  mutate(date_of_birth = tw_get_p(
+    id = student_id,
+    p = "P569", # property for date of birth
+    only_first = TRUE
+  )) %>%
   # we don't care about possible multiple values on when they were born
-  mutate(place_of_birth = tw_get_p(id = student_id,
-                                   p = "P19", # property for place of birth
-                                   only_first = TRUE) %>% 
-           tw_get_label())
+  mutate(place_of_birth = tw_get_p(
+    id = student_id,
+    p = "P19", # property for place of birth
+    only_first = TRUE
+  ) %>%
+    tw_get_label())
 #> # A tibble: 20 × 4
 #>    student_label                 student_id date_of_birth         place_of_birth
 #>    <chr>                         <chr>      <chr>                 <chr>         
@@ -460,37 +465,46 @@ they are universities or not, and then get the coordinates for the given
 institutions.
 
 ``` r
-students %>% 
-  mutate(worked_at_id = tw_get_p(id = student_id,
-                                 p = "P108", # property for employer
-                                 only_first = FALSE)) %>% # not only the first result
+students %>%
+  mutate(worked_at_id = tw_get_p(
+    id = student_id,
+    p = "P108", # property for employer
+    only_first = FALSE
+  )) %>% # not only the first result
   unnest(worked_at_id) %>%
-  filter(is.na(worked_at_id)==FALSE) %>% # remove those for which we have no employer
-  mutate(worked_at_label = tw_get_label(worked_at_id)) %>% 
+  filter(is.na(worked_at_id) == FALSE) %>% # remove those for which we have no employer
+  mutate(worked_at_label = tw_get_label(worked_at_id)) %>%
   # but keep in mind we are only interested in the employer if they are a university
-  # so we ask what `instance of` the employer is. 
-  mutate(employer_instance_of = tw_get_p(id = worked_at_id,
-                                         p = "P31",
-                                         only_first = FALSE)) %>%  
-  unnest(employer_instance_of) %>% 
-  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>% 
+  # so we ask what `instance of` the employer is.
+  mutate(employer_instance_of = tw_get_p(
+    id = worked_at_id,
+    p = "P31",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of) %>%
+  mutate(employer_instance_of_label = tw_get_label(employer_instance_of)) %>%
   # some institutions may be e.g. "instance of" -> "private university", not of "university"
   # so whe check what "subclass of" that id
-  mutate(employer_instance_of2 = tw_get_p(id = worked_at_id,
-                                          p = "P31",
-                                          only_first = FALSE)) %>% 
-  unnest(employer_instance_of2) %>% 
-  mutate(employer_instance_of2_subclass_of = tw_get_p(id = employer_instance_of2,
-                                                      p = "P279",
-                                                      only_first = FALSE)) %>% 
-  unnest(employer_instance_of2_subclass_of) %>% 
+  mutate(employer_instance_of2 = tw_get_p(
+    id = worked_at_id,
+    p = "P31",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of2) %>%
+  mutate(employer_instance_of2_subclass_of = tw_get_p(
+    id = employer_instance_of2,
+    p = "P279",
+    only_first = FALSE
+  )) %>%
+  unnest(employer_instance_of2_subclass_of) %>%
   # keep only if employer is a university (or something which is a subclass of university)
-  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>% 
-  distinct(student_label, worked_at_id, worked_at_label) %>% 
+  filter(employer_instance_of == "Q3918" | employer_instance_of2_subclass_of == "Q3918") %>%
+  distinct(student_label, worked_at_id, worked_at_label) %>%
   mutate(worked_at_coordinates = tw_get_p(worked_at_id,
-                                          p = "P625",
-                                          only_first = TRUE)) %>% 
-  select(-worked_at_id) %>% 
+    p = "P625",
+    only_first = TRUE
+  )) %>%
+  select(-worked_at_id) %>%
   separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
 #> # A tibble: 19 × 4
 #>    student_label                 worked_at_label            lat            lon  
@@ -529,11 +543,13 @@ introduced to replicate a common use pattern, i.e. getting a number of
 property of a given set of identifiers, and retrieving their labels.
 
 ``` r
-tw_get_p_wide(id =  c("Q180099", "Q228822", "Q191095"), 
-              p = c("P27", "P19", "P20"),
-              only_first = TRUE,
-              preferred = TRUE,
-              label = TRUE)
+tw_get_p_wide(
+  id = c("Q180099", "Q228822", "Q191095"),
+  p = c("P27", "P19", "P20"),
+  only_first = TRUE,
+  preferred = TRUE,
+  label = TRUE
+)
 #> # A tibble: 3 × 5
 #>   id      label         P27                      P19           P20          
 #>   <chr>   <chr>         <chr>                    <chr>         <chr>        
@@ -548,13 +564,15 @@ but there is also an additional parameter to facilitate sharing the
 result, for example, as a csv file.
 
 ``` r
-tw_get_p_wide(id = c("Q180099", "Q228822", "Q191095"), 
-              p = c("P108", "P26", "P451"),
-              only_first = TRUE,
-              preferred = TRUE,
-              label = TRUE,
-              unlist = TRUE,
-              collapse = ";")
+tw_get_p_wide(
+  id = c("Q180099", "Q228822", "Q191095"),
+  p = c("P108", "P26", "P451"),
+  only_first = TRUE,
+  preferred = TRUE,
+  label = TRUE,
+  unlist = TRUE,
+  collapse = ";"
+)
 #> # A tibble: 3 × 5
 #>   id      label         P108                P26                       P451      
 #>   <chr>   <chr>         <chr>               <chr>                     <chr>     
@@ -583,7 +601,6 @@ If we look at his “positions held”
 following:
 
 ``` r
-
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -602,19 +619,20 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
 #> # A tibble: 27 × 8
-#>    id    property qualifier_id qualifier_prope… qualifier_value qualifier_value…
-#>    <chr> <chr>    <chr>        <chr>            <chr>           <chr>           
-#>  1 Q239… P39      Q740126      P580             +2019-07-03T00… time            
-#>  2 Q239… P39      Q740126      P1365            Q440710         wikibase-entity…
-#>  3 Q239… P39      Q740126      P582             +2022-01-11T00… time            
-#>  4 Q239… P39      Q740126      P1534            Q5247364        wikibase-entity…
-#>  5 Q239… P39      Q740126      P1366            Q7351526        wikibase-entity…
-#>  6 Q239… P39      Q27169       P580             +2019-07-02T00… time            
-#>  7 Q239… P39      Q27169       P582             +2022-01-11T00… time            
-#>  8 Q239… P39      Q27169       P1534            Q5247364        wikibase-entity…
-#>  9 Q239… P39      Q27169       P1366            Q110513292      wikibase-entity…
-#> 10 Q239… P39      Q27169       P2937            Q64038205       wikibase-entity…
-#> # … with 17 more rows, and 2 more variables: rank <chr>, set <dbl>
+#>    id       property qualifier_id qualifier_property quali…¹ quali…² rank    set
+#>    <chr>    <chr>    <chr>        <chr>              <chr>   <chr>   <chr> <dbl>
+#>  1 Q2391857 P39      Q740126      P580               +2019-… time    norm…     1
+#>  2 Q2391857 P39      Q740126      P1365              Q440710 wikiba… norm…     1
+#>  3 Q2391857 P39      Q740126      P582               +2022-… time    norm…     1
+#>  4 Q2391857 P39      Q740126      P1534              Q52473… wikiba… norm…     1
+#>  5 Q2391857 P39      Q740126      P1366              Q73515… wikiba… norm…     1
+#>  6 Q2391857 P39      Q27169       P580               +2019-… time    norm…     2
+#>  7 Q2391857 P39      Q27169       P582               +2022-… time    norm…     2
+#>  8 Q2391857 P39      Q27169       P1534              Q52473… wikiba… norm…     2
+#>  9 Q2391857 P39      Q27169       P1366              Q11051… wikiba… norm…     2
+#> 10 Q2391857 P39      Q27169       P2937              Q64038… wikiba… norm…     2
+#> # … with 17 more rows, and abbreviated variable names ¹​qualifier_value,
+#> #   ²​qualifier_value_type
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -764,11 +782,15 @@ So while we may be tempted to just keep the first statement returned by
 Wikidata for the given property, this is probably not what we want.
 
 ``` r
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 #> # A tibble: 2 × 4
 #>   city_qid city_label country_qid country_label
@@ -785,12 +807,16 @@ piped operations, we get the “preferred” property by setting `preferred`
 to `TRUE` in `tw_get_p()`.
 
 ``` r
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       preferred = TRUE,
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      preferred = TRUE,
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 #> # A tibble: 2 × 4
 #>   city_qid city_label country_qid country_label 
@@ -818,18 +844,22 @@ bit the process as it depends on a call to `tw_get_qualifiers()` to
 retrieve and cache relevant details.
 
 ``` r
-tibble::tibble(city_qid = c("Q84", "Q220")) %>% 
-  dplyr::mutate(city_label = tw_get_label(city_qid), 
-                country_qid = tw_get_p(id = city_qid,
-                                       p = "P17",
-                                       latest_start_time = TRUE, 
-                                       only_first = TRUE)) %>% 
+tibble::tibble(city_qid = c("Q84", "Q220")) %>%
+  dplyr::mutate(
+    city_label = tw_get_label(city_qid),
+    country_qid = tw_get_p(
+      id = city_qid,
+      p = "P17",
+      latest_start_time = TRUE,
+      only_first = TRUE
+    )
+  ) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 #> # A tibble: 2 × 4
 #>   city_qid city_label country_qid country_label 
 #>   <chr>    <chr>      <chr>       <chr>         
 #> 1 Q84      London     Q145        United Kingdom
-#> 2 Q220     Rome       Q38         Italy
+#> 2 Q220     Rome       Q201038     Roman Kingdom
 ```
 
 If none of the above works, then you may still be able to get consistent
@@ -889,27 +919,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 809 Columns: 3
+#> Rows: 890 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 809 × 3
-#>    id       label                     description                               
-#>    <chr>    <chr>                     <chr>                                     
-#>  1 Q2918619 Hester van Lennep         <NA>                                      
-#>  2 Q2937677 Truus Menger-Oversteegen  Dutch sculptor, painter, and wartime resi…
-#>  3 Q3009723 Cécile Cerf               French resistance member (1916-1973)      
-#>  4 Q3018636 Reina Prinsen Geerligs    Dutch writer and resistance fighter (1922…
-#>  5 Q3032952 Djignabo Badji            Senegalese activist                       
-#>  6 Q3058929 Estera Heiber-Fajersztejn <NA>                                      
-#>  7 Q3061239 Eva Fastag                polish-born Holocaust survivor            
-#>  8 Q3081207 Francine Fromond          <NA>                                      
-#>  9 Q3092277 Felicie Perelman          Polish writer                             
-#> 10 Q3104187 Germaine Guérin Dirique   <NA>                                      
-#> # … with 799 more rows
+#> # A tibble: 890 × 3
+#>    id      label                           description                          
+#>    <chr>   <chr>                           <chr>                                
+#>  1 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…
+#>  2 Q241097 Corrie Ten Boom                 Dutch resistance hero and writer     
+#>  3 Q246835 Trinity                         fictional character from the films o…
+#>  4 Q255016 Violette Szabo                  French-British SOE spy               
+#>  5 Q256628 Xenia Stad-de Jong              Dutch sprinter                       
+#>  6 Q270319 Christiane Desroches Noblecourt French egyptologist                  
+#>  7 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      
+#>  8 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…
+#>  9 Q274041 Nanny of the Maroons            leader of Windward Maroons in Jamaica
+#> 10 Q276410 Marga Klompé                    Dutch politician (1912-1986)         
+#> # … with 880 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -927,27 +957,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 134 Columns: 3
+#> Rows: 158 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 134 × 3
-#>    id         label                 description                                 
-#>    <chr>      <chr>                 <chr>                                       
-#>  1 Q2696536   Yolande Beekman       espionne et agente secret des Special Opera…
-#>  2 Q3009723   Cécile Cerf           résistante française                        
-#>  3 Q3081207   Francine Fromond      <NA>                                        
-#>  4 Q3132483   Henriette Moriamé     <NA>                                        
-#>  5 Q18121470  Antoinette d'Harcourt poétesse et résistante française            
-#>  6 Q19300907  Lucette Pla-Justafré  enseignante et personnalité politique franç…
-#>  7 Q19606396  Anise Postel-Vinay    résistante française                        
-#>  8 Q19631204  Cécile Rol-Tanguy     résistante française                        
-#>  9 Q109251934 Jeanne Bleton-Barraud résistante française                        
-#> 10 Q109252587 Louise Losserand      résistante et déportée française            
-#> # … with 124 more rows
+#> # A tibble: 158 × 3
+#>    id        label                          description                         
+#>    <chr>     <chr>                          <chr>                               
+#>  1 Q63978261 Lucienne Clément de l’Épine    "résistante française"              
+#>  2 Q64234855 Jacqueline Rigaud              "Juste parmi les Nations française" 
+#>  3 Q64859778 Henriette Cohen                "doyenne des survivants français d'…
+#>  4 Q65037641 Denise Le Flohic               "ancienne déportée-résistante, memb…
+#>  5 Q65123130 Gisèle Saltet d'Alzon-Maradène "résistante française"              
+#>  6 Q67174852 Jeanne Letourneau              "enseignante et résistante français…
+#>  7 Q67198764 Nelly Gorce                    "déportée à Ravensbrück à trente-tr…
+#>  8 Q67202638 Henriette de Ganay              <NA>                               
+#>  9 Q68421540 Jeanne Barnier                 "fonctionnaire français et résistan…
+#> 10 Q73235700 Raymonde Rolly                  <NA>                               
+#> # … with 148 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -966,7 +996,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 134 Columns: 3
+#> Rows: 158 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -974,9 +1004,9 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 1 × 4
-#>   label         description year_of_birth year_of_death
-#>   <chr>         <chr>               <dbl>         <dbl>
-#> 1 Simone Lurçat <NA>                 1915          2009
+#>   label           description                   year_of_birth year_of_death
+#>   <chr>           <chr>                                 <dbl>         <dbl>
+#> 1 Raymonde Tillon French politician (1915-2016)          1915          2016
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
@@ -998,19 +1028,19 @@ be mindful of redirection if using the title).
 ``` r
 tw_get_wikipedia_page_qid(title = "Margaret Mead")
 #> # A tibble: 1 × 7
-#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
-#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
-#> 1 Margaret Mead Margaret Mead          19617 Q180099 American cu… FALSE         
-#> # … with 1 more variable: language <chr>
+#>   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²
+#>   <chr>         <chr>                  <int> <chr>   <chr>       <lgl>   <chr>  
+#> 1 Margaret Mead Margaret Mead          19617 Q180099 American c… FALSE   en     
+#> # … with abbreviated variable names ¹​disambiguation, ²​language
 ```
 
 ``` r
 tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 #> # A tibble: 1 × 7
-#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
-#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
-#> 1 Margaret_Mead Margaret Mead          19617 Q180099 American cu… FALSE         
-#> # … with 1 more variable: language <chr>
+#>   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²
+#>   <chr>         <chr>                  <int> <chr>   <chr>       <lgl>   <chr>  
+#> 1 Margaret_Mead Margaret Mead          19617 Q180099 American c… FALSE   en     
+#> # … with abbreviated variable names ¹​disambiguation, ²​language
 ```
 
 Depending on the workflow, it is also possible to get the full link to
@@ -1026,25 +1056,25 @@ out, hundreds of pages, including a variety of people, places, concepts,
 etc.
 
 ``` r
-wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>% 
+wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
 wikipedia_df
 #> # A tibble: 793 × 8
-#>    source_title_url source_wikipedia_ti… source_qid wikipedia_title wikipedia_id
-#>    <chr>            <chr>                <chr>      <chr>                  <int>
-#>  1 Margaret Mead    Margaret Mead        Q180099    Alex Barker               NA
-#>  2 Margaret Mead    Margaret Mead        Q180099    Alfred S. Hayes           NA
-#>  3 Margaret Mead    Margaret Mead        Q180099    Blackberry Win…           NA
-#>  4 Margaret Mead    Margaret Mead        Q180099    Continuities i…           NA
-#>  5 Margaret Mead    Margaret Mead        Q180099    Culture and Co…           NA
-#>  6 Margaret Mead    Margaret Mead        Q180099    John P. Gillin            NA
-#>  7 Margaret Mead    Margaret Mead        Q180099    Martin Orans              NA
-#>  8 Margaret Mead    Margaret Mead        Q180099    A Darwinian Le…      3890352
-#>  9 Margaret Mead    Margaret Mead        Q180099    A Rap on Race       14527943
-#> 10 Margaret Mead    Margaret Mead        Q180099    Abby Kelley          4056835
-#> # … with 783 more rows, and 3 more variables: qid <chr>, description <chr>,
-#> #   language <chr>
+#>    source_title_url source_wikip…¹ sourc…² wikip…³ wikip…⁴ qid   descr…⁵ langu…⁶
+#>    <chr>            <chr>          <chr>   <chr>     <dbl> <chr> <chr>   <chr>  
+#>  1 Margaret Mead    Margaret Mead  Q180099 Alex B… NA      <NA>  <NA>    en     
+#>  2 Margaret Mead    Margaret Mead  Q180099 Alfred… NA      <NA>  <NA>    en     
+#>  3 Margaret Mead    Margaret Mead  Q180099 Blackb… NA      <NA>  <NA>    en     
+#>  4 Margaret Mead    Margaret Mead  Q180099 Contin… NA      <NA>  <NA>    en     
+#>  5 Margaret Mead    Margaret Mead  Q180099 Cultur… NA      <NA>  <NA>    en     
+#>  6 Margaret Mead    Margaret Mead  Q180099 John P… NA      <NA>  <NA>    en     
+#>  7 Margaret Mead    Margaret Mead  Q180099 Martin… NA      <NA>  <NA>    en     
+#>  8 Margaret Mead    Margaret Mead  Q180099 A Darw…  3.89e6 Q176… 1999 b… en     
+#>  9 Margaret Mead    Margaret Mead  Q180099 A Rap …  1.45e7 Q465… Book b… en     
+#> 10 Margaret Mead    Margaret Mead  Q180099 Abby K…  4.06e6 Q282… <NA>    en     
+#> # … with 783 more rows, and abbreviated variable names ¹​source_wikipedia_title,
+#> #   ²​source_qid, ³​wikipedia_title, ⁴​wikipedia_id, ⁵​description, ⁶​language
 ```
 
 What if we are potentially interested only in the people mentioned in
@@ -1052,9 +1082,9 @@ this page? We proceed as usual, checking which of these are “instance
 of” (“P19”) “human” (“Q5”), and take it from there.
 
 ``` r
-wikipedia_df %>% 
-  dplyr::pull(wikidata_id) %>% 
-  tw_get_property(p = "P31") %>% 
+wikipedia_df %>%
+  dplyr::pull(wikidata_id) %>%
+  tw_get_property(p = "P31") %>%
   dplyr::filter(value == "Q5")
 ```
 
@@ -1073,13 +1103,13 @@ Commons page where more details about the image can be found, as well as
 a direct link to the image at the desired resolution for direct embeds.
 
 ``` r
-tw_get_image(id = "Q180099", format = "commons") %>% 
+tw_get_image(id = "Q180099", format = "commons") %>%
   dplyr::pull(image)
 #> [1] "https://commons.wikimedia.org/wiki/File:Margaret Mead (1901-1978).jpg"
 ```
 
 ``` r
-tw_get_image(id = "Q180099", format = "embed", width = 300) %>% 
+tw_get_image(id = "Q180099", format = "embed", width = 300) %>%
   dplyr::pull(image)
 #> [1] "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Margaret Mead (1901-1978).jpg&width=300"
 ```
@@ -1097,11 +1127,13 @@ commons API. `tidywikidatar` includes a convenience function to get
 access to all such details:
 
 ``` r
-tw_get_image_metadata(id = "Q180099") %>% 
-  tidyr::pivot_longer(cols = dplyr::everything(),
-                      names_to = "property",
-                      values_to = "values",
-                      values_transform = list(values = as.character))
+tw_get_image_metadata(id = "Q180099") %>%
+  tidyr::pivot_longer(
+    cols = dplyr::everything(),
+    names_to = "property",
+    values_to = "values",
+    values_transform = list(values = as.character)
+  )
 #> # A tibble: 19 × 2
 #>    property                   values                                            
 #>    <chr>                      <chr>                                             
@@ -1118,8 +1150,8 @@ tw_get_image_metadata(id = "Q180099") %>%
 #> 11 license_url                "https://www.flickr.com/commons/usage/"           
 #> 12 license                     <NA>                                             
 #> 13 usage_terms                "No known copyright restrictions"                 
-#> 14 attribution_required       "FALSE"                                           
-#> 15 copyrighted                "TRUE"                                            
+#> 14 attribution_required       "0"                                               
+#> 15 copyrighted                "1"                                               
 #> 16 restrictions               ""                                                
 #> 17 date_time                  "2019-07-02 03:33:00"                             
 #> 18 date_time_original         "18 July 2011, 16:02"                             
