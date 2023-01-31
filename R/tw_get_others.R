@@ -246,7 +246,11 @@ tw_get_wikipedia <- function(id,
     base_link <- rep(as.character(NA), length(id))
   } else if (nrow(field_df) < length(id)) {
     base_link <- tibble::tibble(id = id) %>%
-      dplyr::left_join(y = field_df, by = "id") %>%
+      dplyr::left_join(
+        y = field_df,
+        by = "id",
+        multiple = "all"
+      ) %>%
       dplyr::pull("value")
   } else {
     base_link <- field_df %>%

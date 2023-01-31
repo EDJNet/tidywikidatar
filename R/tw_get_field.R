@@ -45,7 +45,11 @@ tw_get_field <- function(df,
     rep(as.character(NA), length(id))
   } else if (nrow(field_df) < length(id)) {
     tibble::tibble(id = id) %>%
-      dplyr::left_join(y = field_df, by = "id") %>%
+      dplyr::left_join(
+        y = field_df,
+        by = "id",
+        multiple = "all"
+      ) %>%
       dplyr::pull("value")
   } else {
     field_df %>%

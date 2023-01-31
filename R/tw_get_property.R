@@ -96,14 +96,19 @@ tw_get_property <- function(id,
   } else {
     if (length(p) > 1) {
       property_df <- tibble::tibble(property = p) %>%
-        dplyr::left_join(y = property_df, by = "property") %>%
+        dplyr::left_join(
+          y = property_df,
+          by = "property",
+          multiple = "all"
+        ) %>%
         dplyr::select("id", "property", "value", "rank")
     }
     if (length(id) > 1) {
       property_df <- tibble::tibble(id = id) %>%
         dplyr::left_join(
           y = property_df,
-          by = "id"
+          by = "id",
+          multiple = "all"
         )
     }
 
@@ -318,7 +323,8 @@ tw_get_property_same_length <- function(id,
   property_df_out <- tibble::tibble(id = id) %>%
     dplyr::left_join(
       y = property_df_post,
-      by = "id"
+      by = "id",
+      multiple = "all"
     )
 
   if (is.list(property_df_out$value) == "list") {

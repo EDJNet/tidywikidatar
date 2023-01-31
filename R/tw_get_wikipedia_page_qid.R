@@ -170,7 +170,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           wait = wait,
           attempts = attempts
         ),
-        by = "title_url"
+        by = "title_url",
+        multiple = "all"
       )
     )
   } else if (length(unique_title) > 1) {
@@ -205,7 +206,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
           x = tibble::tibble(title_url = title),
           y = df %>%
             dplyr::distinct(.data$title_url, .keep_all = TRUE),
-          by = "title_url"
+          by = "title_url",
+          multiple = "all"
         )
       )
     }
@@ -232,7 +234,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
             x = tibble::tibble(title_url = title),
             y = titles_in_cache_df %>%
               dplyr::distinct(.data$title_url, .keep_all = TRUE),
-            by = "title_url"
+            by = "title_url",
+            multiple = "all"
           )
         )
       } else if (length(titles_not_in_cache) > 0) {
@@ -269,7 +272,8 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
             titles_not_in_cache_df
           ) %>%
             dplyr::distinct(.data$title_url, .keep_all = TRUE),
-          by = "title_url"
+          by = "title_url",
+          multiple = "all"
         )
       }
     }

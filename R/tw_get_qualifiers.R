@@ -198,7 +198,8 @@ tw_get_qualifiers <- function(id,
           dplyr::left_join(
             x = tibble::tibble(id = id),
             y = qualifiers_from_cache_df,
-            by = "id"
+            by = "id",
+            multiple = "all"
           )
         )
       } else if (nrow(not_in_cache_df) > 0) {
@@ -235,7 +236,8 @@ tw_get_qualifiers <- function(id,
             qualifiers_from_cache_df,
             qualifiers_not_in_cache_df
           ),
-          by = "id"
+          by = "id",
+          multiple = "all"
         )
       }
     }

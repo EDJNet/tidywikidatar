@@ -300,13 +300,15 @@ tw_get_p_wide <- function(id,
       )) %>%
       dplyr::left_join(
         y = property_df_wide_ordered,
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
   } else {
     output_df <- tibble::tibble(id = id) %>%
       dplyr::left_join(
         y = property_df_wide_ordered,
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
   }
   tw_disconnect_from_cache(

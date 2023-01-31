@@ -69,7 +69,8 @@ tw_search <- function(search,
           cache_connection = db,
           disconnect_db = disconnect_db
         ),
-        by = "search"
+        by = "search",
+        multiple = "all"
       )
 
     if (include_search == TRUE) {
@@ -102,7 +103,8 @@ tw_search <- function(search,
             )
           }
         ),
-        by = "search"
+        by = "search",
+        multiple = "all"
       )
 
       tw_disconnect_from_cache(
@@ -138,7 +140,8 @@ tw_search <- function(search,
         search_df <- dplyr::left_join(
           x = tibble::tibble(search = search),
           y = search_from_cache_df,
-          by = "search"
+          by = "search",
+          multiple = "all"
         )
         tw_disconnect_from_cache(
           cache = cache,
@@ -188,7 +191,8 @@ tw_search <- function(search,
             search_from_cache_df,
             items_not_in_cache_df
           ),
-          by = "search"
+          by = "search",
+          multiple = "all"
         )
 
 

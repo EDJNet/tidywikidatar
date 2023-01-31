@@ -167,14 +167,16 @@ tw_get_image_same_length <- function(id,
           dplyr::group_by(.data$id) %>%
           dplyr::slice_head(n = 1) %>%
           dplyr::ungroup(),
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
     } else {
       dplyr::left_join(tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::summarise(image = list(.data$image)),
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
     }
   } else {
@@ -184,7 +186,8 @@ tw_get_image_same_length <- function(id,
           dplyr::group_by(.data$id) %>%
           dplyr::slice_head(n = 1) %>%
           dplyr::ungroup(),
-        by = "id"
+        by = "id",
+        multiple = "all"
       ) %>%
         dplyr::pull("image")
     } else {
@@ -192,7 +195,8 @@ tw_get_image_same_length <- function(id,
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::summarise(image = list(.data$image)),
-        by = "id"
+        by = "id",
+        multiple = "all"
       ) %>%
         dplyr::pull("image")
     }
@@ -284,7 +288,8 @@ tw_get_image_metadata <- function(id,
           wait = wait,
           attempts = attempts
         ),
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
     )
   } else if (nrow(input_df_distinct) > 1) {
@@ -320,7 +325,8 @@ tw_get_image_metadata <- function(id,
         dplyr::left_join(
           x = tibble::tibble(id = id),
           y = image_metadata,
-          by = "id"
+          by = "id",
+          multiple = "all"
         )
       )
     }
@@ -370,7 +376,8 @@ tw_get_image_metadata <- function(id,
         dplyr::left_join(
           x = tibble::tibble(id = id),
           y = image_metadata_from_cache_df,
-          by = "id"
+          by = "id",
+          multiple = "all"
         )
       )
     } else if (nrow(image_metadata_not_in_cache) > 0) {
@@ -411,7 +418,8 @@ tw_get_image_metadata <- function(id,
             image_metadata_from_cache_df,
             image_metadata_not_in_cache_df
           ),
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
     }
   }

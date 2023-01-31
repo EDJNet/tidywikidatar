@@ -210,7 +210,8 @@ tw_get <- function(id,
           disconnect_db = disconnect_db,
           wait = wait
         ),
-        by = "id"
+        by = "id",
+        multiple = "all"
       )
     )
   } else if (length(unique_id) > 1) {
@@ -242,7 +243,8 @@ tw_get <- function(id,
         dplyr::left_join(
           x = tibble::tibble(id = id),
           y = item_df,
-          by = "id"
+          by = "id",
+          multiple = "all"
         )
       )
     }
@@ -269,7 +271,8 @@ tw_get <- function(id,
           dplyr::left_join(
             x = tibble::tibble(id = id),
             y = items_from_cache_df,
-            by = "id"
+            by = "id",
+            multiple = "all"
           )
         )
       } else if (length(id_items_not_in_cache) > 0) {
@@ -305,7 +308,8 @@ tw_get <- function(id,
             items_from_cache_df,
             items_not_in_cache_df
           ),
-          by = "id"
+          by = "id",
+          multiple = "all"
         ) %>%
           dplyr::filter(is.na(.data$id) == FALSE)
       }

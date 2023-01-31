@@ -55,7 +55,8 @@ tw_get_property_label <- function(property,
       label_output <- pre_processed %>%
         dplyr::left_join(
           y = unique_processed,
-          by = "property"
+          by = "property",
+          multiple = "all"
         ) %>%
         dplyr::pull("label")
     } else {
