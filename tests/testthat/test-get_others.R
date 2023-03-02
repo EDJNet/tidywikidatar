@@ -6,7 +6,8 @@ test_that("tw_get_description works with more than one id without cache", {
       "Q228822"
     ),
     language = "en",
-    id_l = tw_test_items)
+    id_l = tw_test_items
+  )
 
   expect_equal(
     object = {
@@ -38,7 +39,8 @@ test_that("tw_get_description works with one id with cache", {
       "Q228822"
     ),
     language = "en",
-    id_l = tw_test_items)
+    id_l = tw_test_items
+  )
 
   expect_true(
     object = {
@@ -65,7 +67,8 @@ test_that("tw_get_description works with more than one id with cache", {
       "Q228822"
     ),
     language = "en",
-    id_l = tw_test_items)
+    id_l = tw_test_items
+  )
 
   expect_equal(
     object = {

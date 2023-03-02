@@ -205,11 +205,12 @@ tw_get_p_wide <- function(id,
     if (both_id_and_label == TRUE) {
       new_order <- c(
         "id",
-        t(matrix(c(
-          stringr::str_c(unique_p, "_value"),
-          stringr::str_c(unique_p, "_label")
-        ),
-        ncol = 2
+        t(matrix(
+          c(
+            stringr::str_c(unique_p, "_value"),
+            stringr::str_c(unique_p, "_label")
+          ),
+          ncol = 2
         )) %>%
           as.character()
       )

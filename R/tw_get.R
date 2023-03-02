@@ -8,10 +8,10 @@
 #'
 #' @examples
 #' if (interactive()) {
-#' tidywikidatar:::tw_get_single(
-#'   id = "Q180099",
-#'   language = "en"
-#' )
+#'   tidywikidatar:::tw_get_single(
+#'     id = "Q180099",
+#'     language = "en"
+#'   )
 #' }
 #'
 #' #' ## using `tw_test_items` in examples in order to show output without calling
@@ -73,27 +73,28 @@ tw_get_single <- function(id,
 
   Sys.sleep(time = wait)
 
-  if (is.null(id_l)==FALSE) {
+  if (is.null(id_l) == FALSE) {
     item <- id_l[purrr::map_chr(
       .x = id_l,
       .f = function(x) {
         purrr::pluck(x, "id")
-      }) %in% id]
+      }
+    ) %in% id]
 
-    if (length(item)==0) {
+    if (length(item) == 0) {
       item <- tryCatch(WikidataR::get_item(id = id),
-                       error = function(e) {
-                         as.character(e[[1]])
-                       }
+        error = function(e) {
+          as.character(e[[1]])
+        }
       )
-    } else if (length(item)>1) {
+    } else if (length(item) > 1) {
       item <- item[1]
     }
   } else {
     item <- tryCatch(WikidataR::get_item(id = id),
-                     error = function(e) {
-                       as.character(e[[1]])
-                     }
+      error = function(e) {
+        as.character(e[[1]])
+      }
     )
   }
 
@@ -199,20 +200,19 @@ tw_get_single <- function(id,
 #' @examples
 #'
 #' if (interactive()) {
-#'
-#' tw_get(
-#'   id = c("Q180099", "Q228822"),
-#'   language = "en"
-#' )
+#'   tw_get(
+#'     id = c("Q180099", "Q228822"),
+#'     language = "en"
+#'   )
 #' }
 #'
 #' ## using `tw_test_items` in examples in order to show output without calling
 #' ## on Wikidata servers
 #'
 #' tw_get(
-#' id = c("Q180099", "Q228822"),
-#' language = "en",
-#' id_l = tw_test_items
+#'   id = c("Q180099", "Q228822"),
+#'   language = "en",
+#'   id_l = tw_test_items
 #' )
 tw_get <- function(id,
                    language = tidywikidatar::tw_get_language(),
