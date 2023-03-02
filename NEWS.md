@@ -110,4 +110,5 @@
 # tidywikidatar 0.5.7
 
 * fix: `tw_get_wikipedia_category_members` now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url
+* testing adjustments: more tests now rely on an embedded set of items to reduce risks of server timeouts when conducting checks, in particular from CRAN
 
