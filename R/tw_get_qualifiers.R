@@ -71,13 +71,13 @@ tw_get_qualifiers_single <- function(id,
       }
     ) %in% id]
 
-    if (length(item) == 0) {
+    if (length(w) == 0) {
       w <- tryCatch(WikidataR::get_item(id = id),
         error = function(e) {
           as.character(e[[1]])
         }
       )
-    } else if (length(item) > 1) {
+    } else if (length(w) > 1) {
       w <- w[1]
     }
   } else {
