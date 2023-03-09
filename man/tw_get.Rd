@@ -41,19 +41,18 @@ Return (most) information from a Wikidata item in a tidy format
 \examples{
 
 if (interactive()) {
-
-tw_get(
-  id = c("Q180099", "Q228822"),
-  language = "en"
-)
+  tw_get(
+    id = c("Q180099", "Q228822"),
+    language = "en"
+  )
 }
 
 ## using `tw_test_items` in examples in order to show output without calling
 ## on Wikidata servers
 
 tw_get(
-id = c("Q180099", "Q228822"),
-language = "en",
-id_l = tw_test_items
+  id = c("Q180099", "Q228822"),
+  language = "en",
+  id_l = tw_test_items
 )
 }

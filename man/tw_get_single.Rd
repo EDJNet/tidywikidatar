@@ -43,10 +43,10 @@ Return (most) information from a Wikidata item in a tidy format from a single Wi
 }
 \examples{
 if (interactive()) {
-tidywikidatar:::tw_get_single(
-  id = "Q180099",
-  language = "en"
-)
+  tidywikidatar:::tw_get_single(
+    id = "Q180099",
+    language = "en"
+  )
 }
 
 #' ## using `tw_test_items` in examples in order to show output without calling

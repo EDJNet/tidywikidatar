@@ -12,7 +12,8 @@ test_that("check if qualifiers are returned correctly when more than 1 id and on
       q_df <- tw_get_qualifiers(
         id = c("Q180099", "Q314252"),
         p = "P26",
-        language = "en"
+        language = "en",
+        id_l = tw_test_items
       )
 
       list(
@@ -43,7 +44,8 @@ test_that("check if qualifiers are returned correctly when one of qualifiers has
       q_df <- tw_get_qualifiers(
         id = c("Q4644021"),
         p = "P31",
-        language = "en"
+        language = "en",
+        id_l = tw_test_items
       )
 
       q_df %>%

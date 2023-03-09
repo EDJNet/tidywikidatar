@@ -1,6 +1,6 @@
 ## code to prepare `tw_test_items` dataset goes here
 
-qid <- c("Q2", "Q5", "Q180099", "Q228822", "Q191095")
+qid <- c("Q2", "Q5", "Q180099", "Q228822", "Q191095", "Q314252")
 
 tw_test_items <- WikidataR::get_item(id = qid)
 
