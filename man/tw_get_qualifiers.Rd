@@ -43,7 +43,7 @@ N.B. In order to provide for consistently structured output, this function outpu
 }
 \examples{
 if (interactive()) {
-tidywikidatar::tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+  tidywikidatar::tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
 }
 
 #' ## using `tw_test_items` in examples in order to show output without calling

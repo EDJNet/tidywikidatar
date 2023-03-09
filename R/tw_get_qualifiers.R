@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' if (interactive()) {
-#' tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+#'   tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
 #' }
 #'
 #' #' ## using `tw_test_items` in examples in order to show output without calling
@@ -145,7 +145,7 @@ tw_get_qualifiers_single <- function(id,
 #'
 #' @examples
 #' if (interactive()) {
-#' tidywikidatar::tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+#'   tidywikidatar::tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
 #' }
 #'
 #' #' ## using `tw_test_items` in examples in order to show output without calling

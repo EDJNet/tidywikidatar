@@ -11,3 +11,4 @@
 
 ## Comments
 
+New version significantly reduces the risk of API-related errors such as the ones that emerged with CRAN checks on 1 March 2023
