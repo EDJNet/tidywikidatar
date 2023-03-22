@@ -1,4 +1,3 @@
-
 #' Get image from Wikimedia Commons
 #'
 #' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical

@@ -38,6 +38,13 @@ tw_get_wikipedia_category_members <- function(url = NULL,
                                               disconnect_db = TRUE,
                                               wait = 1,
                                               attempts = 10) {
+  if (is.null(category) == TRUE & is.null(url) == FALSE) {
+    language <- stringr::str_extract(
+      string = url,
+      pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
+    )
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -208,7 +215,7 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
 
     all_jsons[[page_number]] <- base_json
 
-    while (is.null(continue_check) == FALSE & page_number < 500) {
+    while (is.null(continue_check) == FALSE & page_number < 1000) {
       page_number <- page_number + 1
 
       json_url <- stringr::str_c(
@@ -242,7 +249,7 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
       continue_check <- base_json %>%
         purrr::pluck(
           "continue",
-          "cmlcontinue"
+          "cmcontinue"
         )
     }
 

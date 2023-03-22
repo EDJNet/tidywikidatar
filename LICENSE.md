@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2022 Giorgio Comai (OBCT/EDJNet)
+Copyright (c) 2023 Giorgio Comai (OBCT/EDJNet)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

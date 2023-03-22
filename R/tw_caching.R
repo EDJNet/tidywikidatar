@@ -82,7 +82,6 @@ tw_get_cache_folder <- tw_set_cache_folder
 #' @examples
 #' \donttest{
 #' if (interactive()) {
-#'
 #'   # Settings can be provided either as a list
 #'   db_settings <- list(
 #'     driver = "MySQL",

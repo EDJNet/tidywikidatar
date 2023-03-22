@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_get_single}
 \alias{tw_get_single}
-\title{Return (most) information from a Wikidata item in a tidy format}
+\title{Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier}
 \usage{
 tw_get_single(
   id,
@@ -12,7 +12,8 @@ tw_get_single(
   read_cache = TRUE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  id_l = NULL
 )
 }
 \arguments{
@@ -31,16 +32,29 @@ tw_get_single(
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{id_l}{Defaults to NULL. If given, must be an object or list such as the one generated with \code{WikidataR::get_item()}. If given, and the requested id is actually present in \code{id_l}, then no query to Wikidata servers is made.}
 }
 \value{
 A data.frame (a tibble) with four columns (id, property, value, and rank). If item not found or trouble connecting with the server, a data frame with four columns and zero rows is returned, with the warning as an attribute, which can be retrieved with \verb{attr(output, "warning"))}
 }
 \description{
-Return (most) information from a Wikidata item in a tidy format
+Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier
 }
 \examples{
+if (interactive()) {
+  tidywikidatar:::tw_get_single(
+    id = "Q180099",
+    language = "en"
+  )
+}
+
+#' ## using `tw_test_items` in examples in order to show output without calling
+## on Wikidata servers
+
 tidywikidatar:::tw_get_single(
   id = "Q180099",
-  language = "en"
+  language = "en",
+  id_l = tw_test_items
 )
 }

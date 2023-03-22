@@ -10,11 +10,24 @@
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
 #'
 #' @return A data frame (a tibble) with eight columns: `id` for the input id, `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`, `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when a property is present more than once)
 #'
 #' @examples
-#' tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+#' if (interactive()) {
+#'   tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+#' }
+#'
+#' #' ## using `tw_test_items` in examples in order to show output without calling
+#' ## on Wikidata servers
+#'
+#' tidywikidatar:::tw_get_qualifiers_single(
+#'   id = "Q180099",
+#'   p = "P26",
+#'   language = "en",
+#'   id_l = tw_test_items
+#' )
 tw_get_qualifiers_single <- function(id,
                                      p,
                                      language = tidywikidatar::tw_get_language(),
@@ -22,7 +35,8 @@ tw_get_qualifiers_single <- function(id,
                                      overwrite_cache = FALSE,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE,
-                                     wait = 0) {
+                                     wait = 0,
+                                     id_l = NULL) {
   if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_qualifiers(
       id = id,
@@ -49,11 +63,30 @@ tw_get_qualifiers_single <- function(id,
 
   Sys.sleep(time = wait)
 
-  w <- tryCatch(WikidataR::get_item(id = id),
-    error = function(e) {
-      as.character(e[[1]])
+  if (is.null(id_l) == FALSE) {
+    w <- id_l[purrr::map_chr(
+      .x = id_l,
+      .f = function(x) {
+        purrr::pluck(x, "id")
+      }
+    ) %in% id]
+
+    if (length(w) == 0) {
+      w <- tryCatch(WikidataR::get_item(id = id),
+        error = function(e) {
+          as.character(e[[1]])
+        }
+      )
+    } else if (length(w) > 1) {
+      w <- w[1]
     }
-  )
+  } else {
+    w <- tryCatch(WikidataR::get_item(id = id),
+      error = function(e) {
+        as.character(e[[1]])
+      }
+    )
+  }
 
   if (is.character(w)) {
     usethis::ui_oops(w)
@@ -105,12 +138,25 @@ tw_get_qualifiers_single <- function(id,
 #' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
 #'
 #' @return A data frame (a tibble) with eight columns: `id` for the input id, `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`, `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when a property is present more than once)
 #' @export
 #'
 #' @examples
-#' tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+#' if (interactive()) {
+#'   tidywikidatar::tw_get_qualifiers(id = "Q180099", p = "P26", language = "en")
+#' }
+#'
+#' #' ## using `tw_test_items` in examples in order to show output without calling
+#' ## on Wikidata servers
+#'
+#' tidywikidatar::tw_get_qualifiers(
+#'   id = "Q180099",
+#'   p = "P26",
+#'   language = "en",
+#'   id_l = tw_test_items
+#' )
 tw_get_qualifiers <- function(id,
                               p,
                               language = tidywikidatar::tw_get_language(),
@@ -118,7 +164,8 @@ tw_get_qualifiers <- function(id,
                               overwrite_cache = FALSE,
                               cache_connection = NULL,
                               disconnect_db = TRUE,
-                              wait = 0) {
+                              wait = 0,
+                              id_l = NULL) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -140,7 +187,8 @@ tw_get_qualifiers <- function(id,
       overwrite_cache = overwrite_cache,
       cache_connection = db,
       disconnect_db = disconnect_db,
-      wait = wait
+      wait = wait,
+      id_l = id_l
     ))
   } else if (length(id) > 1 | length(p) > 1) {
     if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
@@ -159,7 +207,8 @@ tw_get_qualifiers <- function(id,
             overwrite_cache = overwrite_cache,
             cache_connection = db,
             disconnect_db = FALSE,
-            wait = wait
+            wait = wait,
+            id_l = id_l
           )
         }
       )
@@ -217,7 +266,8 @@ tw_get_qualifiers <- function(id,
               overwrite_cache = overwrite_cache,
               cache_connection = db,
               disconnect_db = FALSE,
-              wait = wait
+              wait = wait,
+              id_l = id_l
             )
           }
         )

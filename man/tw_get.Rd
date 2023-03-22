@@ -11,7 +11,8 @@ tw_get(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  id_l = NULL
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ tw_get(
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{id_l}{Defaults to NULL. If given, must be an object or list such as the one generated with \code{WikidataR::get_item()}. If given, and the requested id is actually present in \code{id_l}, then no query to Wikidata servers is made.}
 }
 \value{
 A data.frame (a tibble) with three columns (id, property, and value).
@@ -36,8 +39,20 @@ A data.frame (a tibble) with three columns (id, property, and value).
 Return (most) information from a Wikidata item in a tidy format
 }
 \examples{
+
+if (interactive()) {
+  tw_get(
+    id = c("Q180099", "Q228822"),
+    language = "en"
+  )
+}
+
+## using `tw_test_items` in examples in order to show output without calling
+## on Wikidata servers
+
 tw_get(
   id = c("Q180099", "Q228822"),
-  language = "en"
+  language = "en",
+  id_l = tw_test_items
 )
 }

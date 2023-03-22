@@ -127,11 +127,12 @@ tw_get_wikipedia_page_links <- function(url = NULL,
   wikipedia_page_qid_df %>%
     dplyr::distinct(.data$title_url) %>%
     dplyr::rename(source_title_url = .data$title_url) %>%
-    dplyr::left_join(dplyr::bind_rows(
-      previously_cached_df,
-      wikipedia_page_links_new_df
-    ),
-    by = "source_title_url"
+    dplyr::left_join(
+      dplyr::bind_rows(
+        previously_cached_df,
+        wikipedia_page_links_new_df
+      ),
+      by = "source_title_url"
     )
 }
 

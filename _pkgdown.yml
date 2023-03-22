@@ -93,5 +93,7 @@ reference:
 - title: Example datasets
   desc: Just a couple of datasets with a bunch of Wikidata Q identifiers to be used
     for examples or testing
-  contents: starts_with("tw_qid_")
+  contents:
+  - starts_with("tw_qid_")
+  - tw_test_items
 

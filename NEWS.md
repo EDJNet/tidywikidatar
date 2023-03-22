@@ -105,3 +105,10 @@
 # tidywikidatar 0.5.6
 
 * fix: `tw_get` now caches Wikidata items that have been deleted, storing the error message as the value of property "error"
+* fix: `tw_search` now returns results consistently also when description missing in given language (issue stemming from update in a dependency)
+
+# tidywikidatar 0.5.7
+
+* fix: `tw_get_wikipedia_category_members` now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url
+* testing adjustments: more tests now rely on an embedded set of items to reduce risks of server timeouts when conducting checks, in particular from CRAN
+

@@ -1,5 +1,5 @@
 ## Test environments
-* local R installation, R 4.1.3
+* local R installation, R 4.2.2
 * win-builder (devel)
 * windows, macOS, ubuntu 20.04 on Github Actions as set with usethis::use_github_action_check_standard() - passing.
 * rhub::check_for_cran()
@@ -11,3 +11,4 @@
 
 ## Comments
 
+New version significantly reduces the risk of API-related errors such as the ones that emerged with CRAN checks on 1 March 2023

@@ -9,7 +9,7 @@ test_that("Preferred or latest result is chosen when requested", {
   q_df <- tw_get_qualifiers_single(
     id = c("Q220"),
     p = "P17",
-    language = "en",
+    language = "en"
   )
 
 

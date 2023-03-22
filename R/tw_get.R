@@ -1,20 +1,26 @@
-#' Return (most) information from a Wikidata item in a tidy format
+#' Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier
 #'
-#' @param id A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
 #' @param read_cache Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#'
+#' @inheritParams tw_get
 #'
 #' @return A data.frame (a tibble) with four columns (id, property, value, and rank). If item not found or trouble connecting with the server, a data frame with four columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
 #'
 #' @examples
+#' if (interactive()) {
+#'   tidywikidatar:::tw_get_single(
+#'     id = "Q180099",
+#'     language = "en"
+#'   )
+#' }
+#'
+#' #' ## using `tw_test_items` in examples in order to show output without calling
+#' ## on Wikidata servers
+#'
 #' tidywikidatar:::tw_get_single(
 #'   id = "Q180099",
-#'   language = "en"
+#'   language = "en",
+#'   id_l = tw_test_items
 #' )
 tw_get_single <- function(id,
                           language = tidywikidatar::tw_get_language(),
@@ -23,7 +29,8 @@ tw_get_single <- function(id,
                           read_cache = TRUE,
                           cache_connection = NULL,
                           disconnect_db = TRUE,
-                          wait = 0) {
+                          wait = 0,
+                          id_l = NULL) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -66,11 +73,31 @@ tw_get_single <- function(id,
 
   Sys.sleep(time = wait)
 
-  item <- tryCatch(WikidataR::get_item(id = id),
-    error = function(e) {
-      as.character(e[[1]])
+  if (is.null(id_l) == FALSE) {
+    item <- id_l[purrr::map_chr(
+      .x = id_l,
+      .f = function(x) {
+        purrr::pluck(x, "id")
+      }
+    ) %in% id]
+
+    if (length(item) == 0) {
+      item <- tryCatch(WikidataR::get_item(id = id),
+        error = function(e) {
+          as.character(e[[1]])
+        }
+      )
+    } else if (length(item) > 1) {
+      item <- item[1]
     }
-  )
+  } else {
+    item <- tryCatch(WikidataR::get_item(id = id),
+      error = function(e) {
+        as.character(e[[1]])
+      }
+    )
+  }
+
 
   if (is.character(item)) {
     usethis::ui_oops(item)
@@ -81,7 +108,7 @@ tw_get_single <- function(id,
         string = item,
         pattern = "The API returned an error: "
       ),
-      rank = as.character(NA)
+      rank = NA_character_
     )
 
     if (tw_check_cache(cache) == TRUE) {
@@ -165,14 +192,27 @@ tw_get_single <- function(id,
 #' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
 #' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
 #'
 #' @return A data.frame (a tibble) with three columns (id, property, and value).
 #' @export
 #'
 #' @examples
+#'
+#' if (interactive()) {
+#'   tw_get(
+#'     id = c("Q180099", "Q228822"),
+#'     language = "en"
+#'   )
+#' }
+#'
+#' ## using `tw_test_items` in examples in order to show output without calling
+#' ## on Wikidata servers
+#'
 #' tw_get(
 #'   id = c("Q180099", "Q228822"),
-#'   language = "en"
+#'   language = "en",
+#'   id_l = tw_test_items
 #' )
 tw_get <- function(id,
                    language = tidywikidatar::tw_get_language(),
@@ -180,7 +220,8 @@ tw_get <- function(id,
                    overwrite_cache = FALSE,
                    cache_connection = NULL,
                    disconnect_db = TRUE,
-                   wait = 0) {
+                   wait = 0,
+                   id_l = NULL) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -208,7 +249,8 @@ tw_get <- function(id,
           overwrite_cache = overwrite_cache,
           cache_connection = db,
           disconnect_db = disconnect_db,
-          wait = wait
+          wait = wait,
+          id_l = id_l
         ),
         by = "id"
       )
@@ -228,7 +270,8 @@ tw_get <- function(id,
             overwrite_cache = overwrite_cache,
             cache_connection = db,
             disconnect_db = FALSE,
-            wait = wait
+            wait = wait,
+            id_l = id_l
           )
         }
       )
@@ -287,7 +330,8 @@ tw_get <- function(id,
               cache_connection = db,
               read_cache = FALSE,
               disconnect_db = FALSE,
-              wait = wait
+              wait = wait,
+              id_l = id_l
             )
           }
         )

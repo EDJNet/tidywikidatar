@@ -61,3 +61,8 @@
 #'
 #' @format A data frame with 0 rows and 3 columns
 "tw_empty_wikipedia_category_members"
+
+#' A list mostly used for testing with some Wikidata items in the format resulting from `WikidataR::get_item()`
+#'
+#' @format A list, an object such as the one resulting from `WikidataR::get_item()`
+"tw_test_items"

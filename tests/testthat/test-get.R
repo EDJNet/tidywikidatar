@@ -7,7 +7,8 @@ test_that("check if tw_get returns tibble with four columns and meaningful numbe
     item <- tw_get(
       id = c(
         "Q180099"
-      )
+      ),
+      id_l = tw_test_items
     )
 
     if (is.null(attr(item, "warning")) == FALSE) {
@@ -37,7 +38,8 @@ test_that("check if tw_get works when more than one id as input", {
         "Q180099",
         "Q228822"
       ),
-      language = "en"
+      language = "en",
+      id_l = tw_test_items
     )
     if (is.null(attr(item, "warning")) == FALSE) {
       message("Issues with API in testing")

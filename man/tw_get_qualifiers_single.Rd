@@ -12,7 +12,8 @@ tw_get_qualifiers_single(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  id_l = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ tw_get_qualifiers_single(
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+
+\item{id_l}{Defaults to NULL. If given, must be an object or list such as the one generated with \code{WikidataR::get_item()}. If given, and the requested id is actually present in \code{id_l}, then no query to Wikidata servers is made.}
 }
 \value{
 A data frame (a tibble) with eight columns: \code{id} for the input id, \code{property},  \code{qualifier_id}, \code{qualifier_property}, \code{qualifier_value}, \code{rank}, \code{qualifier_value_type}, and \code{set} (to distinguish sets of data when a property is present more than once)
@@ -39,5 +42,17 @@ A data frame (a tibble) with eight columns: \code{id} for the input id, \code{pr
 N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
 }
 \examples{
-tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+if (interactive()) {
+  tidywikidatar:::tw_get_qualifiers_single(id = "Q180099", p = "P26", language = "en")
+}
+
+#' ## using `tw_test_items` in examples in order to show output without calling
+## on Wikidata servers
+
+tidywikidatar:::tw_get_qualifiers_single(
+  id = "Q180099",
+  p = "P26",
+  language = "en",
+  id_l = tw_test_items
+)
 }

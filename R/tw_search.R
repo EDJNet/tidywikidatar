@@ -334,17 +334,20 @@ tw_search_single <- function(search,
     search_response_df <- purrr::map_dfr(
       .x = search_response,
       .f = function(x) {
+        extracted_label <- x %>% purrr::pluck("label", .default = NA_character_)
+        extracted_description <- x %>% purrr::pluck("description", .default = NA_character_)
+
         tibble::tibble(
           id = x %>% purrr::pluck("id"),
           label = dplyr::if_else(
-            condition = is.null(x %>% purrr::pluck("label")),
-            true = as.character(NA),
-            false = x %>% purrr::pluck("label")
+            condition = is.na(extracted_label),
+            true = NA_character_,
+            false = extracted_label
           ),
           description = dplyr::if_else(
-            condition = is.null(x %>% purrr::pluck("description")),
-            true = as.character(NA),
-            false = x %>% purrr::pluck("description")
+            condition = is.na(extracted_description),
+            true = NA_character_,
+            false = extracted_description
           )
         )
       }
