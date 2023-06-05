@@ -4,7 +4,7 @@
 #' @param p_to_remove A character vector for properties in the format, e.g., `c("P123", "P124")`. These properties will be removed from cache.
 #' @inheritParams tw_get_property
 #'
-#' @return
+#' @return Nothing, used for its side effects.
 #' @export
 #'
 #' @examples

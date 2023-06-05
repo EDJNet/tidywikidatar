@@ -26,6 +26,9 @@ tw_prune(
 
 \item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
 }
+\value{
+Nothing, used for its side effects.
+}
 \description{
 Prune unnecessary item properties from the local cache
 }
