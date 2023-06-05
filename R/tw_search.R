@@ -238,6 +238,16 @@ tw_search_single <- function(search,
     usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
   }
 
+  if (search=="") {
+    if (include_search == TRUE) {
+      tw_empty_search %>%
+        dplyr::add_row(search = "")
+    } else {
+      return(tw_empty_search %>%
+               dplyr::select(-"search"))
+    }
+  }
+
   language_combo <- stringr::str_c(language, "_", response_language)
 
   db <- tw_connect_to_cache(
