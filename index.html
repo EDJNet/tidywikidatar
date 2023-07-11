@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.7.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -457,20 +457,20 @@
 <code class="sourceCode R"><span><span class="va">qualifiers_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tw_get_qualifiers.html">tw_get_qualifiers</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q2391857"</span>, p <span class="op">=</span> <span class="st">"P39"</span><span class="op">)</span></span>
 <span><span class="va">qualifiers_df</span></span>
 <span><span class="co">#&gt; # A tibble: 27 × 8</span></span>
-<span><span class="co">#&gt;    id       property qualifier_id qualifier_property quali…¹ quali…² rank    set</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 Q2391857 P39      Q740126      P580               +2019-… time    norm…     1</span></span>
-<span><span class="co">#&gt;  2 Q2391857 P39      Q740126      P1365              Q440710 wikiba… norm…     1</span></span>
-<span><span class="co">#&gt;  3 Q2391857 P39      Q740126      P582               +2022-… time    norm…     1</span></span>
-<span><span class="co">#&gt;  4 Q2391857 P39      Q740126      P1534              Q52473… wikiba… norm…     1</span></span>
-<span><span class="co">#&gt;  5 Q2391857 P39      Q740126      P1366              Q73515… wikiba… norm…     1</span></span>
-<span><span class="co">#&gt;  6 Q2391857 P39      Q27169       P580               +2019-… time    norm…     2</span></span>
-<span><span class="co">#&gt;  7 Q2391857 P39      Q27169       P582               +2022-… time    norm…     2</span></span>
-<span><span class="co">#&gt;  8 Q2391857 P39      Q27169       P1534              Q52473… wikiba… norm…     2</span></span>
-<span><span class="co">#&gt;  9 Q2391857 P39      Q27169       P1366              Q11051… wikiba… norm…     2</span></span>
-<span><span class="co">#&gt; 10 Q2391857 P39      Q27169       P2937              Q64038… wikiba… norm…     2</span></span>
-<span><span class="co">#&gt; # … with 17 more rows, and abbreviated variable names ¹​qualifier_value,</span></span>
-<span><span class="co">#&gt; #   ²​qualifier_value_type</span></span></code></pre></div>
+<span><span class="co">#&gt;    id       property qualifier_id qualifier_property qualifier_value      </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;              &lt;chr&gt;                </span></span>
+<span><span class="co">#&gt;  1 Q2391857 P39      Q740126      P580               +2019-07-03T00:00:00Z</span></span>
+<span><span class="co">#&gt;  2 Q2391857 P39      Q740126      P1365              Q440710              </span></span>
+<span><span class="co">#&gt;  3 Q2391857 P39      Q740126      P582               +2022-01-11T00:00:00Z</span></span>
+<span><span class="co">#&gt;  4 Q2391857 P39      Q740126      P1534              Q5247364             </span></span>
+<span><span class="co">#&gt;  5 Q2391857 P39      Q740126      P1366              Q7351526             </span></span>
+<span><span class="co">#&gt;  6 Q2391857 P39      Q27169       P580               +2019-07-02T00:00:00Z</span></span>
+<span><span class="co">#&gt;  7 Q2391857 P39      Q27169       P582               +2022-01-11T00:00:00Z</span></span>
+<span><span class="co">#&gt;  8 Q2391857 P39      Q27169       P1534              Q5247364             </span></span>
+<span><span class="co">#&gt;  9 Q2391857 P39      Q27169       P1366              Q110513292           </span></span>
+<span><span class="co">#&gt; 10 Q2391857 P39      Q27169       P2937              Q64038205            </span></span>
+<span><span class="co">#&gt; # ℹ 17 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 3 more variables: qualifier_value_type &lt;chr&gt;, rank &lt;chr&gt;, set &lt;dbl&gt;</span></span></code></pre></div>
 <p>As usual, Wikidata presents everything as combinations of properties and values. Let’s translate each of these to their respective label, and separate each set of information we have about the “positions held” by Mr. Sassoli:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qualifiers_labelled_df</span> <span class="op">&lt;-</span> <span class="va">qualifiers_df</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -864,27 +864,27 @@
 <p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 890 Columns: 3</span></span>
+<span><span class="co">#&gt; Rows: 1012 Columns: 3</span></span>
 <span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; Delimiter: ","</span></span>
 <span><span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span><span class="co">#&gt; # A tibble: 890 × 3</span></span>
+<span><span class="co">#&gt; # A tibble: 1,012 × 3</span></span>
 <span><span class="co">#&gt;    id      label                           description                          </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt;                                </span></span>
-<span><span class="co">#&gt;  1 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…</span></span>
-<span><span class="co">#&gt;  2 Q241097 Corrie Ten Boom                 Dutch resistance hero and writer     </span></span>
-<span><span class="co">#&gt;  3 Q246835 Trinity                         fictional character from the films o…</span></span>
-<span><span class="co">#&gt;  4 Q255016 Violette Szabo                  French-British SOE spy               </span></span>
-<span><span class="co">#&gt;  5 Q256628 Xenia Stad-de Jong              Dutch sprinter                       </span></span>
-<span><span class="co">#&gt;  6 Q270319 Christiane Desroches Noblecourt French egyptologist                  </span></span>
-<span><span class="co">#&gt;  7 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      </span></span>
-<span><span class="co">#&gt;  8 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…</span></span>
-<span><span class="co">#&gt;  9 Q274041 Nanny of the Maroons            leader of Windward Maroons in Jamaica</span></span>
-<span><span class="co">#&gt; 10 Q276410 Marga Klompé                    Dutch politician (1912-1986)         </span></span>
-<span><span class="co">#&gt; # … with 880 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 Q229062 Zoya Kosmodemyanskaya           Soviet resistance member of World Wa…</span></span>
+<span><span class="co">#&gt;  2 Q237416 Dubravka Ugrešić                Croatian writer (1949–2023)          </span></span>
+<span><span class="co">#&gt;  3 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…</span></span>
+<span><span class="co">#&gt;  4 Q241097 Corrie ten Boom                 Dutch resistance hero and writer     </span></span>
+<span><span class="co">#&gt;  5 Q246835 Trinity                         fictional character from the films o…</span></span>
+<span><span class="co">#&gt;  6 Q255016 Violette Szabo                  French-British SOE spy               </span></span>
+<span><span class="co">#&gt;  7 Q256628 Xenia Stad-de Jong              Dutch sprinter                       </span></span>
+<span><span class="co">#&gt;  8 Q270319 Christiane Desroches Noblecourt French egyptologist (1913-2011)      </span></span>
+<span><span class="co">#&gt;  9 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      </span></span>
+<span><span class="co">#&gt; 10 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…</span></span>
+<span><span class="co">#&gt; # ℹ 1,002 more rows</span></span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142" class="external-link">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27" class="external-link">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
@@ -894,27 +894,27 @@
 <span>  <span class="st">"P27"</span>, <span class="st">"Q142"</span></span>
 <span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># Country of citizenship: France</span></span>
 <span>  <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"it"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 158 Columns: 3</span></span>
+<span><span class="co">#&gt; Rows: 168 Columns: 3</span></span>
 <span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; Delimiter: ","</span></span>
 <span><span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span><span class="co">#&gt; # A tibble: 158 × 3</span></span>
-<span><span class="co">#&gt;    id        label                          description                         </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                          &lt;chr&gt;                               </span></span>
-<span><span class="co">#&gt;  1 Q63978261 Lucienne Clément de l’Épine    "résistante française"              </span></span>
-<span><span class="co">#&gt;  2 Q64234855 Jacqueline Rigaud              "Juste parmi les Nations française" </span></span>
-<span><span class="co">#&gt;  3 Q64859778 Henriette Cohen                "doyenne des survivants français d'…</span></span>
-<span><span class="co">#&gt;  4 Q65037641 Denise Le Flohic               "ancienne déportée-résistante, memb…</span></span>
-<span><span class="co">#&gt;  5 Q65123130 Gisèle Saltet d'Alzon-Maradène "résistante française"              </span></span>
-<span><span class="co">#&gt;  6 Q67174852 Jeanne Letourneau              "enseignante et résistante français…</span></span>
-<span><span class="co">#&gt;  7 Q67198764 Nelly Gorce                    "déportée à Ravensbrück à trente-tr…</span></span>
-<span><span class="co">#&gt;  8 Q67202638 Henriette de Ganay              &lt;NA&gt;                               </span></span>
-<span><span class="co">#&gt;  9 Q68421540 Jeanne Barnier                 "fonctionnaire français et résistan…</span></span>
-<span><span class="co">#&gt; 10 Q73235700 Raymonde Rolly                  &lt;NA&gt;                               </span></span>
-<span><span class="co">#&gt; # … with 148 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 168 × 3</span></span>
+<span><span class="co">#&gt;    id        label              description                                     </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt;                                           </span></span>
+<span><span class="co">#&gt;  1 Q2696536  Yolande Beekman    espionne et agente secret des Special Operation…</span></span>
+<span><span class="co">#&gt;  2 Q3009723  Cécile Cerf        résistante française                            </span></span>
+<span><span class="co">#&gt;  3 Q56817009 Thérèse Chassaing  militante communiste                            </span></span>
+<span><span class="co">#&gt;  4 Q58213356 Suzanne Lanoy      professeure et résistante française             </span></span>
+<span><span class="co">#&gt;  5 Q59263305 Hélène Cogoluègnes résistante française,  femme de lettres         </span></span>
+<span><span class="co">#&gt;  6 Q59532567 Miriam Cendrars    résistante française attachée auprès du Général…</span></span>
+<span><span class="co">#&gt;  7 Q60184999 Yvonne Filiâtre    militante socialiste trotskiste et Résistante   </span></span>
+<span><span class="co">#&gt;  8 Q20895003 Hélène Jakubowicz  résistante française                            </span></span>
+<span><span class="co">#&gt;  9 Q21009704 Madeleine Passot   résistante communiste française                 </span></span>
+<span><span class="co">#&gt; 10 Q21069334 Mireille Albrecht  autrice, résistante française                   </span></span>
+<span><span class="co">#&gt; # ℹ 158 more rows</span></span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
@@ -926,7 +926,7 @@
 <span>  <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 158 Columns: 3</span></span>
+<span><span class="co">#&gt; Rows: 168 Columns: 3</span></span>
 <span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; Delimiter: ","</span></span>
 <span><span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span></span>
@@ -934,9 +934,9 @@
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
-<span><span class="co">#&gt;   label           description                   year_of_birth year_of_death</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;                                 &lt;dbl&gt;         &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 Raymonde Tillon French politician (1915-2016)          1915          2016</span></span></code></pre></div>
+<span><span class="co">#&gt;   label          description      year_of_birth year_of_death</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;                    &lt;dbl&gt;         &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Marina Ginestà Spanish reporter          1919          2014</span></span></code></pre></div>
 <p>Keep in mind that Wikidata queries are not cached locally.</p>
 </div>
 <div class="section level2">
@@ -947,17 +947,17 @@
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Margaret Mead"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 7</span></span>
-<span><span class="co">#&gt;   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;lgl&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 Margaret Mead Margaret Mead          19617 Q180099 American c… FALSE   en     </span></span>
-<span><span class="co">#&gt; # … with abbreviated variable names ¹​disambiguation, ²​language</span></span></code></pre></div>
+<span><span class="co">#&gt;   title_url     wikipedia_title wikipedia_id qid     description  disambiguation</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt;         </span></span>
+<span><span class="co">#&gt; 1 Margaret Mead Margaret Mead          19617 Q180099 American cu… FALSE         </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: language &lt;chr&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tw_get_wikipedia_page_qid.html">tw_get_wikipedia_page_qid</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/Margaret_Mead"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 7</span></span>
-<span><span class="co">#&gt;   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;lgl&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 Margaret_Mead Margaret Mead          19617 Q180099 American c… FALSE   en     </span></span>
-<span><span class="co">#&gt; # … with abbreviated variable names ¹​disambiguation, ²​language</span></span></code></pre></div>
+<span><span class="co">#&gt;   title_url     wikipedia_title wikipedia_id qid     description  disambiguation</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;lgl&gt;         </span></span>
+<span><span class="co">#&gt; 1 Margaret_Mead Margaret Mead          19617 Q180099 American cu… FALSE         </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: language &lt;chr&gt;</span></span></code></pre></div>
 <p>Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tw_get_wikipedia.html">tw_get_wikipedia</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span><span class="op">)</span></span>
@@ -969,20 +969,21 @@
 <span></span>
 <span><span class="va">wikipedia_df</span></span>
 <span><span class="co">#&gt; # A tibble: 793 × 8</span></span>
-<span><span class="co">#&gt;    source_title_url source_wikip…¹ sourc…² wikip…³ wikip…⁴ qid   descr…⁵ langu…⁶</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 Margaret Mead    Margaret Mead  Q180099 Alex B… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  2 Margaret Mead    Margaret Mead  Q180099 Alfred… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  3 Margaret Mead    Margaret Mead  Q180099 Blackb… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  4 Margaret Mead    Margaret Mead  Q180099 Contin… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  5 Margaret Mead    Margaret Mead  Q180099 Cultur… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  6 Margaret Mead    Margaret Mead  Q180099 John P… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  7 Margaret Mead    Margaret Mead  Q180099 Martin… NA      &lt;NA&gt;  &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt;  8 Margaret Mead    Margaret Mead  Q180099 A Darw…  3.89e6 Q176… 1999 b… en     </span></span>
-<span><span class="co">#&gt;  9 Margaret Mead    Margaret Mead  Q180099 A Rap …  1.45e7 Q465… Book b… en     </span></span>
-<span><span class="co">#&gt; 10 Margaret Mead    Margaret Mead  Q180099 Abby K…  4.06e6 Q282… &lt;NA&gt;    en     </span></span>
-<span><span class="co">#&gt; # … with 783 more rows, and abbreviated variable names ¹​source_wikipedia_title,</span></span>
-<span><span class="co">#&gt; #   ²​source_qid, ³​wikipedia_title, ⁴​wikipedia_id, ⁵​description, ⁶​language</span></span></code></pre></div>
+<span><span class="co">#&gt;    source_title_url source_wikipedia_title source_qid wikipedia_title           </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;            &lt;chr&gt;                  &lt;chr&gt;      &lt;chr&gt;                     </span></span>
+<span><span class="co">#&gt;  1 Margaret Mead    Margaret Mead          Q180099    Alex Barker               </span></span>
+<span><span class="co">#&gt;  2 Margaret Mead    Margaret Mead          Q180099    Alfred S. Hayes           </span></span>
+<span><span class="co">#&gt;  3 Margaret Mead    Margaret Mead          Q180099    Blackberry Winter: My Ear…</span></span>
+<span><span class="co">#&gt;  4 Margaret Mead    Margaret Mead          Q180099    Continuities in Cultural …</span></span>
+<span><span class="co">#&gt;  5 Margaret Mead    Margaret Mead          Q180099    Culture and Commitment    </span></span>
+<span><span class="co">#&gt;  6 Margaret Mead    Margaret Mead          Q180099    John P. Gillin            </span></span>
+<span><span class="co">#&gt;  7 Margaret Mead    Margaret Mead          Q180099    Martin Orans              </span></span>
+<span><span class="co">#&gt;  8 Margaret Mead    Margaret Mead          Q180099    A Darwinian Left          </span></span>
+<span><span class="co">#&gt;  9 Margaret Mead    Margaret Mead          Q180099    A Rap on Race             </span></span>
+<span><span class="co">#&gt; 10 Margaret Mead    Margaret Mead          Q180099    Abby Kelley               </span></span>
+<span><span class="co">#&gt; # ℹ 783 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: wikipedia_id &lt;dbl&gt;, qid &lt;chr&gt;, description &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   language &lt;chr&gt;</span></span></code></pre></div>
 <p>What if we are potentially interested only in the people mentioned in this page? We proceed as usual, checking which of these are “instance of” (“P19”) “human” (“Q5”), and take it from there.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wikipedia_df</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -1098,6 +1099,7 @@
 <li><a href="https://cran.r-project.org/package=tidywikidatar" class="external-link"><img src="https://www.r-pkg.org/badges/version/tidywikidatar" alt="CRAN status"></a></li>
 <li><a href="https://r-pkg.org/pkg/tidywikidatar" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/last-month/tidywikidatar?color=blue" alt="CRAN RStudio mirror downloads"></a></li>
 <li><a href="https://r-pkg.org/pkg/tidywikidatar" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blue" alt="CRAN RStudio mirror downloads"></a></li>
+<li><a href="https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
