@@ -74,6 +74,7 @@ reference:
     by most.
   contents:
   - tw_check_qid
+  - tw_check_pid
   - tw_check_search
 - title: Extractors
   desc: These functions are mostly used internally to extract selected data to an
