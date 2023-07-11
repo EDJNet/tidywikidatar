@@ -240,10 +240,10 @@ tw_search_single <- function(search,
 
   if (search=="") {
     if (include_search == TRUE) {
-      tw_empty_search %>%
+      tidywikidatar::tw_empty_search %>%
         dplyr::add_row(search = "")
     } else {
-      return(tw_empty_search %>%
+      return(tidywikidatar::tw_empty_search %>%
                dplyr::select(-"search"))
     }
   }
