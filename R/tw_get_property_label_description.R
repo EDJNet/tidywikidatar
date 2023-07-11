@@ -24,6 +24,10 @@ tw_get_property_label <- function(property,
     property <- property$id
   }
 
+  if (length(tw_check_pid(property = property)) == 0) {
+    return(rep(NA_character_, length(property)))
+  }
+
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -115,6 +119,10 @@ tw_get_property_label_single <- function(property,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
                                          wait = 0) {
+  if (length(tw_check_pid(property = property))==0) {
+    return(NA_character_)
+  }
+
   label <- tw_search_property(
     search = property,
     cache = cache,
@@ -128,7 +136,7 @@ tw_get_property_label_single <- function(property,
     dplyr::pull("label")
 
   if (length(label) == 0) {
-    as.character(NA)
+    NA_character_
   } else {
     label
   }

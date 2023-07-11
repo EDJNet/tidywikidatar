@@ -17,11 +17,11 @@ tw_get_field <- function(df,
                          id,
                          language = tidywikidatar::tw_get_language()) {
   if (sum(is.na(id)) == length(id)) {
-    return(rep(as.character(NA), length(id)))
+    return(rep(NA_character_, length(id)))
   }
 
   if (length(tw_check_qid(id = id)) == 0) {
-    return(rep(as.character(NA), length(id)))
+    return(rep(NA_character_, length(id)))
   }
 
   field_df <- df %>%
@@ -42,7 +42,7 @@ tw_get_field <- function(df,
     )
 
   if (nrow(field_df) == 0) {
-    rep(as.character(NA), length(id))
+    rep(NA_character_, length(id))
   } else if (nrow(field_df) < length(id)) {
     tibble::tibble(id = id) %>%
       dplyr::left_join(y = field_df, by = "id") %>%
