@@ -4,8 +4,6 @@
 # tidywikidatar
 
 <!-- badges: start -->
-
-[![R-CMD-check](https://github.com/EDJNet/tidywikidatar/workflows/R-CMD-check/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
 [![CRAN RStudio mirror
