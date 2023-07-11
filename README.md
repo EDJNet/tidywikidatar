@@ -12,6 +12,7 @@ status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-proj
 downloads](https://cranlogs.r-pkg.org/badges/last-month/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
+[![R-CMD-check](https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
@@ -619,20 +620,20 @@ Wikidata knows about it: each of these properties comes with qualifiers.
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
 #> # A tibble: 27 × 8
-#>    id       property qualifier_id qualifier_property quali…¹ quali…² rank    set
-#>    <chr>    <chr>    <chr>        <chr>              <chr>   <chr>   <chr> <dbl>
-#>  1 Q2391857 P39      Q740126      P580               +2019-… time    norm…     1
-#>  2 Q2391857 P39      Q740126      P1365              Q440710 wikiba… norm…     1
-#>  3 Q2391857 P39      Q740126      P582               +2022-… time    norm…     1
-#>  4 Q2391857 P39      Q740126      P1534              Q52473… wikiba… norm…     1
-#>  5 Q2391857 P39      Q740126      P1366              Q73515… wikiba… norm…     1
-#>  6 Q2391857 P39      Q27169       P580               +2019-… time    norm…     2
-#>  7 Q2391857 P39      Q27169       P582               +2022-… time    norm…     2
-#>  8 Q2391857 P39      Q27169       P1534              Q52473… wikiba… norm…     2
-#>  9 Q2391857 P39      Q27169       P1366              Q11051… wikiba… norm…     2
-#> 10 Q2391857 P39      Q27169       P2937              Q64038… wikiba… norm…     2
-#> # … with 17 more rows, and abbreviated variable names ¹​qualifier_value,
-#> #   ²​qualifier_value_type
+#>    id       property qualifier_id qualifier_property qualifier_value      
+#>    <chr>    <chr>    <chr>        <chr>              <chr>                
+#>  1 Q2391857 P39      Q740126      P580               +2019-07-03T00:00:00Z
+#>  2 Q2391857 P39      Q740126      P1365              Q440710              
+#>  3 Q2391857 P39      Q740126      P582               +2022-01-11T00:00:00Z
+#>  4 Q2391857 P39      Q740126      P1534              Q5247364             
+#>  5 Q2391857 P39      Q740126      P1366              Q7351526             
+#>  6 Q2391857 P39      Q27169       P580               +2019-07-02T00:00:00Z
+#>  7 Q2391857 P39      Q27169       P582               +2022-01-11T00:00:00Z
+#>  8 Q2391857 P39      Q27169       P1534              Q5247364             
+#>  9 Q2391857 P39      Q27169       P1366              Q110513292           
+#> 10 Q2391857 P39      Q27169       P2937              Q64038205            
+#> # ℹ 17 more rows
+#> # ℹ 3 more variables: qualifier_value_type <chr>, rank <chr>, set <dbl>
 ```
 
 As usual, Wikidata presents everything as combinations of properties and
@@ -919,27 +920,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 890 Columns: 3
+#> Rows: 1012 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 890 × 3
+#> # A tibble: 1,012 × 3
 #>    id      label                           description                          
 #>    <chr>   <chr>                           <chr>                                
-#>  1 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…
-#>  2 Q241097 Corrie Ten Boom                 Dutch resistance hero and writer     
-#>  3 Q246835 Trinity                         fictional character from the films o…
-#>  4 Q255016 Violette Szabo                  French-British SOE spy               
-#>  5 Q256628 Xenia Stad-de Jong              Dutch sprinter                       
-#>  6 Q270319 Christiane Desroches Noblecourt French egyptologist                  
-#>  7 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      
-#>  8 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…
-#>  9 Q274041 Nanny of the Maroons            leader of Windward Maroons in Jamaica
-#> 10 Q276410 Marga Klompé                    Dutch politician (1912-1986)         
-#> # … with 880 more rows
+#>  1 Q229062 Zoya Kosmodemyanskaya           Soviet resistance member of World Wa…
+#>  2 Q237416 Dubravka Ugrešić                Croatian writer (1949–2023)          
+#>  3 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…
+#>  4 Q241097 Corrie ten Boom                 Dutch resistance hero and writer     
+#>  5 Q246835 Trinity                         fictional character from the films o…
+#>  6 Q255016 Violette Szabo                  French-British SOE spy               
+#>  7 Q256628 Xenia Stad-de Jong              Dutch sprinter                       
+#>  8 Q270319 Christiane Desroches Noblecourt French egyptologist (1913-2011)      
+#>  9 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      
+#> 10 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…
+#> # ℹ 1,002 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -957,27 +958,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 158 Columns: 3
+#> Rows: 168 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 158 × 3
-#>    id        label                          description                         
-#>    <chr>     <chr>                          <chr>                               
-#>  1 Q63978261 Lucienne Clément de l’Épine    "résistante française"              
-#>  2 Q64234855 Jacqueline Rigaud              "Juste parmi les Nations française" 
-#>  3 Q64859778 Henriette Cohen                "doyenne des survivants français d'…
-#>  4 Q65037641 Denise Le Flohic               "ancienne déportée-résistante, memb…
-#>  5 Q65123130 Gisèle Saltet d'Alzon-Maradène "résistante française"              
-#>  6 Q67174852 Jeanne Letourneau              "enseignante et résistante français…
-#>  7 Q67198764 Nelly Gorce                    "déportée à Ravensbrück à trente-tr…
-#>  8 Q67202638 Henriette de Ganay              <NA>                               
-#>  9 Q68421540 Jeanne Barnier                 "fonctionnaire français et résistan…
-#> 10 Q73235700 Raymonde Rolly                  <NA>                               
-#> # … with 148 more rows
+#> # A tibble: 168 × 3
+#>    id        label              description                                     
+#>    <chr>     <chr>              <chr>                                           
+#>  1 Q2696536  Yolande Beekman    espionne et agente secret des Special Operation…
+#>  2 Q3009723  Cécile Cerf        résistante française                            
+#>  3 Q56817009 Thérèse Chassaing  militante communiste                            
+#>  4 Q58213356 Suzanne Lanoy      professeure et résistante française             
+#>  5 Q59263305 Hélène Cogoluègnes résistante française,  femme de lettres         
+#>  6 Q59532567 Miriam Cendrars    résistante française attachée auprès du Général…
+#>  7 Q60184999 Yvonne Filiâtre    militante socialiste trotskiste et Résistante   
+#>  8 Q20895003 Hélène Jakubowicz  résistante française                            
+#>  9 Q21009704 Madeleine Passot   résistante communiste française                 
+#> 10 Q21069334 Mireille Albrecht  autrice, résistante française                   
+#> # ℹ 158 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -996,7 +997,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 158 Columns: 3
+#> Rows: 168 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -1004,9 +1005,9 @@ tibble::tribble(
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 1 × 4
-#>   label           description                   year_of_birth year_of_death
-#>   <chr>           <chr>                                 <dbl>         <dbl>
-#> 1 Raymonde Tillon French politician (1915-2016)          1915          2016
+#>   label          description      year_of_birth year_of_death
+#>   <chr>          <chr>                    <dbl>         <dbl>
+#> 1 Marina Ginestà Spanish reporter          1919          2014
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
@@ -1028,19 +1029,19 @@ be mindful of redirection if using the title).
 ``` r
 tw_get_wikipedia_page_qid(title = "Margaret Mead")
 #> # A tibble: 1 × 7
-#>   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²
-#>   <chr>         <chr>                  <int> <chr>   <chr>       <lgl>   <chr>  
-#> 1 Margaret Mead Margaret Mead          19617 Q180099 American c… FALSE   en     
-#> # … with abbreviated variable names ¹​disambiguation, ²​language
+#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
+#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#> 1 Margaret Mead Margaret Mead          19617 Q180099 American cu… FALSE         
+#> # ℹ 1 more variable: language <chr>
 ```
 
 ``` r
 tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 #> # A tibble: 1 × 7
-#>   title_url     wikipedia_title wikipedia_id qid     description disam…¹ langu…²
-#>   <chr>         <chr>                  <int> <chr>   <chr>       <lgl>   <chr>  
-#> 1 Margaret_Mead Margaret Mead          19617 Q180099 American c… FALSE   en     
-#> # … with abbreviated variable names ¹​disambiguation, ²​language
+#>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
+#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#> 1 Margaret_Mead Margaret Mead          19617 Q180099 American cu… FALSE         
+#> # ℹ 1 more variable: language <chr>
 ```
 
 Depending on the workflow, it is also possible to get the full link to
@@ -1061,20 +1062,21 @@ wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
 
 wikipedia_df
 #> # A tibble: 793 × 8
-#>    source_title_url source_wikip…¹ sourc…² wikip…³ wikip…⁴ qid   descr…⁵ langu…⁶
-#>    <chr>            <chr>          <chr>   <chr>     <dbl> <chr> <chr>   <chr>  
-#>  1 Margaret Mead    Margaret Mead  Q180099 Alex B… NA      <NA>  <NA>    en     
-#>  2 Margaret Mead    Margaret Mead  Q180099 Alfred… NA      <NA>  <NA>    en     
-#>  3 Margaret Mead    Margaret Mead  Q180099 Blackb… NA      <NA>  <NA>    en     
-#>  4 Margaret Mead    Margaret Mead  Q180099 Contin… NA      <NA>  <NA>    en     
-#>  5 Margaret Mead    Margaret Mead  Q180099 Cultur… NA      <NA>  <NA>    en     
-#>  6 Margaret Mead    Margaret Mead  Q180099 John P… NA      <NA>  <NA>    en     
-#>  7 Margaret Mead    Margaret Mead  Q180099 Martin… NA      <NA>  <NA>    en     
-#>  8 Margaret Mead    Margaret Mead  Q180099 A Darw…  3.89e6 Q176… 1999 b… en     
-#>  9 Margaret Mead    Margaret Mead  Q180099 A Rap …  1.45e7 Q465… Book b… en     
-#> 10 Margaret Mead    Margaret Mead  Q180099 Abby K…  4.06e6 Q282… <NA>    en     
-#> # … with 783 more rows, and abbreviated variable names ¹​source_wikipedia_title,
-#> #   ²​source_qid, ³​wikipedia_title, ⁴​wikipedia_id, ⁵​description, ⁶​language
+#>    source_title_url source_wikipedia_title source_qid wikipedia_title           
+#>    <chr>            <chr>                  <chr>      <chr>                     
+#>  1 Margaret Mead    Margaret Mead          Q180099    Alex Barker               
+#>  2 Margaret Mead    Margaret Mead          Q180099    Alfred S. Hayes           
+#>  3 Margaret Mead    Margaret Mead          Q180099    Blackberry Winter: My Ear…
+#>  4 Margaret Mead    Margaret Mead          Q180099    Continuities in Cultural …
+#>  5 Margaret Mead    Margaret Mead          Q180099    Culture and Commitment    
+#>  6 Margaret Mead    Margaret Mead          Q180099    John P. Gillin            
+#>  7 Margaret Mead    Margaret Mead          Q180099    Martin Orans              
+#>  8 Margaret Mead    Margaret Mead          Q180099    A Darwinian Left          
+#>  9 Margaret Mead    Margaret Mead          Q180099    A Rap on Race             
+#> 10 Margaret Mead    Margaret Mead          Q180099    Abby Kelley               
+#> # ℹ 783 more rows
+#> # ℹ 4 more variables: wikipedia_id <dbl>, qid <chr>, description <chr>,
+#> #   language <chr>
 ```
 
 What if we are potentially interested only in the people mentioned in
