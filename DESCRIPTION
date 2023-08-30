@@ -44,6 +44,7 @@ Suggests:
     assertthat
 Config/testthat/edition: 3
 Language: en-US
+BugReports: https://github.com/EDJNet/tidywikidatar/issues
 URL: https://edjnet.github.io/tidywikidatar/
 VignetteBuilder: knitr
 Depends: 
