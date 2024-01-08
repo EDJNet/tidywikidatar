@@ -8,6 +8,7 @@ tw_filter_people(
   search,
   language = tidywikidatar::tw_get_language(),
   limit = 10,
+  include_search = FALSE,
   stop_at_first = TRUE,
   wait = 0,
   overwrite_cache = FALSE,
@@ -21,6 +22,8 @@ tw_filter_people(
 \item{language}{Language to be used for the search.}
 
 \item{limit}{Maximum numbers of responses to be given.}
+
+\item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
 
 \item{stop_at_first}{Logical, defaults to TRUE. If TRUE, returns only the first match from the search that satisfies the criteria.}
 
