@@ -215,7 +215,7 @@ tw_get_label(id = "Q1345")
 #> [1] "Philadelphia"
 ```
 
-Alright, I know where Philadelphia, but if it was a smaller place,
+Alright, I know where Philadelphia is, but if it was a smaller place,
 perhaps I’d need to ask in which country it is located. So I would ask
 for the correspondent property, P17.
 
