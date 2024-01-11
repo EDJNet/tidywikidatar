@@ -238,6 +238,15 @@ tw_search_single <- function(search,
     usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
   }
 
+  if (is.na(search)) {
+    if (include_search == TRUE) {
+      return(tidywikidatar::tw_empty_search)
+    } else {
+      return(tidywikidatar::tw_empty_search %>%
+               dplyr::select(-"search"))
+    }
+  }
+
   if (search=="") {
     if (include_search == TRUE) {
       tidywikidatar::tw_empty_search %>%
