@@ -65,8 +65,8 @@ tw_get_p_wide <- function(id,
   )
 
   unique_p <- unique(p)
-  property <- as.character(NA)
-  value <- as.character(NA)
+  property <- NA_character_
+  value <- NA_character_
 
   property_df <- tw_get_property(
     id = id,
@@ -120,7 +120,7 @@ tw_get_p_wide <- function(id,
           wait = wait
         ),
         false = .data$value,
-        missing = as.character(NA)
+        missing = NA_character_
       ))
   }
 
