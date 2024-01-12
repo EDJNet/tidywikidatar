@@ -33,8 +33,8 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
                                                 attempts = 10,
                                                 wikipedia_page_qid_df = NULL) {
   if (is.null(section_index) && is.null(section_title)) {
-    cli::cli_abort("Either {.arg section_index} or {.arg section_title} must be provided.",
-                   i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}.")
+    cli::cli_abort(c("Either {.arg section_index} or {.arg section_title} must be provided.",
+                   i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}."))
   }
 
   db <- tw_connect_to_cache(

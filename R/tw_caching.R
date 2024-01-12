@@ -238,7 +238,7 @@ tw_check_cache <- function(cache = NULL) {
     return(as.logical(cache))
   }
   current_cache <- Sys.getenv("tw_cache", unset = FALSE)
-  current_cache
+  as.logical(current_cache)
 }
 
 #' Checks if cache folder exists, if not returns an informative message
