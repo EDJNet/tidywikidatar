@@ -14,7 +14,7 @@ tw_get_property_with_details(id, p, wait = 0)
 \item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
 }
 \value{
-A tibble, corresponding to the details for the given property. NULL if no relevant property found.
+A tibble, corresponding to the details for the given property. \code{NULL} if no relevant property found.
 }
 \description{
 Gets all details of a property

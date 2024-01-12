@@ -89,7 +89,7 @@ tw_get_qualifiers_single <- function(id,
   }
 
   if (is.character(w)) {
-    usethis::ui_oops(w)
+    cli::cli_alert_danger(w)
     return(tidywikidatar::tw_empty_qualifiers)
   } else {
     qualifiers_df <- tw_extract_qualifier(id = id, p = p, w = w)
@@ -101,12 +101,12 @@ tw_get_qualifiers_single <- function(id,
     qualifiers_df <- tibble::tibble(
       id = as.character(id),
       property = as.character(p),
-      qualifier_id = as.character(NA),
-      qualifier_property = as.character(NA),
-      qualifier_value = as.character(NA),
-      qualifier_value_type = as.character(NA),
-      rank = as.character(NA),
-      set = as.numeric(NA)
+      qualifier_id = NA_character_,
+      qualifier_property = NA_character_,
+      qualifier_value = NA_character_,
+      qualifier_value_type = NA_character_,
+      rank = NA_character_,
+      set = NA_real_
     )
   }
 
@@ -176,8 +176,8 @@ tw_get_qualifiers <- function(id,
     cache = cache
   )
 
-  if (length(id) == 0 | length(p) == 0) {
-    usethis::ui_stop("`tw_get_qualifiers()` requires `id` and `p` of length 1 or more.")
+  if (length(id) == 0 || length(p) == 0) {
+    cli::cli_abort("`id` and `p` must have length 1 or more.")
   } else if (length(id) == 1 & length(p) == 1) {
     return(tw_get_qualifiers_single(
       id = id,
@@ -371,11 +371,12 @@ tw_get_cached_qualifiers <- function(id,
     )
     return(tidywikidatar::tw_empty_qualifiers)
   } else if (isFALSE(identical(colnames(tidywikidatar::tw_empty_qualifiers), colnames(db_result)))) {
-    usethis::ui_stop("The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version. You may want to delete the old cache or reset just this table with {usethis::ui_code('tw_reset_qualifiers_cache()()')}")
+    cli::cli_abort(c(
+      "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
+      i = "You may want to delete the old cache or reset just this table with {.fn tw_reset_qualifiers_cache}."))
   }
 
-  cached_qualifiers_df <- db_result %>%
-    tibble::as_tibble()
+  cached_qualifiers_df <- tibble::as_tibble(db_result)
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -508,10 +509,10 @@ tw_reset_qualifiers_cache <- function(language = tidywikidatar::tw_get_language(
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
-  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?"))) {
+    cli::cli_alert_info("Qualifiers cache reset for language {.val {language}} completed.")
+  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?")) == 1) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Qualifiers cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info("Qualifiers cache reset for language {.val {language}} completed.")
   }
 
   tw_disconnect_from_cache(

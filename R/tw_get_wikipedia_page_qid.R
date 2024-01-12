@@ -23,22 +23,23 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
                                           language = tidywikidatar::tw_get_language(),
                                           action = "query",
                                           type = "page") {
-  if (is.null(url) == TRUE) {
-    if (is.null(title) == TRUE) {
-      usethis::ui_stop("Either url or title must be provided")
+  if (is.null(url)) {
+    if (is.null(title)) {
+      cli::cli_abort("Either {.arg url} or {.arg title} must be provided.")
     }
-    if (is.null(language) == TRUE) {
-      usethis::ui_stop("Either language or full url must be provided")
+    if (is.null(language)) {
+      cli::cli_abort("Either {.arg language} or full url must be provided.")
     }
   } else {
     check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
     if (sum(is.na(check_url_lv)) > 0) {
       url <- url[is.na(check_url_lv) == FALSE]
-      usethis::ui_warn("One or more of the given URLs is actually NA. Only valid URLs will be processed.")
+      cli::cli_warn(c("One or more of the given URLs is actually NA.", i = "Only valid URLs will be processed."))
     }
     check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
     if (sum(check_url_lv) != length(check_url_lv)) {
-      usethis::ui_stop(x = "One or more of the Wikipedia URL provided does not start with `http` as expected for a URL. If you are actually providing Wikipedia page titles, leave the `url` parameter to NULL, and use the `title` parameter instead.")
+      cli::cli_abort(c("One or more of the Wikipedia URL provided does not start with `http` as expected for a URL.",
+                     "If you are actually providing Wikipedia page titles, leave the `url` parameter to NULL, and use the `title` parameter instead."))
     }
     title <- stringr::str_extract(
       string = url,
@@ -126,7 +127,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
         pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
       )
     } else {
-      usethis::ui_stop(x = "Either url or title must be provided, not both.")
+      cli::cli_abort("Either url or title must be provided, not both.")
     }
 
     language <- stringr::str_extract(
@@ -140,7 +141,7 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
   if (length(unique_language) == 0) {
     return(tidywikidatar::tw_empty_wikipedia_page)
   } else if (length(unique_language) > 1) {
-    usethis::ui_stop(x = "{usethis::ui_code('tw_get_wikipedia_page_qid()')} currently accepts only inputs with one language at a time.")
+    cli::cli_abort("{.fn tw_get_wikipedia_page_qid} currently accepts only inputs with one language at a time.")
   }
 
   unique_title <- unique(title)
@@ -303,14 +304,14 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
                                              disconnect_db = TRUE,
                                              wait = 1,
                                              attempts = 10) {
-  if (is.null(url) == FALSE & is.function(url) == FALSE) {
+  if (!is.null(url) && !is.function(url)) {
     if (is.null(title) & is.function(title) == FALSE) {
       title <- stringr::str_extract(
         string = url,
         pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
       )
     } else {
-      usethis::ui_stop(x = "Either url or title must be provided, not both.")
+      cli::cli_abort("Either url or title must be provided, not both.")
     }
 
     language <- stringr::str_extract(
@@ -364,7 +365,10 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
 
 
   if (isFALSE(api_result)) {
-    usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection")
+    cli::cli_abort(c(
+      "Could not reach the API with {attempts} attempts.",
+      i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+      ))
   } else {
     wikidata_id_l <- api_result
   }
@@ -379,7 +383,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
     )
 
   if (is.null(wikipedia_id)) {
-    wikipedia_id <- as.numeric(NA)
+    wikipedia_id <- NA_real_
   } else {
     wikipedia_id <- as.numeric(wikipedia_id)
   }
@@ -698,10 +702,10 @@ tw_reset_wikipedia_page_cache <- function(language = tidywikidatar::tw_get_langu
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page cache reset for language ", sQuote(language), " completed"))
-  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?"))) {
+    cli::cli_alert_info("Wikipedia page cache reset for language {.val {language}} completed.")
+  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the qualifiers table for language: ", sQuote(language), "?")) == 1) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info("Wikipedia page cache reset for language {.val {language}} completed.")
   }
 
 

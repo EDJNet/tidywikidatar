@@ -30,16 +30,14 @@ tw_search <- function(search,
                       overwrite_cache = FALSE,
                       cache_connection = NULL,
                       disconnect_db = TRUE) {
-  if (is.null(search)) {
-    usethis::ui_stop("A search string must be given.")
-  }
+  rlang::check_required(search)
 
   if (length(search) == 0) {
-    stop("`tw_search()` requires `search` of length 1 or more.")
+    cli::cli_abort("`search` must have length 1 or more.")
   }
 
   if (is.null(language)) {
-    usethis::ui_stop("A search language must be given.")
+    cli::cli_abort("A search language must be given.")
   }
 
   language_combo <- stringr::str_c(language, "_", response_language)
@@ -226,16 +224,17 @@ tw_search_single <- function(search,
                              cache_connection = NULL,
                              disconnect_db = TRUE,
                              wait = 0) {
+  rlang::check_required(search)
   if (is.null(search)) {
-    usethis::ui_stop("A search string must be given.")
+    cli::cli_abort("A search string must be given.")
   }
 
   if (is.null(language)) {
-    usethis::ui_stop("A search language must be given.")
+    cli::cli_abort("A search language must be given.")
   }
 
   if (length(search) > 1) {
-    usethis::ui_stop("`tw_search_single()` requires `search` of length 1. Consider using `tw_search()`.")
+    cli::cli_abort(c("`search` must have length 1.", i = "Consider using `tw_search()`."))
   }
 
   if (is.na(search)) {

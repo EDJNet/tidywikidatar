@@ -182,9 +182,10 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
   }
 
   if (isFALSE(api_result)) {
-    usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
+    cli::cli_abort(c("Could not reach the API with {attempts} attempts.",
+                   i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
   } else if ("error" %in% names(api_result)) {
-    usethis::ui_stop("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
+    cli::cli_abort("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
     api_result[["error"]]
   } else {
     base_json <- api_result
@@ -440,10 +441,10 @@ tw_reset_wikipedia_page_sections_cache <- function(language = tidywikidatar::tw_
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page sections cache reset for language ", sQuote(language), " completed"))
-  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the Wikipedia page links cache for language: ", sQuote(language), "?"))) {
+    cli::cli_alert_info("Wikipedia page sections cache reset for language {.val {language}} completed.")
+  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the Wikipedia page links cache for language: ", sQuote(language), "?")) == 1) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page sections cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info("Wikipedia page sections cache reset for language {.val {language}} completed.")
   }
 
 

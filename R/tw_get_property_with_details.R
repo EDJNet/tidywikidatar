@@ -17,7 +17,7 @@ tw_get_property_with_details_single <- function(id,
   )
 
   if (is.character(item)) {
-    usethis::ui_oops(item)
+    cli::cli_alert_danger(item)
     return(NULL)
   }
 
@@ -44,8 +44,7 @@ tw_get_property_with_details_single <- function(id,
 
   value_pre %>%
     tibble::as_tibble() %>%
-    dplyr::mutate(id = id, p = p) %>%
-    dplyr::select("id", "p", dplyr::everything())
+    dplyr::mutate(id = id, p = p, .before = 0)
 }
 
 
@@ -55,7 +54,7 @@ tw_get_property_with_details_single <- function(id,
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
 #' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
 #'
-#' @return A tibble, corresponding to the details for the given property. NULL if no relevant property found.
+#' @return A tibble, corresponding to the details for the given property. `NULL` if no relevant property found.
 #' @export
 #'
 #' @examples

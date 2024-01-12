@@ -452,7 +452,8 @@ tw_get_image_metadata_single <- function(id,
                                          wait = 1,
                                          attempts = 10) {
   if (length(id) > 1) {
-    usethis::ui_stop("`tw_get_image_metadata_single()` requires `id` of length 1. Consider using `tw_get_image_metadata()`.")
+    cli::cli_abort(c("id` must have length 1.",
+                   i = "Consider using `tw_get_image_metadata()`."))
   }
 
 
@@ -570,7 +571,9 @@ tw_get_image_metadata_single <- function(id,
 
 
       if (isFALSE(api_result)) {
-        usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection")
+        cli::cli_abort(c(
+          "Could not reach the API with {attempts} attempt{?s}.",
+          i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
       } else {
         json_as_list <- api_result
       }
@@ -582,7 +585,7 @@ tw_get_image_metadata_single <- function(id,
         purrr::pluck("query", "pages", 1, "imageinfo", 1, "extmetadata")
 
       tibble::tibble(
-        id = stringr::str_to_upper(id) %>% as.character(),
+        id = stringr::str_to_upper(id),
         image_filename = current_image_filename %>% as.character(),
         object_name = ifelse(test = is.null(extmetadata_list %>% purrr::pluck("ObjectName", "value")),
           yes = as.character(NA),

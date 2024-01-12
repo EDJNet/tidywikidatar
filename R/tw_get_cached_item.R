@@ -71,7 +71,10 @@ tw_get_cached_item <- function(id,
     return(tidywikidatar::tw_empty_item)
   } else {
     if (isFALSE(identical(colnames(tidywikidatar::tw_empty_item), colnames(db_result)))) {
-      usethis::ui_stop("The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version. You may want to delete the old cache or reset just this table with {usethis::ui_code('tw_reset_item_cache()')}")
+      cli::cli_abort(c(
+        "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
+        "You may want to delete the old cache or reset just this table with {.fn tw_reset_item_cache}"
+        ))
     }
   }
 
@@ -109,9 +112,9 @@ tw_get_cache_file <- function(type = NULL,
       tidywikidatar::tw_get_cache_folder(),
       stringr::str_c(
         "tw_cache_",
-        language,
-        ".sqlite"
-      )
+        language
+      ),
+      ext = "sqlite"
     )
   } else {
     fs::path(
@@ -120,9 +123,9 @@ tw_get_cache_file <- function(type = NULL,
         "tw_",
         type,
         "_db_",
-        language,
-        ".sqlite"
-      )
+        language
+      ),
+      ext = "sqlite"
     )
   }
 }

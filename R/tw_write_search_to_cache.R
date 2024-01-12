@@ -33,8 +33,13 @@ tw_write_search_to_cache <- function(search_df,
                                      overwrite_cache = FALSE,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE) {
-  if (identical(x = colnames(search_df), y = c("search", "id", "label", "description")) == FALSE) {
-    usethis::ui_stop('search_df must have exactly four columns: "search", "id", "label", "description"')
+
+  mandatory_cols <- c("search", "id", "label", "description")
+
+  if (!identical(colnames(search_df), mandatory_cols)) {
+    cli::cli_abort(c(
+      "`search_df` must have exactly four columns. {.val {mandatory_cols}}."
+    ))
   }
 
   if (isFALSE(tw_check_cache(cache = cache))) {

@@ -13,10 +13,10 @@ Description: Query 'Wikidata' API <https://www.wikidata.org/wiki/Wikidata:Main_P
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Imports: 
     magrittr,
-    dplyr,
+    dplyr (>= 1.1.0),
     tidyr,
     WikidataR,
     stringr,
@@ -25,7 +25,7 @@ Imports:
     RSQLite,
     tibble,
     purrr,
-    usethis,
+    cli,
     WikidataQueryServiceR,
     fs,
     rlang (>= 0.1.2),
@@ -36,15 +36,14 @@ Imports:
     vctrs
 Suggests: 
     spelling,
-    roxygen2,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
-    odbc,
-    assertthat
+    odbc
 Config/testthat/edition: 3
 Language: en-US
 URL: https://edjnet.github.io/tidywikidatar/
+BugReports: https://github.com/EDJNet/tidywikidatar/issues
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

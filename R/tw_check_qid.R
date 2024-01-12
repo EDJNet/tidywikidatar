@@ -30,7 +30,7 @@ tw_check_qid <- function(id,
   }
 
   output_v <- tibble::tibble(id = id) %>%
-    dplyr::filter(is.na(id) == FALSE) %>%
+    dplyr::filter(!is.na(id)) %>%
     dplyr::distinct(id) %>%
     dplyr::mutate(id = stringr::str_to_upper(.data$id)) %>%
     dplyr::filter(stringr::str_starts(
@@ -44,8 +44,8 @@ tw_check_qid <- function(id,
     if (non_id_as_NA == TRUE) {
       return(dplyr::if_else(condition = output_l,
         true = stringr::str_to_upper(id),
-        false = as.character(NA),
-        missing = as.character(NA)
+        false = NA_character_,
+        missing = NA_character_
       ))
     } else {
       return(output_l)

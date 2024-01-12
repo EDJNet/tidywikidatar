@@ -38,7 +38,9 @@ tw_get_single <- function(id,
   id <- tw_check_qid(id)
 
   if (length(id) > 1) {
-    usethis::ui_stop("`tw_get_single()` requires `id` of length 1. Consider using `tw_get()`.")
+    cli::cli_abort(c(
+      "`id` must have length 1.",
+      i = "Consider using `tw_get()` for multiple inputs."))
   } else if (length(id) == 0) {
     return(tidywikidatar::tw_empty_item)
   }
@@ -51,7 +53,7 @@ tw_get_single <- function(id,
     )
   }
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
+  if (tw_check_cache(cache) == TRUE && overwrite_cache == FALSE && read_cache == TRUE) {
     db_result <- tw_get_cached_item(
       id = id,
       language = language,
@@ -73,7 +75,7 @@ tw_get_single <- function(id,
 
   Sys.sleep(time = wait)
 
-  if (is.null(id_l) == FALSE) {
+  if (!is.null(id_l)) {
     item <- id_l[purrr::map_chr(
       .x = id_l,
       .f = function(x) {
@@ -100,7 +102,7 @@ tw_get_single <- function(id,
 
 
   if (is.character(item)) {
-    usethis::ui_oops(item)
+    cli::cli_alert_danger(item)
     output <- tibble::tibble(
       id = as.character(id),
       property = "error",
@@ -312,7 +314,8 @@ tw_get <- function(id,
           dplyr::left_join(
             x = tibble::tibble(id = id),
             y = items_from_cache_df,
-            by = "id"
+            by = "id",
+            relationship = "many-to-many"
           )
         )
       } else if (length(id_items_not_in_cache) > 0) {
@@ -395,10 +398,10 @@ tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Item cache reset for language ", sQuote(language), " completed"))
-  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the items table for language: ", sQuote(language), "?"))) {
+    cli::cli_alert_info(c("Item cache reset for language ", sQuote(language), " completed"))
+  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the items table for language: ", sQuote(language), "?")) == 1) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Items cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info(c("Items cache reset for language ", sQuote(language), " completed"))
   }
 
 
