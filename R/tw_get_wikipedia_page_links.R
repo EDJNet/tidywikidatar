@@ -219,7 +219,10 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
   }
 
   if (isFALSE(api_result)) {
-    usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
+    cli::cli_abort(c(
+      "Could not reach the API with {attempts} attempts.",
+      i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+      ))
   } else if (length(api_result) == 1) {
     if (is.null(wikipedia_page_qid_df)) {
       wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
@@ -241,10 +244,10 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
         source_title_url = .data$title_url,
         source_wikipedia_title = .data$wikipedia_title,
         source_qid = .data$qid,
-        wikipedia_title = as.character(NA),
-        wikipedia_id = as.numeric(NA),
-        qid = as.character(NA),
-        description = as.character(NA),
+        wikipedia_title = NA_character_,
+        wikipedia_id = NA_real_,
+        qid = NA_character_,
+        description = NA_character_,
         language = as.character(wikipedia_page_qid_df$language),
       )
 
@@ -306,7 +309,10 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     }
 
     if (isFALSE(api_result)) {
-      usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
+      cli::cli_abort(c(
+        "Could not reach the API with {attempts} attempts.",
+        i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+        ))
     } else {
       base_json <- api_result
     }
@@ -633,10 +639,10 @@ tw_reset_wikipedia_page_links_cache <- function(language = tidywikidatar::tw_get
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page links cache reset for language ", sQuote(language), " completed"))
-  } else if (usethis::ui_yeah(x = paste0("Are you sure you want to remove from cache the Wikipedia page links cache for language: ", sQuote(language), "?"))) {
+    cli::cli_alert_info("Wikipedia page links cache reset for language {.val {language}} completed.")
+  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the Wikipedia page links cache for language: ", sQuote(language), "?")) == 1) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    usethis::ui_info(paste0("Wikipedia page links cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info("Wikipedia page links cache reset for language {.val {language}} completed.")
   }
 
   tw_disconnect_from_cache(

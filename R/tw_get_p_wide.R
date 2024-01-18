@@ -65,8 +65,8 @@ tw_get_p_wide <- function(id,
   )
 
   unique_p <- unique(p)
-  property <- as.character(NA)
-  value <- as.character(NA)
+  property <- NA_character_
+  value <- NA_character_
 
   property_df <- tw_get_property(
     id = id,
@@ -120,7 +120,7 @@ tw_get_p_wide <- function(id,
           wait = wait
         ),
         false = .data$value,
-        missing = as.character(NA)
+        missing = NA_character_
       ))
   }
 
@@ -186,7 +186,7 @@ tw_get_p_wide <- function(id,
             id_cols = "id",
             names_from = "property",
             values_from = "label",
-            values_fill = as.character(NA)
+            values_fill = NA_character_
           )
       } else if (only_first == FALSE) {
         property_df_wide <- property_df %>%
@@ -194,11 +194,11 @@ tw_get_p_wide <- function(id,
             id_cols = "id",
             names_from = "property",
             values_from = "label",
-            values_fill = list(as.character(NA))
+            values_fill = list(NA_character_)
           )
       }
     } else {
-      usethis::ui_stop("The parameter `both_id_and_label` must be either TRUE or FALSE.")
+      cli::cli_abort("The parameter `both_id_and_label` must be either TRUE or FALSE.")
     }
 
 
@@ -236,7 +236,7 @@ tw_get_p_wide <- function(id,
           id_cols = "id",
           names_from = "property",
           values_from = "value",
-          values_fill = as.character(NA)
+          values_fill = NA_character_
         )
     } else if (only_first == FALSE) {
       property_df_wide <- property_df %>%
@@ -244,7 +244,7 @@ tw_get_p_wide <- function(id,
           id_cols = "id",
           names_from = "property",
           values_from = "value",
-          values_fill = list(as.character(NA))
+          values_fill = list(NA_character_)
         )
     }
 

@@ -32,8 +32,9 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
                                                 wait = 1,
                                                 attempts = 10,
                                                 wikipedia_page_qid_df = NULL) {
-  if (is.null(section_index) & is.null(section_title)) {
-    usethis::ui_stop("Either {usethis::ui_code('section_index')} or {usethis::ui_code('section_title')} must be given. See also {usethis::ui_code('tw_get_wikipedia_page_sections()')}")
+  if (is.null(section_index) && is.null(section_title)) {
+    cli::cli_abort(c("Either {.arg section_index} or {.arg section_title} must be provided.",
+                   i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}."))
   }
 
   db <- tw_connect_to_cache(
@@ -61,7 +62,9 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
       utils::head(1)
 
     if (length(section_index) == 0) {
-      usethis::ui_stop("Section title does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
+      cli::cli_abort(c(
+        "Section title does not exist.",
+        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."))
     }
   }
 
@@ -72,7 +75,9 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
       utils::head(1)
 
     if (length(section_index) == 0) {
-      usethis::ui_stop("Section index does not exist. Consider running `tw_get_wikipedia_sections()` with `overwrite_cache` set to TRUE if you believe this may be due to oudated cache.")
+      cli::cli_abort(c(
+        "Section title does not exist.",
+        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."))
     }
   }
 
@@ -111,9 +116,10 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
   }
 
   if (isFALSE(api_result)) {
-    usethis::ui_stop("It has not been possible to reach the API with {attempts} attempts. Consider increasing the waiting time between calls with the {usethis::ui_code('wait')} parameter or check your internet connection.")
+    cli::cli_abort(c("Could not reach the API with {attempts} attempts.",
+                   i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
   } else if ("error" %in% names(api_result)) {
-    usethis::ui_stop("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
+    cli::cli_abort("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
     api_result[["error"]]
   } else {
     base_json <- api_result

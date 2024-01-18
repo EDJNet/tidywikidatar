@@ -51,12 +51,14 @@ tw_check_cache_index <- function(table_name = NULL,
   )
 
   if (is.null(db)) {
-    usethis::ui_stop("No valid connection found. Enable caching with `tw_enable_cache()` or through the relevant parameters.")
+    cli::cli_abort(c(
+      "No valid connection found.",
+      i = "Enable caching with `tw_enable_cache()` or through the relevant parameters."))
   }
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    usethis::ui_warn("Table `{table_name}` does not exist.")
-    invisible(return(NULL))
+    cli::cli_warn("Table {.code {table_name}} does not exist.")
+    return(invisible())
   }
 
   driver <- db$fetch()
@@ -161,7 +163,7 @@ tw_index_cache_search <- function(table_name = NULL,
                                   cache = NULL,
                                   cache_connection = NULL,
                                   disconnect_db = TRUE) {
-  if (is.null(table_name) == TRUE) {
+  if (is.null(table_name)) {
     table_name <- tw_get_cache_table_name(
       type = stringr::str_c("search_", type),
       language = language,
@@ -178,12 +180,12 @@ tw_index_cache_search <- function(table_name = NULL,
     cache = cache
   )
 
-  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    usethis::ui_warn("Table `{table_name}` does not exist.")
-    invisible(return(NULL))
+  if (!pool::dbExistsTable(conn = db, name = table_name)) {
+    cli::cli_warn("Table `{table_name}` does not exist.")
+    return(invisible())
   }
 
-  if (check_first == TRUE) {
+  if (check_first) {
     check <- tw_check_cache_index(
       table_name = table_name,
       type = type,
@@ -195,8 +197,11 @@ tw_index_cache_search <- function(table_name = NULL,
       disconnect_db = FALSE
     )
 
-    if (check == TRUE) {
-      usethis::ui_info("The table {usethis::ui_code(table_name)} is already indexed. No action taken. Set `check` to FALSE to ignore this check.")
+    if (check) {
+      cli::cli_inform(c(
+        "The table {.code {table_name}} is already indexed. No action taken.",
+        i = "Use `check = FALSE` to ignore this check."
+        ))
       return(invisible(NULL))
     }
   }
@@ -274,8 +279,8 @@ tw_index_cache_search <- function(table_name = NULL,
 #' To ensure smooth functioning, the search column in the cache table is transformed into a column of type `varchar` and length 255.
 #'
 #' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
-#' @param check_first Logical, defaults to TRUE. If TRUE, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
-#' @param show_details Logical, defaults to FALSE. If FALSE, return the function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
+#' @param check_first Logical, defaults to `TRUE`. If `TRUE`, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
+#' @param show_details Logical, defaults to `FALSE`. If `FALSE`, return the function adds the index to the database, but does not return anything. If `TRUE`, returns a data frame with more details about the index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
@@ -302,7 +307,7 @@ tw_index_cache_item <- function(table_name = NULL,
                                 cache = NULL,
                                 cache_connection = NULL,
                                 disconnect_db = TRUE) {
-  if (is.null(table_name) == TRUE) {
+  if (is.null(table_name)) {
     table_name <- tw_get_cache_table_name(
       type = type,
       language = language
@@ -318,11 +323,11 @@ tw_index_cache_item <- function(table_name = NULL,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    usethis::ui_warn("Table `{table_name}` does not exist.")
-    invisible(return(NULL))
+    cli::cli_warn("Table `{table_name}` does not exist.")
+    return(invisible())
   }
 
-  if (check_first == TRUE) {
+  if (check_first) {
     check <- tw_check_cache_index(
       table_name = table_name,
       type = type,
@@ -333,8 +338,8 @@ tw_index_cache_item <- function(table_name = NULL,
       disconnect_db = FALSE
     )
 
-    if (check == TRUE) {
-      usethis::ui_info("The table {usethis::ui_code(table_name)} is already indexed. No action taken. Set `check` to FALSE to ignore this check.")
+    if (check) {
+      cli::cli_alert_info("The table {.code {table_name}} is already indexed. No action taken. Set `check` to FALSE to ignore this check.")
       return(invisible(NULL))
     }
   }

@@ -81,14 +81,10 @@ tw_connect_to_cache <- function(connection = NULL,
       connection <- tw_get_cache_db()
 
       if (connection[["driver"]] == "SQLite") {
-        if (requireNamespace("RSQLite", quietly = TRUE) == FALSE) {
-          usethis::ui_stop(x = "To use SQLite databases you need to install the package `RSQLite`.")
-        }
+        rlang::check_installed("RSQLite", "to use SQLite databases.")
         drv <- RSQLite::SQLite()
       } else {
-        if (requireNamespace("odbc", quietly = TRUE) == FALSE) {
-          usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`, or provide your connection directly to all functions.")
-        }
+        rlang::check_installed("odbc", "to use custom databases.")
         drv <- odbc::odbc()
       }
 
@@ -107,14 +103,10 @@ tw_connect_to_cache <- function(connection = NULL,
   } else {
     if (is.list(connection)) {
       if (connection[["driver"]] == "SQLite") {
-        if (requireNamespace("RSQLite", quietly = TRUE) == FALSE) {
-          usethis::ui_stop(x = "To use SQLite databases you need to install the package `RSQLite`.")
-        }
+        rlang::check_installed("RSQLite", "to use SQLite databases.")
         drv <- RSQLite::SQLite()
       } else {
-        if (requireNamespace("odbc", quietly = TRUE) == FALSE) {
-          usethis::ui_stop(x = "To use custom databases you need to install the package `odbc`, or provide your connection directly to all functions.")
-        }
+        rlang::check_installed("odbc", "to use custom databases.")
         drv <- odbc::odbc()
       }
 

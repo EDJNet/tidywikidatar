@@ -26,7 +26,7 @@ tw_get_all_with_p <- function(p,
   p <- stringr::str_to_upper(string = p)
 
   if (stringr::str_starts(string = p, pattern = "P", negate = TRUE)) {
-    usethis::ui_warn("Invalid property. Property should always start with 'P'.")
+    cli::cli_warn("Invalid property. Property should always start with 'P'.")
     if (method == "SPARQL") {
       return(tidywikidatar::tw_empty_search)
     } else if (method == "API") {
@@ -94,7 +94,7 @@ tw_get_all_with_p <- function(p,
 
     while (is.null(continue_check) == FALSE & page_number < max(2, (limit / 500))) {
       Sys.sleep(wait)
-      usethis::ui_info(stringr::str_c("Page ", page_number, " extracted"))
+      cli::cli_alert_info("Page {page_number} extracted")
       page_number <- page_number + 1
 
       base_json <- jsonlite::read_json(stringr::str_c(

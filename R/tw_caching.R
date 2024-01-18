@@ -12,18 +12,24 @@
 #' }
 #' }
 tw_create_cache_folder <- function(ask = TRUE) {
-  if (fs::file_exists(tidywikidatar::tw_get_cache_folder()) == FALSE) {
-    if (ask == FALSE) {
+  if (!fs::file_exists(tidywikidatar::tw_get_cache_folder())) {
+    if (!ask) {
       fs::dir_create(path = tidywikidatar::tw_get_cache_folder(), recurse = TRUE)
     } else {
-      usethis::ui_info(glue::glue("The cache folder {{usethis::ui_path(tw_get_cache_folder())}} does not exist. If you prefer to cache files elsewhere, reply negatively and set your preferred cache folder with `tw_set_cache_folder()`"))
-      check <- usethis::ui_yeah(glue::glue("Do you want to create {{usethis::ui_path(tw_get_cache_folder())}} for caching data?"))
-      if (check == TRUE) {
+      cli::cli_inform(c(
+        "The cache folder {.path {tw_get_cache_folder()}} does not exist.",
+        "If you prefer to cache files elsewhere, reply no and set your preferred cache folder with {.fn tw_set_cache_folder}."
+      ))
+      msg_yes_no <- cli::format_inline("Do you want to create {.path {tw_get_cache_folder()}} for caching data?")
+      check <- utils::menu(choices = c("Yes", "No"), title = msg_yes_no)
+      if (check == 1) {
         fs::dir_create(path = tidywikidatar::tw_get_cache_folder(), recurse = TRUE)
       }
     }
-    if (fs::file_exists(tidywikidatar::tw_get_cache_folder()) == FALSE) {
-      usethis::ui_stop("This function requires a valid cache folder.")
+    if (!fs::file_exists(tidywikidatar::tw_get_cache_folder())) {
+      cli::cli_abort(c(
+        "This function requires a valid cache folder.",
+        i = "Set one with {.fn tw_set_cache_folder}."))
     }
   }
 }
@@ -145,13 +151,13 @@ tw_set_cache_db <- function(db_settings = NULL,
       )
     ))
   } else {
-    if (is.null(db_settings$driver) == FALSE) Sys.setenv(tw_db_driver = db_settings$driver)
-    if (is.null(db_settings$host) == FALSE) Sys.setenv(tw_db_host = db_settings$host)
-    if (is.null(db_settings$server) == FALSE) Sys.setenv(tw_db_server = db_settings$server)
-    if (is.null(db_settings$port) == FALSE) Sys.setenv(tw_db_port = db_settings$port)
-    if (is.null(db_settings$database) == FALSE) Sys.setenv(tw_db_database = db_settings$database)
-    if (is.null(db_settings$user) == FALSE) Sys.setenv(tw_db_user = db_settings$user)
-    if (is.null(db_settings$pwd) == FALSE) Sys.setenv(tw_db_pwd = db_settings$pwd)
+    if (!is.null(db_settings$driver))   Sys.setenv(tw_db_driver = db_settings$driver)
+    if (!is.null(db_settings$host))     Sys.setenv(tw_db_host = db_settings$host)
+    if (!is.null(db_settings$server))   Sys.setenv(tw_db_server = db_settings$server)
+    if (!is.null(db_settings$port))     Sys.setenv(tw_db_port = db_settings$port)
+    if (!is.null(db_settings$database)) Sys.setenv(tw_db_database = db_settings$database)
+    if (!is.null(db_settings$user))     Sys.setenv(tw_db_user = db_settings$user)
+    if (!is.null(db_settings$pwd))      Sys.setenv(tw_db_pwd = db_settings$pwd)
     return(invisible(db_settings))
   }
 }
@@ -168,13 +174,13 @@ tw_set_cache_db <- function(db_settings = NULL,
 #' tw_get_cache_db()
 tw_get_cache_db <- function() {
   list(
-    driver = Sys.getenv("tw_db_driver"),
-    host = Sys.getenv("tw_db_host"),
-    server = Sys.getenv("tw_db_server"),
-    port = Sys.getenv("tw_db_port"),
+    driver   = Sys.getenv("tw_db_driver"),
+    host     = Sys.getenv("tw_db_host"),
+    server   = Sys.getenv("tw_db_server"),
+    port     = Sys.getenv("tw_db_port"),
     database = Sys.getenv("tw_db_database"),
-    user = Sys.getenv("tw_db_user"),
-    pwd = Sys.getenv("tw_db_pwd")
+    user     = Sys.getenv("tw_db_user"),
+    pwd      = Sys.getenv("tw_db_pwd")
   )
 }
 
@@ -228,15 +234,11 @@ tw_disable_cache <- function() {
 #' }
 #' }
 tw_check_cache <- function(cache = NULL) {
-  if (is.null(cache) == FALSE) {
+  if (!is.null(cache)) {
     return(as.logical(cache))
   }
-  current_cache <- Sys.getenv("tw_cache")
-  if (current_cache == "") {
-    as.logical(FALSE)
-  } else {
-    as.logical(current_cache)
-  }
+  current_cache <- Sys.getenv("tw_cache", unset = FALSE)
+  as.logical(current_cache)
 }
 
 #' Checks if cache folder exists, if not returns an informative message
@@ -262,12 +264,10 @@ tw_check_cache <- function(cache = NULL) {
 #'
 #' tw_check_cache_folder()
 tw_check_cache_folder <- function() {
-  if (fs::file_exists(tw_get_cache_folder()) == FALSE) {
-    usethis::ui_stop(paste(
-      "Cache folder does not exist. Set it with",
-      usethis::ui_code("tw_get_cache_folder()"),
-      "and create it with",
-      usethis::ui_code("tw_create_cache_folder()")
+  if (!fs::file_exists(tw_get_cache_folder())) {
+    cli::cli_abort(c(
+      "Cache folder does not exist.",
+      "i" = "Set it with {.fn tw_set_cache_folder} and create it with {.fn tw_create_cache_folder}."
     ))
   }
   TRUE

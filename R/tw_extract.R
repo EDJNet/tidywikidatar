@@ -234,7 +234,7 @@ tw_extract_qualifier <- function(id,
     )
 
     if (is.character(w)) {
-      usethis::ui_oops(w)
+      cli::cli_alert_danger(w)
       return(tidywikidatar::tw_empty_qualifiers)
     }
   }
@@ -320,12 +320,8 @@ tw_extract_qualifier <- function(id,
     tibble::as_tibble() %>%
     dplyr::mutate(
       id = id,
-      property = p
-    ) %>%
-    dplyr::select(
-      "id",
-      "property",
-      dplyr::everything()
+      property = p,
+      .before = 0
     )
   qualifiers_df
 }
