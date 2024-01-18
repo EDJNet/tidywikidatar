@@ -34,7 +34,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/EDJNet/tidywikidatar/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -42,7 +48,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Checks if cache folder exists, if not returns an informative message</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/HEAD/R/tw_caching.R" class="external-link"><code>R/tw_caching.R</code></a></small>
       <div class="d-none name"><code>tw_check_cache_folder.Rd</code></div>
     </div>
 
@@ -71,7 +77,48 @@
 <span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;usethis_error: Cache folder does not exist. Set it with <span style="color: #555555;">`tw_get_cache_folder()`</span> and create it with <span style="color: #555555;">`tw_create_cache_folder()`</span>&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">&lt;error/rlang_error&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in </span><span style="color: #5555FF; font-weight: bold;">`tw_check_cache_folder()`</span><span style="font-weight: bold;">:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cache folder does not exist.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Set it with `tw_set_cache_folder()` and create it with</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `tw_create_cache_folder()`.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Backtrace:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">     </span>▆</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  1. </span>└─<span style="font-weight: bold;">pkgdown</span>::build_site_github_pages(new_process = FALSE, install = FALSE)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  2. </span>  └─pkgdown::build_site(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  3. </span>    └─pkgdown:::build_site_local(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  4. </span>      └─pkgdown::build_reference(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  5. </span>        └─<span style="font-weight: bold;">purrr</span>::map(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  6. </span>          └─purrr:::map_("list", .x, .f, ..., .progress = .progress)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  7. </span>            ├<span style="color: #949494;">─purrr:::with_indexed_errors(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  8. </span>            │ <span style="color: #949494;">└─</span><span style="color: #949494; font-weight: bold;">base</span><span style="color: #949494;">::withCallingHandlers(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  9. </span>            ├<span style="color: #949494;">─</span><span style="color: #949494; font-weight: bold;">purrr</span><span style="color: #949494;">:::call_with_cleanup(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 10. </span>            └─<span style="font-weight: bold;">pkgdown</span> (local) .f(.x[[i]], ...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 11. </span>              ├<span style="color: #949494;">─</span><span style="color: #949494; font-weight: bold;">base</span><span style="color: #949494;">::withCallingHandlers(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 12. </span>              └─<span style="font-weight: bold;">pkgdown</span>:::data_reference_topic(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 13. </span>                └─pkgdown:::run_examples(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 14. </span>                  └─pkgdown:::highlight_examples(code, topic, env = env)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 15. </span>                    └─<span style="font-weight: bold;">downlit</span>::evaluate_and_highlight(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 16. </span>                      └─<span style="font-weight: bold;">evaluate</span>::evaluate(code, child_env(env), new_device = TRUE, output_handler = output_handler)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 17. </span>                        └─evaluate:::evaluate_call(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 18. </span>                          ├<span style="color: #949494;">─evaluate (local) timing_fn(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 19. </span>                          ├<span style="color: #949494;">─evaluate (local) handle(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 20. </span>                          │ <span style="color: #949494;">└─</span><span style="color: #949494; font-weight: bold;">base</span><span style="color: #949494;">::try(f, silent = TRUE)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 21. </span>                          │   <span style="color: #949494;">└─base::tryCatch(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 22. </span>                          │     <span style="color: #949494;">└─base (local) tryCatchList(expr, classes, parentenv, handlers)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 23. </span>                          │       <span style="color: #949494;">└─base (local) tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 24. </span>                          │         <span style="color: #949494;">└─base (local) doTryCatch(return(expr), name, parentenv, handler)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 25. </span>                          ├<span style="color: #949494;">─base::withCallingHandlers(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 26. </span>                          ├<span style="color: #949494;">─base::withVisible(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 27. </span>                          └─<span style="font-weight: bold;">evaluate</span>:::eval_with_user_handlers(expr, envir, enclos, user_handlers)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 28. </span>                            └─<span style="font-weight: bold;">base</span>::eval(expr, envir, enclos)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 29. </span>                              └─base::eval(expr, envir, enclos)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 30. </span>                                ├<span style="color: #949494;">─base::tryCatch(...)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 31. </span>                                │ <span style="color: #949494;">└─base (local) tryCatchList(expr, classes, parentenv, handlers)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 32. </span>                                │   <span style="color: #949494;">└─base (local) tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 33. </span>                                │     <span style="color: #949494;">└─base (local) doTryCatch(return(expr), name, parentenv, handler)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"> 34. </span>                                └─<span style="color: #5555FF; font-weight: bold;">tidywikidatar::tw_check_cache_folder()</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create cache folder</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tw_set_cache_folder.html">tw_set_cache_folder</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span></span></span>
