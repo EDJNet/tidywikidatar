@@ -242,17 +242,17 @@ tw_search_single <- function(search,
       return(tidywikidatar::tw_empty_search)
     } else {
       return(tidywikidatar::tw_empty_search %>%
-               dplyr::select(-"search"))
+        dplyr::select(-"search"))
     }
   }
 
-  if (search=="") {
+  if (search == "") {
     if (include_search == TRUE) {
       tidywikidatar::tw_empty_search %>%
         dplyr::add_row(search = "")
     } else {
       return(tidywikidatar::tw_empty_search %>%
-               dplyr::select(-"search"))
+        dplyr::select(-"search"))
     }
   }
 

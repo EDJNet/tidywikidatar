@@ -119,7 +119,7 @@ tw_get_property_label_single <- function(property,
                                          cache_connection = NULL,
                                          disconnect_db = TRUE,
                                          wait = 0) {
-  if (length(tw_check_pid(property = property))==0) {
+  if (length(tw_check_pid(property = property)) == 0) {
     return(NA_character_)
   }
 
