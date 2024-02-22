@@ -1,6 +1,6 @@
 Package: tidywikidatar
 Title: Explore 'Wikidata' Through Tidy Data Frames
-Version: 0.5.7.9002
+Version: 0.5.7.9003
 Authors@R: 
     c(person(given = "Giorgio",
              family = "Comai",
@@ -13,7 +13,7 @@ Description: Query 'Wikidata' API <https://www.wikidata.org/wiki/Wikidata:Main_P
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 Imports: 
     magrittr,
     dplyr (>= 1.1.0),

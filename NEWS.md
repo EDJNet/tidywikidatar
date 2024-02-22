@@ -2,6 +2,7 @@
 
 * consistent results rather than error when searching empty string with `tw_search`
 * consistent results rather than error when searching empty string with `tw_get_property_label`
+* drop `usethis` dependency (PR by @olivroy)
 
 # tidywikidatar 0.5.7
 
