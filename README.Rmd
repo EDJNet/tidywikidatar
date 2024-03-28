@@ -502,29 +502,23 @@ tw_query(query = query_df)
 Or perhaps, you are interested only in women who are resistance fighters who have "France" ([Q142](https://www.wikidata.org/wiki/Q142)) as "country of citizenship" ([P27](https://www.wikidata.org/wiki/Property:P27))? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?
 
 
-```{r}
-tibble::tribble(
+```{r fr_resistance_fighters_df}
+fr_resistance_fighters_df <- tibble::tribble(
   ~p, ~q,
   "P106", "Q1397808", # Occupation: resistance fighter
   "P21", "Q6581072", # Sex or gender: female
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
+
+fr_resistance_fighters_df
 ```
-
-
 
 You can also ask other fields, beyond label and description, using the `field` parameter of `tw_query()`. But for this readme, I'll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.
 
 
 ```{r}
-tibble::tribble(
-  ~p, ~q,
-  "P106", "Q1397808",
-  "P21", "Q6581072",
-  "P27", "Q142"
-) %>%
-  tw_query() %>%
+fr_resistance_fighters_df %>%
   dplyr::slice(1) %>%
   get_bio()
 ```

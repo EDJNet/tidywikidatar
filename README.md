@@ -941,7 +941,7 @@ want the description in Italian, and if not available in French, and
 only then look for other fallback options?
 
 ``` r
-tibble::tribble(
+fr_resistance_fighters_df <- tibble::tribble(
   ~p, ~q,
   "P106", "Q1397808", # Occupation: resistance fighter
   "P21", "Q6581072", # Sex or gender: female
@@ -955,19 +955,21 @@ tibble::tribble(
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+fr_resistance_fighters_df
 #> # A tibble: 181 × 3
-#>    id         label                              description                    
-#>    <chr>      <chr>                              <chr>                          
-#>  1 Q105192869 Jeanne Julie Bouillane             résistante française           
-#>  2 Q105319679 Marcelle Semmer                    résistante française           
-#>  3 Q105453807 Marcelle Lafont                    chimiste, résistante et femme …
-#>  4 Q105757789 Amelina Ermeline Devant-Le Gallena <NA>                           
-#>  5 Q105779167 Maadi Gobrait                      infirmière et résistante franç…
-#>  6 Q106110969 Marcelle Engelen                   résistante française alsacienne
-#>  7 Q106601185 Marie-Louise Moru                  résistante française, déportée…
-#>  8 Q106644584 Madeleine Dassault                 <NA>                           
-#>  9 Q106831396 Claire Monis                       chanteuse, actrice, résistante…
-#> 10 Q107291656 Marie-Rose Gineste                 <NA>                           
+#>    id         label                 description                                 
+#>    <chr>      <chr>                 <chr>                                       
+#>  1 Q109251934 Jeanne Bleton-Barraud résistante française                        
+#>  2 Q109252587 Louise Losserand      résistante et déportée française            
+#>  3 Q109406143 Esther Poggio         résistante française                        
+#>  4 Q109515952 Marie-Antoinette Gout personnalité française reconnue Juste parmi…
+#>  5 Q110357401 Christiane Cabalé     une des plus jeunes déportées au camp de co…
+#>  6 Q110842679 Henriette de Mornac   résistante française                        
+#>  7 Q111016944 Simone Hirschler      l'épouse et la collaboratrice de René Hirsc…
+#>  8 Q111033181 Frantxia Haltzuet     résistante basque de la Seconde Guerre mond…
+#>  9 Q111235729 Régine Lemberger      résistante française                        
+#> 10 Q111272415 Marcelle Dorr         résistante française pendant la Seconde Gue…
 #> # ℹ 171 more rows
 ```
 
@@ -978,26 +980,13 @@ learning yet another set of Wikidata terminology? You can still use the
 same commands described above, e.g.
 
 ``` r
-tibble::tribble(
-  ~p, ~q,
-  "P106", "Q1397808",
-  "P21", "Q6581072",
-  "P27", "Q142"
-) %>%
-  tw_query() %>%
+fr_resistance_fighters_df %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 181 Columns: 3
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr (3): item, itemLabel, itemDescription
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 1 × 4
-#>   label          description      year_of_birth year_of_death
-#>   <chr>          <chr>                    <dbl>         <dbl>
-#> 1 Marina Ginestà Spanish reporter          1919          2014
+#>   label                 description year_of_birth year_of_death
+#>   <chr>                 <chr>               <dbl>         <dbl>
+#> 1 Jeanne Bleton-Barraud <NA>                 1924          2016
 ```
 
 Keep in mind that Wikidata queries are not cached locally.
