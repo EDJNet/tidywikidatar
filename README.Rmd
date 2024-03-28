@@ -628,6 +628,6 @@ Fedora users may need to install the package `libjpeg-turbo-devel`, which is req
 
 ## Copyright and credits
 
-This package has been created by [Giorgio Comai](https://giorgiocomai.eu), data analyst and researcher at [OBCT/CCI](https://balcanicaucaso.org/), within the scope of [EDJNet](https://europeandatajournalism.eu/), the European Data Journalism Network.
+This package has been created by [Giorgio Comai](https://giorgiocomai.eu), data analyst and researcher at [OBCT/CCI](https://balcanicaucaso.org/), within the scope of [EDJNet](https://www.europeandatajournalism.eu/), the European Data Journalism Network.
 
 It is distributed under the MIT license. 
