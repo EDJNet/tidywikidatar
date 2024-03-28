@@ -42,7 +42,7 @@ Suggests:
     odbc
 Config/testthat/edition: 3
 Language: en-US
-URL: https://edjnet.github.io/tidywikidatar/
+URL: https://edjnet.github.io/tidywikidatar/, https://github.com/EDJNet/tidywikidatar
 BugReports: https://github.com/EDJNet/tidywikidatar/issues
 VignetteBuilder: knitr
 Depends: 
