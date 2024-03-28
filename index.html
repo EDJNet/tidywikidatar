@@ -885,7 +885,7 @@
 <span><span class="co">#&gt; # ℹ 1,073 more rows</span></span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142" class="external-link">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27" class="external-link">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">fr_resistance_fighters_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">p</span>, <span class="op">~</span><span class="va">q</span>,</span>
 <span>  <span class="st">"P106"</span>, <span class="st">"Q1397808"</span>, <span class="co"># Occupation: resistance fighter</span></span>
 <span>  <span class="st">"P21"</span>, <span class="st">"Q6581072"</span>, <span class="co"># Sex or gender: female</span></span>
@@ -899,42 +899,31 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span></span>
+<span><span class="va">fr_resistance_fighters_df</span></span>
 <span><span class="co">#&gt; # A tibble: 181 × 3</span></span>
-<span><span class="co">#&gt;    id         label                              description                    </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;                              &lt;chr&gt;                          </span></span>
-<span><span class="co">#&gt;  1 Q105192869 Jeanne Julie Bouillane             résistante française           </span></span>
-<span><span class="co">#&gt;  2 Q105319679 Marcelle Semmer                    résistante française           </span></span>
-<span><span class="co">#&gt;  3 Q105453807 Marcelle Lafont                    chimiste, résistante et femme …</span></span>
-<span><span class="co">#&gt;  4 Q105757789 Amelina Ermeline Devant-Le Gallena &lt;NA&gt;                           </span></span>
-<span><span class="co">#&gt;  5 Q105779167 Maadi Gobrait                      infirmière et résistante franç…</span></span>
-<span><span class="co">#&gt;  6 Q106110969 Marcelle Engelen                   résistante française alsacienne</span></span>
-<span><span class="co">#&gt;  7 Q106601185 Marie-Louise Moru                  résistante française, déportée…</span></span>
-<span><span class="co">#&gt;  8 Q106644584 Madeleine Dassault                 &lt;NA&gt;                           </span></span>
-<span><span class="co">#&gt;  9 Q106831396 Claire Monis                       chanteuse, actrice, résistante…</span></span>
-<span><span class="co">#&gt; 10 Q107291656 Marie-Rose Gineste                 &lt;NA&gt;                           </span></span>
+<span><span class="co">#&gt;    id         label                 description                                 </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;                 &lt;chr&gt;                                       </span></span>
+<span><span class="co">#&gt;  1 Q109251934 Jeanne Bleton-Barraud résistante française                        </span></span>
+<span><span class="co">#&gt;  2 Q109252587 Louise Losserand      résistante et déportée française            </span></span>
+<span><span class="co">#&gt;  3 Q109406143 Esther Poggio         résistante française                        </span></span>
+<span><span class="co">#&gt;  4 Q109515952 Marie-Antoinette Gout personnalité française reconnue Juste parmi…</span></span>
+<span><span class="co">#&gt;  5 Q110357401 Christiane Cabalé     une des plus jeunes déportées au camp de co…</span></span>
+<span><span class="co">#&gt;  6 Q110842679 Henriette de Mornac   résistante française                        </span></span>
+<span><span class="co">#&gt;  7 Q111016944 Simone Hirschler      l'épouse et la collaboratrice de René Hirsc…</span></span>
+<span><span class="co">#&gt;  8 Q111033181 Frantxia Haltzuet     résistante basque de la Seconde Guerre mond…</span></span>
+<span><span class="co">#&gt;  9 Q111235729 Régine Lemberger      résistante française                        </span></span>
+<span><span class="co">#&gt; 10 Q111272415 Marcelle Dorr         résistante française pendant la Seconde Gue…</span></span>
 <span><span class="co">#&gt; # ℹ 171 more rows</span></span></code></pre></div>
 <p>You can also ask other fields, beyond label and description, using the <code>field</code> parameter of <code><a href="reference/tw_query.html">tw_query()</a></code>. But for this readme, I’ll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>  <span class="op">~</span><span class="va">p</span>, <span class="op">~</span><span class="va">q</span>,</span>
-<span>  <span class="st">"P106"</span>, <span class="st">"Q1397808"</span>,</span>
-<span>  <span class="st">"P21"</span>, <span class="st">"Q6581072"</span>,</span>
-<span>  <span class="st">"P27"</span>, <span class="st">"Q142"</span></span>
-<span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">fr_resistance_fighters_df</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">get_bio</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 181 Columns: 3</span></span>
-<span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; Delimiter: ","</span></span>
-<span><span class="co">#&gt; chr (3): item, itemLabel, itemDescription</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
-<span><span class="co">#&gt;   label          description      year_of_birth year_of_death</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;                    &lt;dbl&gt;         &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 Marina Ginestà Spanish reporter          1919          2014</span></span></code></pre></div>
+<span><span class="co">#&gt;   label                 description year_of_birth year_of_death</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;chr&gt;               &lt;dbl&gt;         &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Jeanne Bleton-Barraud &lt;NA&gt;                 1924          2016</span></span></code></pre></div>
 <p>Keep in mind that Wikidata queries are not cached locally.</p>
 </div>
 <div class="section level2">
