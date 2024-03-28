@@ -4,6 +4,7 @@
 # tidywikidatar
 
 <!-- badges: start -->
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tidywikidatar)](https://cran.r-project.org/package=tidywikidatar)
 [![CRAN RStudio mirror
@@ -169,11 +170,11 @@ tw_search(search = "Margaret Mead")
 #>    id        label                               description                    
 #>    <chr>     <chr>                               <chr>                          
 #>  1 Q180099   Margaret Mead                       American anthropologist        
-#>  2 Q81015029 Margaret mead                       scientific article published o…
-#>  3 Q66701460 Margaret Mead                       scientific article published o…
+#>  2 Q66701460 Margaret Mead                       scientific article published o…
+#>  3 Q81015029 Margaret mead                       scientific article published o…
 #>  4 Q85724626 Mead & Bateson                      business organisation          
-#>  5 Q75281958 Lady Margaret Meade-Fetherstonhaugh British author (1888–1977)     
-#>  6 Q96077616 Margaret Meadows                    (1718-1781)                    
+#>  5 Q96077616 Margaret Meadows                    (1718-1781)                    
+#>  6 Q75281958 Lady Margaret Meade-Fetherstonhaugh British author (1888–1977)     
 #>  7 Q76238541 Margaret Meadowe                    Peerage person ID=628312       
 #>  8 Q75506638 Margaret Meadows                    Peerage person ID=183057       
 #>  9 Q75812372 Margaret Meade-Waldo                (died 1954)                    
@@ -316,7 +317,7 @@ tw_get_property(
   p = "P166",
   language = "en"
 )
-#> # A tibble: 16 × 4
+#> # A tibble: 15 × 4
 #>    id      property value      rank  
 #>    <chr>   <chr>    <chr>      <chr> 
 #>  1 Q180099 P166     Q17144     normal
@@ -328,13 +329,12 @@ tw_get_property(
 #>  7 Q180099 P166     Q110939855 normal
 #>  8 Q228822 P166     Q1967852   normal
 #>  9 Q228822 P166     Q52382875  normal
-#> 10 Q228822 P166     Q752297    normal
-#> 11 Q220480 P166     Q1316544   normal
-#> 12 Q220480 P166     Q1967852   normal
-#> 13 Q220480 P166     Q5461701   normal
-#> 14 Q220480 P166     Q5461189   normal
-#> 15 Q220480 P166     Q4765305   normal
-#> 16 Q220480 P166     Q1316544   normal
+#> 10 Q220480 P166     Q1316544   normal
+#> 11 Q220480 P166     Q1967852   normal
+#> 12 Q220480 P166     Q5461701   normal
+#> 13 Q220480 P166     Q5461189   normal
+#> 14 Q220480 P166     Q4765305   normal
+#> 15 Q220480 P166     Q1316544   normal
 ```
 
 Again, Wikidata ids. We can of course get their relative labels using
@@ -349,25 +349,24 @@ tw_get_property(
   language = "en"
 ) %>%
   tw_label()
-#> # A tibble: 16 × 4
+#> # A tibble: 15 × 4
 #>    id                 property       value                                 rank 
 #>    <chr>              <chr>          <chr>                                 <chr>
 #>  1 Margaret Mead      award received Presidential Medal of Freedom         norm…
 #>  2 Margaret Mead      award received Kalinga Prize                         norm…
 #>  3 Margaret Mead      award received William Procter Prize for Scientific… norm…
 #>  4 Margaret Mead      award received National Women's Hall of Fame         norm…
-#>  5 Margaret Mead      award received AAAS Fellow                           norm…
+#>  5 Margaret Mead      award received Fellow of the American Academy of Ar… norm…
 #>  6 Margaret Mead      award received honorary doctor of the University of… norm…
 #>  7 Margaret Mead      award received Gold Medal of the Society of Woman G… norm…
 #>  8 Ruth Benedict      award received National Women's Hall of Fame         norm…
-#>  9 Ruth Benedict      award received AAAS Fellow                           norm…
-#> 10 Ruth Benedict      award received Doctor of Philosophy                  norm…
-#> 11 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
-#> 12 Zora Neale Hurston award received National Women's Hall of Fame         norm…
-#> 13 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…
-#> 14 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…
-#> 15 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…
-#> 16 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
+#>  9 Ruth Benedict      award received Fellow of the American Academy of Ar… norm…
+#> 10 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
+#> 11 Zora Neale Hurston award received National Women's Hall of Fame         norm…
+#> 12 Zora Neale Hurston award received Florida Women's Hall of Fame          norm…
+#> 13 Zora Neale Hurston award received Florida Artists Hall of Fame          norm…
+#> 14 Zora Neale Hurston award received Anisfield-Wolf Book Awards            norm…
+#> 15 Zora Neale Hurston award received Guggenheim Fellowship                 norm…
 ```
 
 ## Piped operations
@@ -505,28 +504,20 @@ students %>%
   )) %>%
   select(-worked_at_id) %>%
   separate(worked_at_coordinates, into = c("lat", "lon"), sep = ",")
-#> # A tibble: 19 × 4
-#>    student_label                 worked_at_label            lat            lon  
-#>    <chr>                         <chr>                      <chr>          <chr>
-#>  1 Ruth Benedict                 Columbia University        40.8075        -73.…
-#>  2 Edward Sapir                  Yale University            41.3111111111… -72.…
-#>  3 Edward Sapir                  University of Chicago      41.7897222222… -87.…
-#>  4 Alexander Francis Chamberlain Clark University           42.250977      -71.…
-#>  5 Alexander Goldenweiser        Columbia University        40.8075        -73.…
-#>  6 Alexander Goldenweiser        University of Washington   47.6541666666… -122…
-#>  7 Melville J. Herskovits        Northwestern University    42.054853      -87.…
-#>  8 Melville J. Herskovits        Columbia University        40.8075        -73.…
-#>  9 Melville J. Herskovits        Howard University          38.9216666666… -77.…
-#> 10 E. Adamson Hoebel             New York University        40.73          -73.…
-#> 11 Melville Jacobs               University of Washington   47.6541666666… -122…
-#> 12 Alexander Lesser              Columbia University        40.8075        -73.…
-#> 13 Alexander Lesser              Brandeis University        42.36566       -71.…
-#> 14 Alexander Lesser              Hofstra University         40.7146055555… -73.…
-#> 15 Margaret Mead                 Columbia University        40.8075        -73.…
-#> 16 Margaret Mead                 University of Rhode Island 41.4807        -71.…
-#> 17 Paul Radin                    University of Chicago      41.7897222222… -87.…
-#> 18 Paul Radin                    Fisk University            36.1688        -86.…
-#> 19 Paul Radin                    Brandeis University        42.36566       -71.…
+#> # A tibble: 24 × 4
+#>    student_label                 worked_at_label          lat              lon  
+#>    <chr>                         <chr>                    <chr>            <chr>
+#>  1 Ruth Benedict                 Columbia University      40.8075          -73.…
+#>  2 Edward Sapir                  Yale University          41.311111111111  -72.…
+#>  3 Edward Sapir                  University of Chicago    41.789722222222  -87.…
+#>  4 Alexander Francis Chamberlain Clark University         42.250977        -71.…
+#>  5 Alexander Goldenweiser        Columbia University      40.8075          -73.…
+#>  6 Alexander Goldenweiser        University of Washington 47.6541666666667 -122…
+#>  7 Melville J. Herskovits        Northwestern University  42.054853        -87.…
+#>  8 Melville J. Herskovits        Columbia University      40.8075          -73.…
+#>  9 Melville J. Herskovits        Howard University        38.921666666667  -77.…
+#> 10 E. Adamson Hoebel             New York University      40.73            -73.…
+#> # ℹ 14 more rows
 ```
 
 Starting with version 0.5, to reduce typing, `tw_get_p()` can be used
@@ -744,7 +735,7 @@ tw_get_property(id = "Q84", p = "P17") %>%
 #> 3 Q84   P17      Kingdom of Mercia                           normal   
 #> 4 Q84   P17      Kingdom of Wessex                           normal   
 #> 5 Q84   P17      Kingdom of England                          normal   
-#> 6 Q84   P17      Great Britain                               normal   
+#> 6 Q84   P17      Kingdom of Great Britain                    normal   
 #> 7 Q84   P17      United Kingdom of Great Britain and Ireland normal   
 #> 8 Q84   P17      United Kingdom                              preferred
 ```
@@ -756,25 +747,26 @@ website](https://www.wikidata.org/wiki/Q84#P17). The order, however, is
 determined by a number of factors and this may lead to inconsistent
 results. If we are interested in having just one result, as is often the
 case when processing large amounts of items, can we safely pick the
-first (or last) and be sure it’s the more recent? As it emerges looking
-at same for property for Rome, this is not the case.
+first (or last) and be sure it’s the most recent? As it emerges looking
+at the same for property for Rome, this is not the case.
 
 ``` r
 tw_get_property(id = "Q220", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
-#> # A tibble: 10 × 4
-#>    id    property value                             rank     
-#>    <chr> <chr>    <chr>                             <chr>    
-#>  1 Q220  P17      Italy                             preferred
-#>  2 Q220  P17      Papal States                      normal   
-#>  3 Q220  P17      Kingdom of Italy                  normal   
-#>  4 Q220  P17      Ostrogothic Kingdom               normal   
-#>  5 Q220  P17      Byzantine Empire                  normal   
-#>  6 Q220  P17      Kingdom of Italy                  normal   
-#>  7 Q220  P17      Roman Kingdom                     normal   
-#>  8 Q220  P17      Roman Republic                    normal   
-#>  9 Q220  P17      Roman Empire                      normal   
-#> 10 Q220  P17      Western Roman Empire (395-476 AD) normal
+#> # A tibble: 11 × 4
+#>    id    property value                rank     
+#>    <chr> <chr>    <chr>                <chr>    
+#>  1 Q220  P17      Italy                preferred
+#>  2 Q220  P17      Papal States         normal   
+#>  3 Q220  P17      Kingdom of Italy     normal   
+#>  4 Q220  P17      Ostrogothic Kingdom  normal   
+#>  5 Q220  P17      Byzantine Empire     normal   
+#>  6 Q220  P17      Kingdom of Italy     normal   
+#>  7 Q220  P17      Roman Kingdom        normal   
+#>  8 Q220  P17      Roman Republic       normal   
+#>  9 Q220  P17      Roman Empire         normal   
+#> 10 Q220  P17      Western Roman Empire normal   
+#> 11 Q220  P17      Vatican City         normal
 ```
 
 So while we may be tempted to just keep the first statement returned by
@@ -918,27 +910,27 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> Rows: 1012 Columns: 3
+#> Rows: 1083 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 1,012 × 3
+#> # A tibble: 1,083 × 3
 #>    id      label                           description                          
 #>    <chr>   <chr>                           <chr>                                
-#>  1 Q229062 Zoya Kosmodemyanskaya           Soviet resistance member of World Wa…
-#>  2 Q237416 Dubravka Ugrešić                Croatian writer (1949–2023)          
-#>  3 Q237429 Laskarina Bouboulina            heroine of the Greek War of Independ…
-#>  4 Q241097 Corrie ten Boom                 Dutch resistance hero and writer     
-#>  5 Q246835 Trinity                         fictional character from the films o…
-#>  6 Q255016 Violette Szabo                  French-British SOE spy               
-#>  7 Q256628 Xenia Stad-de Jong              Dutch sprinter                       
-#>  8 Q270319 Christiane Desroches Noblecourt French egyptologist (1913-2011)      
-#>  9 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      
-#> 10 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…
-#> # ℹ 1,002 more rows
+#>  1 Q241097 Corrie ten Boom                 Dutch resistance hero and writer     
+#>  2 Q246835 Trinity                         fictional character from the films o…
+#>  3 Q255016 Violette Szabo                  French-British SOE spy               
+#>  4 Q256628 Xenia Stad-de Jong              Dutch sprinter                       
+#>  5 Q270319 Christiane Desroches Noblecourt French egyptologist (1913-2011)      
+#>  6 Q272017 Bep Voskuijl                    Dutch person who hid Anne Frank      
+#>  7 Q274040 Alida Bosshardt                 Dutch Righteous Among the Nations (1…
+#>  8 Q274041 Nanny of the Maroons            leader of Windward Maroons in Jamaica
+#>  9 Q275274 Geneviève de Gaulle-Anthonioz   French resistance member (1920-2002) 
+#> 10 Q276410 Marga Klompé                    Dutch politician (1912-1986)         
+#> # ℹ 1,073 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters
@@ -956,27 +948,27 @@ tibble::tribble(
   "P27", "Q142"
 ) %>% # Country of citizenship: France
   tw_query(language = c("it", "fr"))
-#> Rows: 168 Columns: 3
+#> Rows: 181 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 168 × 3
-#>    id        label              description                                     
-#>    <chr>     <chr>              <chr>                                           
-#>  1 Q2696536  Yolande Beekman    espionne et agente secret des Special Operation…
-#>  2 Q3009723  Cécile Cerf        résistante française                            
-#>  3 Q56817009 Thérèse Chassaing  militante communiste                            
-#>  4 Q58213356 Suzanne Lanoy      professeure et résistante française             
-#>  5 Q59263305 Hélène Cogoluègnes résistante française,  femme de lettres         
-#>  6 Q59532567 Miriam Cendrars    résistante française attachée auprès du Général…
-#>  7 Q60184999 Yvonne Filiâtre    militante socialiste trotskiste et Résistante   
-#>  8 Q20895003 Hélène Jakubowicz  résistante française                            
-#>  9 Q21009704 Madeleine Passot   résistante communiste française                 
-#> 10 Q21069334 Mireille Albrecht  autrice, résistante française                   
-#> # ℹ 158 more rows
+#> # A tibble: 181 × 3
+#>    id         label                              description                    
+#>    <chr>      <chr>                              <chr>                          
+#>  1 Q105192869 Jeanne Julie Bouillane             résistante française           
+#>  2 Q105319679 Marcelle Semmer                    résistante française           
+#>  3 Q105453807 Marcelle Lafont                    chimiste, résistante et femme …
+#>  4 Q105757789 Amelina Ermeline Devant-Le Gallena <NA>                           
+#>  5 Q105779167 Maadi Gobrait                      infirmière et résistante franç…
+#>  6 Q106110969 Marcelle Engelen                   résistante française alsacienne
+#>  7 Q106601185 Marie-Louise Moru                  résistante française, déportée…
+#>  8 Q106644584 Madeleine Dassault                 <NA>                           
+#>  9 Q106831396 Claire Monis                       chanteuse, actrice, résistante…
+#> 10 Q107291656 Marie-Rose Gineste                 <NA>                           
+#> # ℹ 171 more rows
 ```
 
 You can also ask other fields, beyond label and description, using the
@@ -995,7 +987,7 @@ tibble::tribble(
   tw_query() %>%
   dplyr::slice(1) %>%
   get_bio()
-#> Rows: 168 Columns: 3
+#> Rows: 181 Columns: 3
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (3): item, itemLabel, itemDescription
@@ -1028,7 +1020,7 @@ be mindful of redirection if using the title).
 tw_get_wikipedia_page_qid(title = "Margaret Mead")
 #> # A tibble: 1 × 7
 #>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
-#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#>   <chr>         <chr>                  <dbl> <chr>   <chr>        <lgl>         
 #> 1 Margaret Mead Margaret Mead          19617 Q180099 American cu… FALSE         
 #> # ℹ 1 more variable: language <chr>
 ```
@@ -1037,7 +1029,7 @@ tw_get_wikipedia_page_qid(title = "Margaret Mead")
 tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 #> # A tibble: 1 × 7
 #>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
-#>   <chr>         <chr>                  <int> <chr>   <chr>        <lgl>         
+#>   <chr>         <chr>                  <dbl> <chr>   <chr>        <lgl>         
 #> 1 Margaret_Mead Margaret Mead          19617 Q180099 American cu… FALSE         
 #> # ℹ 1 more variable: language <chr>
 ```
@@ -1059,20 +1051,20 @@ wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
 wikipedia_df
-#> # A tibble: 793 × 8
-#>    source_title_url source_wikipedia_title source_qid wikipedia_title           
-#>    <chr>            <chr>                  <chr>      <chr>                     
-#>  1 Margaret Mead    Margaret Mead          Q180099    Alex Barker               
-#>  2 Margaret Mead    Margaret Mead          Q180099    Alfred S. Hayes           
-#>  3 Margaret Mead    Margaret Mead          Q180099    Blackberry Winter: My Ear…
-#>  4 Margaret Mead    Margaret Mead          Q180099    Continuities in Cultural …
-#>  5 Margaret Mead    Margaret Mead          Q180099    Culture and Commitment    
-#>  6 Margaret Mead    Margaret Mead          Q180099    John P. Gillin            
-#>  7 Margaret Mead    Margaret Mead          Q180099    Martin Orans              
-#>  8 Margaret Mead    Margaret Mead          Q180099    A Darwinian Left          
-#>  9 Margaret Mead    Margaret Mead          Q180099    A Rap on Race             
-#> 10 Margaret Mead    Margaret Mead          Q180099    Abby Kelley               
-#> # ℹ 783 more rows
+#> # A tibble: 800 × 8
+#>    source_title_url source_wikipedia_title source_qid wikipedia_title
+#>    <chr>            <chr>                  <chr>      <chr>          
+#>  1 Margaret Mead    Margaret Mead          Q180099    Alex Barker    
+#>  2 Margaret Mead    Margaret Mead          Q180099    Alfred S. Hayes
+#>  3 Margaret Mead    Margaret Mead          Q180099    Martin Orans   
+#>  4 Margaret Mead    Margaret Mead          Q180099    A Rap on Race  
+#>  5 Margaret Mead    Margaret Mead          Q180099    Abby Kelley    
+#>  6 Margaret Mead    Margaret Mead          Q180099    Abigail Adams  
+#>  7 Margaret Mead    Margaret Mead          Q180099    Affinity (law) 
+#>  8 Margaret Mead    Margaret Mead          Q180099    Aimee Mullins  
+#>  9 Margaret Mead    Margaret Mead          Q180099    Akhil Gupta    
+#> 10 Margaret Mead    Margaret Mead          Q180099    Alan H. Goodman
+#> # ℹ 790 more rows
 #> # ℹ 4 more variables: wikipedia_id <dbl>, qid <chr>, description <chr>,
 #> #   language <chr>
 ```
@@ -1141,7 +1133,7 @@ tw_get_image_metadata(id = "Q180099") %>%
 #>  2 image_filename             "Margaret Mead (1901-1978).jpg"                   
 #>  3 object_name                "Margaret Mead (1901-1978)"                       
 #>  4 image_description          "<b>Subject</b>: Mead, Margaret\n<p>       Intern…
-#>  5 categories                 "!Mais Teoria da História na Wiki (Mulheres)|Blac…
+#>  5 categories                 "!Mais Teoria da História na Wiki (LGBTQIA+)|!Mai…
 #>  6 assessments                ""                                                
 #>  7 credit                     "<p><a rel=\"nofollow\" class=\"external text\" h…
 #>  8 artist                     "<a rel=\"nofollow\" class=\"external text\" href…
@@ -1154,7 +1146,7 @@ tw_get_image_metadata(id = "Q180099") %>%
 #> 15 copyrighted                "1"                                               
 #> 16 restrictions               ""                                                
 #> 17 date_time                  "2019-07-02 03:33:00"                             
-#> 18 date_time_original         "18 July 2011, 16:02"                             
+#> 18 date_time_original         "2011-07-18 16:02"                                
 #> 19 commons_metadata_extension "1.2"
 ```
 

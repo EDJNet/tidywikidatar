@@ -405,7 +405,7 @@ tw_get_property(id = "Q84", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
 ```
 
-These statements may all be fairly accurate at different points in time, as we would see if we looked at the qualifiers of each of these statements (see above) or check the respective [section on Wikidata's website](https://www.wikidata.org/wiki/Q84#P17). The order, however, is determined by a number of factors and this may lead to inconsistent results. If we are interested in having just one result, as is often the case when processing large amounts of items, can we safely pick the first (or last) and be sure it's the more recent? As it emerges looking at same for property for Rome, this is not the case.
+These statements may all be fairly accurate at different points in time, as we would see if we looked at the qualifiers of each of these statements (see above) or check the respective [section on Wikidata's website](https://www.wikidata.org/wiki/Q84#P17). The order, however, is determined by a number of factors and this may lead to inconsistent results. If we are interested in having just one result, as is often the case when processing large amounts of items, can we safely pick the first (or last) and be sure it's the most recent? As it emerges looking at the same for property for Rome, this is not the case.
 
 ```{r rome_p17_df}
 tw_get_property(id = "Q220", p = "P17") %>%
