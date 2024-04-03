@@ -354,7 +354,8 @@ tw_get <- function(id,
             items_from_cache_df,
             items_not_in_cache_df
           ),
-          by = "id"
+          by = "id",
+          relationship = "many-to-many"
         ) %>%
           dplyr::filter(is.na(.data$id) == FALSE)
       }
