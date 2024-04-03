@@ -32,7 +32,8 @@ Imports:
     progress,
     jsonlite,
     pool,
-    vctrs
+    vctrs,
+    httr2
 Suggests: 
     spelling,
     testthat (>= 3.0.0),
