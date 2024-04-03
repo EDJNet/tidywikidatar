@@ -288,7 +288,8 @@ tw_get <- function(id,
         dplyr::left_join(
           x = tibble::tibble(id = id),
           y = item_df,
-          by = "id"
+          by = "id",
+          relationship = "many-to-many"
         )
       )
     }
