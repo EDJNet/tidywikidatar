@@ -53,7 +53,8 @@ tw_check_cache_index <- function(table_name = NULL,
   if (is.null(db)) {
     cli::cli_abort(c(
       "No valid connection found.",
-      i = "Enable caching with `tw_enable_cache()` or through the relevant parameters."))
+      i = "Enable caching with `tw_enable_cache()` or through the relevant parameters."
+    ))
   }
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
@@ -201,7 +202,7 @@ tw_index_cache_search <- function(table_name = NULL,
       cli::cli_inform(c(
         "The table {.code {table_name}} is already indexed. No action taken.",
         i = "Use `check = FALSE` to ignore this check."
-        ))
+      ))
       return(invisible(NULL))
     }
   }

@@ -29,7 +29,8 @@ tw_create_cache_folder <- function(ask = TRUE) {
     if (!fs::file_exists(tidywikidatar::tw_get_cache_folder())) {
       cli::cli_abort(c(
         "This function requires a valid cache folder.",
-        i = "Set one with {.fn tw_set_cache_folder}."))
+        i = "Set one with {.fn tw_set_cache_folder}."
+      ))
     }
   }
 }
@@ -151,13 +152,13 @@ tw_set_cache_db <- function(db_settings = NULL,
       )
     ))
   } else {
-    if (!is.null(db_settings$driver))   Sys.setenv(tw_db_driver = db_settings$driver)
-    if (!is.null(db_settings$host))     Sys.setenv(tw_db_host = db_settings$host)
-    if (!is.null(db_settings$server))   Sys.setenv(tw_db_server = db_settings$server)
-    if (!is.null(db_settings$port))     Sys.setenv(tw_db_port = db_settings$port)
+    if (!is.null(db_settings$driver)) Sys.setenv(tw_db_driver = db_settings$driver)
+    if (!is.null(db_settings$host)) Sys.setenv(tw_db_host = db_settings$host)
+    if (!is.null(db_settings$server)) Sys.setenv(tw_db_server = db_settings$server)
+    if (!is.null(db_settings$port)) Sys.setenv(tw_db_port = db_settings$port)
     if (!is.null(db_settings$database)) Sys.setenv(tw_db_database = db_settings$database)
-    if (!is.null(db_settings$user))     Sys.setenv(tw_db_user = db_settings$user)
-    if (!is.null(db_settings$pwd))      Sys.setenv(tw_db_pwd = db_settings$pwd)
+    if (!is.null(db_settings$user)) Sys.setenv(tw_db_user = db_settings$user)
+    if (!is.null(db_settings$pwd)) Sys.setenv(tw_db_pwd = db_settings$pwd)
     return(invisible(db_settings))
   }
 }

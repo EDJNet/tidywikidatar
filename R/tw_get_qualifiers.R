@@ -373,7 +373,8 @@ tw_get_cached_qualifiers <- function(id,
   } else if (isFALSE(identical(colnames(tidywikidatar::tw_empty_qualifiers), colnames(db_result)))) {
     cli::cli_abort(c(
       "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
-      i = "You may want to delete the old cache or reset just this table with {.fn tw_reset_qualifiers_cache}."))
+      i = "You may want to delete the old cache or reset just this table with {.fn tw_reset_qualifiers_cache}."
+    ))
   }
 
   cached_qualifiers_df <- tibble::as_tibble(db_result)

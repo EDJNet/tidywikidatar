@@ -222,7 +222,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     cli::cli_abort(c(
       "Could not reach the API with {attempts} attempts.",
       i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
-      ))
+    ))
   } else if (length(api_result) == 1) {
     if (is.null(wikipedia_page_qid_df)) {
       wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
@@ -312,7 +312,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
       cli::cli_abort(c(
         "Could not reach the API with {attempts} attempts.",
         i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
-        ))
+      ))
     } else {
       base_json <- api_result
     }

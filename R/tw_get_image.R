@@ -453,7 +453,8 @@ tw_get_image_metadata_single <- function(id,
                                          attempts = 10) {
   if (length(id) > 1) {
     cli::cli_abort(c("id` must have length 1.",
-                   i = "Consider using `tw_get_image_metadata()`."))
+      i = "Consider using `tw_get_image_metadata()`."
+    ))
   }
 
 
@@ -573,7 +574,8 @@ tw_get_image_metadata_single <- function(id,
       if (isFALSE(api_result)) {
         cli::cli_abort(c(
           "Could not reach the API with {attempts} attempt{?s}.",
-          i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
+          i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+        ))
       } else {
         json_as_list <- api_result
       }

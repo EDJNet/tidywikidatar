@@ -38,8 +38,10 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
     }
     check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
     if (sum(check_url_lv) != length(check_url_lv)) {
-      cli::cli_abort(c("One or more of the Wikipedia URL provided does not start with `http` as expected for a URL.",
-                     "If you are actually providing Wikipedia page titles, leave the `url` parameter to NULL, and use the `title` parameter instead."))
+      cli::cli_abort(c(
+        "One or more of the Wikipedia URL provided does not start with `http` as expected for a URL.",
+        "If you are actually providing Wikipedia page titles, leave the `url` parameter to NULL, and use the `title` parameter instead."
+      ))
     }
     title <- stringr::str_extract(
       string = url,
@@ -368,7 +370,7 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
     cli::cli_abort(c(
       "Could not reach the API with {attempts} attempts.",
       i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
-      ))
+    ))
   } else {
     wikidata_id_l <- api_result
   }

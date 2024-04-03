@@ -40,7 +40,8 @@ tw_get_single <- function(id,
   if (length(id) > 1) {
     cli::cli_abort(c(
       "`id` must have length 1.",
-      i = "Consider using `tw_get()` for multiple inputs."))
+      i = "Consider using `tw_get()` for multiple inputs."
+    ))
   } else if (length(id) == 0) {
     return(tidywikidatar::tw_empty_item)
   }

@@ -183,7 +183,8 @@ tw_get_wikipedia_page_sections_single <- function(url = NULL,
 
   if (isFALSE(api_result)) {
     cli::cli_abort(c("Could not reach the API with {attempts} attempts.",
-                   i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
+      i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+    ))
   } else if ("error" %in% names(api_result)) {
     cli::cli_abort("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
     api_result[["error"]]

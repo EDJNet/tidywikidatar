@@ -74,7 +74,7 @@ tw_get_cached_item <- function(id,
       cli::cli_abort(c(
         "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
         "You may want to delete the old cache or reset just this table with {.fn tw_reset_item_cache}"
-        ))
+      ))
     }
   }
 

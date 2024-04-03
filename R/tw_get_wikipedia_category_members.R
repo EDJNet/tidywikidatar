@@ -198,7 +198,8 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
     if (isFALSE(api_result)) {
       cli::cli_abort(c(
         "Could not reach the API with {attempts} attempts.",
-        i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
+        i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+      ))
     } else if (length(api_result) == 1) {
       cli::cli_abort("Page not found. Make sure that language parameter is consistent with the language of the input title or url.")
     } else {
@@ -244,7 +245,7 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
         cli::cli_abort(c(
           "Could not reach the API with {attempts} attempts.",
           i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
-          ))
+        ))
       } else {
         base_json <- api_result
       }

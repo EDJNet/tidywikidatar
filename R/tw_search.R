@@ -309,8 +309,10 @@ tw_search_single <- function(search,
     httr2::resp_body_json()
 
   if (is.null(response_json[["error"]][["info"]]) == FALSE) {
-    cli::cli_inform(c(`!` = "{.code {response_json[['error']][['code']]}} error when searching for: {.str {search}}",
-                      i = "{response_json[['error']][['info']]}"))
+    cli::cli_inform(c(
+      `!` = "{.code {response_json[['error']][['code']]}} error when searching for: {.str {search}}",
+      i = "{response_json[['error']][['info']]}"
+    ))
     search_response <- tibble::tibble(
       id = as.character(NA),
       label = as.character(NA),

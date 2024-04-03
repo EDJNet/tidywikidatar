@@ -34,7 +34,8 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
                                                 wikipedia_page_qid_df = NULL) {
   if (is.null(section_index) && is.null(section_title)) {
     cli::cli_abort(c("Either {.arg section_index} or {.arg section_title} must be provided.",
-                   i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}."))
+      i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}."
+    ))
   }
 
   db <- tw_connect_to_cache(
@@ -64,7 +65,8 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
     if (length(section_index) == 0) {
       cli::cli_abort(c(
         "Section title does not exist.",
-        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."))
+        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."
+      ))
     }
   }
 
@@ -77,7 +79,8 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
     if (length(section_index) == 0) {
       cli::cli_abort(c(
         "Section title does not exist.",
-        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."))
+        i = "Consider running `tw_get_wikipedia_sections(overwrite_cache = TRUE)` if you believe this may be due to oudated cache."
+      ))
     }
   }
 
@@ -117,7 +120,8 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
 
   if (isFALSE(api_result)) {
     cli::cli_abort(c("Could not reach the API with {attempts} attempts.",
-                   i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."))
+      i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
+    ))
   } else if ("error" %in% names(api_result)) {
     cli::cli_abort("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
     api_result[["error"]]

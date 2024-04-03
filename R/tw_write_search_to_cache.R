@@ -33,7 +33,6 @@ tw_write_search_to_cache <- function(search_df,
                                      overwrite_cache = FALSE,
                                      cache_connection = NULL,
                                      disconnect_db = TRUE) {
-
   mandatory_cols <- c("search", "id", "label", "description")
 
   if (!identical(colnames(search_df), mandatory_cols)) {
