@@ -290,54 +290,35 @@ tw_search_single <- function(search,
 
   Sys.sleep(time = wait)
 
-  if (type == "item") {
-    search_response <- tryCatch(
-      WikipediR::query(
-        url = "https://www.wikidata.org/w/api.php",
-        out_class = "list",
-        clean_response = FALSE,
-        query_param = list(
-          action = "wbsearchentities",
-          type = type,
-          language = language,
-          limit = limit,
-          search = search,
-          uselang = response_language
-        )
-      )[["search"]],
-      error = function(e) {
-        warning(e)
-        tibble::tibble(
-          id = as.character(NA),
-          label = as.character(NA),
-          description = as.character(NA)
-        )
-      }
+  base_url <- "https://www.wikidata.org/w/api.php"
+  api_request <- httr2::request(base_url = base_url) |>
+    httr2::req_headers(`Accept-Encoding` = "gzip") |>
+    httr2::req_user_agent(string = stringr::str_c("tidywikidatar/", as.character(packageVersion("tidywikidatar")))) |>
+    httr2::req_url_query(
+      action = "wbsearchentities",
+      type = type,
+      language = language,
+      limit = limit,
+      search = search,
+      uselang = response_language,
+      format = "json"
+    ) |>
+    httr2::req_error(is_error = \(resp) FALSE)
+
+  response_json <- httr2::req_perform(api_request) |>
+    httr2::resp_body_json()
+
+  if (is.null(response_json[["error"]][["info"]]) == FALSE) {
+    cli::cli_inform(c(`!` = "{.code {response_json[['error']][['code']]}} error when searching for: {.str {search}}",
+                      i = "{response_json[['error']][['info']]}"))
+    search_response <- tibble::tibble(
+      id = as.character(NA),
+      label = as.character(NA),
+      description = as.character(NA)
     )
-  } else if (type == "property") {
-    search_response <- tryCatch(
-      WikipediR::query(
-        url = "https://www.wikidata.org/w/api.php",
-        out_class = "list",
-        clean_response = FALSE,
-        query_param = list(
-          action = "wbsearchentities",
-          type = type,
-          language = language,
-          limit = limit,
-          search = search,
-          uselang = response_language
-        )
-      )[["search"]],
-      error = function(e) {
-        warning(e)
-        tibble::tibble(
-          id = as.character(NA),
-          label = as.character(NA),
-          description = as.character(NA)
-        )
-      }
-    )
+  } else {
+    search_response <- response_json |>
+      purrr::pluck("search")
   }
 
   if (length(search_response) == 0) {

@@ -1,3 +1,9 @@
+# tidywikidatar 0.5.9
+
+* drop dependency on WikipediR due to CRAN policies
+* report informative error message from the api in `tw_search` and related functions
+* include "tidywikidatar/version" user agent in `tw_search` and related functions
+
 # tidywikidatar 0.5.8
 
 * consistent results rather than error when searching empty string with `tw_search`
