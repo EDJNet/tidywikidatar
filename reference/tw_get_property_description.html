@@ -109,9 +109,7 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tw_get_property_description</span><span class="op">(</span>property <span class="op">=</span> <span class="st">"P31"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in purrr::map_chr(.x = property, .f = function(x) {    tidywikidatar::tw_search_property(search = x, cache = cache,         language = language, overwrite_cache = overwrite_cache,         cache_connection = db, disconnect_db = FALSE, wait = wait) %&gt;%         dplyr::filter(.data$id == stringr::str_to_upper(x)) %&gt;%         dplyr::pull("description")}):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `loadNamespace()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> there is no package called ‘httr2’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "that class of which this subject is a particular example and member; different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain (and an instance of volcanic landform)"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
