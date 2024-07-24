@@ -1,327 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/404.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/articles/caching.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/articles/wikipedia_start.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/index.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache_folder.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache_index.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cached_items.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_pid.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_qid.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_search.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_connect_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_create_cache_folder.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_image_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_item.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_search.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_category_members.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_links.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_sections.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter_people.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_all_with_p.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_db.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_file.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_table_name.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qualifiers.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_search.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_category_members.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_links.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_qid.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_sections.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_field.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_same_length.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_label.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p1.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p_wide.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_description.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_same_length.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_base_api_url.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_section_links.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_section_links_api_url.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_sections_api_url.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_item.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_search.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_label.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_qid_airports.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_qid_meps.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_query.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_item_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_category_members_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_links_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_sections_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_item.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_property.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_single.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_db.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_folder.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_language.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_test_items.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_item_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qid_of_wikipedia_page_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qualifiers_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_category_members_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_links_to_cache.html</loc>
-  </url>
-  <url>
-    <loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_sections_to_cache.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://edjnet.github.io/tidywikidatar/404.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/LICENSE-text.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/LICENSE.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/articles/caching.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/articles/index.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/articles/wikipedia_start.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/authors.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/index.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/news/index.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/index.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/pipe.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tidyeval.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache_folder.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cache_index.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_cached_items.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_pid.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_qid.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_check_search.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_connect_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_create_cache_folder.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_disconnect_from_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_image_metadata.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_item.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_qualifiers.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_search.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_category_members.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_links.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_empty_wikipedia_page_sections.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_filter_people.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_all_with_p.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_db.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_file.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cache_table_name.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_item.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_qualifiers.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_search.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_category_members.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_links.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_qid.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_cached_wikipedia_page_sections.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_description.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_field.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_image_same_length.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_label.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p1.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_p_wide.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_description.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_same_length.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_base_api_url.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_section_links.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_section_links_api_url.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_sections_api_url.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_item.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_index_cache_search.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_label.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_qid_airports.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_qid_meps.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_query.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_item_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_category_members_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_links_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_page_sections_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_search.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_item.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_property.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_search_single.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_db.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_folder.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_set_language.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_test_items.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_item_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qid_of_wikipedia_page_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_qualifiers_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_search_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_category_members_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_links_to_cache.html</loc></url>
+<url><loc>https://edjnet.github.io/tidywikidatar/reference/tw_write_wikipedia_page_sections_to_cache.html</loc></url>
 </urlset>
+
