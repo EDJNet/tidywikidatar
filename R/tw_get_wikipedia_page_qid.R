@@ -124,18 +124,28 @@ tw_get_wikipedia_page_qid <- function(url = NULL,
                                       attempts = 10) {
   if (is.null(url) == FALSE) {
     if (is.null(title)) {
-      title <- stringr::str_extract(
-        string = url,
-        pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
+      title <- dplyr::case_when(
+        stringr::str_starts(string = url, pattern = "http") ~ stringr::str_extract(
+          string = url,
+          pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
+        ),
+        stringr::str_starts(string = url,
+                            pattern = stringr::fixed("/wiki/")) ~ stringr::str_remove(
+                              string = url,
+                              pattern = stringr::fixed("/wiki/")
+                            ),
+        .default = ""
       )
     } else {
       cli::cli_abort("Either url or title must be provided, not both.")
     }
 
-    language <- stringr::str_extract(
-      string = url,
-      pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
-    )
+    if (sum(stringr::str_starts(string = url, pattern = "http"))==length(url)) {
+      language <- stringr::str_extract(
+        string = url,
+        pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
+      )
+    }
   }
 
   unique_language <- unique(language)
@@ -308,18 +318,25 @@ tw_get_wikipedia_page_qid_single <- function(title = NULL,
                                              attempts = 10) {
   if (!is.null(url) && !is.function(url)) {
     if (is.null(title) & is.function(title) == FALSE) {
-      title <- stringr::str_extract(
-        string = url,
-        pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
-      )
+      if (stringr::str_starts(string = url,
+                              pattern = stringr::fixed("/wiki/"))) {
+        title <- stringr::str_remove(string = url,
+                                     pattern = stringr::fixed("/wiki/"))
+      } else {
+        title <- stringr::str_extract(
+          string = url,
+          pattern = "(?<=https://[[a-z]][[a-z]].wikipedia.org/wiki/).*"
+        )
+
+        language <- stringr::str_extract(
+          string = url,
+          pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
+        )
+      }
+      url <- NULL
     } else {
       cli::cli_abort("Either url or title must be provided, not both.")
     }
-
-    language <- stringr::str_extract(
-      string = url,
-      pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
-    )
   }
 
   db <- tw_connect_to_cache(
