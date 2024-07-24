@@ -31,12 +31,12 @@ tw_get_wikipedia_base_api_url <- function(url = NULL,
       cli::cli_abort("Either {.arg language} or full url must be provided.")
     }
   } else {
-    check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
+    check_url_lv <- stringr::str_starts(string = url, pattern = "http")
     if (sum(is.na(check_url_lv)) > 0) {
       url <- url[is.na(check_url_lv) == FALSE]
       cli::cli_warn(c("One or more of the given URLs is actually NA.", i = "Only valid URLs will be processed."))
     }
-    check_url_lv <- stringr::str_starts(string = url, pattern = "http", negate = TRUE)
+    check_url_lv <- stringr::str_starts(string = url, pattern = "http")
     if (sum(check_url_lv) != length(check_url_lv)) {
       cli::cli_abort(c(
         "One or more of the Wikipedia URL provided does not start with `http` as expected for a URL.",
