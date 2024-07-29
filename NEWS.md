@@ -1,6 +1,6 @@
 # tidywikidatar 0.5.9
 
-* drop dependency on WikipediR due to CRAN policies
+* drop dependency on `WikipediR`
 * report informative error message from the api in `tw_search` and related functions
 * include "tidywikidatar/version" user agent in `tw_search` and related functions
 * fix `tw_get_wikipedia_section_links` when url provided as input
