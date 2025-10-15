@@ -2,7 +2,8 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_get_single}
 \alias{tw_get_single}
-\title{Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier}
+\title{Return (most) information from a Wikidata item in a tidy format from a single
+Wikidata identifier}
 \usage{
 tw_get_single(
   id,
@@ -17,29 +18,52 @@ tw_get_single(
 )
 }
 \arguments{
-\item{id}{A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{tw_search()} or a combination of \code{tw_search()}
+and \code{tw_filter_first()}.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or
+FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the
+table in the local sqlite database. Useful if the original Wikidata object
+has been updated.}
 
-\item{read_cache}{Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.}
+\item{read_cache}{Logical, defaults to TRUE. Mostly used internally to
+prevent checking if an item is in cache if it is already known that it is
+not in cache.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled,
+\code{tidywikidatar} will use a local sqlite database. A custom connection to
+other databases can be given (see vignette \code{caching} for details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to
+cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 
-\item{id_l}{Defaults to NULL. If given, must be an object or list such as the one generated with \code{WikidataR::get_item()}. If given, and the requested id is actually present in \code{id_l}, then no query to Wikidata servers is made.}
+\item{id_l}{Defaults to NULL. If given, must be an object or list such as the
+one generated with \code{WikidataR::get_item()}. If given, and the requested id
+is actually present in \code{id_l}, then no query to Wikidata servers is made.}
 }
 \value{
-A data.frame (a tibble) with four columns (id, property, value, and rank). If item not found or trouble connecting with the server, a data frame with four columns and zero rows is returned, with the warning as an attribute, which can be retrieved with \verb{attr(output, "warning"))}
+A data.frame (a tibble) with four columns (id, property, value, and
+rank). If item not found or trouble connecting with the server, a data
+frame with four columns and zero rows is returned, with the warning as an
+attribute, which can be retrieved with \verb{attr(output, "warning"))}
 }
 \description{
-Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier
+Return (most) information from a Wikidata item in a tidy format from a single
+Wikidata identifier
 }
 \examples{
 if (interactive()) {
@@ -49,7 +73,7 @@ if (interactive()) {
   )
 }
 
-#' ## using `tw_test_items` in examples in order to show output without calling
+## using `tw_test_items` in examples in order to show output without calling
 ## on Wikidata servers
 
 tidywikidatar:::tw_get_single(

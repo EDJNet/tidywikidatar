@@ -12,22 +12,37 @@ tw_query(
 )
 }
 \arguments{
-\item{query}{A list of named vectors, or a data frame (see example and readme).}
+\item{query}{A list of named vectors, or a data frame (see example and
+readme).}
 
-\item{fields}{A character vector of Wikidata fields. Ignored if \code{return_as_tw_search} is set to TRUE (as per default). Defaults to \verb{("item", "itemLabel", "itemDescription")}}
+\item{fields}{A character vector of Wikidata fields. Ignored if
+\code{return_as_tw_search} is set to TRUE (as per default). Defaults to
+\verb{("item", "itemLabel", "itemDescription")}}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". If more than one, can be set in order of preference, e.g. \code{c("it", "fr", "en")}. Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{tw_set_language()}; if not
+set, "en". If more than one, can be set in order of preference, e.g.
+\code{c("it", "fr", "en")}. Use "all_available" to keep all languages. For
+available language values, see
+https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data frame with three columns (id, label, and description) that can be piped to other \code{tw_} functions. If FALSE, a data frame with as many columns as fields.}
+\item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data
+frame with three columns (id, label, and description) that can be piped to
+other \code{tw_} functions. If FALSE, a data frame with as many columns as
+fields.}
 }
 \value{
 A data frame
 }
 \description{
-This function aims to facilitate only the most basic type of queries: return which items have the following property pairs. For more details on Wikidata queries, consult: https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples. For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}.
+This function aims to facilitate only the most basic type of queries: return
+which items have the following property pairs. For more details on Wikidata
+queries, consult:
+https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples.
+For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}.
 }
 \details{
-Consider \code{tw_get_all_with_p()} if you want to get all items with a given property, irrespective of the value.
+Consider \code{tw_get_all_with_p()} if you want to get all items with a given
+property, irrespective of the value.
 }
 \examples{
 

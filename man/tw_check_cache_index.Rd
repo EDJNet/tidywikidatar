@@ -26,11 +26,15 @@ tw_check_cache_index(
 
 \item{response_language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Relevant only when type is set to "search_item" or "search_property". See \code{tw_search()} for details.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or
+FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled,
+\code{tidywikidatar} will use a local sqlite database. A custom connection to
+other databases can be given (see vignette \code{caching} for details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to
+cache open.}
 }
 \value{
 If \code{show_details} is set to FALSE, return a logical vector of length one (TRUE if the table was indexed, FALSE if it was not). If \code{show_details} is set to TRUE, returns a data frame with more details about the index.

@@ -26,11 +26,15 @@ tw_index_cache_item(
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to NULL. If given, it should be given either TRUE or
+FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled,
+\code{tidywikidatar} will use a local sqlite database. A custom connection to
+other databases can be given (see vignette \code{caching} for details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to
+cache open.}
 }
 \value{
 If \code{show_details} is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of \code{tw_check_cache_index(show_details = TRUE)}.

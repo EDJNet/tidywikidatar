@@ -1,10 +1,16 @@
-#' Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier
+#' Return (most) information from a Wikidata item in a tidy format from a single
+#' Wikidata identifier
 #'
-#' @param read_cache Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.
+#' @param read_cache Logical, defaults to TRUE. Mostly used internally to
+#'   prevent checking if an item is in cache if it is already known that it is
+#'   not in cache.
 #'
 #' @inheritParams tw_get
 #'
-#' @return A data.frame (a tibble) with four columns (id, property, value, and rank). If item not found or trouble connecting with the server, a data frame with four columns and zero rows is returned, with the warning as an attribute, which can be retrieved with `attr(output, "warning"))`
+#' @return A data.frame (a tibble) with four columns (id, property, value, and
+#'   rank). If item not found or trouble connecting with the server, a data
+#'   frame with four columns and zero rows is returned, with the warning as an
+#'   attribute, which can be retrieved with `attr(output, "warning"))`
 #'
 #' @examples
 #' if (interactive()) {
@@ -14,7 +20,7 @@
 #'   )
 #' }
 #'
-#' #' ## using `tw_test_items` in examples in order to show output without calling
+#' ## using `tw_test_items` in examples in order to show output without calling
 #' ## on Wikidata servers
 #'
 #' tidywikidatar:::tw_get_single(
@@ -22,15 +28,17 @@
 #'   language = "en",
 #'   id_l = tw_test_items
 #' )
-tw_get_single <- function(id,
-                          language = tidywikidatar::tw_get_language(),
-                          cache = NULL,
-                          overwrite_cache = FALSE,
-                          read_cache = TRUE,
-                          cache_connection = NULL,
-                          disconnect_db = TRUE,
-                          wait = 0,
-                          id_l = NULL) {
+tw_get_single <- function(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  read_cache = TRUE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0,
+  id_l = NULL
+) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -54,7 +62,11 @@ tw_get_single <- function(id,
     )
   }
 
-  if (tw_check_cache(cache) == TRUE && overwrite_cache == FALSE && read_cache == TRUE) {
+  if (
+    tw_check_cache(cache) == TRUE &&
+      overwrite_cache == FALSE &&
+      read_cache == TRUE
+  ) {
     db_result <- tw_get_cached_item(
       id = id,
       language = language,
@@ -69,38 +81,38 @@ tw_get_single <- function(id,
         disconnect_db = disconnect_db,
         language = language
       )
-      return(db_result %>%
-        tibble::as_tibble())
+      return(
+        db_result %>%
+          tibble::as_tibble()
+      )
     }
   }
 
   Sys.sleep(time = wait)
 
   if (!is.null(id_l)) {
-    item <- id_l[purrr::map_chr(
-      .x = id_l,
-      .f = function(x) {
-        purrr::pluck(x, "id")
-      }
-    ) %in% id]
+    item <- id_l[
+      purrr::map_chr(
+        .x = id_l,
+        .f = function(x) {
+          purrr::pluck(x, "id")
+        }
+      ) %in%
+        id
+    ]
 
     if (length(item) == 0) {
-      item <- tryCatch(WikidataR::get_item(id = id),
-        error = function(e) {
-          as.character(e[[1]])
-        }
-      )
+      item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+        as.character(e[[1]])
+      })
     } else if (length(item) > 1) {
       item <- item[1]
     }
   } else {
-    item <- tryCatch(WikidataR::get_item(id = id),
-      error = function(e) {
-        as.character(e[[1]])
-      }
-    )
+    item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+      as.character(e[[1]])
+    })
   }
-
 
   if (is.character(item)) {
     cli::cli_alert_danger(item)
@@ -129,13 +141,14 @@ tw_get_single <- function(id,
     return(output)
   }
 
-
-  if (is.element(
-    el = "redirect",
-    set = item %>%
-      purrr::pluck(1) %>%
-      names()
-  )) {
+  if (
+    is.element(
+      el = "redirect",
+      set = item %>%
+        purrr::pluck(1) %>%
+        names()
+    )
+  ) {
     id <- item %>%
       purrr::pluck(1, "redirect")
     return(
@@ -188,14 +201,31 @@ tw_get_single <- function(id,
 
 #' Return (most) information from a Wikidata item in a tidy format
 #'
-#' @param id A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
+#' @param id A character vector, must start with Q, e.g. "Q180099" for the
+#'   anthropologist Margaret Mead. Can also be a data frame of one row,
+#'   typically generated with `tw_search()` or a combination of `tw_search()`
+#'   and `tw_filter_first()`.
+#' @param language Defaults to language set with `tw_set_language()`; if not
+#'   set, "en". Use "all_available" to keep all languages. For available
+#'   language values, see
+#'   https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or
+#'   FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the
+#'   table in the local sqlite database. Useful if the original Wikidata object
+#'   has been updated.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled,
+#'   `tidywikidatar` will use a local sqlite database. A custom connection to
+#'   other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to
+#'   cache open.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to
+#'   Wikidata. If data are cached locally, wait time is not applied. If you are
+#'   running many queries systematically you may want to add some waiting time
+#'   between queries.
+#' @param id_l Defaults to NULL. If given, must be an object or list such as the
+#'   one generated with `WikidataR::get_item()`. If given, and the requested id
+#'   is actually present in `id_l`, then no query to Wikidata servers is made.
 #'
 #' @return A data.frame (a tibble) with three columns (id, property, and value).
 #' @export
@@ -217,14 +247,16 @@ tw_get_single <- function(id,
 #'   language = "en",
 #'   id_l = tw_test_items
 #' )
-tw_get <- function(id,
-                   language = tidywikidatar::tw_get_language(),
-                   cache = NULL,
-                   overwrite_cache = FALSE,
-                   cache_connection = NULL,
-                   disconnect_db = TRUE,
-                   wait = 0,
-                   id_l = NULL) {
+tw_get <- function(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0,
+  id_l = NULL
+) {
   if (is.data.frame(id) == TRUE) {
     id <- id$id
   }
@@ -303,7 +335,9 @@ tw_get <- function(id,
         disconnect_db = FALSE
       )
 
-      id_items_not_in_cache <- unique_id[!is.element(unique_id, items_from_cache_df$id)]
+      id_items_not_in_cache <- unique_id[
+        !is.element(unique_id, items_from_cache_df$id)
+      ]
 
       if (length(id_items_not_in_cache) == 0) {
         tw_disconnect_from_cache(
@@ -368,11 +402,20 @@ tw_get <- function(id,
 #'
 #' Removes the table where qualifiers are cached
 #'
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
+#' @param language Defaults to language set with `tw_set_language()`; if not
+#'   set, "en". Use "all_available" to keep all languages. For available
+#'   language values, see
+#'   https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either TRUE or
+#'   FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
+#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled,
+#'   `tidywikidatar` will use a local sqlite database. A custom connection to
+#'   other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to
+#'   cache open.
+#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not
+#'   exist, it just creates it without asking (useful for non-interactive
+#'   sessions).
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -381,11 +424,13 @@ tw_get <- function(id,
 #' if (interactive()) {
 #'   tw_reset_item_cache()
 #' }
-tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
-                                cache = NULL,
-                                cache_connection = NULL,
-                                disconnect_db = TRUE,
-                                ask = TRUE) {
+tw_reset_item_cache <- function(
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  ask = TRUE
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -401,12 +446,29 @@ tw_reset_item_cache <- function(language = tidywikidatar::tw_get_language(),
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_alert_info(c("Item cache reset for language ", sQuote(language), " completed"))
-  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the items table for language: ", sQuote(language), "?")) == 1) {
+    cli::cli_alert_info(c(
+      "Item cache reset for language ",
+      sQuote(language),
+      " completed"
+    ))
+  } else if (
+    utils::menu(
+      c("Yes", "No"),
+      title = paste0(
+        "Are you sure you want to remove from cache the items table for language: ",
+        sQuote(language),
+        "?"
+      )
+    ) ==
+      1
+  ) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_alert_info(c("Items cache reset for language ", sQuote(language), " completed"))
+    cli::cli_alert_info(c(
+      "Items cache reset for language ",
+      sQuote(language),
+      " completed"
+    ))
   }
-
 
   tw_disconnect_from_cache(
     cache = cache,
