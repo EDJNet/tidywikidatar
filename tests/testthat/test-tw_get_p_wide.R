@@ -148,7 +148,6 @@ test_that("tw_get_p_wide works with labels", {
     }
   )
 
-
   expect_equal(
     object = {
       df <- tw_get_p_wide(
@@ -185,7 +184,7 @@ test_that("tw_get_p_wide works with labels", {
           "place_of_death_label"
         ),
         country_id = "Q30",
-        country_label = "United States of America"
+        country_label = "United States"
       )
     }
   )
