@@ -114,16 +114,10 @@ tw_get_label <- function(
 
 #' Get Wikidata description in given language
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @inheritParams tw_get_label
 #'
-#' @return A character vector of the same length as the vector of id given, with the Wikidata description in the requested language.
+#' @return A character vector of the same length as the vector of id given, with
+#'   the Wikidata description in the requested language.
 #' @export
 #'
 #' @examples
@@ -189,19 +183,15 @@ tw_get_description <- function(
   )
 }
 
-#' Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in given language
+#' Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in
+#' given language
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart
-#' @param full_link Logical, defaults to TRUE. If FALSE, returns only the part of the url that corresponds to the title.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param full_link Logical, defaults to TRUE. If FALSE, returns only the part
+#'   of the url that corresponds to the title.
+#' @inheritParams tw_get_label
 #'
-#' @return A character vector of the same length as the vector of id given, with the Wikipedia link in the requested language.
+#' @return A character vector of the same length as the vector of id given, with
+#'   the Wikipedia link in the requested language.
 #' @export
 #'
 #' @examples

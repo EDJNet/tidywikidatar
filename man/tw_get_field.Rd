@@ -2,24 +2,34 @@
 % Please edit documentation in R/tw_get_field.R
 \name{tw_get_field}
 \alias{tw_get_field}
-\title{Gets a field such a label or description from a dataframe typically generated with \code{tw_get()}}
+\title{Gets a field such a label or description from a data frame typically generated
+with \code{\link[=tw_get]{tw_get()}}}
 \usage{
 tw_get_field(df, field, id, language = tidywikidatar::tw_get_language())
 }
 \arguments{
-\item{df}{A data frame typically generated with \code{tw_get()}. It should include data for the \code{id} included in the dedicated parameter.}
+\item{df}{A data frame typically generated with \code{\link[=tw_get]{tw_get()}}. It should include
+data for the \code{id} included in the dedicated parameter.}
 
-\item{field}{A character vector of length one. Typically, either "label" or "description".}
+\item{field}{A character vector of length one. Typically, either "label" or
+"description".}
 
-\item{id}{A character vector, typically of Wikidata identifiers. The output will be of the same length and in the same order as the identifiers provided with this parameter.}
+\item{id}{A character vector, typically of Wikidata identifiers. The output
+will be of the same length and in the same order as the identifiers
+provided with this parameter.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\url{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}}
 }
 \value{
-A character vector of the same length, and with data in the same order, as \code{id}.
+A character vector of the same length, and with data in the same
+order, as \code{id}.
 }
 \description{
-Gets a field such a label or description from a dataframe typically generated with \code{tw_get()}
+Gets a field such a label or description from a data frame typically generated
+with \code{\link[=tw_get]{tw_get()}}
 }
 \examples{
 
