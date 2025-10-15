@@ -49,16 +49,25 @@
 #'     language = "sc"
 #'   )
 #' }
-tw_get_label <- function(id,
-                         language = tidywikidatar::tw_get_language(),
-                         id_df = NULL,
-                         cache = NULL,
-                         overwrite_cache = FALSE,
-                         cache_connection = NULL,
-                         disconnect_db = TRUE,
-                         wait = 0) {
-  if (is.data.frame(id) == TRUE) {
-    id <- id$id
+tw_get_label <- function(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
+    id <- id[["id"]]
+  }
+
+  if (!is.character(id)) {
+    cli::cli_abort(c(
+      x = "{.var id} must be either a character vector of Wikidata identifiers, or a data frame with an {.var id} column with Q identifiers.",
+      i = "Wikidata identifiers are always composed by the the letter {.val Q} followed by digits."
+    ))
   }
 
   if (is.null(id_df)) {
