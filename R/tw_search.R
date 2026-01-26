@@ -310,14 +310,14 @@ tw_search_single <- function(
   Sys.sleep(time = wait)
 
   base_url <- "https://www.wikidata.org/w/api.php"
-  api_request <- httr2::request(base_url = base_url) |>
-    httr2::req_headers(`Accept-Encoding` = "gzip") |>
+  api_request <- httr2::request(base_url = base_url) %>%
+    httr2::req_headers(`Accept-Encoding` = "gzip") %>%
     httr2::req_user_agent(
       string = stringr::str_c(
         "tidywikidatar/",
         as.character(packageVersion("tidywikidatar"))
       )
-    ) |>
+    ) %>%
     httr2::req_url_query(
       action = "wbsearchentities",
       type = type,
@@ -326,10 +326,10 @@ tw_search_single <- function(
       search = search,
       uselang = response_language,
       format = "json"
-    ) |>
+    ) %>%
     httr2::req_error(is_error = \(resp) FALSE)
 
-  response_json <- httr2::req_perform(api_request) |>
+  response_json <- httr2::req_perform(api_request) %>%
     httr2::resp_body_json()
 
   if (is.null(response_json[["error"]][["info"]]) == FALSE) {
@@ -343,7 +343,7 @@ tw_search_single <- function(
       description = as.character(NA)
     )
   } else {
-    search_response <- response_json |>
+    search_response <- response_json %>%
       purrr::pluck("search")
   }
 
