@@ -2,13 +2,19 @@
 #'
 #' This function does not cache results.
 #'
-#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
+#' @param p A character vector, a property. Must always start with the capital
+#'   letter "P", e.g. "P31" for "instance of".
 #' @param wait Defaults to 0.1. Used only in method is set to "JSON".
-#' @param method Defaults to "SPARQL". The only accepted alternative value is "JSON", to use instead json-based API.
-#' @param limit Defaults to `Inf`. Set to smaller values for testing and cache locally when possible to reduce load on servers.
+#' @param method Defaults to "SPARQL". The only accepted alternative value is
+#'   "JSON", to use instead json-based API.
+#' @param limit Defaults to `Inf`. Set to smaller values for testing and cache
+#'   locally when possible to reduce load on servers.
 #' @inheritParams tw_query
 #'
-#' @return A data frame with three columns is method is set to "SPARQL", or as many columns as fields if more are given and `return_as_tw_search` is set to FALSE. A single column with Wikidata identifier if method is set to "JSON".
+#' @return A data frame with three columns is method is set to "SPARQL", or as
+#'   many columns as fields if more are given and `return_as_tw_search` is set
+#'   to FALSE. A single column with Wikidata identifier if method is set to
+#'   "JSON".
 #' @export
 #'
 #' @examples
@@ -23,7 +29,11 @@ tw_get_all_with_p <- function(
   method = "SPARQL",
   wait = 0.1,
   limit = Inf,
-  return_as_tw_search = TRUE
+  return_as_tw_search = TRUE,
+  user_agent = stringr::str_flatten(c(
+    "tidywikidatar/",
+    as.character(packageVersion("tidywikidatar"))
+  ))
 ) {
   p <- stringr::str_to_upper(string = p)
 
@@ -61,10 +71,19 @@ tw_get_all_with_p <- function(
       )
     }
 
-    response <- WikidataQueryServiceR::query_wikidata(
-      sparql_query = sparql_t,
-      format = "simple"
-    )
+    req <- httr2::request("https://query.wikidata.org/sparql") %>%
+      httr2::req_headers(Accept = "text/csv") %>%
+      httr2::req_user_agent(user_agent) %>%
+      httr2::req_url_query(query = sparql_t) %>%
+      httr2::req_retry(max_tries = 5, backoff = 2)
+
+    resp <- httr2::req_perform(req)
+
+    response <- read.csv(
+      text = httr2::resp_body_string(resp),
+      stringsAsFactors = FALSE
+    ) %>%
+      tibble::as_tibble()
 
     if (length(fields) == 3 & return_as_tw_search) {
       all_items_df <- response %>%

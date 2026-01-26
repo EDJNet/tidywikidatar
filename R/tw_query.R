@@ -23,6 +23,9 @@
 #'   frame with three columns (id, label, and description) that can be piped to
 #'   other `tw_` functions. If FALSE, a data frame with as many columns as
 #'   fields.
+#' @param user_agent Defaults to a combination of `tidywikidatar` and package
+#'   version number. Consider customising, in particular if you are making many
+#'   queries.
 #'
 #' @return A data frame
 #' @export
@@ -40,9 +43,13 @@ tw_query <- function(
   query,
   fields = c("item", "itemLabel", "itemDescription"),
   language = tidywikidatar::tw_get_language(),
-  return_as_tw_search = TRUE
+  return_as_tw_search = TRUE,
+  user_agent = stringr::str_flatten(c(
+    "tidywikidatar/",
+    as.character(packageVersion("tidywikidatar"))
+  ))
 ) {
-  if (is.data.frame(query) == FALSE) {
+  if (!is.data.frame(query)) {
     query_df <- dplyr::bind_rows(query)
   } else {
     query_df <- query
@@ -60,10 +67,19 @@ tw_query <- function(
              }}"
   )
 
-  response <- WikidataQueryServiceR::query_wikidata(
-    sparql_query = sparql_t,
-    format = "simple"
-  )
+  req <- httr2::request("https://query.wikidata.org/sparql") %>%
+    httr2::req_headers(Accept = "text/csv") %>%
+    httr2::req_user_agent(user_agent) %>%
+    httr2::req_url_query(query = sparql_t) %>%
+    httr2::req_retry(max_tries = 5, backoff = 2)
+
+  resp <- httr2::req_perform(req)
+
+  response <- read.csv(
+    text = httr2::resp_body_string(resp),
+    stringsAsFactors = FALSE
+  ) %>%
+    tibble::as_tibble()
 
   if (return_as_tw_search) {
     response %>%
