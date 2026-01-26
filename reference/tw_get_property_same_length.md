@@ -1,0 +1,176 @@
+# Get Wikidata property of an item as a vector or list of the same length as input
+
+Get Wikidata property of an item as a vector or list of the same length
+as input
+
+## Usage
+
+``` r
+tw_get_property_same_length(
+  id,
+  p,
+  only_first = FALSE,
+  preferred = FALSE,
+  latest_start_time = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+)
+
+tw_get_p(
+  id,
+  p,
+  only_first = FALSE,
+  preferred = FALSE,
+  latest_start_time = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+)
+```
+
+## Arguments
+
+- id:
+
+  A character vector, must start with Q, e.g. "Q254" for Wolfgang
+  Amadeus Mozart.
+
+- p:
+
+  A character vector, a property. Must always start with the capital
+  letter "P", e.g. "P31" for "instance of".
+
+- only_first:
+
+  Logical, defaults to FALSE. If TRUE, it just keeps the first relevant
+  property value for each id (or NA if none is available), and returns a
+  character vector. Warning: this likely discards valid values, so make
+  sure this is really what you want. If FALSE, returns a list of the
+  same length as input, with all values for each id stored in a list if
+  more than one is found.
+
+- preferred:
+
+  Logical, defaults to FALSE. If TRUE, returns properties that have rank
+  "preferred" if available; if no "preferred" property is found, then it
+  is ignored.
+
+- latest_start_time:
+
+  Logical, defaults to FALSE. If TRUE, returns the property that has the
+  most recent start time ("P580") as qualifier. If no such qualifier is
+  found, then it is ignored.
+
+- language:
+
+  Defaults to language set with
+  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
+  if not set, "en". Use "all_available" to keep all languages. For
+  available language values, see
+  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+
+- id_df:
+
+  Default to NULL. If given, it should be a dataframe typically
+  generated with `tw_get_()`, and is used instead of calling Wikidata or
+  replying on cache.
+
+- cache:
+
+  Defaults to NULL. If given, it should be given either TRUE or FALSE.
+  Typically set with
+  [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
+  or
+  [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
+
+- overwrite_cache:
+
+  Logical, defaults to FALSE. If TRUE, it overwrites the table in the
+  local sqlite database. Useful if the original Wikidata object has been
+  updated.
+
+- cache_connection:
+
+  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  will use a local sqlite database. A custom connection to other
+  databases can be given (see vignette `caching` for details).
+
+- disconnect_db:
+
+  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+
+- wait:
+
+  In seconds, defaults to 0. Time to wait between queries to Wikidata.
+  If data are cached locally, wait time is not applied. If you are
+  running many queries systematically you may want to add some waiting
+  time between queries.
+
+## Value
+
+A list of the same length of input (or a character vector is only_first
+is set to TRUE)
+
+## Examples
+
+``` r
+
+# By default, it returns a list of the same length as input,
+# no matter how many values for each id/property
+
+
+if (interactive()) {
+  tw_get_property_same_length(
+    id = c(
+      "Q180099",
+      "Q228822",
+      "Q76857"
+    ),
+    p = "P26"
+  )
+  # Notice that if no relevant match is found, it returns a NA
+  # This is useful for piped operations
+
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) %>%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26"))
+
+  # Consider unnesting for further analysis
+
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) %>%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26")) %>%
+    tidyr::unnest(cols = spouse)
+
+  # If you are sure that you are interested only in the first return value,
+  # consider setting only_first=TRUE to get a character vector rather than a list
+  # Be mindful: you may well be discarding valid values.
+  tibble::tibble(id = c(
+    "Q180099",
+    "Q228822",
+    "Q76857"
+  )) %>%
+    dplyr::mutate(spouse = tw_get_property_same_length(id, "P26",
+      only_first = TRUE
+    ))
+}
+tw_get_p(id = "Q180099", "P26")
+#> [[1]]
+#> [1] "Q594736"  "Q2144944" "Q314252" 
+#> 
+```

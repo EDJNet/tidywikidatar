@@ -1,0 +1,369 @@
+# Using Wikipedia as a starting point
+
+In the world of Wikidata, the most efficient way of getting data is
+usually through well-crafted [SPARQL
+queries](https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial).
+However, what is theoretically technically most efficient, may be highly
+impractical if someone is unfamiliar with the structure of such queries
+or with how they can be best applied to to get the most out of Wikidata.
+
+Most people who turn to Wikidata will however be familiar with its more
+famous sister project, Wikipedia. As this post will explain, Wikipedia
+pages can be used as a starting point for getting data out of Wikidata.
+
+## Setup and caching
+
+An introductory note on caching. It is generally advisable to enable
+cache at the beginning of each script. Thanks to caching, when a block
+of code based on `tidywikidatar` is re-run it gives results almost
+instantly. But given that `tidywikidatar` queries for Wikidata items one
+at a time, it can be relatively time-consuming when it is run for the
+first time. So be patient when you run some of the commands below for
+the first time, and considering testing code with only a sample of the
+data at first (e.g. by adding something such as `slice_sample(n = 100)`
+to the data frame you use as a starting point).
+
+Especially if you intend to use Wikidata in different projects, it may
+make sense to have the cache stored in a folder outside the current
+project. As the data can be recovered, it is usually unnecessary to
+backup the cache folder, and unwise to keep it in folder that are
+constantly synced with online services.
+
+Most users should be perfectly fine using the default SQLite database
+for caching.
+
+``` r
+library(dplyr, warn.conflicts = FALSE)
+library("tidywikidatar")
+
+tw_enable_cache()
+tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
+tw_set_language(language = "en")
+tw_create_cache_folder(ask = FALSE)
+```
+
+More advanced users, especially those relying on `tidywikidatar` in
+Shiny apps, may instead prefer relying on a MySql database, setting up
+the connection at the beginning of each session as follows.
+
+``` r
+library(dplyr, warn.conflicts = FALSE)
+library("tidywikidatar")
+
+tw_set_language(language = "en")
+
+tw_enable_cache(SQLite = FALSE)
+tw_set_cache_db(driver = "MySQL",
+                host = "localhost",
+                port = 3306,
+                database = "tidywikidatar",
+                user = "secret_username",
+                pwd = "secret_password")
+
+
+# for testing:
+# docker run --name tidywikidatar_db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret_root_password -e MYSQL_USER=secret_username -e MYSQL_PASSWORD=secret_password -e MYSQL_DATABASE=tidywikidatar mysql:latest
+```
+
+## Members of the European parliament
+
+Let’s suppose we are interested in finding details about the European
+Parliament and its members, and we do not want to approach SPARQL
+queries. We are, however, familiar with Wikipedia and we are happy to
+start from a Wikipedia page such as [List of members of the European
+Parliament
+(2019–2024)](https://en.wikipedia.org/wiki/List_of_members_of_the_European_Parliament_(2019%E2%80%932024)).
+It includes links to the Wikipedia pages of all Members of the European
+Parliament (MEPs), the party list from where they were elected at
+national level, the elections themselves, etc.
+
+This is how we can take it from there with `tidywikidatar`.
+
+``` r
+mep_wiki_df <- tw_get_wikipedia_page_links(
+  url = "https://en.wikipedia.org/wiki/List_of_members_of_the_European_Parliament_(2019–2024)")
+
+str(mep_wiki_df)
+#> tibble [1,393 × 8] (S3: tbl_df/tbl/data.frame)
+#>  $ source_title_url      : chr [1:1393] "List_of_members_of_the_European_Parliament_(2019–2024)" "List_of_members_of_the_European_Parliament_(2019–2024)" "List_of_members_of_the_European_Parliament_(2019–2024)" "List_of_members_of_the_European_Parliament_(2019–2024)" ...
+#>  $ source_wikipedia_title: chr [1:1393] "List of members of the European Parliament (2019–2024)" "List of members of the European Parliament (2019–2024)" "List of members of the European Parliament (2019–2024)" "List of members of the European Parliament (2019–2024)" ...
+#>  $ source_qid            : chr [1:1393] "Q55619306" "Q55619306" "Q55619306" "Q55619306" ...
+#>  $ wikipedia_title       : chr [1:1393] "1979 European Parliament election" "1984 European Parliament election" "1989 European Parliament election" "1994 European Parliament election" ...
+#>  $ wikipedia_id          : int [1:1393] 9737190 9737225 9736812 9736512 294038 433911 5966954 23194184 42869480 60699754 ...
+#>  $ qid                   : chr [1:1393] "Q1376068" "Q1376075" "Q1376076" "Q1376071" ...
+#>  $ description           : chr [1:1393] "First election to the European Parliament" "Election to the European Parliament" "Election to the European Parliament" "Election to the European Parliament" ...
+#>  $ language              : chr [1:1393] "en" "en" "en" "en" ...
+```
+
+What kind of things are mentioned in this page?
+
+``` r
+mep_wiki_df %>%
+  pull(qid) %>%
+  tw_get_property(p = "P31") %>%
+  group_by(value) %>%
+  tally(sort = TRUE) %>%
+  transmute(instance_of = tw_get_label(value),
+            n)
+#> # A tibble: 67 × 2
+#>    instance_of                                    n
+#>    <chr>                                      <int>
+#>  1 human                                        819
+#>  2 Wikimedia list article                       227
+#>  3 political party                              161
+#>  4 <NA>                                          62
+#>  5 election to the European Parliament           35
+#>  6 political party in Germany                    13
+#>  7 Green party                                   13
+#>  8 political group of the European Parliament     8
+#>  9 Wikimedia project page                         6
+#> 10 electoral alliance                             6
+#> # … with 57 more rows
+```
+
+It’s mostly humans - likely, mostly MEPs themselves, but also political
+parties, elections, and other Wikipedia page lists.
+
+We can filter results in order to keep only humans as follows:
+
+``` r
+humans_df <- mep_wiki_df %>%
+  pull(qid) %>%
+  tw_get_property(p = "P31")  %>% # instance of
+  filter(value == "Q5") # human
+
+meps_df <- humans_df %>%
+  tw_get_property(p = "P39") %>% # position held
+  filter(value == "Q27169") %>% # keep only MEPs
+  distinct(id)
+```
+
+It appears we have 819 humans, and 805 among them who have been members
+of the European Parliament mentioned in this page. Perhaps some of those
+mentioned in the page are people who never took their place, or perhaps
+MEPs in previous legislatures?
+
+To get a step closer to clarifying this, we can check the qualifiers of
+a property. So if you look at the property [“position held” for a member
+of the European Parliament
+(2019-2024)](https://www.wikidata.org/wiki/Q2391857#P39), you may notice
+that the “position held” -\> “member of the European Parliament” has a
+few qualifiers, including “parliamentary term” which may have value
+“Ninth European Parliament”.
+
+``` r
+meps9_df <- meps_df %>%
+  tw_get_qualifiers(p = "P39") %>%
+  filter(qualifier_property == "P2937",
+         qualifier_value == "Q64038205") %>%
+  distinct(id)
+```
+
+It appears that 801 have actually been members of the “Ninth European
+Parliament”.
+
+Out of curiosity, and as a quality check, let’s see who are the MEPs
+mentioned in the page who *have not* been members of the ninth
+legislature.
+
+``` r
+anti_join(meps_df,
+          meps9_df,
+          by = "id") %>%
+  mutate(name = tw_get_label(id))
+#> # A tibble: 4 × 2
+#>   id        name              
+#>   <chr>     <chr>             
+#> 1 Q312901   Josep Borrell     
+#> 2 Q11769926 Mariya Gabriel    
+#> 3 Q1055449  Matteo Salvini    
+#> 4 Q57630    Valdis Dombrovskis
+```
+
+Indeed, all of them gave up their seat for one reason or another.
+
+As we have reason to believe the Wikipedia page we have used as a
+starting point is reasonably complete, we can now proceed assuming that
+we now a reasonably complete list of MEPs of the ninth legislature. We
+can then take it as a starting point for all sorts questions, such as
+which position they held before becoming MEPs (or at the same time as
+being MEPs), or who among them joined the European Parliament after the
+beginning of the legislature. This is, for example, a list of MEPs who
+joined the parliament only in 2021, and with reference to whom did they
+replace:
+
+``` r
+replacing_meps_df <- meps9_df %>%
+  tw_get_qualifiers(p = "P39") %>%
+  filter(qualifier_id == "Q27169", # member of the european parliament
+         qualifier_property == "P580") %>% # start time
+  arrange(desc(qualifier_value)) %>%
+  filter(stringr::str_starts(qualifier_value, "\\+2021")) %>%
+    tw_get_qualifiers(p = "P39") %>%
+    filter(qualifier_id == "Q27169", # member of the european parliament
+         qualifier_property == "P1365") %>% # replaces
+  transmute(new_mep_id = id,
+            new_mep = tw_get_label(id),
+            previous_mep_id = qualifier_value,
+            previous_mep = tw_get_label(qualifier_value))
+
+replacing_meps_df
+#> # A tibble: 9 × 4
+#>   new_mep_id new_mep                       previous_mep_id previous_mep     
+#>   <chr>      <chr>                         <chr>           <chr>            
+#> 1 Q108904462 Karolin Braunsberger-Reinhold Q17093506       Sven Schulze     
+#> 2 Q22443735  João Pimenta Lopes            Q1671880        Inês Zuber       
+#> 3 Q22443735  João Pimenta Lopes            Q11728715       João Ferreira    
+#> 4 Q106519771 Michiel Hoogeveen             Q979348         Derk Jan Eppink  
+#> 5 Q106518433 Thijs Reuten                  Q17143453       Kati Piri        
+#> 6 Q104126196 Emma Wiesner                  Q513301         Fredrick Federley
+#> 7 Q18225970  Tom Vandenkendelaere          Q270530         Marianne Thyssen 
+#> 8 Q18225970  Tom Vandenkendelaere          Q12869          Kris Peeters     
+#> 9 Q63224243  Ernő Schaller-Baross          Q731042         József Szájer
+```
+
+Curiously, we find that there are two current MEPs who have replaced a
+colleague after the beginning of the legislature more than once. Can we
+confirm in which legislatures those who have replaced a colleague more
+than once have served as MEPs? Of course.
+
+``` r
+replacing_meps_df %>%
+  group_by(new_mep_id) %>%
+  count(name = "n") %>%
+  filter(n > 1) %>%
+  pull(new_mep_id) %>%
+  tw_get_qualifiers(p = "P39") %>%
+  filter(qualifier_property == "P2937", # parliamentary term
+         qualifier_id == "Q27169") %>%  # as MEP
+  tw_label() %>%
+  transmute(mep = id, legislature = qualifier_value)
+#> # A tibble: 4 × 2
+#>   mep                  legislature               
+#>   <chr>                <chr>                     
+#> 1 Tom Vandenkendelaere Eighth European Parliament
+#> 2 Tom Vandenkendelaere Ninth European Parliament 
+#> 3 João Pimenta Lopes   Eighth European Parliament
+#> 4 João Pimenta Lopes   Ninth European Parliament
+```
+
+This [blog
+post](https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440)
+presents some examples of the way Wikidata works based on MEPs, and they
+can easily be replicated taking it from here.
+
+Let’s make some more examples.
+
+``` r
+meps9_pob_df <- meps9_df %>%
+  mutate(mep = tw_get_label(id)) %>%
+  mutate(place_of_birth_id = tw_get_p(id = id, p = "P19", only_first = TRUE)) %>%
+  mutate(place_of_birth = tw_get_label(place_of_birth_id)) %>%
+  mutate(place_of_birth_coordinates = tw_get_p(id = place_of_birth_id,
+                                               p = "P625",
+                                               only_first = TRUE)) %>%
+      tidyr::separate(
+      col = place_of_birth_coordinates,
+      into = c(
+        "pob_latitude",
+        "pob_longitude"
+      ),
+      sep = ",",
+      remove = TRUE,
+      convert = TRUE
+    ) %>%
+  filter(is.na(pob_latitude)==FALSE)
+```
+
+We have a place of birth on the records for 795 MEPs out of 801. Not
+bad. We could use some proxy for the cases when such information is
+unavailable, for example using properties such as “residence”
+([P551](https://www.wikidata.org/wiki/Property:P551)) or the earliest
+place where they got their education, but for the time being we will
+leave it at that.
+
+We could now easily place these data on a map (code example not run to
+remove dependency on external files and packages).
+
+``` r
+
+world_sf_file <- fs::path("world_geo_data", "world_sf.rds")
+
+if (fs::file_exists(world_sf_file)) {
+  world_sf <- readr::read_rds(world_sf_file)
+} else {
+  fs::dir_create(fs::path("world_geo_data"))
+  download.file(
+    url = "https://gisco-services.ec.europa.eu/distribution/v2/countries/download/ref-countries-2020-60m.geojson.zip",
+    destfile = fs::path("world_geo_data", "world.geojson.zip")
+  )
+
+  unzip(fs::path("world_geo_data", "world.geojson.zip"),
+        exdir = fs::path("world_geo_data")
+  )
+
+  world_sf <- sf::st_read(dsn = fs::path("world_geo_data", "CNTR_RG_60M_2020_4326.geojson"))
+
+  saveRDS(object = world_sf, file = fs::path("world_geo_data", "world_sf.rds"))
+}
+
+
+meps9_pob_df %>%
+  sf::st_as_sf(coords = c("pob_longitude", "pob_latitude"), crs = 4326) %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_sf(data = world_sf) +
+  ggplot2::geom_sf(size = 0.1) +
+  ggplot2::theme_minimal()
+```
+
+And we can notice that quite a few MEPs were not born in an EU country.
+We could then geocode the locations, or ask Wikidata in which country
+their place of birth is located.
+
+Here we already start to meet some of the quirks of Wikidata.
+
+The question “in which country is this city located” seems
+straightforward, but as illustrated [in the package
+readme](https://edjnet.github.io/tidywikidatar/#getting-the-right-property-when-more-than-one-is-available)
+it actually isn’t always the case, as, for example, London has many
+values for the property “country”, all the way from “Roman Empire”
+through “United Kingdom”. Enabling the `only_first` parameters, which is
+a the most efficient option in many circumstances, is not a sensible
+solution in this case, as predicting the order of properties is not
+straightforward.
+
+To make things easier in such circumstances `tidywikidatar` includes
+dedicated parameters: `preferred` (which gives back the value recorded
+as “preferred”), and `latest_start_time` (which checks the qualifiers,
+and selects the one with the most recent “start time”).
+
+``` r
+meps9_pob_df %>%
+  mutate(pob_country_id = tw_get_p(id = place_of_birth_id,
+                                   p = "P17",
+                                   only_first = TRUE,
+                                   preferred = TRUE)) %>%
+  group_by(pob_country_id) %>%
+  tally(sort = TRUE) %>%
+  mutate(pob_country = tw_get_label(pob_country_id))
+#> # A tibble: 58 × 3
+#>    pob_country_id     n pob_country   
+#>    <chr>          <int> <chr>         
+#>  1 Q183              95 Germany       
+#>  2 Q38               78 Italy         
+#>  3 Q142              77 France        
+#>  4 Q145              60 United Kingdom
+#>  5 Q29               56 Spain         
+#>  6 Q36               50 Poland        
+#>  7 Q218              34 Romania       
+#>  8 Q55               30 Netherlands   
+#>  9 Q31               23 Belgium       
+#> 10 Q213              22 Czech Republic
+#> # … with 48 more rows
+```
+
+Keep in mind that enabling `latest_start_time` has an impact on
+processing time (as it relies on
+[`tw_get_qualifiers()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers.md)
+which caches data separately), but that enabling `preferred` is just as
+fast as having it disabled.

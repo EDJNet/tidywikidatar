@@ -1,0 +1,103 @@
+# Set database connection settings for the session
+
+Set database connection settings for the session
+
+## Usage
+
+``` r
+tw_set_cache_db(
+  db_settings = NULL,
+  driver = NULL,
+  host = NULL,
+  server = NULL,
+  port = NULL,
+  database = NULL,
+  user = NULL,
+  pwd = NULL
+)
+```
+
+## Arguments
+
+- db_settings:
+
+  A list of database connection settings (see example)
+
+- driver:
+
+  A database driver. Common database drivers include `MySQL`,
+  `PostgreSQL`, and `MariaDB`. See
+  `unique(odbc::odbcListDrivers()[[1]])` for a list of locally available
+  drivers.
+
+- host:
+
+  Host address, e.g. "localhost". Different drivers use server or host
+  parameter, only one of them is likely needed.
+
+- server:
+
+  Server address, e.g. "localhost". Different drivers use server or host
+  parameter, only one of them is likely needed.
+
+- port:
+
+  Port to use to connect to the database.
+
+- database:
+
+  Database name.
+
+- user:
+
+  Database user name.
+
+- pwd:
+
+  Password for the database user.
+
+## Value
+
+A list with all given parameters (invisibly).
+
+## Examples
+
+``` r
+# \donttest{
+if (interactive()) {
+  # Settings can be provided either as a list
+  db_settings <- list(
+    driver = "MySQL",
+    host = "localhost",
+    server = "localhost",
+    port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
+
+  tw_set_cache_db(db_settings)
+
+  # or as parameters
+
+  tw_set_cache_db(
+    driver = "MySQL",
+    host = "localhost",
+    server = "localhost",
+    port = 3306,
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
+
+  # or ignoring fields that can be left to default values, such as "localhost" and port 3306
+
+  tw_set_cache_db(
+    driver = "MySQL",
+    database = "tidywikidatar",
+    user = "secret_username",
+    pwd = "secret_password"
+  )
+}
+# }
+```
