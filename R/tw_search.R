@@ -327,7 +327,7 @@ tw_search_single <- function(
       uselang = response_language,
       format = "json"
     ) %>%
-    httr2::req_error(is_error = \(resp) FALSE)
+    httr2::req_error(is_error = function(resp) FALSE)
 
   response_json <- httr2::req_perform(api_request) %>%
     httr2::resp_body_json()
