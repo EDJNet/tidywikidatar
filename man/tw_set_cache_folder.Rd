@@ -10,13 +10,18 @@ tw_set_cache_folder(path = NULL)
 tw_get_cache_folder(path = NULL)
 }
 \arguments{
-\item{path}{A path to a location used for caching data. If the folder does not exist, it will be created.}
+\item{path}{A path to a location used for caching data. If the folder does
+not exist, it will be created.}
 }
 \value{
-The path to the caching folder, if previously set; the same path as given to the function; or the default, \code{tw_data} is none is given.
+The path to the caching folder, if previously set; the same path as
+given to the function; or the default, \code{tw_data} is none is given.
 }
 \description{
-Consider using a folder out of your current project directory, e.g. \code{tw_set_cache_folder("~/R/tw_data/")}: you will be able to use the same cache in different projects, and prevent cached files from being sync-ed if you use services such as Nextcloud or Dropbox.
+Consider using a folder out of your current project directory, e.g.
+\code{tw_set_cache_folder("~/R/tw_data/")}: you will be able to use the same cache
+in different projects, and prevent cached files from being sync-ed if you use
+services such as Nextcloud or Dropbox.
 }
 \examples{
 \donttest{

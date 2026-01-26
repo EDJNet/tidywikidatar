@@ -1,6 +1,8 @@
 #' Creates the base cache folder where `tidywikidatar` caches data.
 #'
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
+#' @param ask Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
+#'   exist, it just creates it without asking (useful for non-interactive
+#'   sessions).
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -46,13 +48,17 @@ tw_create_cache_folder <- function(ask = TRUE) {
 
 #' Set folder for caching data
 #'
-#' Consider using a folder out of your current project directory, e.g. `tw_set_cache_folder("~/R/tw_data/")`: you will be able to use the same cache in different projects, and prevent cached files from being sync-ed if you use services such as Nextcloud or Dropbox.
+#' Consider using a folder out of your current project directory, e.g.
+#' `tw_set_cache_folder("~/R/tw_data/")`: you will be able to use the same cache
+#' in different projects, and prevent cached files from being sync-ed if you use
+#' services such as Nextcloud or Dropbox.
 #'
-#' @param path A path to a location used for caching data. If the folder does not exist, it will be created.
+#' @param path A path to a location used for caching data. If the folder does
+#'   not exist, it will be created.
 #'
-#' @return The path to the caching folder, if previously set; the same path as given to the function; or the default, `tw_data` is none is given.
+#' @return The path to the caching folder, if previously set; the same path as
+#'   given to the function; or the default, `tw_data` is none is given.
 #' @export
-
 #' @examples
 #' \donttest{
 #' if (interactive()) {
@@ -82,9 +88,13 @@ tw_get_cache_folder <- tw_set_cache_folder
 #'
 #'
 #' @param db_settings A list of database connection settings (see example)
-#' @param driver A database driver. Common database drivers include `MySQL`, `PostgreSQL`, and `MariaDB`. See `unique(odbc::odbcListDrivers()[[1]])` for a list of locally available drivers.
-#' @param host Host address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.
-#' @param server Server address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.
+#' @param driver A database driver. Common database drivers include `MySQL`,
+#'   `PostgreSQL`, and `MariaDB`. See `unique(odbc::odbcListDrivers()[[1]])` for
+#'   a list of locally available drivers.
+#' @param host Host address, e.g. "localhost". Different drivers use server or
+#'   host parameter, only one of them is likely needed.
+#' @param server Server address, e.g. "localhost". Different drivers use server
+#'   or host parameter, only one of them is likely needed.
 #' @param port Port to use to connect to the database.
 #' @param database Database name.
 #' @param user Database user name.
@@ -202,9 +212,10 @@ tw_set_cache_db <- function(
 
 #' Get database connection settings from the environment
 #'
-#' Typically set with `tw_set_cache_db()`
+#' Typically set with [tw_set_cache_db()].
 #'
-#' @return A list with all database parameters as stored in environment variables.
+#' @return A list with all database parameters as stored in environment
+#'   variables.
 #' @export
 #'
 #' @examples
@@ -225,7 +236,8 @@ tw_get_cache_db <- function() {
 
 #' Enable caching for the current session
 #'
-#' @param SQLite Logical, defaults to TRUE. Set to FALSE to use custom database options. See `tw_set_cache_db()` for details.
+#' @param SQLite Logical, defaults to `TRUE`. Set to `FALSE` to use custom
+#'   database options. See [tw_set_cache_db()] for details.
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -260,11 +272,11 @@ tw_disable_cache <- function() {
 #'
 #' Mostly used internally in functions, exported for reference.
 #'
-#' @param cache Defaults to NULL. If NULL, checks current cache settings. If given, returns given value, ignoring cache.
+#' @param cache Defaults to `NULL`. If `NULL`, checks current cache settings. If
+#'   given, returns given value, ignoring cache.
 #'
-#' @return Either TRUE or FALSE, depending on current cache settings.
+#' @return Either `TRUE` or `FALSE`, depending on current cache settings.
 #' @export
-
 #' @examples
 #' \donttest{
 #' if (interactive()) {
@@ -281,7 +293,8 @@ tw_check_cache <- function(cache = NULL) {
 
 #' Checks if cache folder exists, if not returns an informative message
 #'
-#' @return If the cache folder exists, returns TRUE. Otherwise throws an error.
+#' @return If the cache folder exists, returns `TRUE`. Otherwise throws an
+#'   error.
 #' @export
 #'
 #' @examples
@@ -314,10 +327,18 @@ tw_check_cache_folder <- function() {
 
 #' Ensure that connection to cache is disconnected consistently
 #'
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param cache Defaults to NULL. If given, it should be given either `TRUE` or
+#'   FALSE. Typically set with [tw_enable_cache()] or [tw_disable_cache()].
+#' @param cache_connection Defaults to `NULL`. If `NULL`, and caching is enabled,
+#'   `tidywikidatar` will use a local sqlite database. A custom connection to
+#'   other databases can be given (see vignette `caching` for details).
+#' @param disconnect_db Defaults to `TRUE`. If `FALSE`, leaves the connection to
+#'   cache open.
+#' @param language Defaults to language set with [tw_set_language()]; if not
+#'   set, "en". Use "all_available" to keep all languages. For available
+#'   language values, see the
+#'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{relevant
+#'   Wikimedia page}.
 #'
 #' @return Nothing, used for its side effects.
 #' @export

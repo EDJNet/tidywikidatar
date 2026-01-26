@@ -7,10 +7,11 @@
 tw_get_cache_db()
 }
 \value{
-A list with all database parameters as stored in environment variables.
+A list with all database parameters as stored in environment
+variables.
 }
 \description{
-Typically set with \code{tw_set_cache_db()}
+Typically set with \code{\link[=tw_set_cache_db]{tw_set_cache_db()}}.
 }
 \examples{
 

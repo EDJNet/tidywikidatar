@@ -7,7 +7,8 @@
 tw_check_cache_folder()
 }
 \value{
-If the cache folder exists, returns TRUE. Otherwise throws an error.
+If the cache folder exists, returns \code{TRUE}. Otherwise throws an
+error.
 }
 \description{
 Checks if cache folder exists, if not returns an informative message

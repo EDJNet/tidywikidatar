@@ -18,11 +18,15 @@ tw_set_cache_db(
 \arguments{
 \item{db_settings}{A list of database connection settings (see example)}
 
-\item{driver}{A database driver. Common database drivers include \code{MySQL}, \code{PostgreSQL}, and \code{MariaDB}. See \code{unique(odbc::odbcListDrivers()[[1]])} for a list of locally available drivers.}
+\item{driver}{A database driver. Common database drivers include \code{MySQL},
+\code{PostgreSQL}, and \code{MariaDB}. See \code{unique(odbc::odbcListDrivers()[[1]])} for
+a list of locally available drivers.}
 
-\item{host}{Host address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.}
+\item{host}{Host address, e.g. "localhost". Different drivers use server or
+host parameter, only one of them is likely needed.}
 
-\item{server}{Server address, e.g. "localhost". Different drivers use server or host parameter, only one of them is likely needed.}
+\item{server}{Server address, e.g. "localhost". Different drivers use server
+or host parameter, only one of them is likely needed.}
 
 \item{port}{Port to use to connect to the database.}
 

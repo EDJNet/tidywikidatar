@@ -7,7 +7,8 @@
 tw_enable_cache(SQLite = TRUE)
 }
 \arguments{
-\item{SQLite}{Logical, defaults to TRUE. Set to FALSE to use custom database options. See \code{tw_set_cache_db()} for details.}
+\item{SQLite}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to use custom
+database options. See \code{\link[=tw_set_cache_db]{tw_set_cache_db()}} for details.}
 }
 \value{
 Nothing, used for its side effects.
