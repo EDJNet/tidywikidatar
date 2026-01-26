@@ -12,7 +12,7 @@ tw_enable_cache(SQLite = TRUE)
 
 - SQLite:
 
-  Logical, defaults to TRUE. Set to FALSE to use custom database
+  Logical, defaults to `TRUE`. Set to `FALSE` to use custom database
   options. See
   [`tw_set_cache_db()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_db.md)
   for details.

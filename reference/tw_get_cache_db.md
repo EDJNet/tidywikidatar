@@ -1,7 +1,7 @@
 # Get database connection settings from the environment
 
 Typically set with
-[`tw_set_cache_db()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_db.md)
+[`tw_set_cache_db()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_db.md).
 
 ## Usage
 

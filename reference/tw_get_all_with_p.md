@@ -12,7 +12,9 @@ tw_get_all_with_p(
   method = "SPARQL",
   wait = 0.1,
   limit = Inf,
-  return_as_tw_search = TRUE
+  return_as_tw_search = TRUE,
+  user_agent = stringr::str_flatten(c("tidywikidatar/",
+    as.character(packageVersion("tidywikidatar"))))
 )
 ```
 
@@ -57,6 +59,12 @@ tw_get_all_with_p(
   Logical, defaults to TRUE. If TRUE, returns a data frame with three
   columns (id, label, and description) that can be piped to other `tw_`
   functions. If FALSE, a data frame with as many columns as fields.
+
+- user_agent:
+
+  Defaults to a combination of `tidywikidatar` and package version
+  number. Consider customising, in particular if you are making many
+  queries.
 
 ## Value
 

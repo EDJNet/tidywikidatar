@@ -12,12 +12,12 @@ tw_check_cache(cache = NULL)
 
 - cache:
 
-  Defaults to NULL. If NULL, checks current cache settings. If given,
-  returns given value, ignoring cache.
+  Defaults to `NULL`. If `NULL`, checks current cache settings. If
+  given, returns given value, ignoring cache.
 
 ## Value
 
-Either TRUE or FALSE, depending on current cache settings.
+Either `TRUE` or `FALSE`, depending on current cache settings.
 
 ## Examples
 

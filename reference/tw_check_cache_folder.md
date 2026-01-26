@@ -10,7 +10,7 @@ tw_check_cache_folder()
 
 ## Value
 
-If the cache folder exists, returns TRUE. Otherwise throws an error.
+If the cache folder exists, returns `TRUE`. Otherwise throws an error.
 
 ## Examples
 

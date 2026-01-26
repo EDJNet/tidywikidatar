@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,9 @@
 <span>  method <span class="op">=</span> <span class="st">"SPARQL"</span>,</span>
 <span>  wait <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">Inf</span>,</span>
-<span>  return_as_tw_search <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  return_as_tw_search <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  user_agent <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_flatten.html" class="external-link">str_flatten</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidywikidatar/"</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -60,7 +62,8 @@
 
 
 <dl><dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".</p></dd>
+<dd><p>A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".</p></dd>
 
 
 <dt id="arg-fields">fields<a class="anchor" aria-label="anchor" href="#arg-fields"></a></dt>
@@ -78,7 +81,8 @@ https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Defaults to "SPARQL". The only accepted alternative value is "JSON", to use instead json-based API.</p></dd>
+<dd><p>Defaults to "SPARQL". The only accepted alternative value is
+"JSON", to use instead json-based API.</p></dd>
 
 
 <dt id="arg-wait">wait<a class="anchor" aria-label="anchor" href="#arg-wait"></a></dt>
@@ -86,7 +90,8 @@ https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
 
 
 <dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
-<dd><p>Defaults to <code>Inf</code>. Set to smaller values for testing and cache locally when possible to reduce load on servers.</p></dd>
+<dd><p>Defaults to <code>Inf</code>. Set to smaller values for testing and cache
+locally when possible to reduce load on servers.</p></dd>
 
 
 <dt id="arg-return-as-tw-search">return_as_tw_search<a class="anchor" aria-label="anchor" href="#arg-return-as-tw-search"></a></dt>
@@ -95,10 +100,19 @@ frame with three columns (id, label, and description) that can be piped to
 other <code>tw_</code> functions. If FALSE, a data frame with as many columns as
 fields.</p></dd>
 
+
+<dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
+<dd><p>Defaults to a combination of <code>tidywikidatar</code> and package
+version number. Consider customising, in particular if you are making many
+queries.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with three columns is method is set to "SPARQL", or as many columns as fields if more are given and <code>return_as_tw_search</code> is set to FALSE. A single column with Wikidata identifier if method is set to "JSON".</p>
+    <p>A data frame with three columns is method is set to "SPARQL", or as
+many columns as fields if more are given and <code>return_as_tw_search</code> is set
+to FALSE. A single column with Wikidata identifier if method is set to
+"JSON".</p>
     </div>
 
     <div class="section level2">
