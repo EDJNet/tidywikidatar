@@ -138,7 +138,7 @@ tw_get_description <- function(
   disconnect_db = TRUE,
   wait = 0
 ) {
-  if (is.data.frame(id) == TRUE) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -207,7 +207,7 @@ tw_get_wikipedia <- function(
   disconnect_db = TRUE,
   wait = 0
 ) {
-  if (is.data.frame(id) == TRUE) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -272,7 +272,7 @@ tw_get_wikipedia <- function(
   if (length(base_link) == 0) {
     rep(as.character(NA), length(id))
   } else {
-    if (full_link == TRUE) {
+    if (full_link) {
       stringr::str_c("https://", language, ".wikipedia.org/wiki/", base_link)
     } else {
       base_link

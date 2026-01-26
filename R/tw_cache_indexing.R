@@ -24,15 +24,17 @@
 #'
 #'   tw_check_cache_index()
 #' }
-tw_check_cache_index <- function(table_name = NULL,
-                                 type = "item",
-                                 show_details = FALSE,
-                                 language = tidywikidatar::tw_get_language(),
-                                 response_language = tidywikidatar::tw_get_language(),
-                                 cache = NULL,
-                                 cache_connection = NULL,
-                                 disconnect_db = TRUE) {
-  if (is.null(table_name) == TRUE) {
+tw_check_cache_index <- function(
+  table_name = NULL,
+  type = "item",
+  show_details = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
+  if (is.null(table_name)) {
     table_name <- tw_get_cache_table_name(
       type = type,
       language = language,
@@ -40,7 +42,10 @@ tw_check_cache_index <- function(table_name = NULL,
     )
   }
 
-  if (stringr::str_starts(string = type, pattern = "search") & stringr::str_detect(string = language, pattern = "_", negate = TRUE)) {
+  if (
+    stringr::str_starts(string = type, pattern = "search") &
+      stringr::str_detect(string = language, pattern = "_", negate = TRUE)
+  ) {
     language <- stringr::str_c(language, "_", response_language)
   }
 
@@ -67,7 +72,8 @@ tw_check_cache_index <- function(table_name = NULL,
   if (inherits(x = driver, "SQLiteConnection")) {
     db_no_pool <- pool::poolCheckout(db)
 
-    statement <- glue::glue_sql("PRAGMA INDEX_LIST({`table_name`});",
+    statement <- glue::glue_sql(
+      "PRAGMA INDEX_LIST({`table_name`});",
       table_name = table_name,
       .con = db_no_pool
     )
@@ -81,16 +87,17 @@ tw_check_cache_index <- function(table_name = NULL,
 
     pool::poolReturn(db_no_pool)
 
-    if (show_details == TRUE) {
+    if (show_details) {
       output <- tibble::as_tibble(index_odbc_result_fetched)
     } else {
       output <- nrow(tibble::as_tibble(index_odbc_result_fetched)) > 0
     }
   } else {
-    if (show_details == TRUE) {
+    if (show_details) {
       db_no_pool <- pool::poolCheckout(db)
 
-      statement <- glue::glue_sql("SHOW INDEX FROM {`table_name`}",
+      statement <- glue::glue_sql(
+        "SHOW INDEX FROM {`table_name`}",
         table_name = table_name,
         .con = db_no_pool
       )
@@ -105,7 +112,8 @@ tw_check_cache_index <- function(table_name = NULL,
 
       output <- tibble::as_tibble(index_odbc_result_fetched)
     } else {
-      statement <- glue::glue_sql("SHOW INDEX FROM {`table_name`}",
+      statement <- glue::glue_sql(
+        "SHOW INDEX FROM {`table_name`}",
         table_name = table_name,
         .con = db
       )
@@ -125,7 +133,6 @@ tw_check_cache_index <- function(table_name = NULL,
   )
   output
 }
-
 
 
 #' Add index to caching table for search queries for increased speed
@@ -155,15 +162,17 @@ tw_check_cache_index <- function(table_name = NULL,
 #'
 #'   tw_index_cache_search()
 #' }
-tw_index_cache_search <- function(table_name = NULL,
-                                  check_first = TRUE,
-                                  type = "item",
-                                  show_details = FALSE,
-                                  language = tidywikidatar::tw_get_language(),
-                                  response_language = tidywikidatar::tw_get_language(),
-                                  cache = NULL,
-                                  cache_connection = NULL,
-                                  disconnect_db = TRUE) {
+tw_index_cache_search <- function(
+  table_name = NULL,
+  check_first = TRUE,
+  type = "item",
+  show_details = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (is.null(table_name)) {
     table_name <- tw_get_cache_table_name(
       type = stringr::str_c("search_", type),
@@ -172,7 +181,10 @@ tw_index_cache_search <- function(table_name = NULL,
     )
     language <- stringr::str_c(language, "_", response_language)
   } else {
-    language <- stringr::str_extract(string = table_name, "[a-z][a-z]_[a-z][a-z]$")
+    language <- stringr::str_extract(
+      string = table_name,
+      "[a-z][a-z]_[a-z][a-z]$"
+    )
   }
 
   db <- tw_connect_to_cache(
@@ -211,7 +223,8 @@ tw_index_cache_search <- function(table_name = NULL,
   driver <- db$fetch()
 
   if (inherits(x = driver, "SQLiteConnection") == FALSE) {
-    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY search VARCHAR(255);",
+    statement <- glue::glue_sql(
+      "ALTER TABLE {`table_name`} MODIFY search VARCHAR(255);",
       table_name = table_name,
       .con = db_no_pool
     )
@@ -221,8 +234,8 @@ tw_index_cache_search <- function(table_name = NULL,
       statement = statement
     )
 
-
-    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
+    statement <- glue::glue_sql(
+      "ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
       table_name = table_name,
       .con = db_no_pool
     )
@@ -233,7 +246,8 @@ tw_index_cache_search <- function(table_name = NULL,
     )
   }
 
-  statement <- glue::glue_sql("CREATE INDEX search on {`table_name`} (search);",
+  statement <- glue::glue_sql(
+    "CREATE INDEX search on {`table_name`} (search);",
     table_name = table_name,
     .con = db_no_pool
   )
@@ -244,7 +258,7 @@ tw_index_cache_search <- function(table_name = NULL,
   )
 
   pool::poolReturn(db_no_pool)
-  if (show_details == TRUE) {
+  if (show_details) {
     output <- tw_check_cache_index(
       table_name = table_name,
       type = type,
@@ -270,7 +284,6 @@ tw_index_cache_search <- function(table_name = NULL,
     disconnect_db = disconnect_db
   )
 }
-
 
 
 #' Add index to caching table for search queries for increased speed
@@ -300,14 +313,16 @@ tw_index_cache_search <- function(table_name = NULL,
 #'
 #'   tw_index_cache_search()
 #' }
-tw_index_cache_item <- function(table_name = NULL,
-                                check_first = TRUE,
-                                type = "item",
-                                show_details = FALSE,
-                                language = tidywikidatar::tw_get_language(),
-                                cache = NULL,
-                                cache_connection = NULL,
-                                disconnect_db = TRUE) {
+tw_index_cache_item <- function(
+  table_name = NULL,
+  check_first = TRUE,
+  type = "item",
+  show_details = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (is.null(table_name)) {
     table_name <- tw_get_cache_table_name(
       type = type,
@@ -340,7 +355,9 @@ tw_index_cache_item <- function(table_name = NULL,
     )
 
     if (check) {
-      cli::cli_alert_info("The table {.code {table_name}} is already indexed. No action taken. Set `check` to FALSE to ignore this check.")
+      cli::cli_alert_info(
+        "The table {.code {table_name}} is already indexed. No action taken. Set `check` to FALSE to ignore this check."
+      )
       return(invisible(NULL))
     }
   }
@@ -350,7 +367,8 @@ tw_index_cache_item <- function(table_name = NULL,
   driver <- db$fetch()
 
   if (inherits(x = driver, "SQLiteConnection") == FALSE) {
-    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
+    statement <- glue::glue_sql(
+      "ALTER TABLE {`table_name`} MODIFY id VARCHAR(50);",
       table_name = table_name,
       .con = db_no_pool
     )
@@ -360,8 +378,8 @@ tw_index_cache_item <- function(table_name = NULL,
       statement = statement
     )
 
-
-    statement <- glue::glue_sql("ALTER TABLE {`table_name`} MODIFY property VARCHAR(50);",
+    statement <- glue::glue_sql(
+      "ALTER TABLE {`table_name`} MODIFY property VARCHAR(50);",
       table_name = table_name,
       .con = db_no_pool
     )
@@ -372,7 +390,8 @@ tw_index_cache_item <- function(table_name = NULL,
     )
   }
 
-  statement <- glue::glue_sql("CREATE INDEX qid on {`table_name`} (id, property);",
+  statement <- glue::glue_sql(
+    "CREATE INDEX qid on {`table_name`} (id, property);",
     table_name = table_name,
     .con = db_no_pool
   )
@@ -384,7 +403,7 @@ tw_index_cache_item <- function(table_name = NULL,
 
   pool::poolReturn(db_no_pool)
 
-  if (show_details == TRUE) {
+  if (show_details) {
     output <- tw_check_cache_index(
       table_name = table_name,
       type = type,

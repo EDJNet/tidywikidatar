@@ -37,24 +37,26 @@
 #'     only_first = TRUE
 #'   )
 #' }
-tw_get_p_wide <- function(id,
-                          p,
-                          label = FALSE,
-                          property_label_as_column_name = FALSE,
-                          both_id_and_label = FALSE,
-                          only_first = FALSE,
-                          preferred = FALSE,
-                          unlist = FALSE,
-                          collapse = ";",
-                          language = tidywikidatar::tw_get_language(),
-                          id_df = NULL,
-                          id_df_label = NULL,
-                          cache = NULL,
-                          overwrite_cache = FALSE,
-                          cache_connection = NULL,
-                          disconnect_db = TRUE,
-                          wait = 0) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_p_wide <- function(
+  id,
+  p,
+  label = FALSE,
+  property_label_as_column_name = FALSE,
+  both_id_and_label = FALSE,
+  only_first = FALSE,
+  preferred = FALSE,
+  unlist = FALSE,
+  collapse = ";",
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  id_df_label = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -80,16 +82,18 @@ tw_get_p_wide <- function(id,
     wait = wait
   )
 
-
-  if (preferred == TRUE) {
+  if (preferred) {
     preferred_df <- property_df %>%
-      dplyr::mutate(rank = factor(.data$rank,
-        levels = c(
-          "preferred",
-          "normal",
-          "deprecated"
+      dplyr::mutate(
+        rank = factor(
+          .data$rank,
+          levels = c(
+            "preferred",
+            "normal",
+            "deprecated"
+          )
         )
-      )) %>%
+      ) %>%
       dplyr::group_by(id) %>%
       dplyr::arrange(
         .by_group = TRUE,
@@ -102,43 +106,38 @@ tw_get_p_wide <- function(id,
     }
   }
 
-  if (label == TRUE) {
+  if (label) {
     property_df <- property_df %>%
-      dplyr::mutate(label = dplyr::if_else(
-        condition = tw_check_qid(
-          id = .data$value,
-          logical_vector = TRUE
-        ),
-        true = tw_get_label(
-          id = .data$value,
-          language = language,
-          cache = cache,
-          overwrite_cache = overwrite_cache,
-          cache_connection = db,
-          disconnect_db = FALSE,
-          id_df = id_df_label,
-          wait = wait
-        ),
-        false = .data$value,
-        missing = NA_character_
-      ))
+      dplyr::mutate(
+        label = dplyr::if_else(
+          condition = tw_check_qid(
+            id = .data$value,
+            logical_vector = TRUE
+          ),
+          true = tw_get_label(
+            id = .data$value,
+            language = language,
+            cache = cache,
+            overwrite_cache = overwrite_cache,
+            cache_connection = db,
+            disconnect_db = FALSE,
+            id_df = id_df_label,
+            wait = wait
+          ),
+          false = .data$value,
+          missing = NA_character_
+        )
+      )
   }
 
-  if (only_first == TRUE) {
+  if (only_first) {
     property_df <- property_df %>%
-      dplyr::distinct(.data$id,
-        .data$property,
-        .keep_all = TRUE
-      )
+      dplyr::distinct(.data$id, .data$property, .keep_all = TRUE)
   } else if (only_first == FALSE) {
     property_df <- property_df %>%
-      dplyr::distinct(.data$id,
-        .data$property,
-        .data$value,
-        .keep_all = TRUE
-      )
+      dplyr::distinct(.data$id, .data$property, .data$value, .keep_all = TRUE)
 
-    if (label == TRUE) {
+    if (label) {
       property_df <- property_df %>%
         dplyr::group_by(.data$id, .data$property) %>%
         dplyr::summarise(
@@ -158,9 +157,9 @@ tw_get_p_wide <- function(id,
     }
   }
 
-  if (label == TRUE) {
-    if (both_id_and_label == TRUE) {
-      if (only_first == TRUE) {
+  if (label) {
+    if (both_id_and_label) {
+      if (only_first) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
             id_cols = "id",
@@ -180,7 +179,7 @@ tw_get_p_wide <- function(id,
           )
       }
     } else if (both_id_and_label == FALSE) {
-      if (only_first == TRUE) {
+      if (only_first) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
             id_cols = "id",
@@ -198,11 +197,12 @@ tw_get_p_wide <- function(id,
           )
       }
     } else {
-      cli::cli_abort("The parameter `both_id_and_label` must be either TRUE or FALSE.")
+      cli::cli_abort(
+        "The parameter `both_id_and_label` must be either TRUE or FALSE."
+      )
     }
 
-
-    if (both_id_and_label == TRUE) {
+    if (both_id_and_label) {
       new_order <- c(
         "id",
         t(matrix(
@@ -230,7 +230,7 @@ tw_get_p_wide <- function(id,
       property_df_wide_ordered <- property_df_wide[, new_order]
     }
   } else if (label == FALSE) {
-    if (only_first == TRUE) {
+    if (only_first) {
       property_df_wide <- property_df %>%
         tidyr::pivot_wider(
           id_cols = "id",
@@ -256,9 +256,7 @@ tw_get_p_wide <- function(id,
     property_df_wide_ordered <- property_df_wide[, new_order]
   }
 
-
-
-  if (property_label_as_column_name == TRUE) {
+  if (property_label_as_column_name) {
     p_labels <- names(property_df_wide_ordered)[-1] %>%
       stringr::str_extract(pattern = "P[[:digit:]]+") %>%
       tw_get_property_label(
@@ -270,7 +268,7 @@ tw_get_p_wide <- function(id,
         wait = wait
       )
 
-    if (both_id_and_label == TRUE) {
+    if (both_id_and_label) {
       p_labels[!seq_along(p_labels) %% 2] <- stringr::str_c(
         p_labels[!seq_along(p_labels) %% 2],
         "_label"
@@ -287,18 +285,20 @@ tw_get_p_wide <- function(id,
     names(property_df_wide_ordered) <- c("id", new_col_names)
   }
 
-  if (label == TRUE) {
+  if (label) {
     output_df <- tibble::tibble(id = id) %>%
-      dplyr::mutate(label = tw_get_label(
-        id = .data$id,
-        language = language,
-        cache = cache,
-        overwrite_cache = overwrite_cache,
-        cache_connection = db,
-        disconnect_db = FALSE,
-        id_df = id_df_label,
-        wait = wait
-      )) %>%
+      dplyr::mutate(
+        label = tw_get_label(
+          id = .data$id,
+          language = language,
+          cache = cache,
+          overwrite_cache = overwrite_cache,
+          cache_connection = db,
+          disconnect_db = FALSE,
+          id_df = id_df_label,
+          wait = wait
+        )
+      ) %>%
       dplyr::left_join(
         y = property_df_wide_ordered,
         by = "id"
@@ -317,16 +317,14 @@ tw_get_p_wide <- function(id,
     language = language
   )
 
-  if (unlist == TRUE & only_first == FALSE) {
+  if (unlist & !only_first) {
     output_df %>%
       dplyr::group_by(.data$id) %>%
       dplyr::mutate(
         dplyr::across(
           where(is.list),
           function(x) {
-            stringr::str_c(unique(unlist(x)),
-              collapse = collapse
-            )
+            stringr::str_c(unique(unlist(x)), collapse = collapse)
           }
         )
       ) %>%

@@ -19,17 +19,19 @@
 #'
 #' @examples
 #' tw_search(search = c("Margaret Mead", "Ruth Benedict"))
-tw_search <- function(search,
-                      type = "item",
-                      language = tidywikidatar::tw_get_language(),
-                      response_language = tidywikidatar::tw_get_language(),
-                      limit = 10,
-                      include_search = FALSE,
-                      wait = 0,
-                      cache = NULL,
-                      overwrite_cache = FALSE,
-                      cache_connection = NULL,
-                      disconnect_db = TRUE) {
+tw_search <- function(
+  search,
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   rlang::check_required(search)
 
   if (length(search) == 0) {
@@ -70,14 +72,16 @@ tw_search <- function(search,
         by = "search"
       )
 
-    if (include_search == TRUE) {
+    if (include_search) {
       return(search_df)
     } else {
-      return(search_df %>%
-        dplyr::select(-"search"))
+      return(
+        search_df %>%
+          dplyr::select(-"search")
+      )
     }
   } else if (length(unique_search) > 1) {
-    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
+    if (overwrite_cache | !tw_check_cache(cache)) {
       pb <- progress::progress_bar$new(total = length(unique_search))
       search_df <- dplyr::left_join(
         x = tibble::tibble(search = search),
@@ -110,15 +114,17 @@ tw_search <- function(search,
         disconnect_db = disconnect_db
       )
 
-      if (include_search == TRUE) {
+      if (include_search) {
         return(search_df)
       } else {
-        return(search_df %>%
-          dplyr::select(-"search"))
+        return(
+          search_df %>%
+            dplyr::select(-"search")
+        )
       }
     }
 
-    if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
+    if (overwrite_cache == FALSE & tw_check_cache(cache)) {
       search_from_cache_df <- tw_get_cached_search(
         search = unique_search,
         type = type,
@@ -130,7 +136,9 @@ tw_search <- function(search,
         disconnect_db = FALSE
       )
 
-      search_not_in_cache_v <- unique_search[!is.element(unique_search, search_from_cache_df$search)]
+      search_not_in_cache_v <- unique_search[
+        !is.element(unique_search, search_from_cache_df$search)
+      ]
 
       if (length(search_not_in_cache_v) == 0) {
         search_df <- dplyr::left_join(
@@ -144,11 +152,13 @@ tw_search <- function(search,
           disconnect_db = disconnect_db,
           language = language_combo
         )
-        if (include_search == TRUE) {
+        if (include_search) {
           return(search_df)
         } else {
-          return(search_df %>%
-            dplyr::select(-"search"))
+          return(
+            search_df %>%
+              dplyr::select(-"search")
+          )
         }
       } else if (length(search_not_in_cache_v) > 0) {
         pb <- progress::progress_bar$new(total = length(search_not_in_cache_v))
@@ -189,8 +199,7 @@ tw_search <- function(search,
           by = "search"
         )
 
-
-        if (include_search == TRUE) {
+        if (include_search) {
           search_merged_df
         } else {
           search_merged_df %>%
@@ -200,7 +209,6 @@ tw_search <- function(search,
     }
   }
 }
-
 
 
 #' Search for Wikidata items or properties and return Wikidata id, label, and description.
@@ -213,17 +221,19 @@ tw_search <- function(search,
 #'
 #' @examples
 #' tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
-tw_search_single <- function(search,
-                             type = "item",
-                             language = tidywikidatar::tw_get_language(),
-                             response_language = tidywikidatar::tw_get_language(),
-                             limit = 10,
-                             include_search = FALSE,
-                             cache = NULL,
-                             overwrite_cache = FALSE,
-                             cache_connection = NULL,
-                             disconnect_db = TRUE,
-                             wait = 0) {
+tw_search_single <- function(
+  search,
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
   rlang::check_required(search)
   if (is.null(search)) {
     cli::cli_abort("A search string must be given.")
@@ -234,25 +244,32 @@ tw_search_single <- function(search,
   }
 
   if (length(search) > 1) {
-    cli::cli_abort(c("`search` must have length 1.", i = "Consider using `tw_search()`."))
+    cli::cli_abort(c(
+      "`search` must have length 1.",
+      i = "Consider using `tw_search()`."
+    ))
   }
 
   if (is.na(search)) {
-    if (include_search == TRUE) {
+    if (include_search) {
       return(tidywikidatar::tw_empty_search)
     } else {
-      return(tidywikidatar::tw_empty_search %>%
-        dplyr::select(-"search"))
+      return(
+        tidywikidatar::tw_empty_search %>%
+          dplyr::select(-"search")
+      )
     }
   }
 
   if (search == "") {
-    if (include_search == TRUE) {
+    if (include_search) {
       tidywikidatar::tw_empty_search %>%
         dplyr::add_row(search = "")
     } else {
-      return(tidywikidatar::tw_empty_search %>%
-        dplyr::select(-"search"))
+      return(
+        tidywikidatar::tw_empty_search %>%
+          dplyr::select(-"search")
+      )
     }
   }
 
@@ -264,7 +281,7 @@ tw_search_single <- function(search,
     cache = cache
   )
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_search(
       search = search,
       type = type,
@@ -283,8 +300,10 @@ tw_search_single <- function(search,
         language = language_combo
       )
 
-      return(db_result %>%
-        tibble::as_tibble())
+      return(
+        db_result %>%
+          tibble::as_tibble()
+      )
     }
   }
 
@@ -293,7 +312,12 @@ tw_search_single <- function(search,
   base_url <- "https://www.wikidata.org/w/api.php"
   api_request <- httr2::request(base_url = base_url) |>
     httr2::req_headers(`Accept-Encoding` = "gzip") |>
-    httr2::req_user_agent(string = stringr::str_c("tidywikidatar/", as.character(packageVersion("tidywikidatar")))) |>
+    httr2::req_user_agent(
+      string = stringr::str_c(
+        "tidywikidatar/",
+        as.character(packageVersion("tidywikidatar"))
+      )
+    ) |>
     httr2::req_url_query(
       action = "wbsearchentities",
       type = type,
@@ -329,14 +353,15 @@ tw_search_single <- function(search,
       label = as.character(NA),
       description = as.character(NA)
     )
-  } else if (tibble::is_tibble(search_response) == TRUE) {
+  } else if (tibble::is_tibble(search_response)) {
     search_response_df <- search_response
   } else {
     search_response_df <- purrr::map_dfr(
       .x = search_response,
       .f = function(x) {
         extracted_label <- x %>% purrr::pluck("label", .default = NA_character_)
-        extracted_description <- x %>% purrr::pluck("description", .default = NA_character_)
+        extracted_description <- x %>%
+          purrr::pluck("description", .default = NA_character_)
 
         tibble::tibble(
           id = x %>% purrr::pluck("id"),
@@ -363,7 +388,7 @@ tw_search_single <- function(search,
       "description"
     )
 
-  if (tw_check_cache(cache) == TRUE) {
+  if (tw_check_cache(cache)) {
     tw_write_search_to_cache(
       search_df = search_response_df,
       type = type,
@@ -383,7 +408,7 @@ tw_search_single <- function(search,
     language = language_combo
   )
 
-  if (include_search == TRUE) {
+  if (include_search) {
     search_response_df %>%
       dplyr::filter(is.na(.data$id) == FALSE) %>%
       tibble::as_tibble()
@@ -394,7 +419,6 @@ tw_search_single <- function(search,
       tibble::as_tibble()
   }
 }
-
 
 
 #' Search for Wikidata properties in Wikidata and return Wikidata id, label, and description.
@@ -408,16 +432,18 @@ tw_search_single <- function(search,
 #'
 #' @examples
 #' tw_search_item(search = "Sylvia Pankhurst")
-tw_search_item <- function(search,
-                           language = tidywikidatar::tw_get_language(),
-                           response_language = tidywikidatar::tw_get_language(),
-                           limit = 10,
-                           include_search = FALSE,
-                           wait = 0,
-                           cache = NULL,
-                           overwrite_cache = FALSE,
-                           cache_connection = NULL,
-                           disconnect_db = TRUE) {
+tw_search_item <- function(
+  search,
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   tw_search(
     search = search,
     type = "item",
@@ -434,7 +460,6 @@ tw_search_item <- function(search,
 }
 
 
-
 #' Search for Wikidata properties in Wikidata and return Wikidata id, label, and description.
 #'
 #' This search returns only properties, use `tw_search_items()` for properties.
@@ -446,16 +471,18 @@ tw_search_item <- function(search,
 #'
 #' @examples
 #' tw_search_property(search = "gender")
-tw_search_property <- function(search,
-                               language = tidywikidatar::tw_get_language(),
-                               response_language = tidywikidatar::tw_get_language(),
-                               limit = 10,
-                               include_search = FALSE,
-                               wait = 0,
-                               cache = NULL,
-                               overwrite_cache = FALSE,
-                               cache_connection = NULL,
-                               disconnect_db = TRUE) {
+tw_search_property <- function(
+  search,
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   tw_search(
     search = search,
     type = "property",

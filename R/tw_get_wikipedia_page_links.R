@@ -17,21 +17,22 @@
 #' if (interactive()) {
 #'   tw_get_wikipedia_page_links(title = "Margaret Mead", language = "en")
 #' }
-tw_get_wikipedia_page_links <- function(url = NULL,
-                                        title = NULL,
-                                        language = tidywikidatar::tw_get_language(),
-                                        cache = NULL,
-                                        overwrite_cache = FALSE,
-                                        cache_connection = NULL,
-                                        disconnect_db = TRUE,
-                                        wait = 1,
-                                        attempts = 10) {
+tw_get_wikipedia_page_links <- function(
+  url = NULL,
+  title = NULL,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
     cache = cache
   )
-
 
   wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
     title = title,
@@ -54,7 +55,7 @@ tw_get_wikipedia_page_links <- function(url = NULL,
     ) %>%
     dplyr::distinct(.data$source_title_url, .keep_all = TRUE)
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) & !overwrite_cache) {
     db_result <- tw_get_cached_wikipedia_page_links(
       title = title,
       language = language,
@@ -66,7 +67,9 @@ tw_get_wikipedia_page_links <- function(url = NULL,
       previously_cached_df <- db_result %>%
         dplyr::collect()
       unique_title <- unique(title)
-      titles_not_in_cache <- unique_title[!is.element(unique_title, previously_cached_df$source_title_url)]
+      titles_not_in_cache <- unique_title[
+        !is.element(unique_title, previously_cached_df$source_title_url)
+      ]
 
       if (length(titles_not_in_cache) == 0) {
         tw_disconnect_from_cache(
@@ -156,23 +159,25 @@ tw_get_wikipedia_page_links <- function(url = NULL,
 #' if (interactive()) {
 #'   tw_get_wikipedia_page_links_single(title = "Margaret Mead", language = "en")
 #' }
-tw_get_wikipedia_page_links_single <- function(url = NULL,
-                                               title = NULL,
-                                               language = tidywikidatar::tw_get_language(),
-                                               cache = NULL,
-                                               overwrite_cache = FALSE,
-                                               cache_connection = NULL,
-                                               disconnect_db = TRUE,
-                                               wait = 1,
-                                               attempts = 10,
-                                               wikipedia_page_qid_df = NULL) {
+tw_get_wikipedia_page_links_single <- function(
+  url = NULL,
+  title = NULL,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10,
+  wikipedia_page_qid_df = NULL
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
     cache = cache
   )
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) & overwrite_cache == FALSE) {
     db_result <- tw_get_cached_wikipedia_page_links(
       title = title,
       language = language,
@@ -188,8 +193,10 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
         language = language
       )
 
-      return(db_result %>%
-        dplyr::collect())
+      return(
+        db_result %>%
+          dplyr::collect()
+      )
     }
   }
 
@@ -201,7 +208,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     ),
     "&prop=pageprops&generator=links&gpllimit=500"
   )
-
 
   api_result <- FALSE
 
@@ -238,7 +244,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
       )
     }
 
-
     output_linked_df <- wikipedia_page_qid_df %>%
       dplyr::transmute(
         source_title_url = .data$title_url,
@@ -251,7 +256,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
         language = as.character(wikipedia_page_qid_df$language),
       )
 
-    if (tw_check_cache(cache) == TRUE) {
+    if (tw_check_cache(cache)) {
       tw_write_wikipedia_page_links_to_cache(
         df = output_linked_df,
         cache_connection = db,
@@ -398,7 +403,7 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
     linked_df
   )
 
-  if (tw_check_cache(cache) == TRUE) {
+  if (tw_check_cache(cache)) {
     tw_write_wikipedia_page_links_to_cache(
       df = output_linked_df,
       cache_connection = db,
@@ -417,9 +422,6 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
 
   output_linked_df
 }
-
-
-
 
 
 #' Gets links of Wikipedia pages from local cache
@@ -450,11 +452,13 @@ tw_get_wikipedia_page_links_single <- function(url = NULL,
 #'
 #'   df_from_cache
 #' }
-tw_get_cached_wikipedia_page_links <- function(title,
-                                               language = tidywikidatar::tw_get_language(),
-                                               cache = NULL,
-                                               cache_connection = NULL,
-                                               disconnect_db = TRUE) {
+tw_get_cached_wikipedia_page_links <- function(
+  title,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
@@ -471,7 +475,7 @@ tw_get_cached_wikipedia_page_links <- function(title,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    if (disconnect_db == TRUE) {
+    if (disconnect_db) {
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
@@ -492,9 +496,8 @@ tw_get_cached_wikipedia_page_links <- function(title,
     }
   )
 
-
   if (isFALSE(db_result)) {
-    if (disconnect_db == TRUE) {
+    if (disconnect_db) {
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
@@ -507,7 +510,6 @@ tw_get_cached_wikipedia_page_links <- function(title,
 
   cached_df <- db_result %>%
     dplyr::collect()
-
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -548,12 +550,14 @@ tw_get_cached_wikipedia_page_links <- function(title,
 #'     language = "en"
 #'   )
 #' }
-tw_write_wikipedia_page_links_to_cache <- function(df,
-                                                   language = tidywikidatar::tw_get_language(),
-                                                   cache = NULL,
-                                                   overwrite_cache = FALSE,
-                                                   cache_connection = NULL,
-                                                   disconnect_db = TRUE) {
+tw_write_wikipedia_page_links_to_cache <- function(
+  df,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
@@ -572,8 +576,9 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
-    if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE source_title_url = {source_title_url*}",
+    if (overwrite_cache) {
+      statement <- glue::glue_sql(
+        "DELETE FROM {`table_name`} WHERE source_title_url = {source_title_url*}",
         source_title_url = unique(df$source_title_url),
         table_name = table_name,
         .con = db
@@ -585,12 +590,7 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
     }
   }
 
-  pool::dbWriteTable(db,
-    name = table_name,
-    value = df,
-    append = TRUE
-  )
-
+  pool::dbWriteTable(db, name = table_name, value = df, append = TRUE)
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -619,11 +619,13 @@ tw_write_wikipedia_page_links_to_cache <- function(df,
 #' if (interactive()) {
 #'   tw_reset_wikipedia_page_links_cache()
 #' }
-tw_reset_wikipedia_page_links_cache <- function(language = tidywikidatar::tw_get_language(),
-                                                cache = NULL,
-                                                cache_connection = NULL,
-                                                disconnect_db = TRUE,
-                                                ask = TRUE) {
+tw_reset_wikipedia_page_links_cache <- function(
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  ask = TRUE
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -639,10 +641,24 @@ tw_reset_wikipedia_page_links_cache <- function(language = tidywikidatar::tw_get
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_alert_info("Wikipedia page links cache reset for language {.val {language}} completed.")
-  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the Wikipedia page links cache for language: ", sQuote(language), "?")) == 1) {
+    cli::cli_alert_info(
+      "Wikipedia page links cache reset for language {.val {language}} completed."
+    )
+  } else if (
+    utils::menu(
+      c("Yes", "No"),
+      title = paste0(
+        "Are you sure you want to remove from cache the Wikipedia page links cache for language: ",
+        sQuote(language),
+        "?"
+      )
+    ) ==
+      1
+  ) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_alert_info("Wikipedia page links cache reset for language {.val {language}} completed.")
+    cli::cli_alert_info(
+      "Wikipedia page links cache reset for language {.val {language}} completed."
+    )
   }
 
   tw_disconnect_from_cache(

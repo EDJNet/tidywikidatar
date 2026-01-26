@@ -16,13 +16,15 @@
 #'   # get all Wikidata items with an ICAO airport code ("P239")
 #'   tw_get_all_with_p(p = "P239", limit = 10)
 #' }
-tw_get_all_with_p <- function(p,
-                              fields = c("item", "itemLabel", "itemDescription"),
-                              language = tidywikidatar::tw_get_language(),
-                              method = "SPARQL",
-                              wait = 0.1,
-                              limit = Inf,
-                              return_as_tw_search = TRUE) {
+tw_get_all_with_p <- function(
+  p,
+  fields = c("item", "itemLabel", "itemDescription"),
+  language = tidywikidatar::tw_get_language(),
+  method = "SPARQL",
+  wait = 0.1,
+  limit = Inf,
+  return_as_tw_search = TRUE
+) {
   p <- stringr::str_to_upper(string = p)
 
   if (stringr::str_starts(string = p, pattern = "P", negate = TRUE)) {
@@ -30,8 +32,10 @@ tw_get_all_with_p <- function(p,
     if (method == "SPARQL") {
       return(tidywikidatar::tw_empty_search)
     } else if (method == "API") {
-      return(tibble::tibble(id = as.character(NA)) %>%
-        dplyr::slice(0))
+      return(
+        tibble::tibble(id = as.character(NA)) %>%
+          dplyr::slice(0)
+      )
     }
   }
 
@@ -57,18 +61,15 @@ tw_get_all_with_p <- function(p,
       )
     }
 
-
     response <- WikidataQueryServiceR::query_wikidata(
       sparql_query = sparql_t,
       format = "simple"
     )
 
-    if (length(fields) == 3 & return_as_tw_search == TRUE) {
+    if (length(fields) == 3 & return_as_tw_search) {
       all_items_df <- response %>%
         dplyr::transmute(
-          id = stringr::str_extract(.data$item,
-            pattern = "Q[[:digit:]]+$"
-          ),
+          id = stringr::str_extract(.data$item, pattern = "Q[[:digit:]]+$"),
           label = .data$itemLabel,
           description = .data$itemDescription
         )
@@ -92,7 +93,9 @@ tw_get_all_with_p <- function(p,
 
     all_jsons[[page_number]] <- base_json
 
-    while (is.null(continue_check) == FALSE & page_number < max(2, (limit / 500))) {
+    while (
+      is.null(continue_check) == FALSE & page_number < max(2, (limit / 500))
+    ) {
       Sys.sleep(wait)
       cli::cli_alert_info("Page {page_number} extracted")
       page_number <- page_number + 1
@@ -111,7 +114,9 @@ tw_get_all_with_p <- function(p,
 
     all_pages <- purrr::map(
       .x = all_jsons,
-      .f = purrr::pluck, "query", "backlinks"
+      .f = purrr::pluck,
+      "query",
+      "backlinks"
     ) %>%
       purrr::flatten()
 

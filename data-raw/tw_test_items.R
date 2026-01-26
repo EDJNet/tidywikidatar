@@ -15,9 +15,12 @@ usethis::use_data(tw_test_items, overwrite = TRUE)
 
 id <- c("Q180099", "Q228822")
 
-tw_test_items[purrr::map_chr(
-  .x = tw_test_items,
-  .f = function(x) {
-    purrr::pluck(x, "id")
-  }
-) %in% id]
+tw_test_items[
+  purrr::map_chr(
+    .x = tw_test_items,
+    .f = function(x) {
+      purrr::pluck(x, "id")
+    }
+  ) %in%
+    id
+]

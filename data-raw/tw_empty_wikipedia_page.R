@@ -9,9 +9,7 @@ tw_empty_wikipedia_page <- c(
   "disambiguation",
   "language"
 ) %>%
-  purrr::map_dfc(setNames,
-    object = list(character())
-  )
+  purrr::map_dfc(setNames, object = list(character()))
 
 tw_empty_wikipedia_page$wikipedia_id <- as.integer()
 tw_empty_wikipedia_page$disambiguation <- as.logical()

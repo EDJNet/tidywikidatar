@@ -22,11 +22,13 @@
 #'   id = "Q180099",
 #'   language = "en"
 #' )
-tw_get_cached_item <- function(id,
-                               language = tidywikidatar::tw_get_language(),
-                               cache = NULL,
-                               cache_connection = NULL,
-                               disconnect_db = TRUE) {
+tw_get_cached_item <- function(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(tidywikidatar::tw_empty_item)
   }
@@ -70,7 +72,12 @@ tw_get_cached_item <- function(id,
     )
     return(tidywikidatar::tw_empty_item)
   } else {
-    if (isFALSE(identical(colnames(tidywikidatar::tw_empty_item), colnames(db_result)))) {
+    if (
+      isFALSE(identical(
+        colnames(tidywikidatar::tw_empty_item),
+        colnames(db_result)
+      ))
+    ) {
       cli::cli_abort(c(
         "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
         "You may want to delete the old cache or reset just this table with {.fn tw_reset_item_cache}"
@@ -92,7 +99,6 @@ tw_get_cached_item <- function(id,
 }
 
 
-
 #' Gets location of cache file
 #'
 #' @param type Defaults to NULL. Deprecated. If given, type of cache file to output. Values typically used by `tidywikidatar` in versions up to 4.2 include "item", "search", and "qualifier".
@@ -105,8 +111,10 @@ tw_get_cached_item <- function(id,
 #'
 #' tw_set_cache_folder(path = tempdir())
 #' sqlite_cache_file_location <- tw_get_cache_file() # outputs location of cache file
-tw_get_cache_file <- function(type = NULL,
-                              language = tidywikidatar::tw_get_language()) {
+tw_get_cache_file <- function(
+  type = NULL,
+  language = tidywikidatar::tw_get_language()
+) {
   if (is.null(type)) {
     fs::path(
       tidywikidatar::tw_get_cache_folder(),
@@ -141,9 +149,11 @@ tw_get_cache_file <- function(type = NULL,
 #' @examples
 #' # outputs name of table used in the cache database
 #' tw_get_cache_table_name(type = "item", language = "en")
-tw_get_cache_table_name <- function(type = "item",
-                                    language = tidywikidatar::tw_get_language(),
-                                    response_language = tidywikidatar::tw_get_language()) {
+tw_get_cache_table_name <- function(
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language()
+) {
   if (stringr::str_starts(string = type, pattern = "search")) {
     language <- stringr::str_c(language, "_", response_language)
   }
@@ -184,10 +194,12 @@ tw_get_cache_table_name <- function(type = "item",
 #'   # but not other item already in cache
 #'   items_in_cache
 #' }
-tw_check_cached_items <- function(id,
-                                  language = tidywikidatar::tw_get_language(),
-                                  cache_connection = NULL,
-                                  disconnect_db = TRUE) {
+tw_check_cached_items <- function(
+  id,
+  language = tidywikidatar::tw_get_language(),
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   tw_get_cached_item(
     id = id,
     language = language,

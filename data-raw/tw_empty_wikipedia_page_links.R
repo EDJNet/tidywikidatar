@@ -10,9 +10,7 @@ tw_empty_wikipedia_page_links <- c(
   "description",
   "language"
 ) %>%
-  purrr::map_dfc(setNames,
-    object = list(character())
-  )
+  purrr::map_dfc(setNames, object = list(character()))
 
 tw_empty_wikipedia_page_links$wikipedia_id <- as.numeric()
 

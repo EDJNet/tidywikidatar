@@ -65,7 +65,7 @@ tw_query <- function(
     format = "simple"
   )
 
-  if (return_as_tw_search == TRUE) {
+  if (return_as_tw_search) {
     response %>%
       dplyr::transmute(
         id = stringr::str_extract(.data$item, pattern = "Q[[:digit:]]+$"),

@@ -13,14 +13,16 @@
 #'
 #' @examples
 #' tw_get_property_label(property = "P31")
-tw_get_property_label <- function(property,
-                                  language = tidywikidatar::tw_get_language(),
-                                  cache = NULL,
-                                  overwrite_cache = FALSE,
-                                  cache_connection = NULL,
-                                  disconnect_db = TRUE,
-                                  wait = 0) {
-  if (is.data.frame(property) == TRUE) {
+tw_get_property_label <- function(
+  property,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(property)) {
     property <- property$id
   }
 
@@ -112,13 +114,15 @@ tw_get_property_label <- function(property,
 #'
 #' @examples
 #' tidywikidatar:::tw_get_property_label_single(property = "P31")
-tw_get_property_label_single <- function(property,
-                                         language = tidywikidatar::tw_get_language(),
-                                         cache = NULL,
-                                         overwrite_cache = FALSE,
-                                         cache_connection = NULL,
-                                         disconnect_db = TRUE,
-                                         wait = 0) {
+tw_get_property_label_single <- function(
+  property,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
   if (length(tw_check_pid(property = property)) == 0) {
     return(NA_character_)
   }
@@ -158,14 +162,16 @@ tw_get_property_label_single <- function(property,
 #'
 #' @examples
 #' tw_get_property_description(property = "P31")
-tw_get_property_description <- function(property,
-                                        language = tidywikidatar::tw_get_language(),
-                                        cache = NULL,
-                                        overwrite_cache = FALSE,
-                                        cache_connection = NULL,
-                                        disconnect_db = TRUE,
-                                        wait = 0) {
-  if (is.data.frame(property) == TRUE) {
+tw_get_property_description <- function(
+  property,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(property)) {
     property <- property$id
   }
 

@@ -22,9 +22,11 @@
 #'   property = c("P19", "p20", "Not an property id", "20", NA, "Q5", ""),
 #'   non_pid_as_NA = TRUE
 #' )
-tw_check_pid <- function(property,
-                         logical_vector = FALSE,
-                         non_pid_as_NA = FALSE) {
+tw_check_pid <- function(
+  property,
+  logical_vector = FALSE,
+  non_pid_as_NA = FALSE
+) {
   if (is.null(property)) {
     return(character(0L))
   }
@@ -39,10 +41,11 @@ tw_check_pid <- function(property,
     )) %>%
     dplyr::pull("property")
 
-  if (logical_vector == TRUE | non_pid_as_NA == TRUE) {
+  if (logical_vector | non_pid_as_NA) {
     output_l <- stringr::str_to_upper(property) %in% output_v
-    if (non_pid_as_NA == TRUE) {
-      return(dplyr::if_else(condition = output_l,
+    if (non_pid_as_NA) {
+      return(dplyr::if_else(
+        condition = output_l,
         true = stringr::str_to_upper(property),
         false = NA_character_,
         missing = NA_character_

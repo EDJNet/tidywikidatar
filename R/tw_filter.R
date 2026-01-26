@@ -18,17 +18,19 @@
 #' @examples
 #' tw_search(search = "Margaret Mead", limit = 3) %>%
 #'   tw_filter(p = "P31", q = "Q5")
-tw_filter <- function(search,
-                      p,
-                      q,
-                      language = tidywikidatar::tw_get_language(),
-                      limit = 10,
-                      include_search = FALSE,
-                      wait = 0,
-                      cache = NULL,
-                      overwrite_cache = FALSE,
-                      cache_connection = NULL,
-                      disconnect_db = TRUE) {
+tw_filter <- function(
+  search,
+  p,
+  q,
+  language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -106,18 +108,20 @@ tw_filter <- function(search,
 #' @examples
 #' tw_search("Margaret Mead") %>%
 #'   tw_filter_first(p = "P31", q = "Q5")
-tw_filter_first <- function(search,
-                            p,
-                            q,
-                            language = tidywikidatar::tw_get_language(),
-                            limit = 10,
-                            include_search = FALSE,
-                            wait = 0,
-                            cache = NULL,
-                            overwrite_cache = FALSE,
-                            cache_connection = NULL,
-                            disconnect_db = TRUE) {
-  if (tw_check_cache(cache) == TRUE) {
+tw_filter_first <- function(
+  search,
+  p,
+  q,
+  language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
+  if (tw_check_cache(cache)) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
       language = language,
@@ -201,16 +205,18 @@ tw_filter_first <- function(search,
 #'
 #' tw_search("Ruth Benedict") %>%
 #'   tw_filter_people()
-tw_filter_people <- function(search,
-                             language = tidywikidatar::tw_get_language(),
-                             limit = 10,
-                             include_search = FALSE,
-                             stop_at_first = TRUE,
-                             wait = 0,
-                             overwrite_cache = FALSE,
-                             cache_connection = NULL,
-                             disconnect_db = TRUE) {
-  if (stop_at_first == TRUE) {
+tw_filter_people <- function(
+  search,
+  language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  stop_at_first = TRUE,
+  wait = 0,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
+  if (stop_at_first) {
     tidywikidatar::tw_filter_first(
       search = search,
       p = "P31",

@@ -14,16 +14,24 @@
 tw_create_cache_folder <- function(ask = TRUE) {
   if (!fs::file_exists(tidywikidatar::tw_get_cache_folder())) {
     if (!ask) {
-      fs::dir_create(path = tidywikidatar::tw_get_cache_folder(), recurse = TRUE)
+      fs::dir_create(
+        path = tidywikidatar::tw_get_cache_folder(),
+        recurse = TRUE
+      )
     } else {
       cli::cli_inform(c(
         "The cache folder {.path {tw_get_cache_folder()}} does not exist.",
         "If you prefer to cache files elsewhere, reply no and set your preferred cache folder with {.fn tw_set_cache_folder}."
       ))
-      msg_yes_no <- cli::format_inline("Do you want to create {.path {tw_get_cache_folder()}} for caching data?")
+      msg_yes_no <- cli::format_inline(
+        "Do you want to create {.path {tw_get_cache_folder()}} for caching data?"
+      )
       check <- utils::menu(choices = c("Yes", "No"), title = msg_yes_no)
       if (check == 1) {
-        fs::dir_create(path = tidywikidatar::tw_get_cache_folder(), recurse = TRUE)
+        fs::dir_create(
+          path = tidywikidatar::tw_get_cache_folder(),
+          recurse = TRUE
+        )
       }
     }
     if (!fs::file_exists(tidywikidatar::tw_get_cache_folder())) {
@@ -68,7 +76,6 @@ tw_set_cache_folder <- function(path = NULL) {
 #' tw_get_cache_folder()
 #' @export
 tw_get_cache_folder <- tw_set_cache_folder
-
 
 
 #' Set database connection settings for the session
@@ -124,22 +131,38 @@ tw_get_cache_folder <- tw_set_cache_folder
 #'   )
 #' }
 #' }
-tw_set_cache_db <- function(db_settings = NULL,
-                            driver = NULL,
-                            host = NULL,
-                            server = NULL,
-                            port = NULL,
-                            database = NULL,
-                            user = NULL,
-                            pwd = NULL) {
-  if (is.null(db_settings) == TRUE) {
-    if (is.null(driver) == FALSE) Sys.setenv(tw_db_driver = driver)
-    if (is.null(host) == FALSE) Sys.setenv(tw_db_host = host)
-    if (is.null(server) == FALSE) Sys.setenv(tw_db_host = server)
-    if (is.null(port) == FALSE) Sys.setenv(tw_db_port = port)
-    if (is.null(database) == FALSE) Sys.setenv(tw_db_database = database)
-    if (is.null(user) == FALSE) Sys.setenv(tw_db_user = user)
-    if (is.null(pwd) == FALSE) Sys.setenv(tw_db_pwd = pwd)
+tw_set_cache_db <- function(
+  db_settings = NULL,
+  driver = NULL,
+  host = NULL,
+  server = NULL,
+  port = NULL,
+  database = NULL,
+  user = NULL,
+  pwd = NULL
+) {
+  if (is.null(db_settings)) {
+    if (is.null(driver) == FALSE) {
+      Sys.setenv(tw_db_driver = driver)
+    }
+    if (is.null(host) == FALSE) {
+      Sys.setenv(tw_db_host = host)
+    }
+    if (is.null(server) == FALSE) {
+      Sys.setenv(tw_db_host = server)
+    }
+    if (is.null(port) == FALSE) {
+      Sys.setenv(tw_db_port = port)
+    }
+    if (is.null(database) == FALSE) {
+      Sys.setenv(tw_db_database = database)
+    }
+    if (is.null(user) == FALSE) {
+      Sys.setenv(tw_db_user = user)
+    }
+    if (is.null(pwd) == FALSE) {
+      Sys.setenv(tw_db_pwd = pwd)
+    }
     return(invisible(
       list(
         driver = driver,
@@ -152,13 +175,27 @@ tw_set_cache_db <- function(db_settings = NULL,
       )
     ))
   } else {
-    if (!is.null(db_settings$driver)) Sys.setenv(tw_db_driver = db_settings$driver)
-    if (!is.null(db_settings$host)) Sys.setenv(tw_db_host = db_settings$host)
-    if (!is.null(db_settings$server)) Sys.setenv(tw_db_server = db_settings$server)
-    if (!is.null(db_settings$port)) Sys.setenv(tw_db_port = db_settings$port)
-    if (!is.null(db_settings$database)) Sys.setenv(tw_db_database = db_settings$database)
-    if (!is.null(db_settings$user)) Sys.setenv(tw_db_user = db_settings$user)
-    if (!is.null(db_settings$pwd)) Sys.setenv(tw_db_pwd = db_settings$pwd)
+    if (!is.null(db_settings$driver)) {
+      Sys.setenv(tw_db_driver = db_settings$driver)
+    }
+    if (!is.null(db_settings$host)) {
+      Sys.setenv(tw_db_host = db_settings$host)
+    }
+    if (!is.null(db_settings$server)) {
+      Sys.setenv(tw_db_server = db_settings$server)
+    }
+    if (!is.null(db_settings$port)) {
+      Sys.setenv(tw_db_port = db_settings$port)
+    }
+    if (!is.null(db_settings$database)) {
+      Sys.setenv(tw_db_database = db_settings$database)
+    }
+    if (!is.null(db_settings$user)) {
+      Sys.setenv(tw_db_user = db_settings$user)
+    }
+    if (!is.null(db_settings$pwd)) {
+      Sys.setenv(tw_db_pwd = db_settings$pwd)
+    }
     return(invisible(db_settings))
   }
 }
@@ -175,13 +212,13 @@ tw_set_cache_db <- function(db_settings = NULL,
 #' tw_get_cache_db()
 tw_get_cache_db <- function() {
   list(
-    driver   = Sys.getenv("tw_db_driver"),
-    host     = Sys.getenv("tw_db_host"),
-    server   = Sys.getenv("tw_db_server"),
-    port     = Sys.getenv("tw_db_port"),
+    driver = Sys.getenv("tw_db_driver"),
+    host = Sys.getenv("tw_db_host"),
+    server = Sys.getenv("tw_db_server"),
+    port = Sys.getenv("tw_db_port"),
     database = Sys.getenv("tw_db_database"),
-    user     = Sys.getenv("tw_db_user"),
-    pwd      = Sys.getenv("tw_db_pwd")
+    user = Sys.getenv("tw_db_user"),
+    pwd = Sys.getenv("tw_db_pwd")
   )
 }
 
@@ -293,10 +330,12 @@ tw_check_cache_folder <- function() {
 #'   )
 #'   tw_disconnect_from_cache()
 #' }
-tw_disconnect_from_cache <- function(cache = NULL,
-                                     cache_connection = NULL,
-                                     disconnect_db = TRUE,
-                                     language = tidywikidatar::tw_get_language()) {
+tw_disconnect_from_cache <- function(
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  language = tidywikidatar::tw_get_language()
+) {
   if (isFALSE(disconnect_db)) {
     return(invisible(NULL))
   }

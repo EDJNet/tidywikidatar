@@ -15,8 +15,7 @@
 #' )
 #'
 #' tidywikidatar:::tw_extract_single(w = item)
-tw_extract_single <- function(w,
-                              language = tidywikidatar::tw_get_language()) {
+tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
   id <- w %>%
     purrr::pluck(1, "id")
 
@@ -42,7 +41,6 @@ tw_extract_single <- function(w,
       }
     )
   }
-
 
   if (language == "all_available") {
     # do nothing
@@ -106,7 +104,9 @@ tw_extract_single <- function(w,
       # do nothing
     } else {
       descriptions_df <- descriptions_df %>%
-        dplyr::filter(.data$property == stringr::str_c("description_", language))
+        dplyr::filter(
+          .data$property == stringr::str_c("description_", language)
+        )
     }
   }
 
@@ -120,7 +120,9 @@ tw_extract_single <- function(w,
 
       rank <- current_claim_l$rank
 
-      value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][["value"]]
+      value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][[
+        "value"
+      ]]
 
       if (is.null(value_pre)) {
         value <- as.character("NA")
@@ -132,7 +134,11 @@ tw_extract_single <- function(w,
         } else if (is.element("amount", names(value_pre))) {
           value <- value_pre$amount
         } else if (is.element("latitude", names(value_pre))) {
-          value <- stringr::str_c(value_pre$latitude, value_pre$longitude, sep = ",")
+          value <- stringr::str_c(
+            value_pre$latitude,
+            value_pre$longitude,
+            sep = ","
+          )
         } else if (is.element("id", names(value_pre))) {
           value <- value_pre$id
         } else if (is.na(value_pre[[1]]) == FALSE) {
@@ -154,7 +160,6 @@ tw_extract_single <- function(w,
     }
   )
 
-
   sitelinks <- w %>%
     purrr::pluck(1, "sitelinks")
 
@@ -173,19 +178,27 @@ tw_extract_single <- function(w,
     # do nothing
   } else {
     sitelinks_df <- sitelinks_df %>%
-      dplyr::filter((.data$property == stringr::str_c(
-        "sitelink_",
-        language,
-        "wiki"
-      )) | (.data$property == stringr::str_c(
-        "sitelink_",
-        language,
-        "wikiquote"
-      )) | (.data$property == stringr::str_c(
-        "sitelink_",
-        language,
-        "wikisource"
-      )) | (.data$property == "sitelink_commonswiki"))
+      dplyr::filter(
+        (.data$property ==
+          stringr::str_c(
+            "sitelink_",
+            language,
+            "wiki"
+          )) |
+          (.data$property ==
+            stringr::str_c(
+              "sitelink_",
+              language,
+              "wikiquote"
+            )) |
+          (.data$property ==
+            stringr::str_c(
+              "sitelink_",
+              language,
+              "wikisource"
+            )) |
+          (.data$property == "sitelink_commonswiki")
+      )
   }
 
   everything_df <- dplyr::bind_rows(
@@ -206,9 +219,6 @@ tw_extract_single <- function(w,
 }
 
 
-
-
-
 #' Extract qualifiers from an object of class Wikidata created with `WikidataR`
 #'
 #' This function is mostly used internally and for testing.
@@ -223,15 +233,11 @@ tw_extract_single <- function(w,
 #' @examples
 #' w <- WikidataR::get_item(id = "Q180099")
 #' tw_extract_qualifier(id = "Q180099", p = "P26", w = w)
-tw_extract_qualifier <- function(id,
-                                 p,
-                                 w = NULL) {
+tw_extract_qualifier <- function(id, p, w = NULL) {
   if (is.null(w)) {
-    w <- tryCatch(WikidataR::get_item(id = id),
-      error = function(e) {
-        as.character(e[[1]])
-      }
-    )
+    w <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+      as.character(e[[1]])
+    })
 
     if (is.character(w)) {
       cli::cli_alert_danger(w)
@@ -275,7 +281,6 @@ tw_extract_qualifier <- function(id,
         dplyr::slice(i) %>%
         dplyr::pull("qualifiers")
 
-
       purrr::map_dfr(
         .x = qualifiers_set,
         .f = function(x) {
@@ -285,24 +290,26 @@ tw_extract_qualifier <- function(id,
 
           value_df <- current_qualifier[["datavalue"]][["value"]] %>%
             tibble::as_tibble()
-          if (is.element("id", names(value_df)) == TRUE) {
+          if (is.element("id", names(value_df))) {
             value <- value_df %>%
               dplyr::pull("id")
-          } else if (is.element("value", names(value_df)) == TRUE) {
+          } else if (is.element("value", names(value_df))) {
             value <- value_df %>%
               dplyr::pull("value")
-          } else if (is.element("amount", names(value_df)) == TRUE) {
+          } else if (is.element("amount", names(value_df))) {
             value <- value_df %>%
               dplyr::pull("amount")
-          } else if (is.element("time", names(value_df)) == TRUE) {
+          } else if (is.element("time", names(value_df))) {
             value <- value_df %>%
               dplyr::pull("time")
           } else {
-            return(tidywikidatar::tw_empty_qualifiers %>%
-              dplyr::select(
-                -"id",
-                -"property"
-              ))
+            return(
+              tidywikidatar::tw_empty_qualifiers %>%
+                dplyr::select(
+                  -"id",
+                  -"property"
+                )
+            )
           }
 
           tibble::tibble(

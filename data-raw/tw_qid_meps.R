@@ -6,8 +6,10 @@ library("tidywikidatar")
 # All those who have "member of the European Parliament" among "position held"
 
 meps_df_query <- tibble::tribble(
-  ~p, ~q,
-  "P39", "Q27169"
+  ~p,
+  ~q,
+  "P39",
+  "Q27169"
 )
 
 meps_df <- tw_query(query = meps_df_query)

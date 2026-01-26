@@ -38,16 +38,18 @@
 #'     p = c("P21", "P31")
 #'   )
 #' }
-tw_get_property <- function(id,
-                            p,
-                            language = tidywikidatar::tw_get_language(),
-                            id_df = NULL,
-                            cache = NULL,
-                            overwrite_cache = FALSE,
-                            cache_connection = NULL,
-                            disconnect_db = TRUE,
-                            wait = 0) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_property <- function(
+  id,
+  p,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -178,19 +180,21 @@ tw_get_property <- function(id,
 #'       only_first = TRUE
 #'     ))
 #' }
-tw_get_property_same_length <- function(id,
-                                        p,
-                                        only_first = FALSE,
-                                        preferred = FALSE,
-                                        latest_start_time = FALSE,
-                                        language = tidywikidatar::tw_get_language(),
-                                        id_df = NULL,
-                                        cache = NULL,
-                                        overwrite_cache = FALSE,
-                                        cache_connection = NULL,
-                                        disconnect_db = TRUE,
-                                        wait = 0) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_property_same_length <- function(
+  id,
+  p,
+  only_first = FALSE,
+  preferred = FALSE,
+  latest_start_time = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -227,25 +231,28 @@ tw_get_property_same_length <- function(id,
       disconnect_db = disconnect_db,
       language = language
     )
-    if (only_first == TRUE) {
+    if (only_first) {
       return(rep(as.character(NA), length(id)))
     } else {
-      return(rep(as.character(NA), length(id)) %>%
-        as.list())
+      return(
+        rep(as.character(NA), length(id)) %>%
+          as.list()
+      )
     }
   }
 
-
-
-  if (preferred == TRUE) {
+  if (preferred) {
     preferred_df <- property_df %>%
-      dplyr::mutate(rank = factor(rank,
-        levels = c(
-          "preferred",
-          "normal",
-          "deprecated"
+      dplyr::mutate(
+        rank = factor(
+          rank,
+          levels = c(
+            "preferred",
+            "normal",
+            "deprecated"
+          )
         )
-      )) %>%
+      ) %>%
       dplyr::group_by(id) %>%
       dplyr::arrange(.by_group = TRUE, .data$rank) %>%
       dplyr::ungroup()
@@ -255,7 +262,7 @@ tw_get_property_same_length <- function(id,
     }
   }
 
-  if (latest_start_time == TRUE) {
+  if (latest_start_time) {
     qualifiers_df <- tw_get_qualifiers(
       id = id,
       p = p,
@@ -269,15 +276,17 @@ tw_get_property_same_length <- function(id,
 
     qualifiers_latest_start_time_df <- qualifiers_df %>%
       dplyr::filter(.data$qualifier_property == "P580") %>%
-      dplyr::distinct(.data$id, .data$qualifier_id, .data$qualifier_value, .keep_all = TRUE) %>%
+      dplyr::distinct(
+        .data$id,
+        .data$qualifier_id,
+        .data$qualifier_value,
+        .keep_all = TRUE
+      ) %>%
       dplyr::arrange(.data$qualifier_value) %>%
       dplyr::group_by(.data$id) %>%
       dplyr::slice_tail(n = 1) %>%
       dplyr::ungroup() %>%
-      dplyr::transmute(.data$id,
-        .data$property,
-        value = .data$qualifier_id
-      )
+      dplyr::transmute(.data$id, .data$property, value = .data$qualifier_id)
 
     if (nrow(qualifiers_latest_start_time_df) > 0) {
       qualifiers_latest_start_time_post_df <- purrr::map_dfr(
@@ -303,8 +312,7 @@ tw_get_property_same_length <- function(id,
     }
   }
 
-
-  if (only_first == TRUE) {
+  if (only_first) {
     property_df_post <- property_df %>%
       dplyr::distinct(.data$id, .keep_all = TRUE)
   } else if (only_first == FALSE) {
@@ -327,7 +335,6 @@ tw_get_property_same_length <- function(id,
       .f = is.null
     )] <- list(as.character(NA))
   }
-
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -358,16 +365,18 @@ tw_get_p <- tw_get_property_same_length
 #'
 #' @examples
 #' tw_get_p1(id = "Q180099", "P26")
-tw_get_p1 <- function(id,
-                      p,
-                      latest_start_time = FALSE,
-                      language = tidywikidatar::tw_get_language(),
-                      id_df = NULL,
-                      cache = NULL,
-                      overwrite_cache = FALSE,
-                      cache_connection = NULL,
-                      disconnect_db = TRUE,
-                      wait = 0) {
+tw_get_p1 <- function(
+  id,
+  p,
+  latest_start_time = FALSE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
   tw_get_property_same_length(
     id = id,
     p = p,

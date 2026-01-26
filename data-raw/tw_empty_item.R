@@ -7,9 +7,7 @@ tw_empty_item <- c(
   "value",
   "rank"
 ) %>%
-  purrr::map_dfc(setNames,
-    object = list(character())
-  )
+  purrr::map_dfc(setNames, object = list(character()))
 
 
 usethis::use_data(tw_empty_item, overwrite = TRUE)

@@ -40,12 +40,14 @@
 #' )
 #'
 #' is.null(df_from_cache) # expect a data frame, same as df_from_api
-tw_write_item_to_cache <- function(item_df,
-                                   language = tidywikidatar::tw_get_language(),
-                                   cache = NULL,
-                                   overwrite_cache = FALSE,
-                                   cache_connection = NULL,
-                                   disconnect_db = TRUE) {
+tw_write_item_to_cache <- function(
+  item_df,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
@@ -63,8 +65,9 @@ tw_write_item_to_cache <- function(item_df,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
-    if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
+    if (overwrite_cache) {
+      statement <- glue::glue_sql(
+        "DELETE FROM {`table_name`} WHERE id = {id*}",
         id = unique(item_df$id),
         table_name = table_name,
         .con = db
@@ -76,11 +79,7 @@ tw_write_item_to_cache <- function(item_df,
     }
   }
 
-  pool::dbWriteTable(db,
-    name = table_name,
-    value = item_df,
-    append = TRUE
-  )
+  pool::dbWriteTable(db, name = table_name, value = item_df, append = TRUE)
 
   tw_disconnect_from_cache(
     cache = cache,

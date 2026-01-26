@@ -12,7 +12,6 @@ test_that("Preferred or latest result is chosen when requested", {
     language = "en"
   )
 
-
   expect_equal(
     object = {
       preferred_v <- q_df %>%
@@ -24,8 +23,6 @@ test_that("Preferred or latest result is chosen when requested", {
         unlist()
     }
   )
-
-
 
   expect_equal(
     object = {

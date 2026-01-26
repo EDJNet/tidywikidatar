@@ -39,7 +39,7 @@ tw_get_single <- function(
   wait = 0,
   id_l = NULL
 ) {
-  if (is.data.frame(id) == TRUE) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -54,7 +54,7 @@ tw_get_single <- function(
     return(tidywikidatar::tw_empty_item)
   }
 
-  if (tw_check_cache(cache) == TRUE) {
+  if (tw_check_cache(cache)) {
     db <- tw_connect_to_cache(
       connection = cache_connection,
       language = language,
@@ -63,9 +63,9 @@ tw_get_single <- function(
   }
 
   if (
-    tw_check_cache(cache) == TRUE &&
+    tw_check_cache(cache) &&
       overwrite_cache == FALSE &&
-      read_cache == TRUE
+      read_cache
   ) {
     db_result <- tw_get_cached_item(
       id = id,
@@ -126,7 +126,7 @@ tw_get_single <- function(
       rank = NA_character_
     )
 
-    if (tw_check_cache(cache) == TRUE) {
+    if (tw_check_cache(cache)) {
       tw_write_item_to_cache(
         item_df = output,
         language = language,
@@ -180,7 +180,7 @@ tw_get_single <- function(
     )
   }
 
-  if (tw_check_cache(cache) == TRUE) {
+  if (tw_check_cache(cache)) {
     tw_write_item_to_cache(
       item_df = everything_df,
       language = language,
@@ -257,7 +257,7 @@ tw_get <- function(
   wait = 0,
   id_l = NULL
 ) {
-  if (is.data.frame(id) == TRUE) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -291,7 +291,7 @@ tw_get <- function(
       )
     )
   } else if (length(unique_id) > 1) {
-    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
+    if (overwrite_cache | tw_check_cache(cache) == FALSE) {
       pb <- progress::progress_bar$new(total = length(unique_id))
 
       item_df <- purrr::map_dfr(
@@ -326,7 +326,7 @@ tw_get <- function(
       )
     }
 
-    if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
+    if (!overwrite_cache & tw_check_cache(cache)) {
       items_from_cache_df <- tw_get_cached_item(
         id = unique_id,
         language = language,

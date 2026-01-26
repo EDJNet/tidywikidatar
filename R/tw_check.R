@@ -21,23 +21,25 @@
 #'
 #' tw_check_search("Sylvia Pankhurst")
 #' tw_check_search(tw_search("Sylvia Pankhurst"))
-tw_check_search <- function(search,
-                            type = "item",
-                            language = tidywikidatar::tw_get_language(),
-                            limit = 10,
-                            include_search = FALSE,
-                            wait = 0,
-                            cache = NULL,
-                            overwrite_cache = FALSE,
-                            cache_connection = NULL,
-                            disconnect_db = TRUE) {
-  if (is.data.frame(search) == TRUE) {
+tw_check_search <- function(
+  search,
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  limit = 10,
+  include_search = FALSE,
+  wait = 0,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
+  if (is.data.frame(search)) {
     return(search)
   } else if (length(search) > 1) {
     cli::cli_abort(c(
       "`search` must be a single query or a data frame generate by `tw_search()`, not {.obj_type_friendly {search}}."
     ))
-  } else if (is.character(search) == TRUE) {
+  } else if (is.character(search)) {
     search_result <- tw_search(
       search = search,
       type = type,

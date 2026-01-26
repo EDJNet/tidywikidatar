@@ -31,17 +31,19 @@
 #'     width = 300
 #'   )
 #' }
-tw_get_image <- function(id,
-                         format = "filename",
-                         width = NULL,
-                         language = tidywikidatar::tw_get_language(),
-                         id_df = NULL,
-                         cache = NULL,
-                         overwrite_cache = FALSE,
-                         cache_connection = NULL,
-                         disconnect_db = TRUE,
-                         wait = 0) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_image <- function(
+  id,
+  format = "filename",
+  width = NULL,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
   filename_df <- tw_get_property(
@@ -65,9 +67,12 @@ tw_get_image <- function(id,
       } else if (format == "filename") {
         output_filename <- current_filename
       } else if (format == "commons") {
-        output_filename <- stringr::str_c("https://commons.wikimedia.org/wiki/File:", current_filename)
+        output_filename <- stringr::str_c(
+          "https://commons.wikimedia.org/wiki/File:",
+          current_filename
+        )
       } else if (format == "embed") {
-        if (is.null(width) == TRUE) {
+        if (is.null(width)) {
           output_filename <- stringr::str_c(
             "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/",
             current_filename
@@ -75,7 +80,9 @@ tw_get_image <- function(id,
         } else {
           output_filename <- stringr::str_c(
             "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/",
-            current_filename, "&width=", width
+            current_filename,
+            "&width=",
+            width
           )
         }
       } else {
@@ -127,19 +134,21 @@ tw_get_image <- function(id,
 #'     width = 300
 #'   )
 #' }
-tw_get_image_same_length <- function(id,
-                                     format = "filename",
-                                     as_tibble = FALSE,
-                                     only_first = TRUE,
-                                     width = NULL,
-                                     language = tidywikidatar::tw_get_language(),
-                                     id_df = NULL,
-                                     cache = NULL,
-                                     overwrite_cache = FALSE,
-                                     cache_connection = NULL,
-                                     disconnect_db = TRUE,
-                                     wait = 0) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_image_same_length <- function(
+  id,
+  format = "filename",
+  as_tibble = FALSE,
+  only_first = TRUE,
+  width = NULL,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -159,9 +168,10 @@ tw_get_image_same_length <- function(id,
   if (is.null(image_df)) {
     return(rep(as.character(NA), length(id)))
   }
-  if (as_tibble == TRUE) {
-    if (only_first == TRUE) {
-      dplyr::left_join(tibble::tibble(id = id),
+  if (as_tibble) {
+    if (only_first) {
+      dplyr::left_join(
+        tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::slice_head(n = 1) %>%
@@ -169,7 +179,8 @@ tw_get_image_same_length <- function(id,
         by = "id"
       )
     } else {
-      dplyr::left_join(tibble::tibble(id = id),
+      dplyr::left_join(
+        tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::summarise(image = list(.data$image)),
@@ -177,8 +188,9 @@ tw_get_image_same_length <- function(id,
       )
     }
   } else {
-    if (only_first == TRUE) {
-      dplyr::left_join(tibble::tibble(id = id),
+    if (only_first) {
+      dplyr::left_join(
+        tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::slice_head(n = 1) %>%
@@ -187,7 +199,8 @@ tw_get_image_same_length <- function(id,
       ) %>%
         dplyr::pull("image")
     } else {
-      dplyr::left_join(tibble::tibble(id = id),
+      dplyr::left_join(
+        tibble::tibble(id = id),
         image_df %>%
           dplyr::group_by(.data$id) %>%
           dplyr::summarise(image = list(.data$image)),
@@ -221,18 +234,20 @@ tw_get_image_same_length <- function(id,
 #' if (interactive()) {
 #'   tw_get_image_metadata("Q180099")
 #' }
-tw_get_image_metadata <- function(id,
-                                  image_filename = NULL,
-                                  only_first = TRUE,
-                                  language = tidywikidatar::tw_get_language(),
-                                  id_df = NULL,
-                                  cache = NULL,
-                                  overwrite_cache = FALSE,
-                                  cache_connection = NULL,
-                                  disconnect_db = TRUE,
-                                  wait = 1,
-                                  attempts = 10) {
-  if (is.data.frame(id) == TRUE) {
+tw_get_image_metadata <- function(
+  id,
+  image_filename = NULL,
+  only_first = TRUE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10
+) {
+  if (is.data.frame(id)) {
     id <- id$id
   }
 
@@ -287,7 +302,7 @@ tw_get_image_metadata <- function(id,
       )
     )
   } else if (nrow(input_df_distinct) > 1) {
-    if (overwrite_cache == TRUE | tw_check_cache(cache) == FALSE) {
+    if (overwrite_cache | !tw_check_cache(cache)) {
       pb <- progress::progress_bar$new(total = nrow(input_df_distinct))
 
       image_metadata <- purrr::map2_dfr(
@@ -295,7 +310,8 @@ tw_get_image_metadata <- function(id,
         .y = input_df_distinct$id,
         .f = function(current_image_filename, current_id) {
           pb$tick()
-          tw_get_image_metadata_single(current_id,
+          tw_get_image_metadata_single(
+            current_id,
             image_filename = current_image_filename,
             only_first = only_first,
             language = language,
@@ -324,13 +340,13 @@ tw_get_image_metadata <- function(id,
       )
     }
 
-    if (overwrite_cache == FALSE & tw_check_cache(cache) == TRUE) {
+    if (!overwrite_cache & tw_check_cache(cache)) {
       table_name <- tw_get_cache_table_name(
         type = "image_metadata",
         language = language
       )
 
-      if (pool::dbExistsTable(conn = db, name = table_name) == TRUE) {
+      if (pool::dbExistsTable(conn = db, name = table_name)) {
         db_result <- tryCatch(
           dplyr::tbl(src = db, table_name) %>%
             dplyr::filter(.data$id %in% !!stringr::str_to_upper(id)),
@@ -373,7 +389,9 @@ tw_get_image_metadata <- function(id,
         )
       )
     } else if (nrow(image_metadata_not_in_cache) > 0) {
-      pb <- progress::progress_bar$new(total = nrow(image_metadata_not_in_cache))
+      pb <- progress::progress_bar$new(
+        total = nrow(image_metadata_not_in_cache)
+      )
 
       image_metadata_not_in_cache_df <- purrr::map2_dfr(
         .x = image_metadata_not_in_cache$image_filename,
@@ -405,11 +423,10 @@ tw_get_image_metadata <- function(id,
 
       dplyr::left_join(
         x = tibble::tibble(id = id),
-        y =
-          dplyr::bind_rows(
-            image_metadata_from_cache_df,
-            image_metadata_not_in_cache_df
-          ),
+        y = dplyr::bind_rows(
+          image_metadata_from_cache_df,
+          image_metadata_not_in_cache_df
+        ),
         by = "id"
       )
     }
@@ -439,31 +456,32 @@ tw_get_image_metadata <- function(id,
 #' if (interactive()) {
 #'   tw_get_image_metadata_single("Q180099")
 #' }
-tw_get_image_metadata_single <- function(id,
-                                         image_filename = NULL,
-                                         only_first = TRUE,
-                                         language = tidywikidatar::tw_get_language(),
-                                         id_df = NULL,
-                                         cache = NULL,
-                                         overwrite_cache = FALSE,
-                                         read_cache = TRUE,
-                                         cache_connection = NULL,
-                                         disconnect_db = TRUE,
-                                         wait = 1,
-                                         attempts = 10) {
+tw_get_image_metadata_single <- function(
+  id,
+  image_filename = NULL,
+  only_first = TRUE,
+  language = tidywikidatar::tw_get_language(),
+  id_df = NULL,
+  cache = NULL,
+  overwrite_cache = FALSE,
+  read_cache = TRUE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10
+) {
   if (length(id) > 1) {
-    cli::cli_abort(c("id` must have length 1.",
+    cli::cli_abort(c(
+      "id` must have length 1.",
       i = "Consider using `tw_get_image_metadata()`."
     ))
   }
-
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
     cache = cache
   )
-
 
   if (is.null(image_filename)) {
     image_filename <- tw_get_image_same_length(
@@ -480,14 +498,17 @@ tw_get_image_metadata_single <- function(id,
     )
   }
 
-
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE & read_cache == TRUE) {
+  if (
+    tw_check_cache(cache) &
+      overwrite_cache == FALSE &
+      read_cache
+  ) {
     table_name <- tw_get_cache_table_name(
       type = "image_metadata",
       language = language
     )
 
-    if (pool::dbExistsTable(conn = db, name = table_name) == TRUE) {
+    if (pool::dbExistsTable(conn = db, name = table_name)) {
       db_result <- tryCatch(
         dplyr::tbl(src = db, table_name) %>%
           dplyr::filter(.data$id %in% !!stringr::str_to_upper(id)),
@@ -527,11 +548,25 @@ tw_get_image_metadata_single <- function(id,
     dimnames = list(
       NULL,
       c(
-        "id", "image_filename", "object_name", "image_description",
-        "categories", "assessments", "credit", "artist", "permission",
-        "license_short_name", "license_url", "license", "usage_terms",
-        "attribution_required", "copyrighted", "restrictions", "date_time",
-        "date_time_original", "commons_metadata_extension"
+        "id",
+        "image_filename",
+        "object_name",
+        "image_description",
+        "categories",
+        "assessments",
+        "credit",
+        "artist",
+        "permission",
+        "license_short_name",
+        "license_url",
+        "license",
+        "usage_terms",
+        "attribution_required",
+        "copyrighted",
+        "restrictions",
+        "date_time",
+        "date_time_original",
+        "commons_metadata_extension"
       )
     )
   )) %>%
@@ -554,7 +589,6 @@ tw_get_image_metadata_single <- function(id,
         "&format=json"
       )
 
-
       api_result <- FALSE
 
       attempt_n <- 1
@@ -569,7 +603,6 @@ tw_get_image_metadata_single <- function(id,
         )
         Sys.sleep(time = wait)
       }
-
 
       if (isFALSE(api_result)) {
         cli::cli_abort(c(
@@ -589,130 +622,182 @@ tw_get_image_metadata_single <- function(id,
       tibble::tibble(
         id = stringr::str_to_upper(id),
         image_filename = current_image_filename %>% as.character(),
-        object_name = ifelse(test = is.null(extmetadata_list %>% purrr::pluck("ObjectName", "value")),
+        object_name = ifelse(
+          test = is.null(
+            extmetadata_list %>% purrr::pluck("ObjectName", "value")
+          ),
           yes = as.character(NA),
           no = extmetadata_list %>%
             purrr::pluck("ObjectName", "value")
         ) %>%
           as.character(),
-        image_description = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("ImageDescription", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("ImageDescription", "value")
-        ) %>%
-          as.character(),
-        categories = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Categories", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Categories", "value")
-        ) %>%
-          as.character(),
-        assessments = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Assessments", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Assessments", "value")
-        ) %>%
-          as.character(),
-        credit = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Credit", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Credit", "value")
-        ),
-        artist = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Artist", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Artist", "value")
-        ) %>%
-          as.character(),
-        permission = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Permission", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Permission", "value")
-        ) %>%
-          as.character(),
-        license_short_name = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("LicenseShortName", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("LicenseShortName", "value")
-        ) %>%
-          as.character(),
-        license_url = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("LicenseUrl", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("LicenseUrl", "value")
-        ) %>%
-          as.character(),
-        license = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("License", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>% purrr::pluck("License", "value")
-        ) %>%
-          as.character(),
-        usage_terms = ifelse(test = is.null(extmetadata_list %>% purrr::pluck("UsageTerms", "value")),
+        image_description = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("ImageDescription", "value")
+          ),
           yes = as.character(NA),
-          no = extmetadata_list %>% purrr::pluck(
-            "UsageTerms",
-            "value"
-          )
+          no = extmetadata_list %>%
+            purrr::pluck("ImageDescription", "value")
         ) %>%
           as.character(),
-        attribution_required = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("AttributionRequired", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("AttributionRequired", "value")
+        categories = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Categories", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Categories", "value")
+        ) %>%
+          as.character(),
+        assessments = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Assessments", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Assessments", "value")
+        ) %>%
+          as.character(),
+        credit = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Credit", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Credit", "value")
+        ),
+        artist = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Artist", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Artist", "value")
+        ) %>%
+          as.character(),
+        permission = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Permission", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Permission", "value")
+        ) %>%
+          as.character(),
+        license_short_name = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("LicenseShortName", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("LicenseShortName", "value")
+        ) %>%
+          as.character(),
+        license_url = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("LicenseUrl", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("LicenseUrl", "value")
+        ) %>%
+          as.character(),
+        license = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("License", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>% purrr::pluck("License", "value")
+        ) %>%
+          as.character(),
+        usage_terms = ifelse(
+          test = is.null(
+            extmetadata_list %>% purrr::pluck("UsageTerms", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck(
+              "UsageTerms",
+              "value"
+            )
+        ) %>%
+          as.character(),
+        attribution_required = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("AttributionRequired", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("AttributionRequired", "value")
         ) %>%
           stringr::str_to_upper() %>%
           as.logical(),
-        copyrighted = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Copyrighted", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Copyrighted", "value")
+        copyrighted = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Copyrighted", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Copyrighted", "value")
         ) %>%
           stringr::str_to_upper() %>%
           as.logical(),
-        restrictions = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("Restrictions", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("Restrictions", "value")
+        restrictions = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("Restrictions", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("Restrictions", "value")
         ) %>%
           as.character(),
-        date_time = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("DateTime", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("DateTime", "value")
+        date_time = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("DateTime", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("DateTime", "value")
         ) %>%
           as.character(),
-        date_time_original = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("DateTimeOriginal", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("DateTimeOriginal", "value")
+        date_time_original = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("DateTimeOriginal", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("DateTimeOriginal", "value")
         ) %>%
           as.character(),
-        commons_metadata_extension = ifelse(test = is.null(extmetadata_list %>%
-          purrr::pluck("CommonsMetadataExtension", "value")),
-        yes = as.character(NA),
-        no = extmetadata_list %>%
-          purrr::pluck("CommonsMetadataExtension", "value")
+        commons_metadata_extension = ifelse(
+          test = is.null(
+            extmetadata_list %>%
+              purrr::pluck("CommonsMetadataExtension", "value")
+          ),
+          yes = as.character(NA),
+          no = extmetadata_list %>%
+            purrr::pluck("CommonsMetadataExtension", "value")
         ) %>%
           as.character()
       )
     }
   )
 
-  if (tw_check_cache(cache) == TRUE) {
+  if (tw_check_cache(cache)) {
     table_name <- tw_get_cache_table_name(
       type = "image_metadata",
       language = language
@@ -721,8 +806,9 @@ tw_get_image_metadata_single <- function(id,
     if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
       # do nothing: if table does not exist, previous data cannot be there
     } else {
-      if (overwrite_cache == TRUE) {
-        statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE id = {id*}",
+      if (overwrite_cache) {
+        statement <- glue::glue_sql(
+          "DELETE FROM {`table_name`} WHERE id = {id*}",
           id = unique(image_metadata$id),
           table_name = table_name,
           .con = db
@@ -734,7 +820,8 @@ tw_get_image_metadata_single <- function(id,
       }
     }
 
-    pool::dbWriteTable(db,
+    pool::dbWriteTable(
+      db,
       name = table_name,
       value = image_metadata,
       append = TRUE

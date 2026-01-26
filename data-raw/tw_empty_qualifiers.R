@@ -10,9 +10,7 @@ tw_empty_qualifiers <- c(
   "rank",
   "set"
 ) %>%
-  purrr::map_dfc(setNames,
-    object = list(character())
-  )
+  purrr::map_dfc(setNames, object = list(character()))
 
 tw_empty_qualifiers$set <- as.numeric()
 

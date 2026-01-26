@@ -46,7 +46,6 @@ test_that("check if image returned when invalid id given", {
     id_l = tw_test_items
   )
 
-
   expect_true(
     object = {
       tw_get_image(id = "non_qid_string") %>%
@@ -72,7 +71,8 @@ test_that("check if image returned when invalid id given", {
       ) %>%
         is.na() %>%
         sum()
-    }, expected = 2
+    },
+    expected = 2
   )
 
   expect_equal(
@@ -83,7 +83,8 @@ test_that("check if image returned when invalid id given", {
       ) %>%
         is.na() %>%
         which()
-    }, expected = c(1, 3, 4)
+    },
+    expected = c(1, 3, 4)
   )
 })
 
@@ -110,7 +111,8 @@ test_that("check if image metadata returned correctly with or without cache", {
         nrow = nrow(df),
         id = df %>% dplyr::pull(id)
       )
-    }, expected = list(
+    },
+    expected = list(
       ncol = 19,
       nrow = 1,
       id = "Q2"
@@ -134,7 +136,8 @@ test_that("check if image metadata returned correctly with or without cache", {
         id = df %>% dplyr::pull(id),
         missing_image = which(is.na(df$image_filename))
       )
-    }, expected = list(
+    },
+    expected = list(
       ncol = 19,
       nrow = 4,
       id = c("Q2", NA, "not_an_id", "Q5"),
@@ -158,7 +161,8 @@ test_that("check if image metadata returned correctly with or without cache", {
         nrow = nrow(df),
         id = df %>% dplyr::pull(id)
       )
-    }, expected = list(
+    },
+    expected = list(
       ncol = 19,
       nrow = 4,
       id = c("Q2", NA, "not_an_id", "Q5")

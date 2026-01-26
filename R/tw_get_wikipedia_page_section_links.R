@@ -20,20 +20,23 @@
 #' if (interactive()) {
 #'   tw_get_wikipedia_page_section_links(title = "Margaret Mead", language = "en", section_index = 1)
 #' }
-tw_get_wikipedia_page_section_links <- function(url = NULL,
-                                                title = NULL,
-                                                section_title = NULL,
-                                                section_index = NULL,
-                                                language = tidywikidatar::tw_get_language(),
-                                                cache = NULL,
-                                                overwrite_cache = FALSE,
-                                                cache_connection = NULL,
-                                                disconnect_db = TRUE,
-                                                wait = 1,
-                                                attempts = 10,
-                                                wikipedia_page_qid_df = NULL) {
+tw_get_wikipedia_page_section_links <- function(
+  url = NULL,
+  title = NULL,
+  section_title = NULL,
+  section_index = NULL,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10,
+  wikipedia_page_qid_df = NULL
+) {
   if (is.null(section_index) && is.null(section_title)) {
-    cli::cli_abort(c("Either {.arg section_index} or {.arg section_title} must be provided.",
+    cli::cli_abort(c(
+      "Either {.arg section_index} or {.arg section_title} must be provided.",
       i = "See also {.help tidywikidatar::tw_get_wikipedia_page_sections}."
     ))
   }
@@ -119,11 +122,14 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
   }
 
   if (isFALSE(api_result)) {
-    cli::cli_abort(c("Could not reach the API with {attempts} attempts.",
+    cli::cli_abort(c(
+      "Could not reach the API with {attempts} attempts.",
       i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
     ))
   } else if ("error" %in% names(api_result)) {
-    cli::cli_abort("{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}")
+    cli::cli_abort(
+      "{api_result[['error']][['code']]}: {api_result[['error']][['info']]} - {json_url}"
+    )
     api_result[["error"]]
   } else {
     base_json <- api_result
@@ -138,7 +144,6 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
   if (nrow(links_df) < 1) {
     return(tidywikidatar::tw_empty_wikipedia_page)
   }
-
 
   output_df <- tw_get_wikipedia_page_qid(
     title = links_df[["*"]],
@@ -162,9 +167,6 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
 }
 
 
-
-
-
 #' Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page
 #'
 #' Mostly used internally
@@ -179,10 +181,12 @@ tw_get_wikipedia_page_section_links <- function(url = NULL,
 #'
 #' @examples
 #' tw_get_wikipedia_section_links_api_url(title = "Margaret Mead", section_index = 1, language = "en")
-tw_get_wikipedia_section_links_api_url <- function(url = NULL,
-                                                   title = NULL,
-                                                   section_index,
-                                                   language = tidywikidatar::tw_get_language()) {
+tw_get_wikipedia_section_links_api_url <- function(
+  url = NULL,
+  title = NULL,
+  section_index,
+  language = tidywikidatar::tw_get_language()
+) {
   stringr::str_c(
     tw_get_wikipedia_base_api_url(
       url = url,

@@ -7,10 +7,7 @@ tw_empty_search <- c(
   "label",
   "description"
 ) %>%
-  purrr::map_dfc(setNames,
-    object = list(character())
-  )
-
+  purrr::map_dfc(setNames, object = list(character()))
 
 
 usethis::use_data(tw_empty_search, overwrite = TRUE)

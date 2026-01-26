@@ -28,7 +28,6 @@ test_that("check if tw_get returns tibble with four columns and meaningful numbe
 })
 
 
-
 test_that("check if tw_get works when more than one id as input", {
   testthat::skip_if_offline()
 

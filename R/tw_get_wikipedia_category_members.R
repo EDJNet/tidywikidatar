@@ -28,17 +28,19 @@
 #'     type = "page"
 #'   )
 #' }
-tw_get_wikipedia_category_members <- function(url = NULL,
-                                              category = NULL,
-                                              type = "page",
-                                              language = tidywikidatar::tw_get_language(),
-                                              cache = NULL,
-                                              overwrite_cache = FALSE,
-                                              cache_connection = NULL,
-                                              disconnect_db = TRUE,
-                                              wait = 1,
-                                              attempts = 10) {
-  if (is.null(category) == TRUE & is.null(url) == FALSE) {
+tw_get_wikipedia_category_members <- function(
+  url = NULL,
+  category = NULL,
+  type = "page",
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10
+) {
+  if (is.null(category) & !is.null(url)) {
     language <- stringr::str_extract(
       string = url,
       pattern = "(?<=https://)[[a-z]][[a-z]](?=.wikipedia.org/)"
@@ -124,16 +126,18 @@ tw_get_wikipedia_category_members <- function(url = NULL,
 #'     type = "page"
 #'   )
 #' }
-tw_get_wikipedia_category_members_single <- function(url = NULL,
-                                                     category = NULL,
-                                                     type = "page",
-                                                     language = tidywikidatar::tw_get_language(),
-                                                     cache = NULL,
-                                                     overwrite_cache = FALSE,
-                                                     cache_connection = NULL,
-                                                     disconnect_db = TRUE,
-                                                     wait = 1,
-                                                     attempts = 10) {
+tw_get_wikipedia_category_members_single <- function(
+  url = NULL,
+  category = NULL,
+  type = "page",
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 1,
+  attempts = 10
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -148,7 +152,7 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
       stringr::str_remove(pattern = stringr::fixed("wiki/"))
   }
 
-  if (tw_check_cache(cache) == TRUE & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) & !overwrite_cache) {
     db_result <- tw_get_cached_wikipedia_category_members(
       category = category,
       type = type,
@@ -201,7 +205,9 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
         i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
       ))
     } else if (length(api_result) == 1) {
-      cli::cli_abort("Page not found. Make sure that language parameter is consistent with the language of the input title or url.")
+      cli::cli_abort(
+        "Page not found. Make sure that language parameter is consistent with the language of the input title or url."
+      )
     } else {
       base_json <- api_result
     }
@@ -290,7 +296,7 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
         wikipedia_id = as.numeric(.data$wikipedia_id)
       )
 
-    if (tw_check_cache(cache) == TRUE) {
+    if (tw_check_cache(cache)) {
       tw_write_wikipedia_category_members_to_cache(
         df = category_df,
         type = type,
@@ -301,7 +307,6 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
       )
     }
   }
-
 
   wikipedia_page_qid_df <- tw_get_wikipedia_page_qid(
     title = category_df$wikipedia_title,
@@ -315,7 +320,6 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
     attempts = attempts
   )
 
-
   tw_disconnect_from_cache(
     cache = cache,
     cache_connection = db,
@@ -325,9 +329,6 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
 
   wikipedia_page_qid_df
 }
-
-
-
 
 
 #' Gets members of Wikipedia categories from local cache
@@ -354,12 +355,14 @@ tw_get_wikipedia_category_members_single <- function(url = NULL,
 #'
 #'   df_from_cache
 #' }
-tw_get_cached_wikipedia_category_members <- function(category,
-                                                     type = "page",
-                                                     language = tidywikidatar::tw_get_language(),
-                                                     cache = NULL,
-                                                     cache_connection = NULL,
-                                                     disconnect_db = TRUE) {
+tw_get_cached_wikipedia_category_members <- function(
+  category,
+  type = "page",
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
@@ -376,7 +379,7 @@ tw_get_cached_wikipedia_category_members <- function(category,
   )
 
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
-    if (disconnect_db == TRUE) {
+    if (disconnect_db) {
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
@@ -397,9 +400,8 @@ tw_get_cached_wikipedia_category_members <- function(category,
     }
   )
 
-
   if (isFALSE(db_result)) {
-    if (disconnect_db == TRUE) {
+    if (disconnect_db) {
       tw_disconnect_from_cache(
         cache = cache,
         cache_connection = db,
@@ -412,7 +414,6 @@ tw_get_cached_wikipedia_category_members <- function(category,
 
   cached_df <- db_result %>%
     dplyr::collect()
-
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -454,13 +455,15 @@ tw_get_cached_wikipedia_category_members <- function(category,
 #'     language = "en"
 #'   )
 #' }
-tw_write_wikipedia_category_members_to_cache <- function(df,
-                                                         language = tidywikidatar::tw_get_language(),
-                                                         type = "page",
-                                                         cache = NULL,
-                                                         overwrite_cache = FALSE,
-                                                         cache_connection = NULL,
-                                                         disconnect_db = TRUE) {
+tw_write_wikipedia_category_members_to_cache <- function(
+  df,
+  language = tidywikidatar::tw_get_language(),
+  type = "page",
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(invisible(NULL))
   }
@@ -479,8 +482,9 @@ tw_write_wikipedia_category_members_to_cache <- function(df,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
-    if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE category = {category*}",
+    if (overwrite_cache) {
+      statement <- glue::glue_sql(
+        "DELETE FROM {`table_name`} WHERE category = {category*}",
         source_title_url = unique(df$source_title_url),
         table_name = table_name,
         .con = db
@@ -492,12 +496,7 @@ tw_write_wikipedia_category_members_to_cache <- function(df,
     }
   }
 
-  pool::dbWriteTable(db,
-    name = table_name,
-    value = df,
-    append = TRUE
-  )
-
+  pool::dbWriteTable(db, name = table_name, value = df, append = TRUE)
 
   tw_disconnect_from_cache(
     cache = cache,
@@ -524,12 +523,14 @@ tw_write_wikipedia_category_members_to_cache <- function(df,
 #' if (interactive()) {
 #'   tw_reset_wikipedia_category_members_cache()
 #' }
-tw_reset_wikipedia_category_members_cache <- function(language = tidywikidatar::tw_get_language(),
-                                                      type = "page",
-                                                      cache = NULL,
-                                                      cache_connection = NULL,
-                                                      disconnect_db = TRUE,
-                                                      ask = TRUE) {
+tw_reset_wikipedia_category_members_cache <- function(
+  language = tidywikidatar::tw_get_language(),
+  type = "page",
+  cache = NULL,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  ask = TRUE
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -545,10 +546,24 @@ tw_reset_wikipedia_category_members_cache <- function(language = tidywikidatar::
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_inform("Wikipedia category members cache reset for language {.val {language}} completed.")
-  } else if (utils::menu(c("Yes", "No"), title = paste0("Are you sure you want to remove from cache the Wikipedia category members cache for language: ", sQuote(language), "?")) == 1) {
+    cli::cli_inform(
+      "Wikipedia category members cache reset for language {.val {language}} completed."
+    )
+  } else if (
+    utils::menu(
+      c("Yes", "No"),
+      title = paste0(
+        "Are you sure you want to remove from cache the Wikipedia category members cache for language: ",
+        sQuote(language),
+        "?"
+      )
+    ) ==
+      1
+  ) {
     pool::dbRemoveTable(conn = db, name = table_name)
-    cli::cli_inform("Wikipedia category members cache reset for language {.val {language}} completed.")
+    cli::cli_inform(
+      "Wikipedia category members cache reset for language {.val {language}} completed."
+    )
   }
 
   tw_disconnect_from_cache(

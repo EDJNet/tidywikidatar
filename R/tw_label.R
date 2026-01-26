@@ -20,14 +20,16 @@
 #'     tw_label()
 #' }
 #' }
-tw_label <- function(df,
-                     value = TRUE,
-                     language = tidywikidatar::tw_get_language(),
-                     cache = NULL,
-                     overwrite_cache = FALSE,
-                     cache_connection = NULL,
-                     disconnect_db = TRUE,
-                     wait = 0) {
+tw_label <- function(
+  df,
+  value = TRUE,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE,
+  wait = 0
+) {
   db <- tw_connect_to_cache(
     connection = cache_connection,
     language = language,
@@ -58,7 +60,6 @@ tw_label <- function(df,
     )
   }
 
-
   if (is.element("property", colnames(df))) {
     df[["property"]] <- tw_get_property_label(
       property = df[["property"]],
@@ -83,7 +84,6 @@ tw_label <- function(df,
     )
   }
 
-
   if (isTRUE(value)) {
     if (is.element("value", colnames(df))) {
       df[["value"]] <- purrr::map_chr(
@@ -91,10 +91,12 @@ tw_label <- function(df,
         .f = function(x) {
           if (is.na(x)) {
             output <- x
-          } else if (stringr::str_starts(
-            string = x,
-            pattern = "Q[[:digit:]]+"
-          )) {
+          } else if (
+            stringr::str_starts(
+              string = x,
+              pattern = "Q[[:digit:]]+"
+            )
+          ) {
             output <- tw_get_label(
               id = x,
               language = language,
@@ -118,10 +120,12 @@ tw_label <- function(df,
         .f = function(x) {
           if (is.na(x)) {
             output <- x
-          } else if (stringr::str_starts(
-            string = x,
-            pattern = "Q[[:digit:]]+"
-          )) {
+          } else if (
+            stringr::str_starts(
+              string = x,
+              pattern = "Q[[:digit:]]+"
+            )
+          ) {
             output <- tw_get_label(
               id = x,
               language = language,

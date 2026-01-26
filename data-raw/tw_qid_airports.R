@@ -31,10 +31,11 @@ while (is.null(continue_check) == FALSE & page_number < 10000) {
 }
 
 
-
 all_pages <- purrr::map(
   .x = all_jsons,
-  .f = purrr::pluck, "query", "backlinks"
+  .f = purrr::pluck,
+  "query",
+  "backlinks"
 ) %>%
   purrr::flatten()
 
@@ -56,7 +57,9 @@ tw_qid_airports <- airport_qid_df %>%
 
 ## actually include only airports found in Eurostat's `avia_par_` datasets in 2019
 
-tw_qid_airports <- readr::read_csv("european_airports_with_wikidata_details.csv") %>%
+tw_qid_airports <- readr::read_csv(
+  "european_airports_with_wikidata_details.csv"
+) %>%
   dplyr::transmute(id = airport_qid) %>%
   dplyr::arrange(id)
 

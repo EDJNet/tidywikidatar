@@ -6,13 +6,13 @@ if (interactive()) {
   tw_set_language(language = "en")
 
   tw_enable_cache()
-  tw_set_cache_folder(path = fs::path(
-    fs::path_temp(),
-    "tw_data_testing"
-  ))
+  tw_set_cache_folder(
+    path = fs::path(
+      fs::path_temp(),
+      "tw_data_testing"
+    )
+  )
   tw_create_cache_folder(ask = FALSE)
-
-
 
   testthat::test_that("tw_get_wikipedia_category_members() works with sub-categories", {
     testthat::expect_true({
@@ -27,7 +27,6 @@ if (interactive()) {
       nrow(sub_category_members_df) > 1
     })
   })
-
 
   testthat::test_that("tw_get_wikipedia_category_members() works when category, not url is given", {
     testthat::expect_true({

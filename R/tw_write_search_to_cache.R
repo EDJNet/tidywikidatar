@@ -25,14 +25,16 @@
 #' search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #'
 #' search_from_cache
-tw_write_search_to_cache <- function(search_df,
-                                     type = "item",
-                                     language = tidywikidatar::tw_get_language(),
-                                     response_language = tidywikidatar::tw_get_language(),
-                                     cache = NULL,
-                                     overwrite_cache = FALSE,
-                                     cache_connection = NULL,
-                                     disconnect_db = TRUE) {
+tw_write_search_to_cache <- function(
+  search_df,
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  overwrite_cache = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   mandatory_cols <- c("search", "id", "label", "description")
 
   if (!identical(colnames(search_df), mandatory_cols)) {
@@ -62,8 +64,9 @@ tw_write_search_to_cache <- function(search_df,
   if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
     # do nothing: if table does not exist, previous data cannot be there
   } else {
-    if (overwrite_cache == TRUE) {
-      statement <- glue::glue_sql("DELETE FROM {`table_name`} WHERE search = {search*}",
+    if (overwrite_cache) {
+      statement <- glue::glue_sql(
+        "DELETE FROM {`table_name`} WHERE search = {search*}",
         search = unique(search_df$search),
         table_name = table_name,
         .con = db
@@ -75,11 +78,7 @@ tw_write_search_to_cache <- function(search_df,
     }
   }
 
-  pool::dbWriteTable(db,
-    name = table_name,
-    value = search_df,
-    append = TRUE
-  )
+  pool::dbWriteTable(db, name = table_name, value = search_df, append = TRUE)
 
   tw_disconnect_from_cache(
     cache = cache,

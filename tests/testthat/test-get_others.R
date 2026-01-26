@@ -31,7 +31,6 @@ test_that("tw_get_description works with more than one id without cache", {
 })
 
 
-
 test_that("tw_get_description works with one id with cache", {
   test_id_df <- tw_get(
     id = c(

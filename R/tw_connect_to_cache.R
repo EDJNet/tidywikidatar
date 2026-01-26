@@ -36,10 +36,12 @@
 #' }
 #' }
 #'
-tw_connect_to_cache <- function(connection = NULL,
-                                RSQLite = NULL,
-                                language = tidywikidatar::tw_get_language(),
-                                cache = NULL) {
+tw_connect_to_cache <- function(
+  connection = NULL,
+  RSQLite = NULL,
+  language = tidywikidatar::tw_get_language(),
+  cache = NULL
+) {
   if (tw_check_cache(cache) == FALSE) {
     return(NULL)
   }
@@ -51,7 +53,7 @@ tw_connect_to_cache <- function(connection = NULL,
   }
 
   if (is.null(connection)) {
-    if (is.null(language) == TRUE) {
+    if (is.null(language)) {
       language <- tw_get_language()
     }
 

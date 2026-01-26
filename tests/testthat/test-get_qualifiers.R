@@ -21,19 +21,18 @@ test_that("check if qualifiers are returned correctly when more than 1 id and on
         total_p = length(unique(q_df$property)),
         nrow_check = nrow(q_df) > 7
       )
-    }, expected =
-      list(
-        total_id = 2,
-        total_p = 1,
-        nrow_check = TRUE
-      )
+    },
+    expected = list(
+      total_id = 2,
+      total_p = 1,
+      nrow_check = TRUE
+    )
   )
 })
 
 
 test_that("check if qualifiers are returned correctly when one of qualifiers has string value type (not id, not time)", {
   testthat::skip_if_offline()
-
 
   expect_equal(
     object = {
@@ -51,7 +50,7 @@ test_that("check if qualifiers are returned correctly when one of qualifiers has
       q_df %>%
         dplyr::filter(.data$qualifier_property == "P1545") %>%
         dplyr::pull(.data$qualifier_value)
-    }, expected =
-      "7"
+    },
+    expected = "7"
   )
 })

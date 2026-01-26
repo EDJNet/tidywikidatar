@@ -17,14 +17,16 @@
 #'
 #' df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #' df_from_cache
-tw_get_cached_search <- function(search,
-                                 type = "item",
-                                 language = tidywikidatar::tw_get_language(),
-                                 response_language = tidywikidatar::tw_get_language(),
-                                 cache = NULL,
-                                 include_search = FALSE,
-                                 cache_connection = NULL,
-                                 disconnect_db = TRUE) {
+tw_get_cached_search <- function(
+  search,
+  type = "item",
+  language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
+  cache = NULL,
+  include_search = FALSE,
+  cache_connection = NULL,
+  disconnect_db = TRUE
+) {
   if (isFALSE(tw_check_cache(cache = cache))) {
     return(tidywikidatar::tw_empty_search)
   }
@@ -53,11 +55,13 @@ tw_get_cached_search <- function(search,
 
     search_df <- tidywikidatar::tw_empty_search
 
-    if (include_search == TRUE) {
+    if (include_search) {
       return(search_df)
     } else {
-      return(search_df %>%
-        dplyr::select(-"search"))
+      return(
+        search_df %>%
+          dplyr::select(-"search")
+      )
     }
   }
 
@@ -78,16 +82,17 @@ tw_get_cached_search <- function(search,
     )
     search_df <- tidywikidatar::tw_empty_search
 
-    if (include_search == TRUE) {
+    if (include_search) {
       return(search_df)
     } else {
-      return(search_df %>%
-        dplyr::select(-"search"))
+      return(
+        search_df %>%
+          dplyr::select(-"search")
+      )
     }
   }
 
-
-  if (include_search == TRUE) {
+  if (include_search) {
     cached_items_df <- db_result %>%
       dplyr::collect()
   } else {
