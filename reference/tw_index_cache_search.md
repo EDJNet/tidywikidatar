@@ -62,21 +62,21 @@ tw_index_cache_search(
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 ## Value
 

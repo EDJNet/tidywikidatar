@@ -52,8 +52,7 @@
 <span>  wait <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  return_as_tw_search <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  user_agent <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_flatten.html" class="external-link">str_flatten</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tidywikidatar/"</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"tidywikidatar"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -103,8 +102,8 @@ fields.</p></dd>
 
 <dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
 <dd><p>Defaults to a combination of <code>tidywikidatar</code> and package
-version number. Consider customising, in particular if you are making many
-queries.</p></dd>
+version number. Consider customising it for the current sessions with
+<code><a href="tw_set_user_agent.html">tw_set_user_agent()</a></code>, in particular if you are making many queries.</p></dd>
 
 </dl></div>
     <div class="section level2">

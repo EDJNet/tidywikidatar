@@ -156,8 +156,15 @@ getting data about images associated with a Wikidata Q identifier
   [`tw_get_cache_folder()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_cache_folder.md)
   : Set folder for caching data
 
+## Other settings
+
+Set options for the current session
+
 - [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md)
   [`tw_get_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md)
+  : Set language to be used by all functions
+- [`tw_set_user_agent()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_user_agent.md)
+  [`tw_get_user_agent()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_user_agent.md)
   : Set language to be used by all functions
 
 ## Functions for resetting the cache

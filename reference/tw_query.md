@@ -15,8 +15,7 @@ tw_query(
   fields = c("item", "itemLabel", "itemDescription"),
   language = tidywikidatar::tw_get_language(),
   return_as_tw_search = TRUE,
-  user_agent = stringr::str_flatten(c("tidywikidatar/",
-    as.character(packageVersion("tidywikidatar"))))
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 ```
 
@@ -50,8 +49,9 @@ tw_query(
 - user_agent:
 
   Defaults to a combination of `tidywikidatar` and package version
-  number. Consider customising, in particular if you are making many
-  queries.
+  number. Consider customising it for the current sessions with
+  [`tw_set_user_agent()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_user_agent.md),
+  in particular if you are making many queries.
 
 ## Value
 

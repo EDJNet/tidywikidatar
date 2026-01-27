@@ -71,28 +71,30 @@ and <code><a href="tw_filter_first.html">tw_filter_first()</a></code>.</p></dd>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not
 set, "en". Use "all_available" to keep all languages. For available
 language values, see
-https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">the
+dedicated Wikimedia page</a>.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
-<dd><p>Defaults to NULL. If given, it should be given either TRUE or
-FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If given, it should be given either <code>TRUE</code>
+or <code>FALSE</code>. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 
 
 <dt id="arg-overwrite-cache">overwrite_cache<a class="anchor" aria-label="anchor" href="#arg-overwrite-cache"></a></dt>
-<dd><p>Logical, defaults to FALSE. If TRUE, it overwrites the
-table in the local sqlite database. Useful if the original Wikidata object
-has been updated.</p></dd>
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>TRUE</code>, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.</p></dd>
 
 
 <dt id="arg-cache-connection">cache_connection<a class="anchor" aria-label="anchor" href="#arg-cache-connection"></a></dt>
-<dd><p>Defaults to NULL. If NULL, and caching is enabled,
-<code>tidywikidatar</code> will use a local sqlite database. A custom connection to
-other databases can be given (see vignette <code>caching</code> for details).</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If <code>NULL</code>, and caching is
+enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom
+connection to other databases can be given (see vignette <code>caching</code> for
+details).</p></dd>
 
 
 <dt id="arg-disconnect-db">disconnect_db<a class="anchor" aria-label="anchor" href="#arg-disconnect-db"></a></dt>
-<dd><p>Defaults to TRUE. If FALSE, leaves the connection to
+<dd><p>Defaults to <code>TRUE</code>. If <code>FALSE</code>, leaves the connection to
 cache open.</p></dd>
 
 
@@ -104,14 +106,16 @@ between queries.</p></dd>
 
 
 <dt id="arg-id-l">id_l<a class="anchor" aria-label="anchor" href="#arg-id-l"></a></dt>
-<dd><p>Defaults to NULL. If given, must be an object or list such as the
-one generated with <code><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">WikidataR::get_item()</a></code>. If given, and the requested id
-is actually present in <code>id_l</code>, then no query to Wikidata servers is made.</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If given, must be an object or list such as
+the one generated with <code><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">WikidataR::get_item()</a></code>. If given, and the requested
+id is actually present in <code>id_l</code>, then no query to Wikidata servers is
+made.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data.frame (a tibble) with three columns (id, property, and value).</p>
+    <p>A data.frame (a tibble) with three columns (<code>id</code>, <code>property</code>, and
+<code>value</code>).</p>
     </div>
 
     <div class="section level2">

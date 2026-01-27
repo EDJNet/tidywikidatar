@@ -13,8 +13,7 @@ tw_get_all_with_p(
   wait = 0.1,
   limit = Inf,
   return_as_tw_search = TRUE,
-  user_agent = stringr::str_flatten(c("tidywikidatar/",
-    as.character(packageVersion("tidywikidatar"))))
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 ```
 
@@ -63,8 +62,9 @@ tw_get_all_with_p(
 - user_agent:
 
   Defaults to a combination of `tidywikidatar` and package version
-  number. Consider customising, in particular if you are making many
-  queries.
+  number. Consider customising it for the current sessions with
+  [`tw_set_user_agent()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_user_agent.md),
+  in particular if you are making many queries.
 
 ## Value
 

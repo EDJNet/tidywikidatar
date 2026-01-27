@@ -2,6 +2,9 @@
 
 ## tidywikidatar (development version)
 
+- drop dependency on `WikidataQueryServiceR`
+- enable setting default user agent for the session
+
 ## tidywikidatar 0.5.9
 
 CRAN release: 2024-07-29
