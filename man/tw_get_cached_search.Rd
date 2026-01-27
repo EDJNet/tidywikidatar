@@ -32,8 +32,8 @@ as described
 \href{https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities}{in
 the official documentation}. Can be set once per session with
 \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full list, see
-\url{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
-  available language codes}.}
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
+available language codes}.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE.} Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}

@@ -16,13 +16,19 @@ tw_index_cache_item(
 )
 }
 \arguments{
-\item{table_name}{Name of the table in the database. If given, it takes precedence over other parameters.}
+\item{table_name}{Name of the table in the database. If given, it takes
+precedence over other parameters.}
 
-\item{check_first}{Logical, defaults to \code{TRUE}. If \code{TRUE}, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.}
+\item{check_first}{Logical, defaults to \code{TRUE}. If \code{TRUE}, then before
+executing anything on the database it checks if the given table has already
+been indexed. If it has, it does nothing and returns only an informative
+message.}
 
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search_item", "search_property", and "qualifier".}
 
-\item{show_details}{Logical, defaults to \code{FALSE}. If \code{FALSE}, return the function adds the index to the database, but does not return anything. If \code{TRUE}, returns a data frame with more details about the index.}
+\item{show_details}{Logical, defaults to \code{FALSE}. If \code{FALSE}, return the
+function adds the index to the database, but does not return anything. If
+\code{TRUE}, returns a data frame with more details about the index.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -38,13 +44,16 @@ details).}
 cache open.}
 }
 \value{
-If \code{show_details} is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of \code{tw_check_cache_index(show_details = TRUE)}.
+If \code{show_details} is set to \code{FALSE}, nothing, used only for its side
+effects (add index to caching table). If \code{TRUE}, a data frame, same as the
+output of \code{tw_check_cache_index(show_details = TRUE)}.
 }
 \description{
 Tested only with SQLite and MySql. May work with other drivers.
 }
 \details{
-To ensure smooth functioning, the search column in the cache table is transformed into a column of type \code{varchar} and length 255.
+To ensure smooth functioning, the search column in the cache table is
+transformed into a column of type \code{varchar} and length 255.
 }
 \examples{
 if (interactive()) {

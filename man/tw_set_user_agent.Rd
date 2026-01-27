@@ -5,9 +5,9 @@
 \alias{tw_get_user_agent}
 \title{Set language to be used by all functions}
 \usage{
-tw_set_user_agent(user_agent)
+tw_set_user_agent(user_agent = NULL)
 
-tw_get_user_agent(user_agent)
+tw_get_user_agent(user_agent = NULL)
 }
 \arguments{
 \item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to

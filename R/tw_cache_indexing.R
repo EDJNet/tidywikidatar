@@ -1,14 +1,24 @@
 #' Check if cache table is indexed
 #'
-#' Tested only with SQLite and MySql. May work with other drivers. Used to check if given cache table is indexed (if created with any version of `tidywikidatar` before 0.6, they are probably not indexed and less efficient).
+#' Tested only with SQLite and MySql. May work with other drivers. Used to check
+#' if given cache table is indexed (if created with any version of
+#' `tidywikidatar` before 0.6, they are probably not indexed and less
+#' efficient).
 #'
-#' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
-#' @param show_details Logical, defaults to FALSE. If FALSE, return a logical vector of length one (TRUE if the table was indexed, FALSE if it was not). If TRUE, returns a data frame with more details about the index.
+#' @param table_name Name of the table in the database. If given, it takes
+#'   precedence over other parameters.
+#' @param show_details Logical, defaults to `FALSE`. If `FALSE`, return a
+#'   logical vector of length one (`TRUE` if the table was indexed, `FALSE` if
+#'   it was not). If `TRUE`, returns a data frame with more details about the
+#'   index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
 #'
-#' @return If `show_details` is set to FALSE, return a logical vector of length one (TRUE if the table was indexed, FALSE if it was not). If `show_details` is set to TRUE, returns a data frame with more details about the index.
+#' @return If `show_details` is set to `FALSE`, return a logical vector of
+#'   length one (`TRUE` if the table was indexed, `FALSE` if it was not). If
+#'   `show_details` is set to `TRUE`, returns a data frame with more details
+#'   about the index.
 #' @export
 #'
 #' @examples
@@ -139,16 +149,25 @@ tw_check_cache_index <- function(
 #'
 #' Tested only with SQLite and MySql. May work with other drivers.
 #'
-#' To ensure smooth functioning, the search column in the cache table is transformed into a column of type `varchar` and length 255.
+#' To ensure smooth functioning, the search column in the cache table is
+#' transformed into a column of type `varchar` and length 255.
 #'
-#' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
-#' @param check_first Logical, defaults to TRUE. If TRUE, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
-#' @param show_details Logical, defaults to FALSE. If FALSE, return the function adds the index to the database, but does not return anything. If TRUE, returns a data frame with more details about the index.
+#' @param table_name Name of the table in the database. If given, it takes
+#'   precedence over other parameters.
+#' @param check_first Logical, defaults to `TRUE`. If `TRUE`, then before
+#'   executing anything on the database it checks if the given table has already
+#'   been indexed. If it has, it does nothing and returns only an informative
+#'   message.
+#' @param show_details Logical, defaults to `FALSE`. If `FALSE`, return the
+#'   function adds the index to the database, but does not return anything. If
+#'   `TRUE`, returns a data frame with more details about the index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
 #'
-#' @return If `show_details` is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of `tw_check_cache_index(show_details = TRUE)`.
+#' @return If `show_details` is set to `FALSE`, nothing, used only for its side
+#'   effects (add index to caching table). If `TRUE`, a data frame, same as the
+#'   output of `tw_check_cache_index(show_details = TRUE)`.
 #' @export
 #'
 #' @examples
@@ -290,16 +309,25 @@ tw_index_cache_search <- function(
 #'
 #' Tested only with SQLite and MySql. May work with other drivers.
 #'
-#' To ensure smooth functioning, the search column in the cache table is transformed into a column of type `varchar` and length 255.
+#' To ensure smooth functioning, the search column in the cache table is
+#' transformed into a column of type `varchar` and length 255.
 #'
-#' @param table_name Name of the table in the database. If given, it takes precedence over other parameters.
-#' @param check_first Logical, defaults to `TRUE`. If `TRUE`, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.
-#' @param show_details Logical, defaults to `FALSE`. If `FALSE`, return the function adds the index to the database, but does not return anything. If `TRUE`, returns a data frame with more details about the index.
+#' @param table_name Name of the table in the database. If given, it takes
+#'   precedence over other parameters.
+#' @param check_first Logical, defaults to `TRUE`. If `TRUE`, then before
+#'   executing anything on the database it checks if the given table has already
+#'   been indexed. If it has, it does nothing and returns only an informative
+#'   message.
+#' @param show_details Logical, defaults to `FALSE`. If `FALSE`, return the
+#'   function adds the index to the database, but does not return anything. If
+#'   `TRUE`, returns a data frame with more details about the index.
 #'
 #' @inheritParams tw_get_cache_table_name
 #' @inheritParams tw_get
 #'
-#' @return If `show_details` is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of `tw_check_cache_index(show_details = TRUE)`.
+#' @return If `show_details` is set to `FALSE`, nothing, used only for its side
+#'   effects (add index to caching table). If `TRUE`, a data frame, same as the
+#'   output of `tw_check_cache_index(show_details = TRUE)`.
 #' @export
 #'
 #' @examples

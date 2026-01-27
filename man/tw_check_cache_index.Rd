@@ -16,11 +16,15 @@ tw_check_cache_index(
 )
 }
 \arguments{
-\item{table_name}{Name of the table in the database. If given, it takes precedence over other parameters.}
+\item{table_name}{Name of the table in the database. If given, it takes
+precedence over other parameters.}
 
 \item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search_item", "search_property", and "qualifier".}
 
-\item{show_details}{Logical, defaults to FALSE. If FALSE, return a logical vector of length one (TRUE if the table was indexed, FALSE if it was not). If TRUE, returns a data frame with more details about the index.}
+\item{show_details}{Logical, defaults to \code{FALSE}. If \code{FALSE}, return a
+logical vector of length one (\code{TRUE} if the table was indexed, \code{FALSE} if
+it was not). If \code{TRUE}, returns a data frame with more details about the
+index.}
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
@@ -38,10 +42,16 @@ details).}
 cache open.}
 }
 \value{
-If \code{show_details} is set to FALSE, return a logical vector of length one (TRUE if the table was indexed, FALSE if it was not). If \code{show_details} is set to TRUE, returns a data frame with more details about the index.
+If \code{show_details} is set to \code{FALSE}, return a logical vector of
+length one (\code{TRUE} if the table was indexed, \code{FALSE} if it was not). If
+\code{show_details} is set to \code{TRUE}, returns a data frame with more details
+about the index.
 }
 \description{
-Tested only with SQLite and MySql. May work with other drivers. Used to check if given cache table is indexed (if created with any version of \code{tidywikidatar} before 0.6, they are probably not indexed and less efficient).
+Tested only with SQLite and MySql. May work with other drivers. Used to check
+if given cache table is indexed (if created with any version of
+\code{tidywikidatar} before 0.6, they are probably not indexed and less
+efficient).
 }
 \examples{
 if (interactive()) {
