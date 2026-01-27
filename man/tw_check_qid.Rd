@@ -9,12 +9,18 @@ tw_check_qid(id, logical_vector = FALSE, non_id_as_NA = FALSE)
 \arguments{
 \item{id}{A character vector of one or more Wikidata id.}
 
-\item{logical_vector}{Logical, defaults to FALSE. If TRUE, returns a logical vector of the same length as input, where TRUE corresponds to seemingly meaningful Q identifiers.}
+\item{logical_vector}{Logical, defaults to \code{FALSE}. If \code{TRUE}, returns a
+logical vector of the same length as input, where \code{TRUE} corresponds to
+seemingly meaningful Q identifiers.}
 
-\item{non_id_as_NA}{Logical, defaults to FALSE. If TRUE (and if \code{logical_vector} is set to FALSE), a vector of the same length is returned, with NA replacing items that are seemingly not meaningful Q identifiers.}
+\item{non_id_as_NA}{Logical, defaults to \code{FALSE}. If \code{TRUE} (and if
+\code{logical_vector} is set to \code{FALSE}), a vector of the same length is
+returned, with \code{NA} replacing items that are seemingly not meaningful Q
+identifiers.}
 }
 \value{
-A character vector with only strings appearing to be Wikidata identifiers; possibly shorter than input
+A character vector with only strings appearing to be Wikidata
+identifiers; possibly shorter than input.
 }
 \description{
 Mostly used internally by other functions.

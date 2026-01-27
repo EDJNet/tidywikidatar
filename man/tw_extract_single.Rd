@@ -7,7 +7,8 @@
 tw_extract_single(w, language = tidywikidatar::tw_get_language())
 }
 \arguments{
-\item{w}{An object of class Wikidata created with \code{WikidataR}, typically created with \code{WikidataR::get_item(id = id)}}
+\item{w}{An object of class Wikidata created with \code{WikidataR}, typically
+created with \code{WikidataR::get_item(id = id)}}
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
@@ -16,7 +17,8 @@ language values, see
 dedicated Wikimedia page}.}
 }
 \value{
-A data frame (a tibble) with four columns, such as the one created by \code{tw_get}.
+A data frame (a tibble) with four columns, such as the one created by
+\code{\link[=tw_get]{tw_get()}}.
 }
 \description{
 This function is mostly used internally and for testing.

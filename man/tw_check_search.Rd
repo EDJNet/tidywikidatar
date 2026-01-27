@@ -22,27 +22,45 @@ tw_check_search(
 
 \item{type}{Defaults to "item". Either "item" or "property".}
 
-\item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per
+session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For
+available language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
 \item{limit}{Maximum numbers of responses to be given.}
 
-\item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
+\item{include_search}{Logical, defaults to \code{FALSE}. If \code{TRUE}, the search is
+returned as an additional column.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Defaults to FALSE. If TRUE, overwrites cache.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 }
 \value{
-A data frame with three columns, \code{id}, \code{label}, and \code{description}, filtered by the above criteria.
+A data frame with three columns, \code{id}, \code{label}, and \code{description},
+filtered by the above criteria. Four columns if \code{include_search} is set to
+\code{TRUE}.
 }
 \description{
-Mostly used as a convenience function inside other functions to have consistent inputs.
+Mostly used as a convenience function inside other functions to have
+consistent inputs.
 }
 \examples{
 # The following two lines should give the same result.

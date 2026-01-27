@@ -3,10 +3,16 @@
 #' Mostly used internally by other functions.
 #'
 #' @param id A character vector of one or more Wikidata id.
-#' @param logical_vector Logical, defaults to FALSE. If TRUE, returns a logical vector of the same length as input, where TRUE corresponds to seemingly meaningful Q identifiers.
-#' @param non_id_as_NA Logical, defaults to FALSE. If TRUE (and if `logical_vector` is set to FALSE), a vector of the same length is returned, with NA replacing items that are seemingly not meaningful Q identifiers.
+#' @param logical_vector Logical, defaults to `FALSE`. If `TRUE`, returns a
+#'   logical vector of the same length as input, where `TRUE` corresponds to
+#'   seemingly meaningful Q identifiers.
+#' @param non_id_as_NA Logical, defaults to `FALSE`. If `TRUE` (and if
+#'   `logical_vector` is set to `FALSE`), a vector of the same length is
+#'   returned, with `NA` replacing items that are seemingly not meaningful Q
+#'   identifiers.
 #'
-#' @return A character vector with only strings appearing to be Wikidata identifiers; possibly shorter than input
+#' @return A character vector with only strings appearing to be Wikidata
+#'   identifiers; possibly shorter than input.
 #' @export
 #'
 #' @examples

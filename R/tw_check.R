@@ -1,19 +1,23 @@
 #' Checks if an input is a search; if not, it tries to return a search
 #'
-#' Mostly used as a convenience function inside other functions to have consistent inputs.
+#' Mostly used as a convenience function inside other functions to have
+#' consistent inputs.
 #'
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
-#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Language to be used for the search. Can be set once per
+#'   session with [tw_set_language()]. If not set, defaults to "en". For
+#'   available language values, see
+#'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+#'   dedicated Wikimedia page}.
 #' @param limit Maximum numbers of responses to be given.
-#' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param include_search Logical, defaults to `FALSE`. If `TRUE`, the search is
+#'   returned as an additional column.
+#' @inheritParams tw_get
 #'
-#' @return A data frame with three columns, `id`, `label`, and `description`, filtered by the above criteria.
+#' @return A data frame with three columns, `id`, `label`, and `description`,
+#'   filtered by the above criteria. Four columns if `include_search` is set to
+#'   `TRUE`.
 #' @export
 #'
 #' @examples
@@ -37,7 +41,7 @@ tw_check_search <- function(
     return(search)
   } else if (length(search) > 1) {
     cli::cli_abort(c(
-      "`search` must be a single query or a data frame generate by `tw_search()`, not {.obj_type_friendly {search}}."
+      x = "{.var search} must be a single query or a data frame generate by {.fn tw_search}, not {.obj_type_friendly {search}}."
     ))
   } else if (is.character(search)) {
     search_result <- tw_search(

@@ -2,10 +2,12 @@
 #'
 #' This function is mostly used internally and for testing.
 #'
-#' @param w An object of class Wikidata created with `WikidataR`, typically created with `WikidataR::get_item(id = id)`
+#' @param w An object of class Wikidata created with `WikidataR`, typically
+#'   created with `WikidataR::get_item(id = id)`
 #' @inheritParams tw_get
 #'
-#' @return A data frame (a tibble) with four columns, such as the one created by `tw_get`.
+#' @return A data frame (a tibble) with four columns, such as the one created by
+#'   [tw_get()].
 #'
 #' @examples
 #' item <- tryCatch(WikidataR::get_item(id = "Q180099"),
@@ -24,9 +26,9 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 
   if (length(labels) == 0) {
     labels_df <- tibble::tibble(
-      property = as.character(NA),
-      value = as.character(NA),
-      rank = as.character(NA)
+      property = NA_character_,
+      value = NA_character_,
+      rank = NA_character_
     ) %>%
       dplyr::slice(0)
   } else {
@@ -53,11 +55,11 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 
   if (length(aliases) == 0) {
     aliases_df <- tibble::tibble(
-      property = as.character(NA),
-      values = as.character(NA),
-      rank = as.character(NA)
+      property = NA_character_,
+      values = NA_character_,
+      rank = NA_character_
     ) %>%
-      tidyr::drop_na()
+      dplyr::slice(0)
   } else {
     aliases_df <- purrr::map_dfr(
       .x = aliases,
@@ -65,7 +67,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
         tibble::tibble(
           property = paste0("alias_", current_alias_l$language),
           value = current_alias_l$value,
-          rank = as.character(NA)
+          rank = NA_character_
         )
       }
     )
@@ -83,11 +85,11 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 
   if (length(descriptions) == 0) {
     descriptions_df <- tibble::tibble(
-      property = as.character(NA),
-      values = as.character(NA),
-      rank = as.character(NA)
+      property = NA_character_,
+      values = NA_character_,
+      rank = NA_character_
     ) %>%
-      tidyr::drop_na()
+      dplyr::slice(0)
   } else {
     descriptions_df <- purrr::map_dfr(
       .x = descriptions,
@@ -169,7 +171,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
       tibble::tibble(
         property = paste0("sitelink_", current_sitelink_l$site),
         value = current_sitelink_l$title,
-        rank = as.character(NA)
+        rank = NA_character_
       )
     }
   )
@@ -223,11 +225,17 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 #'
 #' This function is mostly used internally and for testing.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param w An object of class Wikidata created with `WikidataR`, typically created with `WikidataR::get_item(id = id)`
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for
+#'   Wolfgang Amadeus Mozart.
+#' @param p A character vector of length 1, a property. Must always start with
+#'   the capital letter "P", e.g. "P31" for "instance of".
+#' @param w An object of class Wikidata created with `WikidataR`, typically
+#'   created with `WikidataR::get_item(id = id)`
 #'
-#' @return A data frame (a tibble) with eight columns: `id` for the input id, `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`, `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when a property is present more than once)
+#' @return A data frame (a tibble) with eight columns: `id` for the input id,
+#'   `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`,
+#'   `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when
+#'   a property is present more than once)
 #' @export
 #'
 #' @examples

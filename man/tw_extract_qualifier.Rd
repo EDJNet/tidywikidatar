@@ -7,14 +7,20 @@
 tw_extract_qualifier(id, p, w = NULL)
 }
 \arguments{
-\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for
+Wolfgang Amadeus Mozart.}
 
-\item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector of length 1, a property. Must always start with
+the capital letter "P", e.g. "P31" for "instance of".}
 
-\item{w}{An object of class Wikidata created with \code{WikidataR}, typically created with \code{WikidataR::get_item(id = id)}}
+\item{w}{An object of class Wikidata created with \code{WikidataR}, typically
+created with \code{WikidataR::get_item(id = id)}}
 }
 \value{
-A data frame (a tibble) with eight columns: \code{id} for the input id, \code{property},  \code{qualifier_id}, \code{qualifier_property}, \code{qualifier_value}, \code{rank}, \code{qualifier_value_type}, and \code{set} (to distinguish sets of data when a property is present more than once)
+A data frame (a tibble) with eight columns: \code{id} for the input id,
+\code{property},  \code{qualifier_id}, \code{qualifier_property}, \code{qualifier_value},
+\code{rank}, \code{qualifier_value_type}, and \code{set} (to distinguish sets of data when
+a property is present more than once)
 }
 \description{
 This function is mostly used internally and for testing.

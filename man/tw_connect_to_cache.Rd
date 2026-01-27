@@ -12,13 +12,23 @@ tw_connect_to_cache(
 )
 }
 \arguments{
-\item{connection}{Defaults to NULL. If NULL, uses local SQLite database. If given, must be a connection object or a list with relevant connection settings (see example).}
+\item{connection}{Defaults to \code{NULL}. If \code{NULL}, uses local SQLite database.
+If given, must be a connection object or a list with relevant connection
+settings (see example).}
 
-\item{RSQLite}{Defaults to NULL, expected either NULL or logical. If set to \code{FALSE}, details on the database connection must be given either as a named list in the connection parameter, or with \code{tw_set_cache_db()} as environment variables.}
+\item{RSQLite}{Defaults to \code{NULL}, expected either \code{NULL} or logical. If set
+to \code{FALSE}, details on the database connection must be given either as a
+named list in the connection parameter, or with \code{\link[=tw_set_cache_db]{tw_set_cache_db()}} as
+environment variables.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 }
 \value{
 A connection object.
