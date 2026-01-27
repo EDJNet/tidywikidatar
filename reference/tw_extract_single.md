@@ -26,7 +26,7 @@ tw_extract_single(w, language = tidywikidatar::tw_get_language())
 ## Value
 
 A data frame (a tibble) with four columns, such as the one created by
-`tw_get`.
+[`tw_get()`](https://edjnet.github.io/tidywikidatar/reference/tw_get.md).
 
 ## Examples
 

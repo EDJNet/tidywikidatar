@@ -16,20 +16,21 @@ tw_check_pid(property, logical_vector = FALSE, non_pid_as_NA = FALSE)
 
 - logical_vector:
 
-  Logical, defaults to FALSE. If TRUE, returns a logical vector of the
-  same length as input, where TRUE corresponds to seemingly meaningful
-  property identifiers.
+  Logical, defaults to `FALSE`. If `TRUE`, returns a logical vector of
+  the same length as input, where `TRUE` corresponds to seemingly
+  meaningful property identifiers.
 
 - non_pid_as_NA:
 
-  Logical, defaults to FALSE. If TRUE (and if `logical_vector` is set to
-  FALSE), a vector of the same length is returned, with NA replacing
-  items that are seemingly not meaningful property identifiers.
+  Logical, defaults to `FALSE`. If `TRUE` (and if `logical_vector` is
+  set to `FALSE`), a vector of the same length is returned, with `NA`
+  replacing items that are seemingly not meaningful property
+  identifiers.
 
 ## Value
 
 A character vector with only strings appearing to be Wikidata
-identifiers; possibly shorter than input
+identifiers; possibly shorter than input.
 
 ## Examples
 

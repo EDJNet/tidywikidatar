@@ -34,8 +34,9 @@ tw_check_search(
 
   Language to be used for the search. Can be set once per session with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For a full list, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  If not set, defaults to "en". For available language values, see [the
+  dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - limit:
 
@@ -43,7 +44,7 @@ tw_check_search(
 
 - include_search:
 
-  Logical, defaults to FALSE. If TRUE, the search is returned as an
+  Logical, defaults to `FALSE`. If `TRUE`, the search is returned as an
   additional column.
 
 - wait:
@@ -55,30 +56,33 @@ tw_check_search(
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Defaults to FALSE. If TRUE, overwrites cache.
+  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
+  the local sqlite database. Useful if the original Wikidata object has
+  been updated.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 ## Value
 
 A data frame with three columns, `id`, `label`, and `description`,
-filtered by the above criteria.
+filtered by the above criteria. Four columns if `include_search` is set
+to `TRUE`.
 
 ## Examples
 

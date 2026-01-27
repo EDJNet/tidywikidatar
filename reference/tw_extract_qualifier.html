@@ -52,20 +52,26 @@
 
 
 <dl><dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.</p></dd>
+<dd><p>A character vector of length 1, must start with Q, e.g. "Q254" for
+Wolfgang Amadeus Mozart.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".</p></dd>
+<dd><p>A character vector of length 1, a property. Must always start with
+the capital letter "P", e.g. "P31" for "instance of".</p></dd>
 
 
 <dt id="arg-w">w<a class="anchor" aria-label="anchor" href="#arg-w"></a></dt>
-<dd><p>An object of class Wikidata created with <code>WikidataR</code>, typically created with <code>WikidataR::get_item(id = id)</code></p></dd>
+<dd><p>An object of class Wikidata created with <code>WikidataR</code>, typically
+created with <code>WikidataR::get_item(id = id)</code></p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame (a tibble) with eight columns: <code>id</code> for the input id, <code>property</code>,  <code>qualifier_id</code>, <code>qualifier_property</code>, <code>qualifier_value</code>, <code>rank</code>, <code>qualifier_value_type</code>, and <code>set</code> (to distinguish sets of data when a property is present more than once)</p>
+    <p>A data frame (a tibble) with eight columns: <code>id</code> for the input id,
+<code>property</code>,  <code>qualifier_id</code>, <code>qualifier_property</code>, <code>qualifier_value</code>,
+<code>rank</code>, <code>qualifier_value_type</code>, and <code>set</code> (to distinguish sets of data when
+a property is present more than once)</p>
     </div>
 
     <div class="section level2">
