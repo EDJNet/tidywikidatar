@@ -20,35 +20,61 @@ tw_get_image_same_length(
 )
 }
 \arguments{
-\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for
+Wolfgang Amadeus Mozart.}
 
-\item{format}{A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.}
+\item{format}{A character vector, defaults to \code{filename}. If set to
+\code{commons}, outputs the link to the Wikimedia Commons page. If set to
+\code{embed}, outputs a link that can be used to embed.}
 
-\item{as_tibble}{Defaults to FALSE. If TRUE, returns a data frame instead of a character vector.}
+\item{as_tibble}{Defaults to \code{FALSE}. If \code{TRUE}, returns a data frame instead
+of a character vector.}
 
-\item{only_first}{Defaults to TRUE. If TRUE, returns only the first image associated with a given Wikidata id. If FALSE, returns all images available.}
+\item{only_first}{Defaults to \code{TRUE}. If \code{TRUE}, returns only the first image
+associated with a given Wikidata id. If \code{FALSE}, returns all images
+available.}
 
-\item{width}{A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.}
+\item{width}{A numeric value, defaults to \code{NULL}, relevant only if format is
+set to 'embed'. If not given, defaults to full resolution image.}
 
-\item{language}{Needed for caching, defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{id_df}{Default to NULL. If given, it should be a dataframe typically generated with \code{tw_get_()}, and is used instead of calling Wikidata or using SQLite cache. Ignored when \code{id} is of length more than one.}
+\item{id_df}{Default to NULL. If given, it should be a dataframe typically
+generated with \code{\link[=tw_get]{tw_get()}}, and is used instead of calling Wikidata or
+using SQLite cache. Ignored when \code{id} is of length more than one.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 }
 \value{
-A character vector, corresponding to reference to the image in the requested format.
+A character vector, corresponding to reference to the image in the
+requested format.
 }
 \description{
-Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+Please consult the
+\href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+documentation for reusing content outside Wikimedia}.
 }
 \examples{
 tw_get_image_same_length("Q180099",

@@ -4,12 +4,19 @@
 \alias{tw_get_cache_file}
 \title{Gets location of cache file}
 \usage{
-tw_get_cache_file(type = NULL, language = tidywikidatar::tw_get_language())
+tw_get_cache_file(
+  extension = "sqlite",
+  language = tidywikidatar::tw_get_language()
+)
 }
 \arguments{
-\item{type}{Defaults to NULL. Deprecated. If given, type of cache file to output. Values typically used by \code{tidywikidatar} in versions up to 4.2 include "item", "search", and "qualifier".}
+\item{extension}{Defaults to \code{sqlite}. Extension of the database cache file.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 }
 \value{
 A character vector of length one with location of item cache file.

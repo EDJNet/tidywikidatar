@@ -40,7 +40,7 @@ tw_get_p(
 
 \item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
 
-\item{only_first}{Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.}
+\item{only_first}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it just keeps the first relevant property value for each id (or \code{NA} if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If \code{FALSE}, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.}
 
 \item{preferred}{Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.}
 

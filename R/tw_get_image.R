@@ -4,18 +4,18 @@
 #' \href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
 #' documentation for reusing content outside Wikimedia}.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param format A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
-#' @param width A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.
-#' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for
+#'   Wolfgang Amadeus Mozart.
+#' @param format A character vector, defaults to `filename`. If set to
+#'   `commons`, outputs the link to the Wikimedia Commons page. If set to
+#'   `embed`, outputs a link that can be used to embed.
+#' @param width A numeric value, defaults to `NULL`, relevant only if format is
+#'   set to 'embed'. If not given, defaults to full resolution image.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_label
 #'
-#' @return A data frame of two columns, id and image, corresponding to reference to the image in the requested format.
+#' @return A data frame of two columns, `id` and `image`, corresponding to
+#'   reference to the image in the requested format.
 #' @export
 #'
 #' @examples
@@ -65,7 +65,7 @@ tw_get_image <- function(
     .y = stringr::str_to_upper(filename_df$id),
     .f = function(current_filename, current_id) {
       if (is.na(current_filename)) {
-        output_filename <- as.character(NA)
+        output_filename <- NA_character_
       } else if (format == "filename") {
         output_filename <- current_filename
       } else if (format == "commons") {
@@ -103,22 +103,16 @@ tw_get_image <- function(
 
 #' Get image from Wikimedia Commons
 #'
-#' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+#' Please consult the
+#' \href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+#' documentation for reusing content outside Wikimedia}.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param format A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.
-#' @param only_first Defaults to TRUE. If TRUE, returns only the first image associated with a given Wikidata id. If FALSE, returns all images available.
-#' @param as_tibble Defaults to FALSE. If TRUE, returns a data frame instead of a character vector.
-#' @param width A numeric value, defaults to NULL, relevant only if format is set to 'embed'. If not given, defaults to full resolution image.
-#' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#'
-#' @return A character vector, corresponding to reference to the image in the requested format.
+#' @param as_tibble Defaults to `FALSE`. If `TRUE`, returns a data frame instead
+#'   of a character vector.
+#' @inheritParams tw_get_image
+#' @inheritParams tw_get_image_metadata
+#' @return A character vector, corresponding to reference to the image in the
+#'   requested format.
 #' @export
 #'
 #' @examples
@@ -215,21 +209,26 @@ tw_get_image_same_length <- function(
 
 #' Get metadata for images from Wikimedia Commons
 #'
-#' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+#' Please consult the
+#' \href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+#' documentation for reusing content outside Wikimedia}.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param image_filename Defaults to NULL. If NULL, `image_filename` is obtained from the Wikidata id. If given, must be of the same length as id.
-#' @param only_first Defaults to TRUE. If TRUE, returns metadata only for the first image associated with a given Wikidata id. If FALSE, returns all images available.
-#' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
+#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for
+#'   Wolfgang Amadeus Mozart.
+#' @param image_filename Defaults to `NULL`. If `NULL`, `image_filename` is
+#'   obtained from the Wikidata id. If given, must be of the same length as id.
+#' @param only_first Defaults to `TRUE`. If `TRUE`, returns only the first image
+#'   associated with a given Wikidata id. If `FALSE`, returns all images
+#'   available.
+#' @param id_df Default to NULL. If given, it should be a dataframe typically
+#'   generated with [tw_get()], and is used instead of calling Wikidata or
+#'   using SQLite cache. Ignored when `id` is of length more than one.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the
+#'   API before failing.
+#' @inheritParams tw_get_image
 #'
-#' @return A character vector, corresponding to reference to the image in the requested format.
+#' @return A character vector, corresponding to reference to the image in the
+#'   requested format.
 #' @export
 #'
 #' @examples
@@ -437,22 +436,16 @@ tw_get_image_metadata <- function(
 
 #' Get metadata for images from Wikimedia Commons
 #'
-#' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+#' Please consult the
+#' \href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+#' documentation for reusing content outside Wikimedia}.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param image_filename Defaults to NULL. If NULL, `image_filename` is obtained from the Wikidata id. If given, must be of the same length as id.
-#' @param only_first Defaults to TRUE. If TRUE, returns metadata only for the first image associated with a given Wikidata id. If FALSE, returns all images available.
-#' @param language Needed for caching, defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param read_cache Logical, defaults to TRUE. Mostly used internally to prevent checking if an item is in cache if it is already known that it is not in cache.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
+#' @inheritParams tw_get_image_metadata
+#' @inheritParams tw_get
+#' @inheritParams tw_get_single
 #'
-#' @return A character vector, corresponding to reference to the image in the requested format.
+#' @return A character vector, corresponding to reference to the image in the
+#'   requested format.
 #'
 #' @examples
 #' if (interactive()) {
@@ -474,8 +467,8 @@ tw_get_image_metadata_single <- function(
 ) {
   if (length(id) > 1) {
     cli::cli_abort(c(
-      "id` must have length 1.",
-      i = "Consider using `tw_get_image_metadata()`."
+      x = "id` must have length 1.",
+      i = "Consider using {.fn tw_get_image_metadata}."
     ))
   }
 

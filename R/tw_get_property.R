@@ -1,14 +1,11 @@
 #' Get Wikidata property of one or more items as a tidy data frame
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or using SQLite cache. Ignored when `id` is of length more than one.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param id_df Default to NULL. If given, it should be a dataframe typically
+#'   generated with [tw_get()], and is used instead of calling Wikidata or
+#'   using SQLite cache. Ignored when `id` is of length more than one.
+#' @inheritParams tw_get
+#' @inheritParams tw_search
 #'
 #' @return A tibble, corresponding to the value for the given property. A tibble of zero rows if no relevant property found.
 #' @export
@@ -118,7 +115,7 @@ tw_get_property <- function(
 #'
 #' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param only_first Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.
+#' @param only_first Logical, defaults to `FALSE`. If `TRUE`, it just keeps the first relevant property value for each id (or `NA` if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If `FALSE`, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.
 #' @param preferred Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.
 #' @param latest_start_time Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.
 #' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all

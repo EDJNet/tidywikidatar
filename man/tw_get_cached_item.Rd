@@ -13,15 +13,27 @@ tw_get_cached_item(
 )
 }
 \arguments{
-\item{id}{A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with \code{tw_search()} or a combination of \code{tw_search()} and \code{tw_filter_first()}.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 }
 \value{
 If data present in cache, returns a data frame with cached data.
@@ -30,7 +42,6 @@ If data present in cache, returns a data frame with cached data.
 Retrieve cached item
 }
 \examples{
-
 
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()

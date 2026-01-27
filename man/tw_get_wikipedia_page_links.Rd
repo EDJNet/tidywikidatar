@@ -2,7 +2,8 @@
 % Please edit documentation in R/tw_get_wikipedia_page_links.R
 \name{tw_get_wikipedia_page_links}
 \alias{tw_get_wikipedia_page_links}
-\title{Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or more pages}
+\title{Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or
+more pages}
 \usage{
 tw_get_wikipedia_page_links(
   url = NULL,
@@ -17,29 +18,47 @@ tw_get_wikipedia_page_links(
 )
 }
 \arguments{
-\item{url}{Full URL to a Wikipedia page. If given, title and language can be left empty.}
+\item{url}{Full url to a Wikipedia page. If given, title and language can be
+left empty.}
 
-\item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
+\item{title}{Title of a Wikipedia page or final parts of its url. If given,
+url can be left empty, but language must be provided.}
 
-\item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
+\item{language}{Two-letter language code used to define the Wikipedia version
+to use. Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not set,
+"en". If url given, this can be left empty.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 
-\item{wait}{In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 
-\item{attempts}{Defaults to 10. Number of times it re-attempts to reach the API before failing.}
+\item{attempts}{Defaults to 10. Number of times it re-attempts to reach the
+API before failing.}
 }
 \value{
-A data frame (a tibble) with eight columns: \code{source_title_url}, \code{source_wikipedia_title}, \code{source_qid}, \code{wikipedia_title}, \code{wikipedia_id}, \code{qid}, \code{description}, and \code{language}.
+A data frame (a tibble) with eight columns: \code{source_title_url},
+\code{source_wikipedia_title}, \code{source_qid}, \code{wikipedia_title}, \code{wikipedia_id},
+\code{qid}, \code{description}, and \code{language}.
 }
 \description{
-Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or more pages
+Get all Wikidata Q identifiers of all Wikipedia pages that appear in one or
+more pages
 }
 \examples{
 if (interactive()) {

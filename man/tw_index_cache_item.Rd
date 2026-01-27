@@ -24,13 +24,19 @@ executing anything on the database it checks if the given table has already
 been indexed. If it has, it does nothing and returns only an informative
 message.}
 
-\item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search_item", "search_property", and "qualifier".}
+\item{type}{Defaults to "item". Type of cache file to output. Values
+typically used by \code{tidywikidatar} include "item", "search_item",
+"search_property", and "qualifier".}
 
 \item{show_details}{Logical, defaults to \code{FALSE}. If \code{FALSE}, return the
 function adds the index to the database, but does not return anything. If
 \code{TRUE}, returns a data frame with more details about the index.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per
+session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full
+list, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}

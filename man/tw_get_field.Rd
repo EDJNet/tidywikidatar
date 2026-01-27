@@ -21,7 +21,8 @@ provided with this parameter.}
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
 language values, see
-\url{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}}
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 }
 \value{
 A character vector of the same length, and with data in the same

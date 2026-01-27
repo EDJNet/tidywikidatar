@@ -1,26 +1,26 @@
 #' Efficiently get a wide table with various properties of a given set of
 #' Wikidata identifiers
 #'
-#' @param label Logical, defaults to FALSE. If TRUE labels of Wikidata Q
+#' @param label Logical, defaults to `FALSE`. If `TRUE` labels of Wikidata Q
 #'   identifiers are reported instead of the identifiers themselves (or labels
-#'   are presented along of them, if `both_id_and_label` is set to TRUE)
-#' @param property_label_as_column_name Logical, defaults to FALSE. If FALSE,
+#'   are presented along of them, if `both_id_and_label` is set to `TRUE`)
+#' @param property_label_as_column_name Logical, defaults to `FALSE`. If `FALSE`,
 #'   names of columns with properties are the "P" identifiers of the property.
-#'   If TRUE, the label of the correspondent property is assigned as column
+#'   If `TRUE`, the label of the correspondent property is assigned as column
 #'   name.
-#' @param both_id_and_label Logical, defaults to FALSE. Relevant only if `label`
-#'   is set to TRUE, otherwise ignored. If TRUE, the label is added as a
+#' @param both_id_and_label Logical, defaults to `FALSE`. Relevant only if `label`
+#'   is set to `TRUE`, otherwise ignored. If `TRUE`, the label is added as a
 #'   separate column along the original one. Column name is the same as the
 #'   property column, followed by "_label".
 #' @param id_df_label Defaults to NULL. If given, it should be a dataframe
-#'   typically generated with `tw_get()` with *all* items for which labels will
+#'   typically generated with [tw_get()] with *all* items for which labels will
 #'   be requested. It is used instead of calling Wikidata or relying on cache.
-#' @param unlist Logical, defaults to FALSE. Typically used sharing or exporting
+#' @param unlist Logical, defaults to `FALSE`. Typically used sharing or exporting
 #'   data as csv files. Collapses all properties in a single string. The
 #'   separator is defined by the `collapse` parameter. Relevant only when
-#'   `only_first` is set to FALSE.
+#'   `only_first` is set to `FALSE`.
 #' @param collapse Defaults to ";". Character used to separate results when
-#'   `unlist` is set to TRUE.
+#'   `unlist` is set to `TRUE`.
 #'
 #' @inheritParams tw_get_property_same_length
 #'
@@ -133,7 +133,7 @@ tw_get_p_wide <- function(
   if (only_first) {
     property_df <- property_df %>%
       dplyr::distinct(.data$id, .data$property, .keep_all = TRUE)
-  } else if (only_first == FALSE) {
+  } else if (!only_first) {
     property_df <- property_df %>%
       dplyr::distinct(.data$id, .data$property, .data$value, .keep_all = TRUE)
 
@@ -165,20 +165,20 @@ tw_get_p_wide <- function(
             id_cols = "id",
             names_from = "property",
             values_from = c("value", "label"),
-            values_fill = as.character(NA),
+            values_fill = NA_character_,
             names_glue = "{property}_{.value}"
           )
-      } else if (only_first == FALSE) {
+      } else if (!only_first) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
             id_cols = "id",
             names_from = "property",
             values_from = c("value", "label"),
-            values_fill = list(as.character(NA)),
+            values_fill = list(NA_character_),
             names_glue = "{property}_{.value}"
           )
       }
-    } else if (both_id_and_label == FALSE) {
+    } else if (!both_id_and_label) {
       if (only_first) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
@@ -187,7 +187,7 @@ tw_get_p_wide <- function(
             values_from = "label",
             values_fill = NA_character_
           )
-      } else if (only_first == FALSE) {
+      } else if (!only_first) {
         property_df_wide <- property_df %>%
           tidyr::pivot_wider(
             id_cols = "id",
@@ -198,7 +198,9 @@ tw_get_p_wide <- function(
       }
     } else {
       cli::cli_abort(
-        "The parameter `both_id_and_label` must be either TRUE or FALSE."
+        message = c(
+          x = "The parameter `both_id_and_label` must be either {.val {TRUE}} or {.val {FALSE}}."
+        )
       )
     }
 
@@ -238,7 +240,7 @@ tw_get_p_wide <- function(
           values_from = "value",
           values_fill = NA_character_
         )
-    } else if (only_first == FALSE) {
+    } else if (!only_first) {
       property_df_wide <- property_df %>%
         tidyr::pivot_wider(
           id_cols = "id",

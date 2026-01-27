@@ -1,13 +1,11 @@
 #' Writes item to cache
 #'
-#' Writes item to cache. Typically used internally, but exported to enable custom caching solutions.
+#' Writes item to cache. Typically used internally, but exported to enable
+#' custom caching solutions.
 #'
-#' @param item_df A data frame with three columns typically generated with `tw_get()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in `item_df`. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param item_df A data frame with three columns typically generated with
+#'   [tw_get()].
+#' @inheritParams tw_get
 #'
 #' @return Nothing, used for its side effects.
 #' @export

@@ -1,12 +1,8 @@
 #' Get label of a Wikidata property in a given language
 #'
 #' @param property A character vector. Each element must start with P, e.g. "P31".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @inheritParams tw_get
+#' @inheritParams tw_search
 #'
 #' @return A character vector, with the Wikidata label in the requested language.
 #' @export
@@ -16,6 +12,7 @@
 tw_get_property_label <- function(
   property,
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -48,6 +45,7 @@ tw_get_property_label <- function(
             label = tw_get_property_label_single(
               property = x,
               language = language,
+              response_language = response_language,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = db,
@@ -71,6 +69,7 @@ tw_get_property_label <- function(
           tw_get_property_label_single(
             property = x,
             language = language,
+            response_language = response_language,
             cache = cache,
             overwrite_cache = overwrite_cache,
             cache_connection = db,
@@ -90,6 +89,7 @@ tw_get_property_label <- function(
     label_output <- tw_get_property_label_single(
       property = property,
       language = language,
+      response_language = response_language,
       cache = cache,
       overwrite_cache = overwrite_cache,
       cache_connection = db,
@@ -102,13 +102,10 @@ tw_get_property_label <- function(
 
 #' Get label of a Wikidata property in a given language
 #'
-#' @param property A character vector. Each element must start with P, e.g. "P31".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param property A character vector of length 1, must start with P, e.g. "P31".
+#' @inheritParams tw_get
+#' @inheritParams tw_search
+#' @inheritParams tw_get_property
 #'
 #' @return A character vector of length 1, with the Wikidata label in the requested language.
 #'
@@ -117,6 +114,7 @@ tw_get_property_label <- function(
 tw_get_property_label_single <- function(
   property,
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -131,6 +129,7 @@ tw_get_property_label_single <- function(
     search = property,
     cache = cache,
     language = language,
+    response_language = response_language,
     overwrite_cache = overwrite_cache,
     cache_connection = cache_connection,
     disconnect_db = disconnect_db,
@@ -150,12 +149,8 @@ tw_get_property_label_single <- function(
 #' Get description of a Wikidata property in a given language
 #'
 #' @param property A character vector of length 1, must start with P, e.g. "P31".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @inheritParams tw_get
+#' @inheritParams tw_search
 #'
 #' @return A character vector of length 1, with the Wikidata label in the requested language.
 #' @export
@@ -165,6 +160,7 @@ tw_get_property_label_single <- function(
 tw_get_property_description <- function(
   property,
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -188,6 +184,7 @@ tw_get_property_description <- function(
         search = x,
         cache = cache,
         language = language,
+        response_language = response_language,
         overwrite_cache = overwrite_cache,
         cache_connection = db,
         disconnect_db = FALSE,
@@ -206,7 +203,7 @@ tw_get_property_description <- function(
   )
 
   if (length(description) == 0) {
-    as.character(NA)
+    NA_character_
   } else {
     description
   }

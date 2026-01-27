@@ -12,16 +12,28 @@ tw_check_cached_items(
 )
 }
 \arguments{
-\item{id}{A character vector. Each element must start with Q, and correspond to a Wikidata identifier.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 }
 \value{
-A character vector with IDs of items present in cache. If no item found in cache, returns NULL.
+A character vector with IDs of items present in cache. If no item
+found in cache, returns \code{NULL}.
 }
 \description{
 Check if given items are present in cache

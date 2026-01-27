@@ -11,14 +11,28 @@ tw_get_cache_table_name(
 )
 }
 \arguments{
-\item{type}{Defaults to "item". Type of cache file to output. Values typically used by \code{tidywikidatar} include "item", "search_item", "search_property", and "qualifier".}
+\item{type}{Defaults to "item". Type of cache file to output. Values
+typically used by \code{tidywikidatar} include "item", "search_item",
+"search_property", and "qualifier".}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per
+session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full
+list, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{response_language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Relevant only when type is set to "search_item" or "search_property". See \code{tw_search()} for details.}
+\item{response_language}{Language to be used for the returned labels and
+descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API,
+as described
+\href{https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities}{in
+the official documentation}. Can be set once per session with
+\code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full list, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
+available language codes}.}
 }
 \value{
-A character vector of length one with the name of the relevant table in the cache file.
+A character vector of length one with the name of the relevant table
+in the cache file.
 }
 \description{
 Gets name of table inside the database

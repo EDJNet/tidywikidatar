@@ -14,23 +14,36 @@ tw_write_item_to_cache(
 )
 }
 \arguments{
-\item{item_df}{A data frame with three columns typically generated with \code{tw_get()}.}
+\item{item_df}{A data frame with three columns typically generated with
+\code{\link[=tw_get]{tw_get()}}.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it first deletes all rows associated with the item(s) included in \code{item_df}. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 }
 \value{
 Nothing, used for its side effects.
 }
 \description{
-Writes item to cache. Typically used internally, but exported to enable custom caching solutions.
+Writes item to cache. Typically used internally, but exported to enable
+custom caching solutions.
 }
 \examples{
 
