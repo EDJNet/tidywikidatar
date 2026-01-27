@@ -17,7 +17,7 @@
 #' new_user_agent
 #' # Restore
 #' tw_set_user_agent(user_agent = default_user_agent)
-tw_set_user_agent <- function(user_agent) {
+tw_set_user_agent <- function(user_agent = NULL) {
   if (is.null(user_agent)) {
     user_agent <- Sys.getenv("tw_user_agent")
   } else {
