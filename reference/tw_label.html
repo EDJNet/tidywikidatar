@@ -61,40 +61,59 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>A data frame, typically generated with other <code>tidywikidatar</code> functions such as <code><a href="tw_get_property.html">tw_get_property()</a></code></p></dd>
+<dd><p>A data frame, typically generated with other <code>tidywikidatar</code>
+functions such as <code><a href="tw_get_property.html">tw_get_property()</a></code>.</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Logical, defaults to TRUE. If TRUE, it tries to get labels for all supposed id in the column called value. May break if the columns include some value which starts with Q and some digits, but is not a wikidata id.</p></dd>
+<dd><p>Logical, defaults to <code>TRUE</code>. If <code>TRUE</code>, it tries to get labels
+for all supposed id in the column called value. May break if the columns
+include some value which starts with Q and some digits, but is not a
+Wikidata id.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
-<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">the
+dedicated Wikimedia page</a>.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
-<dd><p>Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If given, it should be given either <code>TRUE</code>
+or <code>FALSE</code>. Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
 
 
 <dt id="arg-overwrite-cache">overwrite_cache<a class="anchor" aria-label="anchor" href="#arg-overwrite-cache"></a></dt>
-<dd><p>Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.</p></dd>
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>TRUE</code>, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.</p></dd>
 
 
 <dt id="arg-cache-connection">cache_connection<a class="anchor" aria-label="anchor" href="#arg-cache-connection"></a></dt>
-<dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If <code>NULL</code>, and caching is
+enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom
+connection to other databases can be given (see vignette <code>caching</code> for
+details).</p></dd>
 
 
 <dt id="arg-disconnect-db">disconnect_db<a class="anchor" aria-label="anchor" href="#arg-disconnect-db"></a></dt>
-<dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
+<dd><p>Defaults to <code>TRUE</code>. If <code>FALSE</code>, leaves the connection to
+cache open.</p></dd>
 
 
 <dt id="arg-wait">wait<a class="anchor" aria-label="anchor" href="#arg-wait"></a></dt>
-<dd><p>In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.</p></dd>
+<dd><p>In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame, with the same shape as the input data frame, but with labels instead of identifiers.</p>
+    <p>A data frame, with the same shape as the input data frame, but with
+labels instead of identifiers.</p>
     </div>
 
     <div class="section level2">
