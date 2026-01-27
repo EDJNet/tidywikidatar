@@ -11,8 +11,9 @@ tw_extract_single(w, language = tidywikidatar::tw_get_language())
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
-language values, see \href{}{the dedicated Wikimedia
-page}{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}.}
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 }
 \value{
 A data frame (a tibble) with four columns, such as the one created by \code{tw_get}.

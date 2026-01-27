@@ -23,8 +23,9 @@ and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
-language values, see \href{}{the dedicated Wikimedia
-page}{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}.}
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}

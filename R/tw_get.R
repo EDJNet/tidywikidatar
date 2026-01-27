@@ -207,8 +207,9 @@ tw_get_single <- function(
 #'   and [tw_filter_first()].
 #' @param language Defaults to language set with [tw_set_language()]; if not
 #'   set, "en". Use "all_available" to keep all languages. For available
-#'   language values, see \href{}{the dedicated Wikimedia
-#'   page}{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}.
+#'   language values, see
+#'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+#'   dedicated Wikimedia page}.
 #' @param cache Defaults to `NULL`. If given, it should be given either `TRUE`
 #'   or `FALSE`. Typically set with [tw_enable_cache()] or [tw_disable_cache()].
 #' @param overwrite_cache Logical, defaults to `FALSE`. If `TRUE`, it overwrites
