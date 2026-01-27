@@ -1,7 +1,9 @@
 # tidywikidatar (development version)
 
 * drop dependency on `WikidataQueryServiceR`
-* enable setting default user agent for the session
+* enable setting default user agent for the session for query functions
+* more consistent documentation formatting
+* last version supporting legacy pipe `%>%`
 
 # tidywikidatar 0.5.9
 

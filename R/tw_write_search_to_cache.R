@@ -1,8 +1,10 @@
 #' Writes search to cache
 #'
-#' Writes search to cache. Typically used internally, but exported to enable custom caching solutions.
+#' Writes search to cache. Typically used internally, but exported to enable
+#' custom caching solutions.
 #'
-#' @param search_df A data frame with four columns typically generated with `tw_search(include_search = TRUE)`.
+#' @param search_df A data frame with four columns typically generated with
+#'   `tw_search(include_search = TRUE)`.
 #' @inheritParams tw_search
 #'
 #' @return Nothing, used for its side effects.

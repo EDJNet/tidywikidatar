@@ -16,7 +16,8 @@ tw_write_search_to_cache(
 )
 }
 \arguments{
-\item{search_df}{A data frame with four columns typically generated with \code{tw_search(include_search = TRUE)}.}
+\item{search_df}{A data frame with four columns typically generated with
+\code{tw_search(include_search = TRUE)}.}
 
 \item{type}{Defaults to "item". Either "item" or "property".}
 
@@ -52,7 +53,8 @@ cache open.}
 Nothing, used for its side effects.
 }
 \description{
-Writes search to cache. Typically used internally, but exported to enable custom caching solutions.
+Writes search to cache. Typically used internally, but exported to enable
+custom caching solutions.
 }
 \examples{
 
