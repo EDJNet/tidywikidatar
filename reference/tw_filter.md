@@ -11,6 +11,7 @@ tw_filter(
   p,
   q,
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -44,8 +45,21 @@ tw_filter(
 
   Language to be used for the search. Can be set once per session with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For a full list, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  If not set, defaults to "en". For a full list, see [the dedicated
+  Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
+
+- response_language:
+
+  Language to be used for the returned labels and descriptions.
+  Corresponds to the `uselang` parameter of the MediaWiki API, as
+  described [in the official
+  documentation](https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities).
+  Can be set once per session with
+  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
+  If not set, defaults to "en". For a full list, see [all available
+  language
+  codes](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - limit:
 
@@ -53,7 +67,7 @@ tw_filter(
 
 - include_search:
 
-  Logical, defaults to FALSE. If TRUE, the search is returned as an
+  Logical, defaults to `FALSE`. If `TRUE`, the search is returned as an
   additional column.
 
 - wait:
@@ -65,25 +79,25 @@ tw_filter(
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE.` Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Defaults to FALSE. If TRUE, overwrites cache.
+  Defaults to `FALSE`. If `TRUE`, overwrites cache.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 ## Value
 

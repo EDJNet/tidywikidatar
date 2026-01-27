@@ -10,6 +10,7 @@ tw_check_search(
   search,
   type = "item",
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -34,9 +35,21 @@ tw_check_search(
 
   Language to be used for the search. Can be set once per session with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For available language values, see [the
-  dedicated Wikimedia
+  If not set, defaults to "en". For a full list, see [the dedicated
+  Wikimedia
   page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
+
+- response_language:
+
+  Language to be used for the returned labels and descriptions.
+  Corresponds to the `uselang` parameter of the MediaWiki API, as
+  described [in the official
+  documentation](https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities).
+  Can be set once per session with
+  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
+  If not set, defaults to "en". For a full list, see [all available
+  language
+  codes](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - limit:
 
@@ -57,16 +70,14 @@ tw_check_search(
 - cache:
 
   Defaults to `NULL`. If given, it should be given either `TRUE` or
-  `FALSE`. Typically set with
+  `FALSE.` Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
-  the local sqlite database. Useful if the original Wikidata object has
-  been updated.
+  Defaults to `FALSE`. If `TRUE`, overwrites cache.
 
 - cache_connection:
 

@@ -27,7 +27,7 @@ The user agent set for the session, implicitly.
 # Default user agent
 default_user_agent <- tw_get_user_agent()
 default_user_agent
-#> [1] "tidywikidatar/0.5.9.9003"
+#> [1] "tidywikidatar/0.5.9.9004"
 # Custom user agent
 tw_set_user_agent(user_agent = "custom_project_name/email")
 new_user_agent <- tw_get_user_agent()

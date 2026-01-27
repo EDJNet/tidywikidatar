@@ -13,13 +13,13 @@ Source:
 [`DESCRIPTION`](https://github.com/EDJNet/tidywikidatar/blob/master/DESCRIPTION)
 
 Comai G (2026). *tidywikidatar: Explore 'Wikidata' Through Tidy Data
-Frames*. R package version 0.5.9.9003,
+Frames*. R package version 0.5.9.9004,
 <https://edjnet.github.io/tidywikidatar/>.
 
     @Manual{,
       title = {tidywikidatar: Explore 'Wikidata' Through Tidy Data Frames},
       author = {Giorgio Comai},
       year = {2026},
-      note = {R package version 0.5.9.9003},
+      note = {R package version 0.5.9.9004},
       url = {https://edjnet.github.io/tidywikidatar/},
     }
