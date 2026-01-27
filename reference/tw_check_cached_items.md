@@ -17,31 +17,37 @@ tw_check_cached_items(
 
 - id:
 
-  A character vector. Each element must start with Q, and correspond to
-  a Wikidata identifier.
+  A character vector, must start with Q, e.g. "Q180099" for the
+  anthropologist Margaret Mead. Can also be a data frame of one row,
+  typically generated with
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  or a combination of
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  and
+  [`tw_filter_first()`](https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.md).
 
 - language:
 
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 ## Value
 
 A character vector with IDs of items present in cache. If no item found
-in cache, returns NULL.
+in cache, returns `NULL`.
 
 ## Examples
 

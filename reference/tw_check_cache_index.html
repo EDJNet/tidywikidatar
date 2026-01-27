@@ -13,7 +13,7 @@ efficient)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,9 @@ precedence over other parameters.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Defaults to "item". Type of cache file to output. Values typically used by <code>tidywikidatar</code> include "item", "search_item", "search_property", and "qualifier".</p></dd>
+<dd><p>Defaults to "item". Type of cache file to output. Values
+typically used by <code>tidywikidatar</code> include "item", "search_item",
+"search_property", and "qualifier".</p></dd>
 
 
 <dt id="arg-show-details">show_details<a class="anchor" aria-label="anchor" href="#arg-show-details"></a></dt>
@@ -86,11 +88,22 @@ index.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
-<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dd><p>Language to be used for the search. Can be set once per
+session with <code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full
+list, see
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">the
+dedicated Wikimedia page</a>.</p></dd>
 
 
 <dt id="arg-response-language">response_language<a class="anchor" aria-label="anchor" href="#arg-response-language"></a></dt>
-<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; "en" if not set. Relevant only when type is set to "search_item" or "search_property". See <code><a href="tw_search.html">tw_search()</a></code> for details.</p></dd>
+<dd><p>Language to be used for the returned labels and
+descriptions. Corresponds to the <code>uselang</code> parameter of the MediaWiki API,
+as described
+<a href="https://www.wikidata.org/w/api.php?action=help&amp;modules=wbsearchentities" class="external-link">in
+the official documentation</a>. Can be set once per session with
+<code><a href="tw_set_language.html">tw_set_language()</a></code>. If not set, defaults to "en". For a full list, see
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">all
+available language codes</a>.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>

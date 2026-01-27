@@ -44,11 +44,11 @@ tw_index_cache_item(
 
 - language:
 
-  Defaults to language set with
-  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
-  "en" if not set. Used to limit the data to be cached. Use
-  "all_available" to keep all data. For available values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  Language to be used for the search. Can be set once per session with
+  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
+  If not set, defaults to "en". For a full list, see [the dedicated
+  Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - cache:
 

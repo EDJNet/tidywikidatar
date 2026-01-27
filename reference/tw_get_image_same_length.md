@@ -1,8 +1,7 @@
 # Get image from Wikimedia Commons
 
-Please consult the relevant documentation for reusing content outside
-Wikimedia:
-https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+Please consult the [relevant documentation for reusing content outside
+Wikimedia](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical).
 
 ## Usage
 
@@ -32,62 +31,64 @@ tw_get_image_same_length(
 
 - format:
 
-  A character vector, defaults to 'filename'. If set to 'commons',
-  outputs the link to the Wikimedia Commons page. If set to "embed",
+  A character vector, defaults to `filename`. If set to `commons`,
+  outputs the link to the Wikimedia Commons page. If set to `embed`,
   outputs a link that can be used to embed.
 
 - as_tibble:
 
-  Defaults to FALSE. If TRUE, returns a data frame instead of a
+  Defaults to `FALSE`. If `TRUE`, returns a data frame instead of a
   character vector.
 
 - only_first:
 
-  Defaults to TRUE. If TRUE, returns only the first image associated
-  with a given Wikidata id. If FALSE, returns all images available.
+  Defaults to `TRUE`. If `TRUE`, returns only the first image associated
+  with a given Wikidata id. If `FALSE`, returns all images available.
 
 - width:
 
-  A numeric value, defaults to NULL, relevant only if format is set to
+  A numeric value, defaults to `NULL`, relevant only if format is set to
   'embed'. If not given, defaults to full resolution image.
 
 - language:
 
-  Needed for caching, defaults to language set with
+  Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - id_df:
 
   Default to NULL. If given, it should be a dataframe typically
-  generated with `tw_get_()`, and is used instead of calling Wikidata or
-  using SQLite cache. Ignored when `id` is of length more than one.
+  generated with
+  [`tw_get()`](https://edjnet.github.io/tidywikidatar/reference/tw_get.md),
+  and is used instead of calling Wikidata or using SQLite cache. Ignored
+  when `id` is of length more than one.
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Logical, defaults to FALSE. If TRUE, it overwrites the table in the
-  local sqlite database. Useful if the original Wikidata object has been
-  updated.
+  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
+  the local sqlite database. Useful if the original Wikidata object has
+  been updated.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 - wait:
 

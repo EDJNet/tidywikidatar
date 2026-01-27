@@ -9,7 +9,7 @@ Wikidata identifiers"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,27 +81,27 @@ Wikidata identifiers</p>
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>Logical, defaults to FALSE. If TRUE labels of Wikidata Q
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>TRUE</code> labels of Wikidata Q
 identifiers are reported instead of the identifiers themselves (or labels
-are presented along of them, if <code>both_id_and_label</code> is set to TRUE)</p></dd>
+are presented along of them, if <code>both_id_and_label</code> is set to <code>TRUE</code>)</p></dd>
 
 
 <dt id="arg-property-label-as-column-name">property_label_as_column_name<a class="anchor" aria-label="anchor" href="#arg-property-label-as-column-name"></a></dt>
-<dd><p>Logical, defaults to FALSE. If FALSE,
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>FALSE</code>,
 names of columns with properties are the "P" identifiers of the property.
-If TRUE, the label of the correspondent property is assigned as column
+If <code>TRUE</code>, the label of the correspondent property is assigned as column
 name.</p></dd>
 
 
 <dt id="arg-both-id-and-label">both_id_and_label<a class="anchor" aria-label="anchor" href="#arg-both-id-and-label"></a></dt>
-<dd><p>Logical, defaults to FALSE. Relevant only if <code>label</code>
-is set to TRUE, otherwise ignored. If TRUE, the label is added as a
+<dd><p>Logical, defaults to <code>FALSE</code>. Relevant only if <code>label</code>
+is set to <code>TRUE</code>, otherwise ignored. If <code>TRUE</code>, the label is added as a
 separate column along the original one. Column name is the same as the
 property column, followed by "_label".</p></dd>
 
 
 <dt id="arg-only-first">only_first<a class="anchor" aria-label="anchor" href="#arg-only-first"></a></dt>
-<dd><p>Logical, defaults to FALSE. If TRUE, it just keeps the first relevant property value for each id (or NA if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If FALSE, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.</p></dd>
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>TRUE</code>, it just keeps the first relevant property value for each id (or <code>NA</code> if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If <code>FALSE</code>, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.</p></dd>
 
 
 <dt id="arg-preferred">preferred<a class="anchor" aria-label="anchor" href="#arg-preferred"></a></dt>
@@ -109,15 +109,15 @@ property column, followed by "_label".</p></dd>
 
 
 <dt id="arg-unlist">unlist<a class="anchor" aria-label="anchor" href="#arg-unlist"></a></dt>
-<dd><p>Logical, defaults to FALSE. Typically used sharing or exporting
+<dd><p>Logical, defaults to <code>FALSE</code>. Typically used sharing or exporting
 data as csv files. Collapses all properties in a single string. The
 separator is defined by the <code>collapse</code> parameter. Relevant only when
-<code>only_first</code> is set to FALSE.</p></dd>
+<code>only_first</code> is set to <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-collapse">collapse<a class="anchor" aria-label="anchor" href="#arg-collapse"></a></dt>
 <dd><p>Defaults to ";". Character used to separate results when
-<code>unlist</code> is set to TRUE.</p></dd>
+<code>unlist</code> is set to <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>

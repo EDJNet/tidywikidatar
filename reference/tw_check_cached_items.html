@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,24 +57,36 @@
 
 
 <dl><dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>A character vector. Each element must start with Q, and correspond to a Wikidata identifier.</p></dd>
+<dd><p>A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with <code><a href="tw_search.html">tw_search()</a></code> or a combination of <code><a href="tw_search.html">tw_search()</a></code>
+and <code><a href="tw_filter_first.html">tw_filter_first()</a></code>.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
-<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+<dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">the
+dedicated Wikimedia page</a>.</p></dd>
 
 
 <dt id="arg-cache-connection">cache_connection<a class="anchor" aria-label="anchor" href="#arg-cache-connection"></a></dt>
-<dd><p>Defaults to NULL. If NULL, and caching is enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom connection to other databases can be given (see vignette <code>caching</code> for details).</p></dd>
+<dd><p>Defaults to <code>NULL</code>. If <code>NULL</code>, and caching is
+enabled, <code>tidywikidatar</code> will use a local sqlite database. A custom
+connection to other databases can be given (see vignette <code>caching</code> for
+details).</p></dd>
 
 
 <dt id="arg-disconnect-db">disconnect_db<a class="anchor" aria-label="anchor" href="#arg-disconnect-db"></a></dt>
-<dd><p>Defaults to TRUE. If FALSE, leaves the connection to cache open.</p></dd>
+<dd><p>Defaults to <code>TRUE</code>. If <code>FALSE</code>, leaves the connection to
+cache open.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A character vector with IDs of items present in cache. If no item found in cache, returns NULL.</p>
+    <p>A character vector with IDs of items present in cache. If no item
+found in cache, returns <code>NULL</code>.</p>
     </div>
 
     <div class="section level2">

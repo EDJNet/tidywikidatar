@@ -35,8 +35,8 @@ tw_get_field(df, field, id, language = tidywikidatar::tw_get_language())
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  <https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all>
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 ## Value
 

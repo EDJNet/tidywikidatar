@@ -23,58 +23,60 @@ tw_get_wikipedia(
 
 - id:
 
-  A character vector, must start with Q, e.g. "Q254" for Wolfgang
-  Amadeus Mozart
+  A character vector of length 1, must start with Q, e.g. "Q254" for
+  Wolfgang Amadeus Mozart.
 
 - full_link:
 
-  Logical, defaults to TRUE. If FALSE, returns only the part of the url
-  that corresponds to the title.
+  Logical, defaults to `TRUE`. If `FALSE`, returns only the part of the
+  url that corresponds to the title.
 
 - language:
 
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  <https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all>
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - id_df:
 
   Default to NULL. If given, it should be a dataframe typically
-  generated with `tw_get_()`, and is used instead of calling Wikidata or
-  using SQLite cache. Ignored when `id` is of length more than one.
+  generated with
+  [`tw_get()`](https://edjnet.github.io/tidywikidatar/reference/tw_get.md),
+  and is used instead of calling Wikidata or using SQLite cache. Ignored
+  when `id` is of length more than one.
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Logical, defaults to FALSE. If TRUE, it overwrites the table in the
-  local sqlite database. Useful if the original Wikidata object has been
-  updated.
+  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
+  the local sqlite database. Useful if the original Wikidata object has
+  been updated.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 - wait:
 
   In seconds, defaults to 0. Time to wait between queries to Wikidata.
-  Wait time is not applied to contents retrieved from the local cache.
-  If you are running a large number of queries systematically you may
-  want to add some waiting time between each of them.
+  If data are cached locally, wait time is not applied. If you are
+  running many queries systematically you may want to add some waiting
+  time between queries.
 
 ## Value
 

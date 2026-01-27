@@ -51,12 +51,12 @@ tw_get_p(
 
 - only_first:
 
-  Logical, defaults to FALSE. If TRUE, it just keeps the first relevant
-  property value for each id (or NA if none is available), and returns a
-  character vector. Warning: this likely discards valid values, so make
-  sure this is really what you want. If FALSE, returns a list of the
-  same length as input, with all values for each id stored in a list if
-  more than one is found.
+  Logical, defaults to `FALSE`. If `TRUE`, it just keeps the first
+  relevant property value for each id (or `NA` if none is available),
+  and returns a character vector. Warning: this likely discards valid
+  values, so make sure this is really what you want. If `FALSE`, returns
+  a list of the same length as input, with all values for each id stored
+  in a list if more than one is found.
 
 - preferred:
 

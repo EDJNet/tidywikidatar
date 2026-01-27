@@ -41,31 +41,32 @@ tw_get_p_wide(
 
 - label:
 
-  Logical, defaults to FALSE. If TRUE labels of Wikidata Q identifiers
-  are reported instead of the identifiers themselves (or labels are
-  presented along of them, if `both_id_and_label` is set to TRUE)
+  Logical, defaults to `FALSE`. If `TRUE` labels of Wikidata Q
+  identifiers are reported instead of the identifiers themselves (or
+  labels are presented along of them, if `both_id_and_label` is set to
+  `TRUE`)
 
 - property_label_as_column_name:
 
-  Logical, defaults to FALSE. If FALSE, names of columns with properties
-  are the "P" identifiers of the property. If TRUE, the label of the
-  correspondent property is assigned as column name.
+  Logical, defaults to `FALSE`. If `FALSE`, names of columns with
+  properties are the "P" identifiers of the property. If `TRUE`, the
+  label of the correspondent property is assigned as column name.
 
 - both_id_and_label:
 
-  Logical, defaults to FALSE. Relevant only if `label` is set to TRUE,
-  otherwise ignored. If TRUE, the label is added as a separate column
-  along the original one. Column name is the same as the property
+  Logical, defaults to `FALSE`. Relevant only if `label` is set to
+  `TRUE`, otherwise ignored. If `TRUE`, the label is added as a separate
+  column along the original one. Column name is the same as the property
   column, followed by "\_label".
 
 - only_first:
 
-  Logical, defaults to FALSE. If TRUE, it just keeps the first relevant
-  property value for each id (or NA if none is available), and returns a
-  character vector. Warning: this likely discards valid values, so make
-  sure this is really what you want. If FALSE, returns a list of the
-  same length as input, with all values for each id stored in a list if
-  more than one is found.
+  Logical, defaults to `FALSE`. If `TRUE`, it just keeps the first
+  relevant property value for each id (or `NA` if none is available),
+  and returns a character vector. Warning: this likely discards valid
+  values, so make sure this is really what you want. If `FALSE`, returns
+  a list of the same length as input, with all values for each id stored
+  in a list if more than one is found.
 
 - preferred:
 
@@ -75,15 +76,15 @@ tw_get_p_wide(
 
 - unlist:
 
-  Logical, defaults to FALSE. Typically used sharing or exporting data
+  Logical, defaults to `FALSE`. Typically used sharing or exporting data
   as csv files. Collapses all properties in a single string. The
   separator is defined by the `collapse` parameter. Relevant only when
-  `only_first` is set to FALSE.
+  `only_first` is set to `FALSE`.
 
 - collapse:
 
   Defaults to ";". Character used to separate results when `unlist` is
-  set to TRUE.
+  set to `TRUE`.
 
 - language:
 

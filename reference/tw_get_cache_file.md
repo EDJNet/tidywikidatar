@@ -5,24 +5,25 @@ Gets location of cache file
 ## Usage
 
 ``` r
-tw_get_cache_file(type = NULL, language = tidywikidatar::tw_get_language())
+tw_get_cache_file(
+  extension = "sqlite",
+  language = tidywikidatar::tw_get_language()
+)
 ```
 
 ## Arguments
 
-- type:
+- extension:
 
-  Defaults to NULL. Deprecated. If given, type of cache file to output.
-  Values typically used by `tidywikidatar` in versions up to 4.2 include
-  "item", "search", and "qualifier".
+  Defaults to `sqlite`. Extension of the database cache file.
 
 - language:
 
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 ## Value
 
