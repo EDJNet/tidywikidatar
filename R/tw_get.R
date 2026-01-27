@@ -47,8 +47,8 @@ tw_get_single <- function(
 
   if (length(id) > 1) {
     cli::cli_abort(c(
-      "`id` must have length 1.",
-      i = "Consider using `tw_get()` for multiple inputs."
+      x = "`id` must have length 1.",
+      i = "Consider using {.fn tw_get} for multiple inputs."
     ))
   } else if (length(id) == 0) {
     return(tidywikidatar::tw_empty_item)
@@ -64,7 +64,7 @@ tw_get_single <- function(
 
   if (
     tw_check_cache(cache) &&
-      overwrite_cache == FALSE &&
+      !overwrite_cache &&
       read_cache
   ) {
     db_result <- tw_get_cached_item(
@@ -203,31 +203,34 @@ tw_get_single <- function(
 #'
 #' @param id A character vector, must start with Q, e.g. "Q180099" for the
 #'   anthropologist Margaret Mead. Can also be a data frame of one row,
-#'   typically generated with `tw_search()` or a combination of `tw_search()`
-#'   and `tw_filter_first()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not
+#'   typically generated with [tw_search()] or a combination of [tw_search()]
+#'   and [tw_filter_first()].
+#' @param language Defaults to language set with [tw_set_language()]; if not
 #'   set, "en". Use "all_available" to keep all languages. For available
-#'   language values, see
-#'   https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or
-#'   FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the
-#'   table in the local sqlite database. Useful if the original Wikidata object
-#'   has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled,
-#'   `tidywikidatar` will use a local sqlite database. A custom connection to
-#'   other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to
+#'   language values, see \href{}{the dedicated Wikimedia
+#'   page}{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}.
+#' @param cache Defaults to `NULL`. If given, it should be given either `TRUE`
+#'   or `FALSE`. Typically set with [tw_enable_cache()] or [tw_disable_cache()].
+#' @param overwrite_cache Logical, defaults to `FALSE`. If `TRUE`, it overwrites
+#'   the table in the local sqlite database. Useful if the original Wikidata
+#'   object has been updated.
+#' @param cache_connection Defaults to `NULL`. If `NULL`, and caching is
+#'   enabled, `tidywikidatar` will use a local sqlite database. A custom
+#'   connection to other databases can be given (see vignette `caching` for
+#'   details).
+#' @param disconnect_db Defaults to `TRUE`. If `FALSE`, leaves the connection to
 #'   cache open.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to
 #'   Wikidata. If data are cached locally, wait time is not applied. If you are
 #'   running many queries systematically you may want to add some waiting time
 #'   between queries.
-#' @param id_l Defaults to NULL. If given, must be an object or list such as the
-#'   one generated with `WikidataR::get_item()`. If given, and the requested id
-#'   is actually present in `id_l`, then no query to Wikidata servers is made.
+#' @param id_l Defaults to `NULL`. If given, must be an object or list such as
+#'   the one generated with [WikidataR::get_item()]. If given, and the requested
+#'   id is actually present in `id_l`, then no query to Wikidata servers is
+#'   made.
 #'
-#' @return A data.frame (a tibble) with three columns (id, property, and value).
+#' @return A data.frame (a tibble) with three columns (`id`, `property`, and
+#'   `value`).
 #' @export
 #'
 #' @examples

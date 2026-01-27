@@ -30,10 +30,7 @@ tw_get_all_with_p <- function(
   wait = 0.1,
   limit = Inf,
   return_as_tw_search = TRUE,
-  user_agent = stringr::str_flatten(c(
-    "tidywikidatar/",
-    as.character(packageVersion("tidywikidatar"))
-  ))
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   p <- stringr::str_to_upper(string = p)
 

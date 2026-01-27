@@ -1,20 +1,44 @@
-#' Search for Wikidata items or properties and return Wikidata id, label, and description.
+#' Search for Wikidata items or properties and return Wikidata id, label, and
+#' description.
 #'
-#' By defaults, this search returns items. Set `type` to property or use `tw_search_property()` for properties.
+#' By defaults, this search returns items. Set `type` to property or use
+#' [tw_search_property()] for properties.
 #'
 #' @param search A string to be searched in Wikidata
 #' @param type Defaults to "item". Either "item" or "property".
-#' @param language Language to be used for the search. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param response_language Language to be used for the returned labels and descriptions. Corresponds to the `uselang` parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with `tw_set_language()`. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+#' @param language Language to be used for the search. Can be set once per
+#'   session with [tw_set_language()]. If not set, defaults to "en". For a full
+#'   list, see
+#'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+#'   dedicated Wikimedia page}.
+#' @param response_language Language to be used for the returned labels and
+#'   descriptions. Corresponds to the `uselang` parameter of the MediaWiki API,
+#'   as described
+#'   \href{https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities}{in
+#'   the official documentation}. Can be set once per session with
+#'   [tw_set_language()]. If not set, defaults to "en". For a full list, see
+#'   \url{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
+#'   available language codes}.
 #' @param limit Maximum numbers of responses to be given.
-#' @param include_search Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Defaults to FALSE. If TRUE, overwrites cache.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param include_search Logical, defaults to `FALSE`. If `TRUE`, the search is
+#'   returned as an additional column.
+#' @param wait In seconds, defaults to 0. Time to wait between queries to
+#'   Wikidata. If data are cached locally, wait time is not applied. If you are
+#'   running many queries systematically you may want to add some waiting time
+#'   between queries.
+#' @param cache Defaults to `NULL`. If given, it should be given either `TRUE`
+#'   or `FALSE.` Typically set with [tw_enable_cache()] or [tw_disable_cache()].
+#' @param overwrite_cache Defaults to `FALSE`. If `TRUE`, overwrites cache.
+#' @param cache_connection Defaults to `NULL`. If `NULL`, and caching is
+#'   enabled, `tidywikidatar` will use a local sqlite database. A custom
+#'   connection to other databases can be given (see vignette `caching` for
+#'   details).
+#' @param disconnect_db Defaults to `TRUE`. If `FALSE`, leaves the connection to
+#'   cache open.
 #'
-#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
+#' @return A data frame (a tibble) with three columns (`id`, `label`, and
+#'   `description`), and as many rows as there are results (by default, limited
+#'   to 10). Four columns when `include_search` is set to `TRUE`.
 #' @export
 #'
 #' @examples
@@ -124,7 +148,7 @@ tw_search <- function(
       }
     }
 
-    if (overwrite_cache == FALSE & tw_check_cache(cache)) {
+    if (!overwrite_cache & tw_check_cache(cache)) {
       search_from_cache_df <- tw_get_cached_search(
         search = unique_search,
         type = type,
@@ -211,13 +235,16 @@ tw_search <- function(
 }
 
 
-#' Search for Wikidata items or properties and return Wikidata id, label, and description.
+#' Search for Wikidata items or properties and return Wikidata id, label, and
+#' description.
 #'
-#' This search returns only items, use `tw_search_property()` for properties.
+#' This search returns only items, use [tw_search_property()] for properties.
 #'
 #' @inheritParams tw_search
 #'
-#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10). Four columns when `include_search` is set to TRUE.
+#' @return A data frame (a tibble) with three columns (`id`, `label`, and
+#'   `description`), and as many rows as there are results (by default, limited
+#'   to 10). Four columns when `include_search` is set to TRUE.
 #'
 #' @examples
 #' tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
@@ -245,8 +272,8 @@ tw_search_single <- function(
 
   if (length(search) > 1) {
     cli::cli_abort(c(
-      "`search` must have length 1.",
-      i = "Consider using `tw_search()`."
+      x = "`search` must have length 1.",
+      i = "Consider using {.fn tw_search}."
     ))
   }
 
@@ -273,7 +300,10 @@ tw_search_single <- function(
     }
   }
 
-  language_combo <- stringr::str_c(language, "_", response_language)
+  language_combo <- stringr::str_flatten(
+    string = c(language, response_language),
+    collapse = "_"
+  )
 
   db <- tw_connect_to_cache(
     connection = cache_connection,
@@ -281,7 +311,7 @@ tw_search_single <- function(
     cache = cache
   )
 
-  if (tw_check_cache(cache) & overwrite_cache == FALSE) {
+  if (tw_check_cache(cache) & !overwrite_cache) {
     db_result <- tw_get_cached_search(
       search = search,
       type = type,
@@ -313,9 +343,8 @@ tw_search_single <- function(
   api_request <- httr2::request(base_url = base_url) %>%
     httr2::req_headers(`Accept-Encoding` = "gzip") %>%
     httr2::req_user_agent(
-      string = stringr::str_c(
-        "tidywikidatar/",
-        as.character(packageVersion("tidywikidatar"))
+      string = stringr::str_flatten(
+        c("tidywikidatar/", as.character(packageVersion("tidywikidatar")))
       )
     ) %>%
     httr2::req_url_query(
@@ -338,9 +367,9 @@ tw_search_single <- function(
       i = "{response_json[['error']][['info']]}"
     ))
     search_response <- tibble::tibble(
-      id = as.character(NA),
-      label = as.character(NA),
-      description = as.character(NA)
+      id = NA_character_,
+      label = NA_character_,
+      description = NA_character_
     )
   } else {
     search_response <- response_json %>%
@@ -349,9 +378,9 @@ tw_search_single <- function(
 
   if (length(search_response) == 0) {
     search_response_df <- tibble::tibble(
-      id = as.character(NA),
-      label = as.character(NA),
-      description = as.character(NA)
+      id = NA_character_,
+      label = NA_character_,
+      description = NA_character_
     )
   } else if (tibble::is_tibble(search_response)) {
     search_response_df <- search_response
@@ -410,24 +439,27 @@ tw_search_single <- function(
 
   if (include_search) {
     search_response_df %>%
-      dplyr::filter(is.na(.data$id) == FALSE) %>%
+      dplyr::filter(!is.na(.data$id)) %>%
       tibble::as_tibble()
   } else {
     search_response_df %>%
-      dplyr::filter(is.na(.data$id) == FALSE) %>%
+      dplyr::filter(!is.na(.data$id)) %>%
       dplyr::select(-"search") %>%
       tibble::as_tibble()
   }
 }
 
 
-#' Search for Wikidata properties in Wikidata and return Wikidata id, label, and description.
+#' Search for Wikidata properties in Wikidata and return Wikidata id, label, and
+#' description.
 #'
-#' This search returns only items, use `tw_search_property()` for properties.
+#' This search returns only items, use [tw_search_property()] for properties.
 #'
 #' @inheritParams tw_search
 #'
-#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).
+#' @return A data frame (a tibble) with three columns (`id`, `label`, and
+#'   `description`), and as many rows as there are results (by default, limited
+#'   to 10).
 #' @export
 #'
 #' @examples
@@ -460,13 +492,16 @@ tw_search_item <- function(
 }
 
 
-#' Search for Wikidata properties in Wikidata and return Wikidata id, label, and description.
+#' Search for Wikidata properties in Wikidata and return Wikidata id, label, and
+#' description.
 #'
-#' This search returns only properties, use `tw_search_items()` for properties.
+#' This search returns only properties, use [tw_search_item()] for properties.
 #'
 #' @inheritParams tw_search
 #'
-#' @return A data frame (a tibble) with three columns (id, label, and description), and as many rows as there are results (by default, limited to 10).
+#' @return A data frame (a tibble) with three columns (`id`, `label`, and
+#'   `description`), and as many rows as there are results (by default, limited
+#'   to 10).
 #' @export
 #'
 #' @examples

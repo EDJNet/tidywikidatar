@@ -42,7 +42,9 @@ tw_get_image(
 A data frame of two columns, id and image, corresponding to reference to the image in the requested format.
 }
 \description{
-Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+Please consult the
+\href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+documentation for reusing content outside Wikimedia}.
 }
 \examples{
 tw_get_image("Q180099",

@@ -1,6 +1,8 @@
 #' Get image from Wikimedia Commons
 #'
-#' Please consult the relevant documentation for reusing content outside Wikimedia: https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical
+#' Please consult the
+#' \href{https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/technical}{relevant
+#' documentation for reusing content outside Wikimedia}.
 #'
 #' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
 #' @param format A character vector, defaults to 'filename'. If set to 'commons', outputs the link to the Wikimedia Commons page. If set to "embed", outputs a link that can be used to embed.

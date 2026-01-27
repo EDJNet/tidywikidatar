@@ -12,8 +12,7 @@ tw_get_all_with_p(
   wait = 0.1,
   limit = Inf,
   return_as_tw_search = TRUE,
-  user_agent = stringr::str_flatten(c("tidywikidatar/",
-    as.character(packageVersion("tidywikidatar"))))
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 }
 \arguments{
@@ -44,8 +43,8 @@ other \code{tw_} functions. If FALSE, a data frame with as many columns as
 fields.}
 
 \item{user_agent}{Defaults to a combination of \code{tidywikidatar} and package
-version number. Consider customising, in particular if you are making many
-queries.}
+version number. Consider customising it for the current sessions with
+\code{\link[=tw_set_user_agent]{tw_set_user_agent()}}, in particular if you are making many queries.}
 }
 \value{
 A data frame with three columns is method is set to "SPARQL", or as

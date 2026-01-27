@@ -20,17 +20,34 @@ tw_get_cached_search(
 
 \item{type}{Defaults to "item". Either "item" or "property".}
 
-\item{language}{Language to be used for the search. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Language to be used for the search. Can be set once per
+session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full
+list, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{response_language}{Language to be used for the returned labels and descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API: https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities. Can be set once per session with \code{tw_set_language()}. If not set, defaults to "en". For a full list, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{response_language}{Language to be used for the returned labels and
+descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API,
+as described
+\href{https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities}{in
+the official documentation}. Can be set once per session with
+\code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full list, see
+\url{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
+  available language codes}.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE.} Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{include_search}{Logical, defaults to FALSE. If TRUE, the search is returned as an additional column.}
+\item{include_search}{Logical, defaults to \code{FALSE}. If \code{TRUE}, the search is
+returned as an additional column.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 }
 \value{
 If data present in cache, returns a data frame with cached data.

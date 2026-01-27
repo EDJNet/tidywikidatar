@@ -26,14 +26,15 @@ tw_index_cache_item(
 
 \item{language}{Defaults to language set with \code{tw_set_language()}; "en" if not set. Used to limit the data to be cached. Use "all_available" to keep all data. For available values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or
-FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled,
-\code{tidywikidatar} will use a local sqlite database. A custom connection to
-other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
 cache open.}
 }
 \value{
