@@ -8,6 +8,7 @@ tw_check_search(
   search,
   type = "item",
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -23,10 +24,19 @@ tw_check_search(
 \item{type}{Defaults to "item". Either "item" or "property".}
 
 \item{language}{Language to be used for the search. Can be set once per
-session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For
-available language values, see
+session with \code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full
+list, see
 \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
 dedicated Wikimedia page}.}
+
+\item{response_language}{Language to be used for the returned labels and
+descriptions. Corresponds to the \code{uselang} parameter of the MediaWiki API,
+as described
+\href{https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities}{in
+the official documentation}. Can be set once per session with
+\code{\link[=tw_set_language]{tw_set_language()}}. If not set, defaults to "en". For a full list, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
+available language codes}.}
 
 \item{limit}{Maximum numbers of responses to be given.}
 
@@ -39,11 +49,9 @@ running many queries systematically you may want to add some waiting time
 between queries.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
-or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
+or \code{FALSE.} Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
-the table in the local sqlite database. Useful if the original Wikidata
-object has been updated.}
+\item{overwrite_cache}{Defaults to \code{FALSE}. If \code{TRUE}, overwrites cache.}
 
 \item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
 enabled, \code{tidywikidatar} will use a local sqlite database. A custom

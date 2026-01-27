@@ -3,17 +3,7 @@
 #' Mostly used as a convenience function inside other functions to have
 #' consistent inputs.
 #'
-#' @param search A string to be searched in Wikidata
-#' @param type Defaults to "item". Either "item" or "property".
-#' @param language Language to be used for the search. Can be set once per
-#'   session with [tw_set_language()]. If not set, defaults to "en". For
-#'   available language values, see
-#'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
-#'   dedicated Wikimedia page}.
-#' @param limit Maximum numbers of responses to be given.
-#' @param include_search Logical, defaults to `FALSE`. If `TRUE`, the search is
-#'   returned as an additional column.
-#' @inheritParams tw_get
+#' @inheritParams tw_search
 #'
 #' @return A data frame with three columns, `id`, `label`, and `description`,
 #'   filtered by the above criteria. Four columns if `include_search` is set to
@@ -29,6 +19,7 @@ tw_check_search <- function(
   search,
   type = "item",
   language = tidywikidatar::tw_get_language(),
+  response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
   wait = 0,
@@ -48,6 +39,7 @@ tw_check_search <- function(
       search = search,
       type = type,
       language = language,
+      response_language = response_language,
       limit = limit,
       include_search = include_search,
       wait = wait,
