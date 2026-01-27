@@ -49,7 +49,11 @@ reference:
   - tw_disable_cache
   - tw_set_cache_db
   - tw_set_cache_folder
+- title: Other settings
+  desc: Set options for the current session
+  contents:
   - tw_set_language
+  - tw_set_user_agent
 - title: Functions for resetting the cache
   desc: After upgrading to a new `tidywikidatar` version, or in the unlikely case
     of database corruption, these can be used to delete specific cache tables. Consider
