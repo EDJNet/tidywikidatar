@@ -1,5 +1,8 @@
 # tidywikidatar (development version)
 
+* drop dependency on `WikidataQueryServiceR`
+* enable setting default user agent for the session
+
 # tidywikidatar 0.5.9
 
 * drop dependency on `WikipediR`
