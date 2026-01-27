@@ -43,9 +43,9 @@ tw_search_item(
   documentation](https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities).
   Can be set once per session with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For a full list, see
-  <https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all>all
-  available language codes.
+  If not set, defaults to "en". For a full list, see [all available
+  language
+  codes](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - limit:
 

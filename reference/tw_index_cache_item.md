@@ -70,9 +70,9 @@ tw_index_cache_item(
 
 ## Value
 
-If `show_details` is set to FALSE, nothing, used only for its side
-effects (add index to caching table). If TRUE, a data frame, same as the
-output of `tw_check_cache_index(show_details = TRUE)`.
+If `show_details` is set to `FALSE`, nothing, used only for its side
+effects (add index to caching table). If `TRUE`, a data frame, same as
+the output of `tw_check_cache_index(show_details = TRUE)`.
 
 ## Details
 

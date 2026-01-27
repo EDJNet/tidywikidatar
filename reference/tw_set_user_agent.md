@@ -5,9 +5,9 @@ Defaults to current package name (`tidywikidatar`) and version.
 ## Usage
 
 ``` r
-tw_set_user_agent(user_agent)
+tw_set_user_agent(user_agent = NULL)
 
-tw_get_user_agent(user_agent)
+tw_get_user_agent(user_agent = NULL)
 ```
 
 ## Arguments
@@ -26,18 +26,14 @@ The user agent set for the session, implicitly.
 ``` r
 # Default user agent
 default_user_agent <- tw_get_user_agent()
-#> Error in tw_get_user_agent(): argument "user_agent" is missing, with no default
 default_user_agent
-#> Error: object 'default_user_agent' not found
+#> [1] "tidywikidatar/0.5.9.9003"
 # Custom user agent
 tw_set_user_agent(user_agent = "custom_project_name/email")
 new_user_agent <- tw_get_user_agent()
-#> Error in tw_get_user_agent(): argument "user_agent" is missing, with no default
 new_user_agent
-#> Error: object 'new_user_agent' not found
+#> [1] "custom_project_name/email"
 # Restore
 tw_set_user_agent(user_agent = default_user_agent)
-#> Error: object 'default_user_agent' not found
 tw_get_user_agent()
-#> Error in tw_get_user_agent(): argument "user_agent" is missing, with no default
 ```

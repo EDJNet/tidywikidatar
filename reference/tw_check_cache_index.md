@@ -35,9 +35,9 @@ tw_check_cache_index(
 
 - show_details:
 
-  Logical, defaults to FALSE. If FALSE, return a logical vector of
-  length one (TRUE if the table was indexed, FALSE if it was not). If
-  TRUE, returns a data frame with more details about the index.
+  Logical, defaults to `FALSE`. If `FALSE`, return a logical vector of
+  length one (`TRUE` if the table was indexed, `FALSE` if it was not).
+  If `TRUE`, returns a data frame with more details about the index.
 
 - language:
 
@@ -76,9 +76,10 @@ tw_check_cache_index(
 
 ## Value
 
-If `show_details` is set to FALSE, return a logical vector of length one
-(TRUE if the table was indexed, FALSE if it was not). If `show_details`
-is set to TRUE, returns a data frame with more details about the index.
+If `show_details` is set to `FALSE`, return a logical vector of length
+one (`TRUE` if the table was indexed, `FALSE` if it was not). If
+`show_details` is set to `TRUE`, returns a data frame with more details
+about the index.
 
 ## Examples
 

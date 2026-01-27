@@ -27,9 +27,9 @@ tw_index_cache_search(
 
 - check_first:
 
-  Logical, defaults to TRUE. If TRUE, then before executing anything on
-  the database it checks if the given table has already been indexed. If
-  it has, it does nothing and returns only an informative message.
+  Logical, defaults to `TRUE`. If `TRUE`, then before executing anything
+  on the database it checks if the given table has already been indexed.
+  If it has, it does nothing and returns only an informative message.
 
 - type:
 
@@ -39,9 +39,9 @@ tw_index_cache_search(
 
 - show_details:
 
-  Logical, defaults to FALSE. If FALSE, return the function adds the
-  index to the database, but does not return anything. If TRUE, returns
-  a data frame with more details about the index.
+  Logical, defaults to `FALSE`. If `FALSE`, return the function adds the
+  index to the database, but does not return anything. If `TRUE`,
+  returns a data frame with more details about the index.
 
 - language:
 
@@ -80,9 +80,9 @@ tw_index_cache_search(
 
 ## Value
 
-If `show_details` is set to FALSE, nothing, used only for its side
-effects (add index to caching table). If TRUE, a data frame, same as the
-output of `tw_check_cache_index(show_details = TRUE)`.
+If `show_details` is set to `FALSE`, nothing, used only for its side
+effects (add index to caching table). If `TRUE`, a data frame, same as
+the output of `tw_check_cache_index(show_details = TRUE)`.
 
 ## Details
 

@@ -48,9 +48,9 @@ tw_search(
   documentation](https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities).
   Can be set once per session with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For a full list, see
-  <https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all>all
-  available language codes.
+  If not set, defaults to "en". For a full list, see [all available
+  language
+  codes](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - limit:
 
@@ -107,8 +107,8 @@ tw_search(search = c("Margaret Mead", "Ruth Benedict"))
 #>  2 Q85724626  Mead & Bateson                                         business o…
 #>  3 Q96077616  Margaret Meadows                                       (1718-1781)
 #>  4 Q75281958  Lady Margaret Meade-Fetherstonhaugh                    British au…
-#>  5 Q75506638  Margaret Meadows                                       Peerage pe…
-#>  6 Q76238541  Margaret Meadowe                                       Peerage pe…
+#>  5 Q76238541  Margaret Meadowe                                       Peerage pe…
+#>  6 Q75506638  Margaret Meadows                                       Peerage pe…
 #>  7 Q75812372  Margaret Meade-Waldo                                   (died 1954)
 #>  8 Q6759717   Margaret Mead Film Festival                            annual fil…
 #>  9 Q96617538  Margaret Meador                                        researcher 

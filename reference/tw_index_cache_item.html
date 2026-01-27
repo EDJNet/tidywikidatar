@@ -61,11 +61,15 @@
 
 
 <dl><dt id="arg-table-name">table_name<a class="anchor" aria-label="anchor" href="#arg-table-name"></a></dt>
-<dd><p>Name of the table in the database. If given, it takes precedence over other parameters.</p></dd>
+<dd><p>Name of the table in the database. If given, it takes
+precedence over other parameters.</p></dd>
 
 
 <dt id="arg-check-first">check_first<a class="anchor" aria-label="anchor" href="#arg-check-first"></a></dt>
-<dd><p>Logical, defaults to <code>TRUE</code>. If <code>TRUE</code>, then before executing anything on the database it checks if the given table has already been indexed. If it has, it does nothing and returns only an informative message.</p></dd>
+<dd><p>Logical, defaults to <code>TRUE</code>. If <code>TRUE</code>, then before
+executing anything on the database it checks if the given table has already
+been indexed. If it has, it does nothing and returns only an informative
+message.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
@@ -73,7 +77,9 @@
 
 
 <dt id="arg-show-details">show_details<a class="anchor" aria-label="anchor" href="#arg-show-details"></a></dt>
-<dd><p>Logical, defaults to <code>FALSE</code>. If <code>FALSE</code>, return the function adds the index to the database, but does not return anything. If <code>TRUE</code>, returns a data frame with more details about the index.</p></dd>
+<dd><p>Logical, defaults to <code>FALSE</code>. If <code>FALSE</code>, return the
+function adds the index to the database, but does not return anything. If
+<code>TRUE</code>, returns a data frame with more details about the index.</p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
@@ -99,11 +105,14 @@ cache open.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>show_details</code> is set to FALSE, nothing, used only for its side effects (add index to caching table). If TRUE, a data frame, same as the output of <code>tw_check_cache_index(show_details = TRUE)</code>.</p>
+    <p>If <code>show_details</code> is set to <code>FALSE</code>, nothing, used only for its side
+effects (add index to caching table). If <code>TRUE</code>, a data frame, same as the
+output of <code>tw_check_cache_index(show_details = TRUE)</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>To ensure smooth functioning, the search column in the cache table is transformed into a column of type <code>varchar</code> and length 255.</p>
+    <p>To ensure smooth functioning, the search column in the cache table is
+transformed into a column of type <code>varchar</code> and length 255.</p>
     </div>
 
     <div class="section level2">
