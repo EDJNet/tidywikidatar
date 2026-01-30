@@ -22,7 +22,8 @@ anthropologist Margaret Mead. Can also be a data frame of one row,
 typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
 and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
@@ -30,7 +31,7 @@ language values, see
 \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
 dedicated Wikimedia page}.}
 
-\item{id_df}{Default to NULL. If given, it should be a dataframe typically
+\item{id_df}{Default to \code{NULL}. If given, it should be a dataframe typically
 generated with \code{\link[=tw_get]{tw_get()}}, and is used instead of calling Wikidata or
 using SQLite cache. Ignored when \code{id} is of length more than one.}
 

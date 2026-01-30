@@ -1,7 +1,8 @@
 #' Get Wikidata property of one or more items as a tidy data frame
 #'
-#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param id_df Default to NULL. If given, it should be a dataframe typically
+#' @param p A character vector, a property. Must always start with the capital
+#'   letter "P", e.g. "P31" for "instance of".
+#' @param id_df Default to `NULL`. If given, it should be a dataframe typically
 #'   generated with [tw_get()], and is used instead of calling Wikidata or
 #'   using SQLite cache. Ignored when `id` is of length more than one.
 #' @inheritParams tw_get

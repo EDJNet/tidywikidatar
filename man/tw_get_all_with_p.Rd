@@ -49,7 +49,7 @@ version number. Consider customising it for the current sessions with
 \value{
 A data frame with three columns is method is set to "SPARQL", or as
 many columns as fields if more are given and \code{return_as_tw_search} is set
-to FALSE. A single column with Wikidata identifier if method is set to
+to \code{FALSE}. A single column with Wikidata identifier if method is set to
 "JSON".
 }
 \description{

@@ -13,7 +13,7 @@
 #'
 #' @return A data frame with three columns is method is set to "SPARQL", or as
 #'   many columns as fields if more are given and `return_as_tw_search` is set
-#'   to FALSE. A single column with Wikidata identifier if method is set to
+#'   to `FALSE`. A single column with Wikidata identifier if method is set to
 #'   "JSON".
 #' @export
 #'
@@ -40,7 +40,7 @@ tw_get_all_with_p <- function(
       return(tidywikidatar::tw_empty_search)
     } else if (method == "API") {
       return(
-        tibble::tibble(id = as.character(NA)) %>%
+        tibble::tibble(id = NA_character_) %>%
           dplyr::slice(0)
       )
     }
