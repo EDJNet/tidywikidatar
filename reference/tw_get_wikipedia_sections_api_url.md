@@ -16,8 +16,8 @@ tw_get_wikipedia_sections_api_url(
 
 - url:
 
-  A character vector with the full URL to one or more Wikipedia pages.
-  If given, title and language can be left empty.
+  Full url to a Wikipedia page. If given, title and language can be left
+  empty.
 
 - title:
 
@@ -26,10 +26,11 @@ tw_get_wikipedia_sections_api_url(
 
 - language:
 
-  Two-letter language code used to define the Wikipedia version to use.
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
-  if not set, "en". If url given, this can be left empty.
+  if not set, "en". Use "all_available" to keep all languages. For
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 ## Value
 

@@ -54,8 +54,8 @@ tw_reset_wikipedia_category_members_cache(
 
 - ask:
 
-  Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
-  exist, it just creates it without asking (useful for non-interactive
+  Logical, defaults to TRUE. If FALSE, and cache folder does not exist,
+  it just creates it without asking (useful for non-interactive
   sessions).
 
 ## Value
