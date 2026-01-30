@@ -297,6 +297,9 @@ been created separetely mostly for testing and code structure.
 - [`tw_get_image_metadata_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata_single.md)
   : Get metadata for images from Wikimedia Commons
 
+- [`tw_get_property_description_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_description_single.md)
+  : Get description of a Wikidata property in a given language
+
 - [`tw_get_property_label_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label_single.md)
   : Get label of a Wikidata property in a given language
 

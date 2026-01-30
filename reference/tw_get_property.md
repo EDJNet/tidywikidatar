@@ -46,7 +46,7 @@ tw_get_property(
 
 - id_df:
 
-  Default to NULL. If given, it should be a dataframe typically
+  Default to `NULL`. If given, it should be a dataframe typically
   generated with
   [`tw_get()`](https://edjnet.github.io/tidywikidatar/reference/tw_get.md),
   and is used instead of calling Wikidata or using SQLite cache. Ignored

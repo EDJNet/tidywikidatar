@@ -1,11 +1,11 @@
-# Get label of a Wikidata property in a given language
+# Get description of a Wikidata property in a given language
 
-Get label of a Wikidata property in a given language
+Get description of a Wikidata property in a given language
 
 ## Usage
 
 ``` r
-tw_get_property_label(
+tw_get_property_description_single(
   property,
   language = tidywikidatar::tw_get_language(),
   cache = NULL,
@@ -20,7 +20,7 @@ tw_get_property_label(
 
 - property:
 
-  A character vector. Each element must start with P, e.g. "P31".
+  A character vector of length 1, must start with P, e.g. "P31".
 
 - language:
 
@@ -63,11 +63,12 @@ tw_get_property_label(
 
 ## Value
 
-A character vector, with the Wikidata label in the requested language.
+A character vector of length 1, with the Wikidata description in the
+requested language.
 
 ## Examples
 
 ``` r
-tw_get_property_label(property = "P31")
-#> [1] "instance of"
+tidywikidatar:::tw_get_property_description_single(property = "P31")
+#> [1] "type to which this subject corresponds/belongs. Different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain"
 ```

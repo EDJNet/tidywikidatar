@@ -8,7 +8,6 @@ Get label of a Wikidata property in a given language
 tw_get_property_label_single(
   property,
   language = tidywikidatar::tw_get_language(),
-  response_language = tidywikidatar::tw_get_language(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -30,18 +29,6 @@ tw_get_property_label_single(
   if not set, "en". Use "all_available" to keep all languages. For
   available language values, see [the dedicated Wikimedia
   page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
-
-- response_language:
-
-  Language to be used for the returned labels and descriptions.
-  Corresponds to the `uselang` parameter of the MediaWiki API, as
-  described [in the official
-  documentation](https://www.wikidata.org/w/api.php?action=help&modules=wbsearchentities).
-  Can be set once per session with
-  [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md).
-  If not set, defaults to "en". For a full list, see [all available
-  language
-  codes](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - cache:
 
