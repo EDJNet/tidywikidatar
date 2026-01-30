@@ -481,7 +481,7 @@ tw_write_qualifiers_to_cache <- function(
 #' Removes the table where qualifiers are cached
 #'
 #' @inheritParams tw_get
-#' @inheritParams tw_create_cache_folder
+#' @inheritParams tw_reset_item_cache
 #'
 #' @return Nothing, used for its side effects.
 #' @export

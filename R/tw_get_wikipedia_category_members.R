@@ -521,6 +521,7 @@ tw_write_wikipedia_category_members_to_cache <- function(
 #'
 #' @inheritParams tw_reset_wikipedia_page_links_cache
 #' @inheritParams tw_get_wikipedia_category_members
+#' @inheritParams tw_reset_item_cache
 #'
 #' @return Nothing, used for its side effects.
 #' @export

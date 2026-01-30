@@ -702,7 +702,7 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(
 #' [tw_get_wikipedia_page_qid()] from cache.
 #'
 #' @inheritParams tw_get
-#' @inheritParams tw_create_cache_folder
+#' @inheritParams tw_reset_item_cache
 #'
 #' @return Nothing, used for its side effects.
 #' @export

@@ -1,8 +1,6 @@
 #' Creates the base cache folder where `tidywikidatar` caches data.
 #'
-#' @param ask Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
-#'   exist, it just creates it without asking (useful for non-interactive
-#'   sessions).
+#' @inheritParams tw_reset_item_cache
 #'
 #' @return Nothing, used for its side effects.
 #' @export

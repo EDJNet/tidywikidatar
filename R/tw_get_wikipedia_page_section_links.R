@@ -1,18 +1,16 @@
 #' Get links from a specific section of a Wikipedia page
 #'
-#' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
-#' @param section_title Defaults to NULL. If given, it should correspond to the human-readable title of a section of the relevant Wikipedia page. See also `tw_get_wikipedia_page_sections()`
-#' @param section_index Defaults to NULL. If given, it should correspond to the ordinal of a section of the relevant Wikipedia page. See also `tw_get_wikipedia_page_sections()`
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
-#' @param wikipedia_page_qid_df Defaults to NULL. If given, used to reduce calls to cache. A data frame
+#' @param section_title Defaults to `NULL`. If given, it should correspond to
+#'   the human-readable title of a section of the relevant Wikipedia page. See
+#'   also [tw_get_wikipedia_page_sections()]
+#' @param section_index Defaults to `NULL`. If given, it should correspond to
+#'   the ordinal of a section of the relevant Wikipedia page. See also
+#'   [tw_get_wikipedia_page_sections()]
 #'
+#' @inheritParams tw_get_image
+#' @inheritParams tw_get_image_metadata
+#' @inheritParams tw_get_wikipedia_page_links
+#' @inheritParams tw_get_wikipedia_page_links_single
 #' @return A data frame (a tibble).
 #' @export
 #'
@@ -167,14 +165,21 @@ tw_get_wikipedia_page_section_links <- function(
 }
 
 
-#' Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page
+#' Facilitates the creation of MediaWiki API base URLs to retrieve sections of a
+#' page
 #'
 #' Mostly used internally
 #'
-#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param section_index Required. It should correspond to the ordinal of a section of the relevant Wikipedia page. See also `tw_get_wikipedia_page_sections()`.
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
+#' @param url A character vector with the full URL to one or more Wikipedia
+#'   pages. If given, title and language can be left empty.
+#' @param title Title of a Wikipedia page or final parts of its url. If given,
+#'   url can be left empty, but language must be provided.
+#' @param section_index Required. It should correspond to the ordinal of a
+#'   section of the relevant Wikipedia page. See also
+#'   `tw_get_wikipedia_page_sections()`.
+#' @param language Two-letter language code used to define the Wikipedia version
+#'   to use. Defaults to language set with `tw_set_language()`; if not set,
+#'   "en". If url given, this can be left empty.
 #'
 #' @return A character vector of base urls to be used with the MediaWiki API
 #' @export

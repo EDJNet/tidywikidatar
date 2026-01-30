@@ -2,7 +2,8 @@
 % Please edit documentation in R/tw_get_wikipedia_page_sections.R
 \name{tw_get_wikipedia_sections_api_url}
 \alias{tw_get_wikipedia_sections_api_url}
-\title{Facilitates the creation of MediaWiki API base URLs to retrieve sections of a page}
+\title{Facilitates the creation of MediaWiki API base URLs to retrieve sections of a
+page}
 \usage{
 tw_get_wikipedia_sections_api_url(
   url = NULL,
@@ -11,11 +12,17 @@ tw_get_wikipedia_sections_api_url(
 )
 }
 \arguments{
-\item{url}{A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.}
+\item{url}{Full url to a Wikipedia page. If given, title and language can be
+left empty.}
 
-\item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
+\item{title}{Title of a Wikipedia page or final parts of its url. If given,
+url can be left empty, but language must be provided.}
 
-\item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 }
 \value{
 A character vector of base urls to be used with the MediaWiki API

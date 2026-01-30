@@ -610,13 +610,11 @@ tw_write_wikipedia_page_links_to_cache <- function(
 #' Removes from cache the table where data typically gathered with
 #' [tw_get_wikipedia_page_links()] are stored.
 #'
-#' @param ask Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
-#'   exist, it just creates it without asking (useful for non-interactive
-#'   sessions).
 #' @inheritParams tw_get_wikipedia_page_links
 #' @inheritParams tw_get_image
 #' @inheritParams tw_get_image_metadata
 #' @inheritParams tw_get
+#' @inheritParams tw_reset_item_cache
 #'
 #' @return Nothing, used for its side effects.
 #' @export
