@@ -1,9 +1,11 @@
 #' Gets all details of a property
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
+#' Used internally. Users should rely on [tw_get_property_with_details()].
 #'
-#' @return A tibble, corresponding to the details for the given property. NULL if no relevant property found.
+#' @inheritParams tw_get_property_with_details
+#'
+#' @return A tibble, corresponding to the details for the given property. `NULL`
+#'   if no relevant property found.
 #'
 #' @examples
 #' # Get "female form of label", including language
@@ -47,13 +49,13 @@ tw_get_property_with_details_single <- function(id, p) {
 }
 
 
-#' Gets all details of a property
+#' Gets all details of a property for one or more Wikidata items.
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
 #'
-#' @return A tibble, corresponding to the details for the given property. `NULL` if no relevant property found.
+#' @return A tibble, corresponding to the details for the given property. `NULL`
+#'   if no relevant property found.
 #' @export
 #'
 #' @examples

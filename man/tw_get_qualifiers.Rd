@@ -17,29 +17,56 @@ tw_get_qualifiers(
 )
 }
 \arguments{
-\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 
-\item{id_l}{Defaults to NULL. If given, must be an object or list such as the one generated with \code{WikidataR::get_item()}. If given, and the requested id is actually present in \code{id_l}, then no query to Wikidata servers is made.}
+\item{id_l}{Defaults to \code{NULL}. If given, must be an object or list such as
+the one generated with \code{\link[WikidataR:get_item]{WikidataR::get_item()}}. If given, and the requested
+id is actually present in \code{id_l}, then no query to Wikidata servers is
+made.}
 }
 \value{
-A data frame (a tibble) with eight columns: \code{id} for the input id, \code{property},  \code{qualifier_id}, \code{qualifier_property}, \code{qualifier_value}, \code{rank}, \code{qualifier_value_type}, and \code{set} (to distinguish sets of data when a property is present more than once)
+A data frame (a tibble) with eight columns: \code{id} for the input id,
+\code{property},  \code{qualifier_id}, \code{qualifier_property}, \code{qualifier_value},
+\code{rank}, \code{qualifier_value_type}, and \code{set} (to distinguish sets of data when
+a property is present more than once)
 }
 \description{
-N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
+N.B. In order to provide for consistently structured output, this function
+outputs either id or value for each  qualifier. The user should keep in mind
+that some of these come with additional detail (e.g. the unit, precision, or
+reference calendar).
 }
 \examples{
 if (interactive()) {

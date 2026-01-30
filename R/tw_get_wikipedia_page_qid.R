@@ -2,13 +2,14 @@
 #'
 #' Mostly used internally
 #'
-#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
-#' @param action Defaults to "query". Usually either "query" or "parse". In principle, any valid action value, see: \url{https://www.mediawiki.org/w/api.php}
+#' @param action Defaults to "query". Usually either "query" or "parse". In
+#'   principle, any valid action value, see:
+#'   \url{https://www.mediawiki.org/w/api.php}
 #' @param type Defaults to "page". Either "page" or "category".
+#' @inheritParams tw_get_wikipedia_page_qid
+#' @inheritParams tw_get
 #'
-#' @return A character vector of base urls to be used with the MediaWiki API
+#' @return A character vector of base urls to be used with the MediaWiki API.
 #' @export
 #'
 #' @examples
@@ -98,17 +99,17 @@ tw_get_wikipedia_base_api_url <- function(
 
 #' Gets the Wikidata Q identifier of one or more Wikipedia pages
 #'
-#' @param url A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
+#' @param url A character vector with the full URL to one or more Wikipedia
+#'   pages. If given, title and language can be left empty.
+#' @param title Title of a Wikipedia page or final parts of its url. If given,
+#'   url can be left empty, but language must be provided.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the
+#'   API before failing.
+#' @inheritParams tw_get
 #'
-#' @return A a data frame with six columns, including `qid` with Wikidata identifiers, and a logical `disambiguation` to flag when disambiguation pages are returned.
+#' @return A a data frame with six columns, including `qid` with Wikidata
+#'   identifiers, and a logical `disambiguation` to flag when disambiguation
+#'   pages are returned.
 #' @export
 #'
 #' @examples
@@ -305,17 +306,12 @@ tw_get_wikipedia_page_qid <- function(
 
 #' Gets the Wikidata id of a Wikipedia page
 #'
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param url Full URL to a Wikipedia page. If given, title and language can be left empty.
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_wikipedia_page_qid
 #'
-#' @return A data frame (a tibble) with eight columns: `title`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`, and `language`.
+#' @return A data frame (a tibble) with eight columns: `title`,
+#'   `wikipedia_title`, `wikipedia_id`, `qid`, `description`, `disambiguation`,
+#'   and `language`.
 #'
 #' @examples
 #' if (interactive()) {
@@ -405,7 +401,7 @@ tw_get_wikipedia_page_qid_single <- function(
 
   if (isFALSE(api_result)) {
     cli::cli_abort(c(
-      "Could not reach the API with {attempts} attempts.",
+      x = "Could not reach the API with {attempts} attempts.",
       i = "Consider increasing the waiting time between calls with the {.arg wait} parameter or check your internet connection."
     ))
   } else {
@@ -436,7 +432,7 @@ tw_get_wikipedia_page_qid_single <- function(
     )
 
   if (is.null(wikidata_id)) {
-    wikidata_id <- as.character(NA)
+    wikidata_id <- NA_character_
   }
 
   description <- wikidata_id_l %>%
@@ -449,7 +445,7 @@ tw_get_wikipedia_page_qid_single <- function(
     )
 
   if (is.null(description)) {
-    description <- as.character(NA)
+    description <- NA_character_
   }
 
   disambiguation <- is.element(
@@ -473,7 +469,7 @@ tw_get_wikipedia_page_qid_single <- function(
     )
 
   if (is.null(normalised)) {
-    normalised <- as.character(NA)
+    normalised <- NA_character_
   }
 
   redirected <- wikidata_id_l %>%
@@ -485,13 +481,13 @@ tw_get_wikipedia_page_qid_single <- function(
     )
 
   if (is.null(redirected)) {
-    redirected <- as.character(NA)
+    redirected <- NA_character_
   }
 
   wikipedia_title <- dplyr::case_when(
     is.na(redirected) == FALSE ~ redirected,
     is.na(normalised) == FALSE ~ normalised,
-    is.na(wikipedia_id) == TRUE ~ as.character(NA),
+    is.na(wikipedia_id) == TRUE ~ NA_character_,
     TRUE ~ title
   )
 
@@ -524,11 +520,9 @@ tw_get_wikipedia_page_qid_single <- function(
 #'
 #' Mostly used internally.
 #'
-#' @param title Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
+#' @param title Title of a Wikipedia page or final parts of its url. If given,
+#'   url can be left empty, but language must be provided.
+#' @inheritParams tw_get
 #'
 #' @return If data present in cache, returns a data frame with cached data.
 #' @export
@@ -623,16 +617,16 @@ tw_get_cached_wikipedia_page_qid <- function(
 
 #' Write Wikidata identifier (qid) of Wikipedia page to cache
 #'
-#' Mostly used internally by `tidywikidatar`, use with caution to keep caching consistent.
+#' Mostly used internally by `tidywikidatar`, use with caution to keep caching
+#' consistent.
 #'
-#' @param df A data frame typically generated with `tw_get_wikipedia_page_qid()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param df A data frame typically generated with
+#'   [tw_get_wikipedia_page_qid()].
 #'
-#' @return Silently returns the same data frame provided as input. Mostly used internally for its side effects.
+#' @inheritParams tw_get
+#'
+#' @return Silently returns the same data frame provided as input. Mostly used
+#'   internally for its side effects.
 #'
 #' @export
 #'
@@ -704,13 +698,11 @@ tw_write_qid_of_wikipedia_page_to_cache <- function(
 
 #' Reset Wikipedia page cache
 #'
-#' Removes the table where data typically gathered with `tw_get_wikipedia_page_qid()` from cache
+#' Removes the table where data typically gathered with
+#' [tw_get_wikipedia_page_qid()] from cache.
 #'
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
+#' @inheritParams tw_get
+#' @inheritParams tw_create_cache_folder
 #'
 #' @return Nothing, used for its side effects.
 #' @export
@@ -737,7 +729,7 @@ tw_reset_wikipedia_page_cache <- function(
     language = language
   )
 
-  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (!pool::dbExistsTable(conn = db, name = table_name)) {
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)

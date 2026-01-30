@@ -1,18 +1,17 @@
 #' Get Wikidata qualifiers for a given property of a given item
 #'
-#' N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
+#' N.B. In order to provide for consistently structured output, this function
+#' outputs either id or value for each  qualifier. The user should keep in mind
+#' that some of these come with additional detail (e.g. the unit, precision, or
+#' reference calendar).
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
 #'
-#' @return A data frame (a tibble) with eight columns: `id` for the input id, `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`, `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when a property is present more than once)
+#' @return A data frame (a tibble) with eight columns: `id` for the input id,
+#'   `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`,
+#'   `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when
+#'   a property is present more than once)
 #'
 #' @examples
 #' if (interactive()) {
@@ -128,19 +127,18 @@ tw_get_qualifiers_single <- function(
 
 #' Get Wikidata qualifiers for a given property of a given item
 #'
-#' N.B. In order to provide for consistently structured output, this function outputs either id or value for each  qualifier. The user should keep in mind that some of these come with additional detail (e.g. the unit, precision, or reference calendar).
+#' N.B. In order to provide for consistently structured output, this function
+#' outputs either id or value for each  qualifier. The user should keep in mind
+#' that some of these come with additional detail (e.g. the unit, precision, or
+#' reference calendar).
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param id_l Defaults to NULL. If given, must be an object or list such as the one generated with `WikidataR::get_item()`. If given, and the requested id is actually present in `id_l`, then no query to Wikidata servers is made.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
 #'
-#' @return A data frame (a tibble) with eight columns: `id` for the input id, `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`, `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when a property is present more than once)
+#' @return A data frame (a tibble) with eight columns: `id` for the input id,
+#'   `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`,
+#'   `rank`, `qualifier_value_type`, and `set` (to distinguish sets of data when
+#'   a property is present more than once)
 #' @export
 #'
 #' @examples
@@ -294,12 +292,8 @@ tw_get_qualifiers <- function(
 
 #' Retrieve cached qualifier
 #'
-#' @param id A character vector, must start with Q, e.g. "Q180099" for the anthropologist Margaret Mead. Can also be a data frame of one row, typically generated with `tw_search()` or a combination of `tw_search()` and `tw_filter_first()`.
-#' @param p A character vector of length 1, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection open.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
 #'
 #' @return If data present in cache, returns a data frame with cached data.
 #' @export
@@ -342,7 +336,7 @@ tw_get_cached_qualifiers <- function(
     language = language
   )
 
-  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (!pool::dbExistsTable(conn = db, name = table_name)) {
     tw_disconnect_from_cache(
       cache = cache,
       cache_connection = db,
@@ -377,7 +371,7 @@ tw_get_cached_qualifiers <- function(
     ))
   ) {
     cli::cli_abort(c(
-      "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
+      x = "The cache has been generated with a previous version of `tidywikidatar` that is not compatible with the current version.",
       i = "You may want to delete the old cache or reset just this table with {.fn tw_reset_qualifiers_cache}."
     ))
   }
@@ -396,16 +390,17 @@ tw_get_cached_qualifiers <- function(
 
 #' Write qualifiers to cache
 #'
-#' Mostly to be used internally by `tidywikidatar`, use with caution to keep caching consistent.
+#' Mostly to be used internally by `tidywikidatar`, use with caution to keep
+#' caching consistent.
 #'
-#' @param qualifiers_df A data frame typically generated with `tw_get_qualifiers()`.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
+#' @param qualifiers_df A data frame typically generated with
+#'   [tw_get_qualifiers()].
 #'
-#' @return Silently returns the same data frame provided as input. Mostly used internally for its side effects.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
+#'
+#' @return Silently returns the same data frame provided as input. Mostly used
+#'   internally for its side effects.
 #'
 #' @export
 #'
@@ -485,11 +480,8 @@ tw_write_qualifiers_to_cache <- function(
 #'
 #' Removes the table where qualifiers are cached
 #'
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not exist, it just creates it without asking (useful for non-interactive sessions).
+#' @inheritParams tw_get
+#' @inheritParams tw_create_cache_folder
 #'
 #' @return Nothing, used for its side effects.
 #' @export

@@ -18,7 +18,11 @@ tw_reset_wikipedia_category_members_cache(
 to use. Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not set,
 "en". If url given, this can be left empty.}
 
-\item{type}{Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to \code{cmtype}. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}}
+\item{type}{Defaults to "page", defines which kind of members of a category
+are returned. Valid values include "page", "file", and "subcat" (for
+sub-category). Corresponds to \code{cmtype}. For details, see
+\href{https://www.mediawiki.org/wiki/API:Categorymembers}{the relevant page
+of the official documentation}.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
@@ -39,7 +43,8 @@ sessions).}
 Nothing, used for its side effects.
 }
 \description{
-Removes from cache the table where data typically gathered with \code{tw_get_wikipedia_category_members()} are stored.
+Removes from cache the table where data typically gathered with
+\code{\link[=tw_get_wikipedia_category_members]{tw_get_wikipedia_category_members()}} are stored.
 }
 \examples{
 if (interactive()) {

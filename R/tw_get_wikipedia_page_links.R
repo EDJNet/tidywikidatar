@@ -147,8 +147,8 @@ tw_get_wikipedia_page_links <- function(
 #' Get all Wikidata Q identifiers of all Wikipedia pages that appear in a given
 #' page
 #'
-#' @param wikipedia_page_qid_df Defaults to NULL. If given, used to reduce calls
-#'   to cache. A data frame
+#' @param wikipedia_page_qid_df Defaults to `NULL`. If given, used to reduce
+#'   calls to cache. Must be a data frame.
 #'
 #' @inheritParams tw_get_wikipedia_page_links
 #' @inheritParams tw_get_image
@@ -351,7 +351,7 @@ tw_get_wikipedia_page_links_single <- function(
         )
 
       if (is.null(description)) {
-        description <- as.character(NA)
+        description <- NA_character_
       }
 
       tibble::tibble(

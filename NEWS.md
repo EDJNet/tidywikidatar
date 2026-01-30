@@ -2,6 +2,7 @@
 
 * drop dependency on `WikidataQueryServiceR`
 * enable setting default user agent for the session for query functions
+* fix response language in `tw_get_property_label` and `tw_get_property_description`
 * more consistent documentation formatting
 * last version supporting legacy pipe `%>%`
 

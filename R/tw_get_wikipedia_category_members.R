@@ -1,17 +1,23 @@
-#' Get all Wikidata Q identifiers of all Wikipedia pages (or files, or subcategories) that are members of the given category,
+#' Get all Wikidata Q identifiers of all Wikipedia pages (or files, or
+#' subcategories) that are members of the given category,
 #'
-#' @param url Full URL to a Wikipedia category page. If given, title and language can be left empty.
-#' @param category Title of a Wikipedia category page or final parts of its url. Must include "Category:", or equivalent in other languages. If given, url can be left empty, but language must be provided.
-#' @param type Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to `cmtype`. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}
-#' @param language Two-letter language code used to define the Wikipedia version to use. Defaults to language set with `tw_set_language()`; if not set, "en". If url given, this can be left empty.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 1 due to time-outs with frequent queries. Time to wait between queries to the APIs. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
-#' @param attempts Defaults to 10. Number of times it re-attempts to reach the API before failing.
+#' @param url Full URL to a Wikipedia category page. If given, title and
+#'   language can be left empty.
+#' @param category Title of a Wikipedia category page or final parts of its url.
+#'   Must include "Category:", or equivalent in other languages. If given, url
+#'   can be left empty, but language must be provided.
+#' @param type Defaults to "page", defines which kind of members of a category
+#'   are returned. Valid values include "page", "file", and "subcat" (for
+#'   sub-category). Corresponds to `cmtype`. For details, see
+#'   \href{https://www.mediawiki.org/wiki/API:Categorymembers}{the relevant page
+#'   of the official documentation}.
+#' @param attempts Defaults to 10. Number of times it re-attempts to reach the
+#'   API before failing.
+#' @inheritParams tw_get
 #'
-#' @return A data frame (a tibble) with eight columns: `source_title_url`, `source_wikipedia_title`, `source_qid`, `wikipedia_title`, `wikipedia_id`, `qid`, `description`, and `language`.
+#' @return A data frame (a tibble) with eight columns: `source_title_url`,
+#'   `source_wikipedia_title`, `source_qid`, `wikipedia_title`, `wikipedia_id`,
+#'   `qid`, `description`, and `language`.
 #' @export
 #'
 #' @examples
@@ -510,11 +516,11 @@ tw_write_wikipedia_category_members_to_cache <- function(
 
 #' Reset Wikipedia category members cache
 #'
-#' Removes from cache the table where data typically gathered with `tw_get_wikipedia_category_members()` are stored.
-#'
-#' @param type Defaults to "page", defines which kind of members of a category are returned. Valid values include "page", "file", and "subcat" (for sub-category). Corresponds to `cmtype`. For details, see \url{https://www.mediawiki.org/wiki/API:Categorymembers}
+#' Removes from cache the table where data typically gathered with
+#' [tw_get_wikipedia_category_members()] are stored.
 #'
 #' @inheritParams tw_reset_wikipedia_page_links_cache
+#' @inheritParams tw_get_wikipedia_category_members
 #'
 #' @return Nothing, used for its side effects.
 #' @export

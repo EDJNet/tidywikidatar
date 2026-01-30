@@ -2,22 +2,30 @@
 % Please edit documentation in R/tw_get_property_with_details.R
 \name{tw_get_property_with_details}
 \alias{tw_get_property_with_details}
-\title{Gets all details of a property}
+\title{Gets all details of a property for one or more Wikidata items.}
 \usage{
 tw_get_property_with_details(id, p, wait = 0)
 }
 \arguments{
-\item{id}{A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 }
 \value{
-A tibble, corresponding to the details for the given property. \code{NULL} if no relevant property found.
+A tibble, corresponding to the details for the given property. \code{NULL}
+if no relevant property found.
 }
 \description{
-Gets all details of a property
+Gets all details of a property for one or more Wikidata items.
 }
 \examples{
 # Get "female form of label", including language

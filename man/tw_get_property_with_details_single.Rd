@@ -7,15 +7,20 @@
 tw_get_property_with_details_single(id, p)
 }
 \arguments{
-\item{id}{A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 }
 \value{
-A tibble, corresponding to the details for the given property. NULL if no relevant property found.
+A tibble, corresponding to the details for the given property. \code{NULL}
+if no relevant property found.
 }
 \description{
-Gets all details of a property
+Used internally. Users should rely on \code{\link[=tw_get_property_with_details]{tw_get_property_with_details()}}.
 }
 \examples{
 # Get "female form of label", including language

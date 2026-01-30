@@ -52,8 +52,8 @@ between queries.}
 \item{attempts}{Defaults to 10. Number of times it re-attempts to reach the
 API before failing.}
 
-\item{wikipedia_page_qid_df}{Defaults to NULL. If given, used to reduce calls
-to cache. A data frame}
+\item{wikipedia_page_qid_df}{Defaults to \code{NULL}. If given, used to reduce
+calls to cache. Must be a data frame.}
 }
 \value{
 A data frame (a tibble) with four columns: \code{wikipedia_title},

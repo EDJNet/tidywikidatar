@@ -13,18 +13,26 @@ tw_get_wikipedia_base_api_url(
 )
 }
 \arguments{
-\item{url}{A character vector with the full URL to one or more Wikipedia pages. If given, title and language can be left empty.}
+\item{url}{A character vector with the full URL to one or more Wikipedia
+pages. If given, title and language can be left empty.}
 
-\item{title}{Title of a Wikipedia page or final parts of its url. If given, url can be left empty, but language must be provided.}
+\item{title}{Title of a Wikipedia page or final parts of its url. If given,
+url can be left empty, but language must be provided.}
 
-\item{language}{Two-letter language code used to define the Wikipedia version to use. Defaults to language set with \code{tw_set_language()}; if not set, "en". If url given, this can be left empty.}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{action}{Defaults to "query". Usually either "query" or "parse". In principle, any valid action value, see: \url{https://www.mediawiki.org/w/api.php}}
+\item{action}{Defaults to "query". Usually either "query" or "parse". In
+principle, any valid action value, see:
+\url{https://www.mediawiki.org/w/api.php}}
 
 \item{type}{Defaults to "page". Either "page" or "category".}
 }
 \value{
-A character vector of base urls to be used with the MediaWiki API
+A character vector of base urls to be used with the MediaWiki API.
 }
 \description{
 Mostly used internally
