@@ -30,8 +30,9 @@ tw_reset_wikipedia_category_members_cache(
 
   Defaults to "page", defines which kind of members of a category are
   returned. Valid values include "page", "file", and "subcat" (for
-  sub-category). Corresponds to `cmtype`. For details, see
-  <https://www.mediawiki.org/wiki/API:Categorymembers>
+  sub-category). Corresponds to `cmtype`. For details, see [the relevant
+  page of the official
+  documentation](https://www.mediawiki.org/wiki/API:Categorymembers).
 
 - cache:
 

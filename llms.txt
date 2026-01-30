@@ -1335,7 +1335,7 @@ getting data about images associated with a Wikidata Q identifier
 ## Functions to retrieve more detailed data that are not (yet) cached by `tidywikidatar`
 
 - [`tw_get_property_with_details()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details.md)
-  : Gets all details of a property
+  : Gets all details of a property for one or more Wikidata items.
 - [`tw_query()`](https://edjnet.github.io/tidywikidatar/reference/tw_query.md)
   : Perform simple Wikidata queries
 

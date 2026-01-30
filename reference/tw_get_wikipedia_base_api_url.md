@@ -28,10 +28,11 @@ tw_get_wikipedia_base_api_url(
 
 - language:
 
-  Two-letter language code used to define the Wikipedia version to use.
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
-  if not set, "en". If url given, this can be left empty.
+  if not set, "en". Use "all_available" to keep all languages. For
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - action:
 
@@ -44,7 +45,7 @@ tw_get_wikipedia_base_api_url(
 
 ## Value
 
-A character vector of base urls to be used with the MediaWiki API
+A character vector of base urls to be used with the MediaWiki API.
 
 ## Examples
 

@@ -77,8 +77,8 @@ tw_get_wikipedia_page_links_single(
 
 - wikipedia_page_qid_df:
 
-  Defaults to NULL. If given, used to reduce calls to cache. A data
-  frame
+  Defaults to `NULL`. If given, used to reduce calls to cache. Must be a
+  data frame.
 
 ## Value
 

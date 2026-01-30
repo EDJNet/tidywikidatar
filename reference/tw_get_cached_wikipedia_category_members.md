@@ -27,33 +27,35 @@ tw_get_cached_wikipedia_category_members(
 
   Defaults to "page", defines which kind of members of a category are
   returned. Valid values include "page", "file", and "subcat" (for
-  sub-category). Corresponds to `cmtype`. For details, see
-  <https://www.mediawiki.org/wiki/API:Categorymembers>
+  sub-category). Corresponds to `cmtype`. For details, see [the relevant
+  page of the official
+  documentation](https://www.mediawiki.org/wiki/API:Categorymembers).
 
 - language:
 
-  Two-letter language code used to define the Wikipedia version to use.
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
-  if not set, "en". If url given, this can be left empty.
+  if not set, "en". Use "all_available" to keep all languages. For
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 ## Value
 

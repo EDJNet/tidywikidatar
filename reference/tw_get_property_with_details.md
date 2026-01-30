@@ -1,6 +1,6 @@
-# Gets all details of a property
+# Gets all details of a property for one or more Wikidata items.
 
-Gets all details of a property
+Gets all details of a property for one or more Wikidata items.
 
 ## Usage
 
@@ -12,8 +12,14 @@ tw_get_property_with_details(id, p, wait = 0)
 
 - id:
 
-  A character vector, must start with Q, e.g. "Q254" for Wolfgang
-  Amadeus Mozart.
+  A character vector, must start with Q, e.g. "Q180099" for the
+  anthropologist Margaret Mead. Can also be a data frame of one row,
+  typically generated with
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  or a combination of
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  and
+  [`tw_filter_first()`](https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.md).
 
 - p:
 

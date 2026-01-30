@@ -25,45 +25,51 @@ tw_get_qualifiers_single(
 
 - id:
 
-  A character vector of length 1, must start with Q, e.g. "Q254" for
-  Wolfgang Amadeus Mozart.
+  A character vector, must start with Q, e.g. "Q180099" for the
+  anthropologist Margaret Mead. Can also be a data frame of one row,
+  typically generated with
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  or a combination of
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  and
+  [`tw_filter_first()`](https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.md).
 
 - p:
 
-  A character vector of length 1, a property. Must always start with the
-  capital letter "P", e.g. "P31" for "instance of".
+  A character vector, a property. Must always start with the capital
+  letter "P", e.g. "P31" for "instance of".
 
 - language:
 
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Logical, defaults to FALSE. If TRUE, it overwrites the table in the
-  local sqlite database. Useful if the original Wikidata object has been
-  updated.
+  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
+  the local sqlite database. Useful if the original Wikidata object has
+  been updated.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 - wait:
 
@@ -74,8 +80,8 @@ tw_get_qualifiers_single(
 
 - id_l:
 
-  Defaults to NULL. If given, must be an object or list such as the one
-  generated with
+  Defaults to `NULL`. If given, must be an object or list such as the
+  one generated with
   [`WikidataR::get_item()`](https://rdrr.io/pkg/WikidataR/man/get_item.html).
   If given, and the requested id is actually present in `id_l`, then no
   query to Wikidata servers is made.
