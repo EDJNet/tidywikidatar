@@ -20,14 +20,15 @@ tw_get_all_with_p(
 letter "P", e.g. "P31" for "instance of".}
 
 \item{fields}{A character vector of Wikidata fields. Ignored if
-\code{return_as_tw_search} is set to TRUE (as per default). Defaults to
+\code{return_as_tw_search} is set to \code{TRUE} (as per default). Defaults to
 \verb{("item", "itemLabel", "itemDescription")}}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". If more than one, can be set in order of preference, e.g.
 \code{c("it", "fr", "en")}. Use "all_available" to keep all languages. For
-available language values, see
-https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+available language values, see the
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{list
+of available language codes in the official documentation}.}
 
 \item{method}{Defaults to "SPARQL". The only accepted alternative value is
 "JSON", to use instead json-based API.}
@@ -37,10 +38,10 @@ https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
 \item{limit}{Defaults to \code{Inf}. Set to smaller values for testing and cache
 locally when possible to reduce load on servers.}
 
-\item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data
-frame with three columns (id, label, and description) that can be piped to
-other \code{tw_} functions. If FALSE, a data frame with as many columns as
-fields.}
+\item{return_as_tw_search}{Logical, defaults to \code{TRUE}. If \code{TRUE}, returns a
+data frame with three columns (\code{id}, \code{label}, and \code{description}) that can
+be piped to other \code{tw_} functions. If \code{FALSE}, a data frame with as many
+columns as fields.}
 
 \item{user_agent}{Defaults to a combination of \code{tidywikidatar} and package
 version number. Consider customising it for the current sessions with

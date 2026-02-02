@@ -28,7 +28,7 @@ The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
 - all responses are transformed into data frames or simple character vectors
 - it is easy to enable efficient caching in a local sqlite database (integration with other databases is also available)
 
-If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with nested lists and SPARQL queries, or if you plan to build more complex queries, then you should probably use [`WikidataR`](https://github.com/TS404/WikidataR) or Wikimedia's own [`WikidataQueryServiceR`](https://github.com/wikimedia/WikidataQueryServiceR) (under the hood, `tidywikidatar` is largely based on those packages).
+If you want to benefit of the wealth of information stored by Wikidata, but you do not like SPARQL queries and nested lists, then you may find `tidywikidatar` useful. If you prefer working with SPARQL queries, check out the [official documentation](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) and run your queries directly: `tidywikidatar` will not be needed.
 
 ## Installation
 
@@ -79,7 +79,7 @@ As you'll see, many queries return just another wikidata id, and if you want to 
 
 `tidywikidatar` makes it easy to cache locally responses (both searches and details about specific items) in a sqlite database to reduce load on Wikidata's servers and increase processing speed. These sqlite databases are by default stored in the current working directory under a `tw_data` folder. It may be useful to store them in a folder where they can be retrieved easily even when working on different projects, but this is obviously a matter of personal taste. You can enable caching for the current session with `tw_enable_cache()`, set the cache folder to be used throughout a session with `tw_set_cache_folder()`, and set the language used by all functions (if not set, it defaults to English). The first lines of a script using `tidywikidatar` would often look like this:
 
-```{r}
+```{r setup}
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
@@ -95,14 +95,14 @@ Most `tidywikidatar` functions are built around the idea that you know what you 
 
 Let's take this again from the beginning. As I mentioned, I am interested in Margaret Mead, the famous pioneer anthropologist author of "Coming of Age in Samoa". This seems quite straightforward but there are actually a number of things that are returned by searching for "Margaret Mead" that are not the woman herself.
 
-```{r}
+```{r tw_search}
 tw_search(search = "Margaret Mead")
 ```
 
 
 If I am running through a list of strings, and, for example, I am actually interested in the most famous person by that name, I can filter result by property, using the standard form. If, for example, I want only the first result that is associated with "an instance of" (P31) - "human" (Q5), I can run:
 
-```{r}
+```{r tw_search tw_filter_first}
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
 ```
@@ -112,23 +112,23 @@ and, as expected, I get a single output: my beloved Margaret Mead.
 
 Where was she born? I can ask directly for P19, place of birth:
 
-```{r}
+```{r tw_get_property}
 tw_get_property(id = "Q180099", p = "P19")
 ```
 which, as expected, will give me another wikidata id. But what does, "Q1345" stand for? I should ask for its label.
 
-```{r}
+```{r tw_get_label}
 tw_get_label(id = "Q1345")
 ```
 
 Alright, I know where Philadelphia is, but if it was a smaller place, perhaps I'd need to ask in which country it is located. So I would ask for the correspondent property, P17.
 
-```{r}
+```{r tw_get_property again}
 tw_get_property(id = "Q1345", p = "P17")
 ```
 Oh, no, another Wikidata id! That's the way it works... let's ask for its label:
 
-```{r}
+```{r tw_get_label again}
 tw_get_label(id = "Q30")
 ```
 
@@ -137,7 +137,7 @@ It takes some time to get used, but I suppose you get the gist of it.
 You can also pipe all of the above, like this:
 
 
-```{r}
+```{r tw_search again}
 tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_filter_first(p = "P31", q = "Q5") %>% # keep only the first result that is of a human
   tw_get_property(p = "P19") %>% # ask for the place of birth
@@ -153,7 +153,7 @@ The procedure above may seem a bit convoluted, but it is actually quite represen
 
 As you would expect, such functions can also be combined, for example, like this:
 
-```{r}
+```{r get_bio function}
 get_bio <- function(id, language = "en") {
   tibble::tibble(
     label = tw_get_label(id = id, language = language),
@@ -178,7 +178,7 @@ tw_search(search = "Margaret Mead") %>%
 
 I can of course get the response in languages other than English, as long as those are available on Wikidata.
 
-```{r}
+```{r from tw_search to get_bio}
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio(language = "it")
@@ -191,7 +191,7 @@ More examples regarding serial operations, and streamlined queries over long lis
 In the meantime, let us just say that if we wanted to have a list of all the "awards received" ([P166](https://www.wikidata.org/wiki/Property:P166)) by Margaret Mead, and fellow anthropologists and folklorists Ruth Benedict and Zora Neale Hurston, we can achieve that in a single call:
 
 
-```{r}
+```{r tw_get_property multiple}
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
@@ -200,7 +200,7 @@ tw_get_property(
 ```
 Again, Wikidata ids. We can of course get their relative labels using the functions outlined above, but `tidywikidatar` has a convenience function - `tw_label()` that will achieve what you want in most such cases. 
 
-```{r}
+```{r tw_get_property and label}
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
@@ -221,7 +221,7 @@ Let's look at some of these issues with an example.
 
 The anthropologist Franz Boas ([Q76857](https://www.wikidata.org/wiki/Q76857)) had many influential doctoral students ([P185](https://www.wikidata.org/wiki/Property:P185)), including the above-mentioned Margaret Mead. Who where the others? And when and where were they born? We expect the answer to this latter questions to be unique, and we may be fine with discarding other values that may be recorded in Wikidata.
 
-```{r}
+```{r piped operations}
 library("dplyr", warn.conflicts = FALSE)
 library("tidyr")
 students <-
@@ -252,7 +252,7 @@ In other cases, however, we do expect multiple valid values. For example, we exp
 Here is how we may want to go if we want, for example, to create a map of all the universities where one of Franz Boas' doctoral students has worked. We get the id of all the places where they have worked, check if they are universities or not, and then get the coordinates for the given institutions.
 
 
-```{r}
+```{r piped operations again}
 students %>%
   mutate(worked_at_id = tw_get_p(
     id = student_id,
@@ -331,12 +331,14 @@ In most cases, things are quite straightforward: each item has one or more value
 
 However, some properties have additional qualifiers.
 
-As an example, let's look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the former president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)). (this example based on David Sassoli was included in this document before his premature death in early 2022)
+As an example, let's look at someone whose life is seemingly less adventurous than that of Margaret Mead, but whose Wikidata page has properties with a more interesting combination of qualifiers: the former president of the European Parliament David Sassoli ([Q2391857](https://www.wikidata.org/wiki/Q2391857)).
+
+(N.B. this example based on David Sassoli was included in this document before his premature death in early 2022)
 
 If we look at his "positions held" ([P39](https://www.wikidata.org/wiki/Property:P39)), we find the following:
 
 
-```{r}
+```{r position_held multiple}
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -346,14 +348,14 @@ purrr::map_chr(
 He has been more than once "member of the European Parliament", and once "President of the European Parliament". But this is not all that Wikidata knows about it: each of these properties comes with qualifiers. 
 
 
-```{r}
+```{r tw_get_qualifiers}
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
 ```
 
 As usual, Wikidata presents everything as combinations of properties and values. Let's translate each of these to their respective label, and separate each set of information we have about the "positions held" by Mr. Sassoli:
 
-```{r}
+```{r tw_get_qualifiers labelled}
 qualifiers_labelled_df <- qualifiers_df %>%
   dplyr::transmute(
     who = tw_get_label(id = id, language = "en"),
@@ -429,7 +431,7 @@ tibble::tibble(city_qid = c("Q84", "Q220")) %>%
 
 Besides looking at the qualifiers, the standard way for Wikidata to choose which is the "preferred" statement is the dedicated ranking element (in the online interface, a small dot with arrows next to the label), which can either be "preferred", "normal", or "deprecated". In piped operations, we get the "preferred" property by setting `preferred` to `TRUE` in `tw_get_p()`.
 
-```{r}
+```{r city_qid}
 tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(
     city_label = tw_get_label(city_qid),
@@ -443,11 +445,11 @@ tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(country_label = tw_get_label(country_qid))
 ```
 
-Keep in mind that there may be more than one "preferred" statement, so setting `preferred` to TRUE is no guarantee of having a single result: for example, London is both "[capital of](https://www.wikidata.org/wiki/Q84#P1376)" ([P1376](https://www.wikidata.org/wiki/Property:P1376)) the United Kingdom and England, and both statements are "preferred". Rome is capital of Italy and Lazio (the region where it is located), and both are "preferred". 
+Keep in mind that there may be more than one "preferred" statement, so setting `preferred` to `TRUE` is no guarantee of having a single result: for example, London is both "[capital of](https://www.wikidata.org/wiki/Q84#P1376)" ([P1376](https://www.wikidata.org/wiki/Property:P1376)) the United Kingdom and England, and both statements are "preferred". Rome is capital of Italy and Lazio (the region where it is located), and both are "preferred". 
 
 When the "preferred" option does not give the desired result or gives more than one, in some cases it may be useful to use instead the parameter `latest_start_time`, to pick the statement that has the most recent "start time" ([P580](https://www.wikidata.org/wiki/Property:P580)) qualifier (this can also be used in combination with `preferred`). This option slows a bit the process as it depends on a call to `tw_get_qualifiers()` to retrieve and cache relevant details.
 
-```{r}
+```{r city_qid label}
 tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(
     city_label = tw_get_label(city_qid),
@@ -470,15 +472,15 @@ If none of the above works, then you may still be able to get consistent results
 
 All of the above works similarly to how we often use websites such as Wikipedia, or search engines: we search for something specific to find information about it. Wikidata, however, has powerful tools for complex queries. Think something like "give me all of these fields for all items that have this value for this property, but not that other value for that other property". 
 
-To achieve this, you can run queries, following [instructions on Wikidata.org](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples). From R, you would run those using `WikidataQueryServiceR::query_wikidata()`. This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes. 
+To achieve this, you can run queries, following [instructions on Wikidata.org](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples). This is powerful, but perhaps somewhat intimidating for those who are less familiar with database queries, SPARQL, and the likes. 
 
-`tidiwikidatar` does not currently plan to deal with complex queries. However, at this stage it has a basic function, `tw_query`, which should instantly make sense for R users. 
+`tidiwikidatar` does not currently plan to deal with complex queries. However, at this stage it has a basic function, `tw_query()`, which should instantly make sense for R users. 
 
 Say, for example, you are interested in all women (P21 == Q6581072) who are resistance fighters (P106 == Q6581072). 
 
 You can then make a data frame with two columns (p and q), and some requirements, like this:
 
-```{r}
+```{r query_df}
 query_df <- tibble::tribble(
   ~p, ~q,
   "P106", "Q1397808",
@@ -494,7 +496,7 @@ query_df
 
 You can then pass it to `tw_query()`, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.
 
-```{r}
+```{r tw_query}
 tw_query(query = query_df)
 ```
 
@@ -517,7 +519,7 @@ fr_resistance_fighters_df
 You can also ask other fields, beyond label and description, using the `field` parameter of `tw_query()`. But for this readme, I'll keep things simple. Do you want more information about these results without learning yet another set of Wikidata terminology? You can still use the same commands described above, e.g.
 
 
-```{r}
+```{r fr_resistance_fighters_df get_bio}
 fr_resistance_fighters_df %>%
   dplyr::slice(1) %>%
   get_bio()
@@ -532,24 +534,24 @@ Besides querying Wikidata and using the basic `tw_search()` function described a
 
 In this case, the starting point is usually the full URL or the title of a Wikipedia page, which give the same result (the user, however, should be mindful of redirection if using the title).
 
-```{r}
+```{r tw_get_wikipedia_page_qid title}
 tw_get_wikipedia_page_qid(title = "Margaret Mead")
 ```
 
 
-```{r}
+```{r tw_get_wikipedia_page_qid url}
 tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 ```
 
 Depending on the workflow, it is also possible to get the full link to the Wikipedia page starting from a given Wikidata identifier. 
 
-```{r}
+```{r tw_get_wikipedia}
 tw_get_wikipedia(id = "Q180099")
 ```
 
 Who and what is mentioned in Margaret Mead's Wikipedia page? As it turns out, hundreds of pages, including a variety of people, places, concepts, etc.  
 
-```{r}
+```{r tw_get_wikipedia_page_links}
 wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
@@ -559,7 +561,7 @@ wikipedia_df
 
 What if we are potentially interested only in the people mentioned in this page? We proceed as usual, checking which of these are "instance of" ("P19") "human" ("Q5"), and take it from there. 
 
-```{r eval=FALSE}
+```{r wikipedia_df, eval=FALSE}
 wikipedia_df %>%
   dplyr::pull(wikidata_id) %>%
   tw_get_property(p = "P31") %>%
@@ -574,12 +576,12 @@ For a more extended example of exploring Wikidata starting from Wikipedia, consu
 
 Many Wikidata items have an image that can be used for illustrative purposes. `tw_get_image()` facilitate getting the link to the WikiMedia Commons page where more details about the image can be found, as well as a direct link to the image at the desired resolution for direct embeds.
 
-```{r}
+```{r tw_get_image}
 tw_get_image(id = "Q180099", format = "commons") %>%
   dplyr::pull(image)
 ```
 
-```{r}
+```{r tw_get_image width}
 tw_get_image(id = "Q180099", format = "embed", width = 300) %>%
   dplyr::pull(image)
 ```
@@ -589,7 +591,7 @@ The user should be mindful that these links depend on the filename of the image,
 Wikidata itself does not include details about copyright of the image, nor an easy way to get information about the author, or a suggested way to credit the image. All of these are available through the Wikimedia commons API. `tidywikidatar` includes a convenience function to get access to all such details:
 
 
-```{r}
+```{r tw_get_image_metadata}
 tw_get_image_metadata(id = "Q180099") %>%
   tidyr::pivot_longer(
     cols = dplyr::everything(),

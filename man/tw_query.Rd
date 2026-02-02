@@ -17,19 +17,20 @@ tw_query(
 readme).}
 
 \item{fields}{A character vector of Wikidata fields. Ignored if
-\code{return_as_tw_search} is set to TRUE (as per default). Defaults to
+\code{return_as_tw_search} is set to \code{TRUE} (as per default). Defaults to
 \verb{("item", "itemLabel", "itemDescription")}}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". If more than one, can be set in order of preference, e.g.
 \code{c("it", "fr", "en")}. Use "all_available" to keep all languages. For
-available language values, see
-https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+available language values, see the
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{list
+of available language codes in the official documentation}.}
 
-\item{return_as_tw_search}{Logical, defaults to TRUE. If TRUE, returns a data
-frame with three columns (id, label, and description) that can be piped to
-other \code{tw_} functions. If FALSE, a data frame with as many columns as
-fields.}
+\item{return_as_tw_search}{Logical, defaults to \code{TRUE}. If \code{TRUE}, returns a
+data frame with three columns (\code{id}, \code{label}, and \code{description}) that can
+be piped to other \code{tw_} functions. If \code{FALSE}, a data frame with as many
+columns as fields.}
 
 \item{user_agent}{Defaults to a combination of \code{tidywikidatar} and package
 version number. Consider customising it for the current sessions with
@@ -41,12 +42,12 @@ A data frame
 \description{
 This function aims to facilitate only the most basic type of queries: return
 which items have the following property pairs. For more details on Wikidata
-queries, consult:
-https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples.
-For complex queries, use \code{WikidataQueryServiceR::query_wikidata()}.
+queries, the
+\href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{examples
+in the official documentation}.
 }
 \details{
-Consider \code{tw_get_all_with_p()} if you want to get all items with a given
+Consider \code{\link[=tw_get_all_with_p]{tw_get_all_with_p()}} if you want to get all items with a given
 property, irrespective of the value.
 }
 \examples{

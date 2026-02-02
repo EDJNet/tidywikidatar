@@ -1,8 +1,8 @@
 # tidywikidatar (development version)
 
-* drop dependency on `WikidataQueryServiceR`
+* drop dependency on `WikidataQueryServiceR` and remove references from documentation
 * enable setting default user agent for the session for query functions
-* fix response language in `tw_get_property_label` and `tw_get_property_description`
+* fix response language in `tw_get_property_label()` and `tw_get_property_description()`
 * fix `tw_get_p()` when  start time of items is before year 0, and consistently return list when `only_first` is set to `FALSE`.
 * more consistent documentation formatting
 * last version supporting legacy pipe `%>%`
@@ -10,9 +10,9 @@
 # tidywikidatar 0.5.9
 
 * drop dependency on `WikipediR`
-* report informative error message from the api in `tw_search` and related functions
-* include "tidywikidatar/version" user agent in `tw_search` and related functions
-* fix `tw_get_wikipedia_section_links` when url provided as input
+* report informative error message from the api in `tw_search()` and related functions
+* include "tidywikidatar/version" user agent in `tw_search()` and related functions
+* fix `tw_get_wikipedia_section_links()` when url provided as input
 
 # tidywikidatar 0.5.8
 
@@ -22,17 +22,17 @@
 
 # tidywikidatar 0.5.7
 
-* fix: `tw_get_wikipedia_category_members` now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url
+* fix: `tw_get_wikipedia_category_members()` now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url
 * testing adjustments: more tests now rely on an embedded set of items to reduce risks of server timeouts when conducting checks, in particular from CRAN
 
 # tidywikidatar 0.5.6
 
-* fix: `tw_get` now caches Wikidata items that have been deleted, storing the error message as the value of property "error"
-* fix: `tw_search` now returns results consistently also when description missing in given language (issue stemming from update in a dependency)
+* fix: `tw_get()` now caches Wikidata items that have been deleted, storing the error message as the value of property "error"
+* fix: `tw_search()` now returns results consistently also when description missing in given language (issue stemming from update in a dependency)
 
 # tidywikidatar 0.5.5
 
-* fix: `tw_search` now checks cache efficiently also when cache settings are passed as parameters
+* fix: `tw_search()` now checks cache efficiently also when cache settings are passed as parameters
 * fix: minor adjustments to prevent warnings and error with latest `purrr` and `tidyselect`
 
 # tidywikidatar 0.5.4

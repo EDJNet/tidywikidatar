@@ -65,7 +65,7 @@ tw_get_qualifiers_single <- function(
 
   Sys.sleep(time = wait)
 
-  if (is.null(id_l) == FALSE) {
+  if (!is.null(id_l)) {
     w <- id_l[
       purrr::map_chr(
         .x = id_l,
