@@ -3,6 +3,7 @@
 * drop dependency on `WikidataQueryServiceR`
 * enable setting default user agent for the session for query functions
 * fix response language in `tw_get_property_label` and `tw_get_property_description`
+* fix `tw_get_p()` when  start time of items is before year 0, and consistently return list when `only_first` is set to `FALSE`.
 * more consistent documentation formatting
 * last version supporting legacy pipe `%>%`
 

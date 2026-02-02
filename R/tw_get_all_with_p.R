@@ -72,7 +72,7 @@ tw_get_all_with_p <- function(
       httr2::req_headers(Accept = "text/csv") %>%
       httr2::req_user_agent(user_agent) %>%
       httr2::req_url_query(query = sparql_t) %>%
-      httr2::req_retry(max_tries = 5, backoff = 2)
+      httr2::req_retry(max_tries = 5, backoff = ~2)
 
     resp <- httr2::req_perform(req)
 

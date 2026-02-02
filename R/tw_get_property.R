@@ -112,22 +112,28 @@ tw_get_property <- function(
 }
 
 
-#' Get Wikidata property of an item as a vector or list of the same length as input
+#' Get Wikidata property of an item as a vector or list of the same length as
+#' input
 #'
-#' @param id A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.
-#' @param p A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".
-#' @param only_first Logical, defaults to `FALSE`. If `TRUE`, it just keeps the first relevant property value for each id (or `NA` if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If `FALSE`, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.
-#' @param preferred Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.
-#' @param latest_start_time Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.
-#' @param language Defaults to language set with `tw_set_language()`; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
-#' @param id_df Default to NULL. If given, it should be a dataframe typically generated with `tw_get_()`, and is used instead of calling Wikidata or replying on cache.
-#' @param cache Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with `tw_enable_cache()` or `tw_disable_cache()`.
-#' @param overwrite_cache Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.
-#' @param cache_connection Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar` will use a local sqlite database. A custom connection to other databases can be given (see vignette `caching` for details).
-#' @param disconnect_db Defaults to TRUE. If FALSE, leaves the connection to cache open.
-#' @param wait In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.
+#' @param only_first Logical, defaults to `FALSE`. If `TRUE`, it just keeps the
+#'   first relevant property value for each id (or `NA` if none is available),
+#'   and returns a character vector. Warning: this likely discards valid values,
+#'   so make sure this is really what you want. If `FALSE`, returns a list of
+#'   the same length as input, with all values for each id stored in a list if
+#'   more than one is found.
+#' @param preferred Logical, defaults to `FALSE`. If `TRUE`, returns properties
+#'   that have rank "preferred" if available; if no "preferred" property is
+#' found, then it is ignored.
+#' @param latest_start_time Logical, defaults to `FALSE`. If `TRUE`, returns the
+#'   property that has the most recent start time ("P580") as qualifier if
+#'   `only_first` is set to `TRUE`, or returns a list ordered by start time if
+#'   `only_first` is set to `FALSE`. If no such qualifier is found, then it is
+#'   ignored.
+#' @inheritParams tw_get
+#' @inheritParams tw_get_property
 #'
-#' @return A list of the same length of input (or a character vector is only_first is set to TRUE)
+#' @return A list of the same length as input (or a character vector is
+#'   only_first is set to `TRUE`)
 #' @export
 #'
 #' @examples
@@ -230,16 +236,19 @@ tw_get_property_same_length <- function(
       language = language
     )
     if (only_first) {
-      return(rep(as.character(NA), length(id)))
+      return(rep(NA_character_, length(id)))
     } else {
       return(
-        rep(as.character(NA), length(id)) %>%
+        rep(NA_character_, length(id)) %>%
           as.list()
       )
     }
   }
 
-  if (preferred) {
+  if (!preferred & !latest_start_time) {
+    # do nothing, and keep the retrieved property_df
+  }
+  if (preferred & !latest_start_time) {
     preferred_df <- property_df %>%
       dplyr::mutate(
         rank = factor(
@@ -258,9 +267,9 @@ tw_get_property_same_length <- function(
     if (nrow(preferred_df) > 0) {
       property_df <- preferred_df
     }
-  }
+  } else if (latest_start_time) {
+    properties_all_df <- property_df
 
-  if (latest_start_time) {
     qualifiers_df <- tw_get_qualifiers(
       id = id,
       p = p,
@@ -272,7 +281,21 @@ tw_get_property_same_length <- function(
       wait = wait
     )
 
-    qualifiers_latest_start_time_df <- qualifiers_df %>%
+    properties_without_qualifier_df <- properties_all_df %>%
+      dplyr::rename(qualifier_id = "value") %>%
+      dplyr::anti_join(
+        y = qualifiers_df,
+        by = c("id", "property", "qualifier_id")
+      ) %>%
+      dplyr::mutate(
+        qualifier_property = "P580",
+        qualifier_value = NA_character_
+      )
+
+    qualifiers_with_start_time_df <- dplyr::bind_rows(
+      qualifiers_df,
+      properties_without_qualifier_df
+    ) %>%
       dplyr::filter(.data$qualifier_property == "P580") %>%
       dplyr::distinct(
         .data$id,
@@ -280,40 +303,88 @@ tw_get_property_same_length <- function(
         .data$qualifier_value,
         .keep_all = TRUE
       ) %>%
-      dplyr::arrange(.data$qualifier_value) %>%
-      dplyr::group_by(.data$id) %>%
-      dplyr::slice_tail(n = 1) %>%
-      dplyr::ungroup() %>%
-      dplyr::transmute(.data$id, .data$property, value = .data$qualifier_id)
-
-    if (nrow(qualifiers_latest_start_time_df) > 0) {
-      qualifiers_latest_start_time_post_df <- purrr::map_dfr(
-        .x = id,
-        .f = function(current_id) {
-          current_latest_start_time_post_df <- qualifiers_latest_start_time_df %>%
-            dplyr::filter(.data$id == current_id)
-          if (nrow(current_latest_start_time_post_df) > 0) {
-            current_latest_start_time_post_df
-          } else {
-            property_df %>%
-              dplyr::filter(.data$id == current_id)
-          }
-        }
+      dplyr::mutate(
+        year = stringr::str_extract(
+          string = .data$qualifier_value,
+          pattern = "[[:print:]][[:digit:]]{4}"
+        ) %>%
+          as.numeric(),
+        month = stringr::str_extract(
+          string = .data$qualifier_value,
+          pattern = "-[[:digit:]]{2}-"
+        ) %>%
+          stringr::str_remove_all("-") %>%
+          as.numeric(),
+        day = stringr::str_extract(
+          string = .data$qualifier_value,
+          pattern = "-[[:digit:]]{2}T"
+        ) %>%
+          stringr::str_remove("T") %>%
+          stringr::str_remove("-") %>%
+          as.numeric()
       )
 
-      property_df <- property_df %>%
-        dplyr::right_join(
-          y = qualifiers_latest_start_time_df %>%
-            dplyr::select(-"property"),
-          by = c("id", "value")
+    if (preferred) {
+      qualifiers_latest_start_time_df <- qualifiers_with_start_time_df %>%
+        dplyr::mutate(
+          rank = factor(
+            rank,
+            levels = c(
+              "preferred",
+              "normal",
+              "deprecated"
+            )
+          )
+        ) %>%
+        dplyr::group_by(.data$id) %>%
+        dplyr::arrange(
+          .data$id,
+          .data$rank,
+          dplyr::desc(.data$year),
+          dplyr::desc(.data$month),
+          dplyr::desc(.data$day),
+          dplyr::desc(.data$qualifier_value)
+        ) %>%
+        dplyr::select(-"year", -"month", -"day") %>%
+        dplyr::ungroup() %>%
+        dplyr::transmute(
+          .data$id,
+          .data$property,
+          value = .data$qualifier_id,
+          .data$rank
+        )
+    } else {
+      qualifiers_latest_start_time_df <- qualifiers_with_start_time_df %>%
+        dplyr::group_by(.data$id) %>%
+        dplyr::arrange(
+          .data$id,
+          dplyr::desc(.data$year),
+          dplyr::desc(.data$month),
+          dplyr::desc(.data$day),
+          dplyr::desc(.data$qualifier_value)
+        ) %>%
+        dplyr::select(-"year", -"month", -"day") %>%
+        dplyr::ungroup() %>%
+        dplyr::transmute(
+          .data$id,
+          .data$property,
+          value = .data$qualifier_id,
+          .data$rank
         )
     }
+
+    property_df <- property_df %>%
+      dplyr::distinct(.data$id, .data$property) %>%
+      dplyr::right_join(
+        y = qualifiers_latest_start_time_df,
+        by = c("id", "property")
+      )
   }
 
   if (only_first) {
     property_df_post <- property_df %>%
       dplyr::distinct(.data$id, .keep_all = TRUE)
-  } else if (only_first == FALSE) {
+  } else {
     property_df_post <- property_df %>%
       dplyr::distinct(.data$id, .data$value) %>%
       dplyr::group_by(.data$id) %>%
@@ -331,7 +402,7 @@ tw_get_property_same_length <- function(
     property_df_out$value[purrr::map_lgl(
       .x = property_df_out$value,
       .f = is.null
-    )] <- list(as.character(NA))
+    )] <- list(NA_character_)
   }
 
   tw_disconnect_from_cache(
@@ -352,9 +423,11 @@ tw_get_property_same_length <- function(
 tw_get_p <- tw_get_property_same_length
 
 
-#' Get Wikidata property of an item as a character vector of the same length as input
+#' Get Wikidata property of an item as a character vector of the same length as
+#' input
 #'
-#' This function wraps `tw_get_p()`, but always sets `only_first` and `preferred` to TRUE in order to give back always a character vector.
+#' This function wraps [tw_get_p()], but always sets `only_first` and
+#' `preferred` to `TRUE` in order to give back always a character vector.
 #'
 #' @inheritParams tw_get_property_same_length
 #'

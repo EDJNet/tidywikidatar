@@ -3,7 +3,8 @@
 \name{tw_get_property_same_length}
 \alias{tw_get_property_same_length}
 \alias{tw_get_p}
-\title{Get Wikidata property of an item as a vector or list of the same length as input}
+\title{Get Wikidata property of an item as a vector or list of the same length as
+input}
 \usage{
 tw_get_property_same_length(
   id,
@@ -36,35 +37,68 @@ tw_get_p(
 )
 }
 \arguments{
-\item{id}{A character vector, must start with Q, e.g. "Q254" for Wolfgang Amadeus Mozart.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector, a property. Must always start with the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 
-\item{only_first}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it just keeps the first relevant property value for each id (or \code{NA} if none is available), and returns a character vector. Warning: this likely discards valid values, so make sure this is really what you want. If \code{FALSE}, returns a list of the same length as input, with all values for each id stored in a list if more than one is found.}
+\item{only_first}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it just keeps the
+first relevant property value for each id (or \code{NA} if none is available),
+and returns a character vector. Warning: this likely discards valid values,
+so make sure this is really what you want. If \code{FALSE}, returns a list of
+the same length as input, with all values for each id stored in a list if
+more than one is found.}
 
-\item{preferred}{Logical, defaults to FALSE. If TRUE, returns properties that have rank "preferred" if available; if no "preferred" property is found, then it is ignored.}
+\item{preferred}{Logical, defaults to \code{FALSE}. If \code{TRUE}, returns properties
+that have rank "preferred" if available; if no "preferred" property is
+found, then it is ignored.}
 
-\item{latest_start_time}{Logical, defaults to FALSE. If TRUE, returns the property that has the most recent start time ("P580") as qualifier. If no such qualifier is found, then it is ignored.}
+\item{latest_start_time}{Logical, defaults to \code{FALSE}. If \code{TRUE}, returns the
+property that has the most recent start time ("P580") as qualifier if
+\code{only_first} is set to \code{TRUE}, or returns a list ordered by start time if
+\code{only_first} is set to \code{FALSE}. If no such qualifier is found, then it is
+ignored.}
 
-\item{language}{Defaults to language set with \code{tw_set_language()}; if not set, "en". Use "all_available" to keep all languages. For available language values, see https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}
+\item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
+set, "en". Use "all_available" to keep all languages. For available
+language values, see
+\href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
+dedicated Wikimedia page}.}
 
-\item{id_df}{Default to NULL. If given, it should be a dataframe typically generated with \code{tw_get_()}, and is used instead of calling Wikidata or replying on cache.}
+\item{id_df}{Default to \code{NULL}. If given, it should be a dataframe typically
+generated with \code{\link[=tw_get]{tw_get()}}, and is used instead of calling Wikidata or
+using SQLite cache. Ignored when \code{id} is of length more than one.}
 
-\item{cache}{Defaults to NULL. If given, it should be given either TRUE or FALSE. Typically set with \code{tw_enable_cache()} or \code{tw_disable_cache()}.}
+\item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
+or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
 
-\item{overwrite_cache}{Logical, defaults to FALSE. If TRUE, it overwrites the table in the local sqlite database. Useful if the original Wikidata object has been updated.}
+\item{overwrite_cache}{Logical, defaults to \code{FALSE}. If \code{TRUE}, it overwrites
+the table in the local sqlite database. Useful if the original Wikidata
+object has been updated.}
 
-\item{cache_connection}{Defaults to NULL. If NULL, and caching is enabled, \code{tidywikidatar} will use a local sqlite database. A custom connection to other databases can be given (see vignette \code{caching} for details).}
+\item{cache_connection}{Defaults to \code{NULL}. If \code{NULL}, and caching is
+enabled, \code{tidywikidatar} will use a local sqlite database. A custom
+connection to other databases can be given (see vignette \code{caching} for
+details).}
 
-\item{disconnect_db}{Defaults to TRUE. If FALSE, leaves the connection to cache open.}
+\item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
+cache open.}
 
-\item{wait}{In seconds, defaults to 0. Time to wait between queries to Wikidata. If data are cached locally, wait time is not applied. If you are running many queries systematically you may want to add some waiting time between queries.}
+\item{wait}{In seconds, defaults to 0. Time to wait between queries to
+Wikidata. If data are cached locally, wait time is not applied. If you are
+running many queries systematically you may want to add some waiting time
+between queries.}
 }
 \value{
-A list of the same length of input (or a character vector is only_first is set to TRUE)
+A list of the same length as input (or a character vector is
+only_first is set to \code{TRUE})
 }
 \description{
-Get Wikidata property of an item as a vector or list of the same length as input
+Get Wikidata property of an item as a vector or list of the same length as
+input
 }
 \examples{
 
