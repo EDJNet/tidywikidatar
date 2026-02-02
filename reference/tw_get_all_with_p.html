@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ letter "P", e.g. "P31" for "instance of".</p></dd>
 
 <dt id="arg-fields">fields<a class="anchor" aria-label="anchor" href="#arg-fields"></a></dt>
 <dd><p>A character vector of Wikidata fields. Ignored if
-<code>return_as_tw_search</code> is set to TRUE (as per default). Defaults to
+<code>return_as_tw_search</code> is set to <code>TRUE</code> (as per default). Defaults to
 <code>("item", "itemLabel", "itemDescription")</code></p></dd>
 
 
@@ -75,8 +75,9 @@ letter "P", e.g. "P31" for "instance of".</p></dd>
 <dd><p>Defaults to language set with <code><a href="tw_set_language.html">tw_set_language()</a></code>; if not
 set, "en". If more than one, can be set in order of preference, e.g.
 <code>c("it", "fr", "en")</code>. Use "all_available" to keep all languages. For
-available language values, see
-https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all</p></dd>
+available language values, see the
+<a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">list
+of available language codes in the official documentation</a>.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
@@ -94,10 +95,10 @@ locally when possible to reduce load on servers.</p></dd>
 
 
 <dt id="arg-return-as-tw-search">return_as_tw_search<a class="anchor" aria-label="anchor" href="#arg-return-as-tw-search"></a></dt>
-<dd><p>Logical, defaults to TRUE. If TRUE, returns a data
-frame with three columns (id, label, and description) that can be piped to
-other <code>tw_</code> functions. If FALSE, a data frame with as many columns as
-fields.</p></dd>
+<dd><p>Logical, defaults to <code>TRUE</code>. If <code>TRUE</code>, returns a
+data frame with three columns (<code>id</code>, <code>label</code>, and <code>description</code>) that can
+be piped to other <code>tw_</code> functions. If <code>FALSE</code>, a data frame with as many
+columns as fields.</p></dd>
 
 
 <dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>

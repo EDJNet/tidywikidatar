@@ -41,8 +41,14 @@ tw_get_p(
 
 - id:
 
-  A character vector, must start with Q, e.g. "Q254" for Wolfgang
-  Amadeus Mozart.
+  A character vector, must start with Q, e.g. "Q180099" for the
+  anthropologist Margaret Mead. Can also be a data frame of one row,
+  typically generated with
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  or a combination of
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+  and
+  [`tw_filter_first()`](https://edjnet.github.io/tidywikidatar/reference/tw_filter_first.md).
 
 - p:
 
@@ -60,53 +66,56 @@ tw_get_p(
 
 - preferred:
 
-  Logical, defaults to FALSE. If TRUE, returns properties that have rank
-  "preferred" if available; if no "preferred" property is found, then it
-  is ignored.
+  Logical, defaults to `FALSE`. If `TRUE`, returns properties that have
+  rank "preferred" if available; if no "preferred" property is found,
+  then it is ignored.
 
 - latest_start_time:
 
-  Logical, defaults to FALSE. If TRUE, returns the property that has the
-  most recent start time ("P580") as qualifier. If no such qualifier is
-  found, then it is ignored.
+  Logical, defaults to `FALSE`. If `TRUE`, returns the property that has
+  the most recent start time ("P580") as qualifier if `only_first` is
+  set to `TRUE`, or returns a list ordered by start time if `only_first`
+  is set to `FALSE`. If no such qualifier is found, then it is ignored.
 
 - language:
 
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
   if not set, "en". Use "all_available" to keep all languages. For
-  available language values, see
-  https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all
+  available language values, see [the dedicated Wikimedia
+  page](https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all).
 
 - id_df:
 
-  Default to NULL. If given, it should be a dataframe typically
-  generated with `tw_get_()`, and is used instead of calling Wikidata or
-  replying on cache.
+  Default to `NULL`. If given, it should be a dataframe typically
+  generated with
+  [`tw_get()`](https://edjnet.github.io/tidywikidatar/reference/tw_get.md),
+  and is used instead of calling Wikidata or using SQLite cache. Ignored
+  when `id` is of length more than one.
 
 - cache:
 
-  Defaults to NULL. If given, it should be given either TRUE or FALSE.
-  Typically set with
+  Defaults to `NULL`. If given, it should be given either `TRUE` or
+  `FALSE`. Typically set with
   [`tw_enable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_enable_cache.md)
   or
   [`tw_disable_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_disable_cache.md).
 
 - overwrite_cache:
 
-  Logical, defaults to FALSE. If TRUE, it overwrites the table in the
-  local sqlite database. Useful if the original Wikidata object has been
-  updated.
+  Logical, defaults to `FALSE`. If `TRUE`, it overwrites the table in
+  the local sqlite database. Useful if the original Wikidata object has
+  been updated.
 
 - cache_connection:
 
-  Defaults to NULL. If NULL, and caching is enabled, `tidywikidatar`
+  Defaults to `NULL`. If `NULL`, and caching is enabled, `tidywikidatar`
   will use a local sqlite database. A custom connection to other
   databases can be given (see vignette `caching` for details).
 
 - disconnect_db:
 
-  Defaults to TRUE. If FALSE, leaves the connection to cache open.
+  Defaults to `TRUE`. If `FALSE`, leaves the connection to cache open.
 
 - wait:
 
@@ -117,8 +126,8 @@ tw_get_p(
 
 ## Value
 
-A list of the same length of input (or a character vector is only_first
-is set to TRUE)
+A list of the same length as input (or a character vector is only_first
+is set to `TRUE`)
 
 ## Examples
 

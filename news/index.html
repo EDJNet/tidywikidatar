@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.9.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +39,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidywikidatar-development-version">tidywikidatar (development version)<a class="anchor" aria-label="anchor" href="#tidywikidatar-development-version"></a></h2>
-<ul><li>drop dependency on <code>WikidataQueryServiceR</code>
-</li>
+<ul><li>drop dependency on <code>WikidataQueryServiceR</code> and remove references from documentation</li>
 <li>enable setting default user agent for the session for query functions</li>
-<li>fix response language in <code>tw_get_property_label</code> and <code>tw_get_property_description</code>
+<li>fix response language in <code><a href="../reference/tw_get_property_label.html">tw_get_property_label()</a></code> and <code><a href="../reference/tw_get_property_description.html">tw_get_property_description()</a></code>
 </li>
+<li>fix <code><a href="../reference/tw_get_property_same_length.html">tw_get_p()</a></code> when start time of items is before year 0, and consistently return list when <code>only_first</code> is set to <code>FALSE</code>.</li>
 <li>more consistent documentation formatting</li>
 <li>last version supporting legacy pipe <code>%&gt;%</code>
 </li>
@@ -52,9 +52,9 @@
 <h2 class="pkg-version" data-toc-text="0.5.9" id="tidywikidatar-059">tidywikidatar 0.5.9<a class="anchor" aria-label="anchor" href="#tidywikidatar-059"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
 <ul><li>drop dependency on <code>WikipediR</code>
 </li>
-<li>report informative error message from the api in <code>tw_search</code> and related functions</li>
-<li>include “tidywikidatar/version” user agent in <code>tw_search</code> and related functions</li>
-<li>fix <code>tw_get_wikipedia_section_links</code> when url provided as input</li>
+<li>report informative error message from the api in <code><a href="../reference/tw_search.html">tw_search()</a></code> and related functions</li>
+<li>include “tidywikidatar/version” user agent in <code><a href="../reference/tw_search.html">tw_search()</a></code> and related functions</li>
+<li>fix <code>tw_get_wikipedia_section_links()</code> when url provided as input</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.8" id="tidywikidatar-058">tidywikidatar 0.5.8<a class="anchor" aria-label="anchor" href="#tidywikidatar-058"></a></h2><p class="text-muted">CRAN release: 2024-03-28</p>
@@ -66,17 +66,17 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.7" id="tidywikidatar-057">tidywikidatar 0.5.7<a class="anchor" aria-label="anchor" href="#tidywikidatar-057"></a></h2><p class="text-muted">CRAN release: 2023-03-10</p>
-<ul><li>fix: <code>tw_get_wikipedia_category_members</code> now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url</li>
+<ul><li>fix: <code><a href="../reference/tw_get_wikipedia_category_members.html">tw_get_wikipedia_category_members()</a></code> now works with categories that have more than 1000 member pages and consistently stores data in language-appropriate cache file also when language is derived from url</li>
 <li>testing adjustments: more tests now rely on an embedded set of items to reduce risks of server timeouts when conducting checks, in particular from CRAN</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.6" id="tidywikidatar-056">tidywikidatar 0.5.6<a class="anchor" aria-label="anchor" href="#tidywikidatar-056"></a></h2><p class="text-muted">CRAN release: 2023-01-31</p>
-<ul><li>fix: <code>tw_get</code> now caches Wikidata items that have been deleted, storing the error message as the value of property “error”</li>
-<li>fix: <code>tw_search</code> now returns results consistently also when description missing in given language (issue stemming from update in a dependency)</li>
+<ul><li>fix: <code><a href="../reference/tw_get.html">tw_get()</a></code> now caches Wikidata items that have been deleted, storing the error message as the value of property “error”</li>
+<li>fix: <code><a href="../reference/tw_search.html">tw_search()</a></code> now returns results consistently also when description missing in given language (issue stemming from update in a dependency)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.5" id="tidywikidatar-055">tidywikidatar 0.5.5<a class="anchor" aria-label="anchor" href="#tidywikidatar-055"></a></h2><p class="text-muted">CRAN release: 2022-10-31</p>
-<ul><li>fix: <code>tw_search</code> now checks cache efficiently also when cache settings are passed as parameters</li>
+<ul><li>fix: <code><a href="../reference/tw_search.html">tw_search()</a></code> now checks cache efficiently also when cache settings are passed as parameters</li>
 <li>fix: minor adjustments to prevent warnings and error with latest <code>purrr</code> and <code>tidyselect</code>
 </li>
 </ul></div>
