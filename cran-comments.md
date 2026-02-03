@@ -1,8 +1,6 @@
 ## Test environments
-* local R installation, R 4.4.1
-* win-builder (devel)
+* local R installation, R 4.5.2
 * windows, macOS, ubuntu on Github Actions as set with usethis::use_github_action_check_standard() - passing.
-* rhub::rhub_check()
 * devtools::check_win_devel()
 
 ## R CMD check results
