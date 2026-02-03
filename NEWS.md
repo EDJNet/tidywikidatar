@@ -1,4 +1,4 @@
-# tidywikidatar (development version)
+# tidywikidatar 0.6.0
 
 * drop dependency on `WikidataQueryServiceR` and remove references from documentation
 * enable setting default user agent for the session for query functions
