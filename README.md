@@ -12,6 +12,8 @@ downloads](https://cranlogs.r-pkg.org/badges/last-month/tidywikidatar?color=blue
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/tidywikidatar?color=blue)](https://r-pkg.org/pkg/tidywikidatar)
 [![R-CMD-check](https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EDJNet/tidywikidatar/actions/workflows/R-CMD-check.yaml)
+[![R-universe
+version](https://EDJNet.r-universe.dev/tidywikidatar/badges/version)](https://EDJNet.r-universe.dev/tidywikidatar)
 <!-- badges: end -->
 
 The goal of `tidywikidatar` is to facilitate interaction with Wikidata:
