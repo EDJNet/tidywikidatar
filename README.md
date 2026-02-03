@@ -1156,7 +1156,7 @@ such as `unixODBC-devel`, and `mysql-devel`, `mysql-connector-odbc`.
 
 This package has been created by [Giorgio
 Comai](https://giorgiocomai.eu), data analyst and researcher at
-[OBCT/CCI](https://balcanicaucaso.org/), within the scope of
+[OBCT/CCI](https://www.balcanicaucaso.org/), within the scope of
 [EDJNet](https://www.europeandatajournalism.eu/), the European Data
 Journalism Network.
 
