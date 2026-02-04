@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/EDJNet/tidywikidatar/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/DESCRIPTION)
 
 Comai G (2026). *tidywikidatar: Explore 'Wikidata' Through Tidy Data
 Frames*. R package version 0.6.0,
