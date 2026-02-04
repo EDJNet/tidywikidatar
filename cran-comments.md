@@ -7,3 +7,6 @@
 
 0 errors | 0 warnings | 0 note
 
+## Comments
+
+* drops dependency on `WikidataQueryServiceR`, due for removal from CRAN
