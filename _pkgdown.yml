@@ -85,8 +85,8 @@ reference:
   - tw_check_pid
   - tw_check_search
 - title: Extractors
-  desc: These functions are mostly used internally to extract selected data to an
-    object previously downloaded with `WikidataR`
+  desc: These functions are mostly used internally to extract selected data from
+    a list previously retrieved from the Wikidata API with `tw_get_item()`
   contents:
   - starts_with("tw_extract_")
   - tw_get_field

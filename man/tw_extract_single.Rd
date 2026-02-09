@@ -2,13 +2,12 @@
 % Please edit documentation in R/tw_extract.R
 \name{tw_extract_single}
 \alias{tw_extract_single}
-\title{Extract item data from an object of class Wikidata created with \code{WikidataR}}
+\title{Extract item data from a list object retrieved from the Wikidata API}
 \usage{
 tw_extract_single(w, language = tidywikidatar::tw_get_language())
 }
 \arguments{
-\item{w}{An object of class Wikidata created with \code{WikidataR}, typically
-created with \code{tw_get_item(id = id)}}
+\item{w}{A list, typically retrieved with \code{\link[=tw_get_item]{tw_get_item()}}}
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available

@@ -1,9 +1,8 @@
-#' Extract item data from an object of class Wikidata created with `WikidataR`
+#' Extract item data from a list object retrieved from the Wikidata API
 #'
 #' This function is mostly used internally and for testing.
 #'
-#' @param w An object of class Wikidata created with `WikidataR`, typically
-#'   created with `tw_get_item(id = id)`
+#' @param w A list, typically retrieved with [tw_get_item()]
 #' @inheritParams tw_get
 #'
 #' @return A data frame (a tibble) with four columns, such as the one created by
