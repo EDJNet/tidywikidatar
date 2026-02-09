@@ -36,6 +36,8 @@
 #' @param disconnect_db Defaults to `TRUE`. If `FALSE`, leaves the connection to
 #'   cache open.
 #'
+#' @inheritParams tw_set_user_agent
+#'
 #' @return A data frame (a tibble) with three columns (`id`, `label`, and
 #'   `description`), and as many rows as there are results (by default, limited
 #'   to 10). Four columns when `include_search` is set to `TRUE`.
@@ -51,6 +53,7 @@ tw_search <- function(
   limit = 10,
   include_search = FALSE,
   wait = 0,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -88,6 +91,7 @@ tw_search <- function(
           limit = limit,
           include_search = TRUE,
           wait = wait,
+          user_agent = user_agent,
           cache = cache,
           overwrite_cache = overwrite_cache,
           cache_connection = db,
@@ -121,6 +125,7 @@ tw_search <- function(
               limit = limit,
               include_search = TRUE,
               wait = wait,
+              user_agent = user_agent,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = db,
@@ -199,6 +204,7 @@ tw_search <- function(
               limit = limit,
               include_search = TRUE,
               wait = wait,
+              user_agent = user_agent,
               cache = cache,
               overwrite_cache = overwrite_cache,
               cache_connection = db,
@@ -241,6 +247,7 @@ tw_search <- function(
 #' This search returns only items, use [tw_search_property()] for properties.
 #'
 #' @inheritParams tw_search
+#' @inheritParams tw_set_user_agent
 #'
 #' @return A data frame (a tibble) with three columns (`id`, `label`, and
 #'   `description`), and as many rows as there are results (by default, limited
@@ -255,6 +262,7 @@ tw_search_single <- function(
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -340,13 +348,10 @@ tw_search_single <- function(
   Sys.sleep(time = wait)
 
   base_url <- "https://www.wikidata.org/w/api.php"
+
   api_request <- httr2::request(base_url = base_url) %>%
     httr2::req_headers(`Accept-Encoding` = "gzip") %>%
-    httr2::req_user_agent(
-      string = stringr::str_flatten(
-        c("tidywikidatar/", as.character(packageVersion("tidywikidatar")))
-      )
-    ) %>%
+    httr2::req_user_agent(user_agent) %>%
     httr2::req_url_query(
       action = "wbsearchentities",
       type = type,
@@ -471,6 +476,7 @@ tw_search_item <- function(
   limit = 10,
   include_search = FALSE,
   wait = 0,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -498,6 +504,7 @@ tw_search_item <- function(
 #' This search returns only properties, use [tw_search_item()] for properties.
 #'
 #' @inheritParams tw_search
+#' @inheritParams tw_set_user_agent
 #'
 #' @return A data frame (a tibble) with three columns (`id`, `label`, and
 #'   `description`), and as many rows as there are results (by default, limited
@@ -513,6 +520,7 @@ tw_search_property <- function(
   limit = 10,
   include_search = FALSE,
   wait = 0,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,

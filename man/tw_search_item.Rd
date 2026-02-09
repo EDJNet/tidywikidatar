@@ -12,6 +12,7 @@ tw_search_item(
   limit = 10,
   include_search = FALSE,
   wait = 0,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -45,6 +46,9 @@ returned as an additional column.}
 Wikidata. If data are cached locally, wait time is not applied. If you are
 running many queries systematically you may want to add some waiting time
 between queries.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE.} Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}

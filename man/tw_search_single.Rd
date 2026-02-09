@@ -12,6 +12,7 @@ tw_search_single(
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -43,6 +44,9 @@ available language codes}.}
 
 \item{include_search}{Logical, defaults to \code{FALSE}. If \code{TRUE}, the search is
 returned as an additional column.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE.} Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
