@@ -52,7 +52,7 @@ running many queries systematically you may want to add some waiting time
 between queries.}
 
 \item{id_l}{Defaults to \code{NULL}. If given, must be an object or list such as
-the one generated with \code{\link[WikidataR:get_item]{WikidataR::get_item()}}. If given, and the requested
+the one generated with \code{\link[=tw_get_item]{tw_get_item()}}. If given, and the requested
 id is actually present in \code{id_l}, then no query to Wikidata servers is
 made.}
 }

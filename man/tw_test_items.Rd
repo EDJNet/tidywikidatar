@@ -3,14 +3,14 @@
 \docType{data}
 \name{tw_test_items}
 \alias{tw_test_items}
-\title{A list mostly used for testing with some Wikidata items in the format resulting from \code{WikidataR::get_item()}}
+\title{A list mostly used for testing with some Wikidata items in the format resulting from \code{tw_get_item()}}
 \format{
-A list, an object such as the one resulting from \code{WikidataR::get_item()}
+A list, an object such as the one resulting from \code{tw_get_item()}
 }
 \usage{
 tw_test_items
 }
 \description{
-A list mostly used for testing with some Wikidata items in the format resulting from \code{WikidataR::get_item()}
+A list mostly used for testing with some Wikidata items in the format resulting from \code{tw_get_item()}
 }
 \keyword{datasets}

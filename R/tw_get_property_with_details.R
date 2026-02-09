@@ -11,7 +11,7 @@
 #' # Get "female form of label", including language
 #' tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
 tw_get_property_with_details_single <- function(id, p) {
-  item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+  item <- tryCatch(tw_get_item(id = id), error = function(e) {
     as.character(e[[1]])
   })
 
@@ -30,7 +30,7 @@ tw_get_property_with_details_single <- function(id, p) {
   ) {
     id <- item %>%
       purrr::pluck(1, "redirect")
-    item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+    item <- tryCatch(tw_get_item(id = id), error = function(e) {
       as.character(e[[1]])
     })
   }

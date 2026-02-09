@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_extract.R
 \name{tw_extract_qualifier}
 \alias{tw_extract_qualifier}
-\title{Extract qualifiers from an object of class Wikidata created with \code{WikidataR}}
+\title{Extract qualifiers from a list created with \code{\link[=tw_get_item]{tw_get_item()}}}
 \usage{
 tw_extract_qualifier(id, p, w = NULL)
 }
@@ -13,8 +13,7 @@ Wolfgang Amadeus Mozart.}
 \item{p}{A character vector of length 1, a property. Must always start with
 the capital letter "P", e.g. "P31" for "instance of".}
 
-\item{w}{An object of class Wikidata created with \code{WikidataR}, typically
-created with \code{WikidataR::get_item(id = id)}}
+\item{w}{A list, typically created with \code{\link[=tw_get_item]{tw_get_item()}}}
 }
 \value{
 A data frame (a tibble) with eight columns: \code{id} for the input id,
@@ -26,6 +25,7 @@ a property is present more than once)
 This function is mostly used internally and for testing.
 }
 \examples{
-w <- WikidataR::get_item(id = "Q180099")
-tw_extract_qualifier(id = "Q180099", p = "P26", w = w)
+# w <- tw_get_item(id = "Q180099")
+
+tw_extract_qualifier(id = "Q180099", p = "P26", w = list(tw_test_items[["Q180099"]]))
 }

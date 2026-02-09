@@ -12,7 +12,8 @@ tw_get(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
-  id_l = NULL
+  id_l = NULL,
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 }
 \arguments{
@@ -48,9 +49,12 @@ running many queries systematically you may want to add some waiting time
 between queries.}
 
 \item{id_l}{Defaults to \code{NULL}. If given, must be an object or list such as
-the one generated with \code{\link[WikidataR:get_item]{WikidataR::get_item()}}. If given, and the requested
+the one generated with \code{\link[=tw_get_item]{tw_get_item()}}. If given, and the requested
 id is actually present in \code{id_l}, then no query to Wikidata servers is
 made.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 }
 \value{
 A data.frame (a tibble) with three columns (\code{id}, \code{property}, and

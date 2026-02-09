@@ -1,8 +1,9 @@
 ## code to prepare `tw_test_items` dataset goes here
 
-qid <- c("Q2", "Q5", "Q180099", "Q228822", "Q191095", "Q314252")
+qid <- c("Q2", "Q5", "Q180099", "Q228822", "Q191095", "Q314252", "Q4644021")
 
-tw_test_items <- WikidataR::get_item(id = qid)
+
+tw_test_items <- tw_get_item(id = qid)
 
 # names(tw_test_items) <- purrr::map_chr(
 #   .x = tw_test_items,

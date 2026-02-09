@@ -3,26 +3,23 @@
 #' This function is mostly used internally and for testing.
 #'
 #' @param w An object of class Wikidata created with `WikidataR`, typically
-#'   created with `WikidataR::get_item(id = id)`
+#'   created with `tw_get_item(id = id)`
 #' @inheritParams tw_get
 #'
 #' @return A data frame (a tibble) with four columns, such as the one created by
 #'   [tw_get()].
 #'
 #' @examples
-#' item <- tryCatch(WikidataR::get_item(id = "Q180099"),
-#'   error = function(e) {
-#'     as.character(e[[1]])
-#'   }
-#' )
+#' #' Retrieving from tests, but normally:
+#' # w <- tw_get_item(id = "Q180099")
 #'
-#' tidywikidatar:::tw_extract_single(w = item)
+#' tidywikidatar:::tw_extract_single(w = list(tw_test_items[["Q180099"]]))
 tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
   id <- w %>%
-    purrr::pluck(1, "id")
+    purrr::pluck(1, 1, "id")
 
   labels <- w %>%
-    purrr::pluck(1, "labels")
+    purrr::pluck(1, 1, "labels")
 
   if (length(labels) == 0) {
     labels_df <- tibble::tibble(
@@ -51,7 +48,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
       dplyr::filter(.data$property == stringr::str_c("label_", language))
   }
 
-  aliases <- w %>% purrr::pluck(1, "aliases")
+  aliases <- w %>% purrr::pluck(1, 1, "aliases")
 
   if (length(aliases) == 0) {
     aliases_df <- tibble::tibble(
@@ -81,7 +78,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
   }
 
   descriptions <- w %>%
-    purrr::pluck(1, "descriptions")
+    purrr::pluck(1, 1, "descriptions")
 
   if (length(descriptions) == 0) {
     descriptions_df <- tibble::tibble(
@@ -113,22 +110,23 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
   }
 
   claims <- w %>%
-    purrr::pluck(1, "claims")
+    purrr::pluck(1, 1, "claims")
 
   claims_df <- purrr::map_dfr(
     .x = claims,
     .f = function(current_claim_l) {
-      property <- current_claim_l$mainsnak$property
+      property <- current_claim_l %>%
+        purrr::pluck(1, "mainsnak", "property")
 
-      rank <- current_claim_l$rank
+      rank <- current_claim_l %>%
+        purrr::pluck(1, "rank")
 
-      value_pre <- claims[[unique(property)]][["mainsnak"]][["datavalue"]][[
-        "value"
-      ]]
+      value_pre <- current_claim_l %>%
+        purrr::pluck(1, "mainsnak", "datavalue", "value")
 
       if (is.null(value_pre)) {
         value <- as.character("NA")
-      } else if (is.data.frame(value_pre)) {
+      } else if (is.list(value_pre)) {
         if (is.element("time", names(value_pre))) {
           value <- value_pre$time
         } else if (is.element("text", names(value_pre))) {
@@ -143,7 +141,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
           )
         } else if (is.element("id", names(value_pre))) {
           value <- value_pre$id
-        } else if (is.na(value_pre[[1]]) == FALSE) {
+        } else if (!is.na(value_pre[[1]])) {
           value <- value_pre[[1]]
         } else {
           value <- as.character("NA")
@@ -163,7 +161,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
   )
 
   sitelinks <- w %>%
-    purrr::pluck(1, "sitelinks")
+    purrr::pluck(1, 1, "sitelinks")
 
   sitelinks_df <- purrr::map_dfr(
     .x = sitelinks,
@@ -221,7 +219,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 }
 
 
-#' Extract qualifiers from an object of class Wikidata created with `WikidataR`
+#' Extract qualifiers from a list created with [tw_get_item()]
 #'
 #' This function is mostly used internally and for testing.
 #'
@@ -229,8 +227,7 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 #'   Wolfgang Amadeus Mozart.
 #' @param p A character vector of length 1, a property. Must always start with
 #'   the capital letter "P", e.g. "P31" for "instance of".
-#' @param w An object of class Wikidata created with `WikidataR`, typically
-#'   created with `WikidataR::get_item(id = id)`
+#' @param w A list, typically created with [tw_get_item()]
 #'
 #' @return A data frame (a tibble) with eight columns: `id` for the input id,
 #'   `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`,
@@ -239,11 +236,12 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 #' @export
 #'
 #' @examples
-#' w <- WikidataR::get_item(id = "Q180099")
-#' tw_extract_qualifier(id = "Q180099", p = "P26", w = w)
+#' # w <- tw_get_item(id = "Q180099")
+#'
+#' tw_extract_qualifier(id = "Q180099", p = "P26", w = list(tw_test_items[["Q180099"]]))
 tw_extract_qualifier <- function(id, p, w = NULL) {
   if (is.null(w)) {
-    w <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+    w <- tryCatch(tw_get_item(id = id), error = function(e) {
       as.character(e[[1]])
     })
 
@@ -253,50 +251,48 @@ tw_extract_qualifier <- function(id, p, w = NULL) {
     }
   }
 
-  claims <- w %>%
+  qualifiers <- w %>%
     purrr::pluck(
       1,
-      "claims"
+      1,
+      "claims",
+      p
     )
 
-  qualifiers <- claims[[p]] %>%
-    tibble::as_tibble()
+  qualifiers_df <- purrr::imap(
+    .x = qualifiers,
+    function(current_qualifier, i) {
+      if (!is.element("qualifiers", names(current_qualifier))) {
+        return(tidywikidatar::tw_empty_qualifiers)
+      }
 
-  if (is.element("qualifiers", colnames(qualifiers)) == FALSE) {
-    return(tidywikidatar::tw_empty_qualifiers)
-  }
+      current_rank <- current_qualifier %>%
+        purrr::pluck("rank")
 
-  qualifiers_df <- purrr::map_dfr(
-    .x = 1:nrow(qualifiers),
-    function(i) {
-      qualifier_parent_pre <- qualifiers %>%
-        dplyr::slice(i) %>%
-        dplyr::pull("mainsnak") %>%
-        dplyr::pull("datavalue") %>%
-        dplyr::pull("value")
+      qualifier_parent_pre <- current_qualifier %>%
+        purrr::pluck("mainsnak", "datavalue", "value")
 
       if (is.character(qualifier_parent_pre)) {
         qualifier_parent <- qualifier_parent_pre[[1]]
-      } else if (is.element("id", colnames(qualifier_parent_pre))) {
+      } else if (is.element("id", names(qualifier_parent_pre))) {
         qualifier_parent <- qualifier_parent_pre %>%
-          dplyr::pull("id")
+          purrr::pluck("id")
       } else {
         qualifier_parent <- qualifier_parent_pre %>%
-          dplyr::pull(1)
+          purrr::pluck(1)
       }
 
-      qualifiers_set <- qualifiers %>%
-        dplyr::slice(i) %>%
-        dplyr::pull("qualifiers")
+      qualifiers_set <- current_qualifier %>%
+        purrr::pluck("qualifiers")
 
       purrr::map_dfr(
         .x = qualifiers_set,
         .f = function(x) {
-          current_qualifier <- x %>%
+          current_qualifier_set <- x %>%
             purrr::pluck(1) %>%
             tibble::as_tibble()
 
-          value_df <- current_qualifier[["datavalue"]][["value"]] %>%
+          value_df <- current_qualifier_set[["datavalue"]][["value"]] %>%
             tibble::as_tibble()
           if (is.element("id", names(value_df))) {
             value <- value_df %>%
@@ -322,17 +318,19 @@ tw_extract_qualifier <- function(id, p, w = NULL) {
 
           tibble::tibble(
             qualifier_id = qualifier_parent,
-            qualifier_property = current_qualifier[["property"]],
+            qualifier_property = current_qualifier_set[["property"]][[1]],
             qualifier_value = value,
-            qualifier_value_type = current_qualifier[["datavalue"]][["type"]],
-            rank = qualifiers[["rank"]][[i]],
+            qualifier_value_type = current_qualifier_set[["datavalue"]][[
+              "type"
+            ]],
+            rank = current_rank,
             set = i
           )
         }
       )
     }
   ) %>%
-    tibble::as_tibble() %>%
+    purrr::list_rbind() %>%
     dplyr::mutate(
       id = id,
       property = p,

@@ -11,7 +11,7 @@ test_that("check if tw_get returns tibble with four columns and meaningful numbe
       id_l = tw_test_items
     )
 
-    if (is.null(attr(item, "warning")) == FALSE) {
+    if (!is.null(attr(item, "warning"))) {
       message("Issues with API in testing")
       test_result <- TRUE
     } else {

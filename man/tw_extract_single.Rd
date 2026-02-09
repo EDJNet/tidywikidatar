@@ -8,7 +8,7 @@ tw_extract_single(w, language = tidywikidatar::tw_get_language())
 }
 \arguments{
 \item{w}{An object of class Wikidata created with \code{WikidataR}, typically
-created with \code{WikidataR::get_item(id = id)}}
+created with \code{tw_get_item(id = id)}}
 
 \item{language}{Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not
 set, "en". Use "all_available" to keep all languages. For available
@@ -24,11 +24,8 @@ A data frame (a tibble) with four columns, such as the one created by
 This function is mostly used internally and for testing.
 }
 \examples{
-item <- tryCatch(WikidataR::get_item(id = "Q180099"),
-  error = function(e) {
-    as.character(e[[1]])
-  }
-)
+#' Retrieving from tests, but normally:
+# w <- tw_get_item(id = "Q180099")
 
-tidywikidatar:::tw_extract_single(w = item)
+tidywikidatar:::tw_extract_single(w = list(tw_test_items[["Q180099"]]))
 }

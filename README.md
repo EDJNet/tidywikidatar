@@ -907,7 +907,7 @@ dataframe with all women who are resistance fighters on Wikidata.
 
 ``` r
 tw_query(query = query_df)
-#> # A tibble: 1,545 × 3
+#> # A tibble: 1,547 × 3
 #>    id      label                 description                                    
 #>    <chr>   <chr>                 <chr>                                          
 #>  1 Q214198 Eva Besnyö            Hungarian photographer (1910-2003)             
@@ -920,7 +920,7 @@ tw_query(query = query_df)
 #>  8 Q255016 Violette Szabo        French-British SOE spy                         
 #>  9 Q255271 Änne Meier            German welfare worker and resistance fighter   
 #> 10 Q255276 Aenne Saefkow         German politician (1902-1962)                  
-#> # ℹ 1,535 more rows
+#> # ℹ 1,537 more rows
 ```
 
 Or perhaps, you are interested only in women who are resistance fighters

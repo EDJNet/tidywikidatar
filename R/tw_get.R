@@ -37,7 +37,8 @@ tw_get_single <- function(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
-  id_l = NULL
+  id_l = NULL,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -91,25 +92,19 @@ tw_get_single <- function(
   Sys.sleep(time = wait)
 
   if (!is.null(id_l)) {
-    item <- id_l[
-      purrr::map_chr(
-        .x = id_l,
-        .f = function(x) {
-          purrr::pluck(x, "id")
-        }
-      ) %in%
-        id
-    ]
+    item <- id_l %>%
+      purrr::pluck(id) %>%
+      list()
 
     if (length(item) == 0) {
-      item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+      item <- tryCatch(tw_get_item(id = id), error = function(e) {
         as.character(e[[1]])
       })
     } else if (length(item) > 1) {
       item <- item[1]
     }
   } else {
-    item <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+    item <- tryCatch(tw_get_item(id = id), error = function(e) {
       as.character(e[[1]])
     })
   }
@@ -175,8 +170,8 @@ tw_get_single <- function(
     everything_df <- tibble::tibble(
       id = id,
       property = stringr::str_c("label_", language),
-      value = as.character(NA),
-      rank = as.character(NA)
+      value = NA_character_,
+      rank = NA_character_
     )
   }
 
@@ -226,9 +221,11 @@ tw_get_single <- function(
 #'   running many queries systematically you may want to add some waiting time
 #'   between queries.
 #' @param id_l Defaults to `NULL`. If given, must be an object or list such as
-#'   the one generated with [WikidataR::get_item()]. If given, and the requested
+#'   the one generated with [tw_get_item()]. If given, and the requested
 #'   id is actually present in `id_l`, then no query to Wikidata servers is
 #'   made.
+#'
+#' @inheritParams tw_set_user_agent
 #'
 #' @return A data.frame (a tibble) with three columns (`id`, `property`, and
 #'   `value`).
@@ -259,7 +256,8 @@ tw_get <- function(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
-  id_l = NULL
+  id_l = NULL,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -289,13 +287,14 @@ tw_get <- function(
           cache_connection = db,
           disconnect_db = disconnect_db,
           wait = wait,
-          id_l = id_l
+          id_l = id_l,
+          user_agent = user_agent
         ),
         by = "id"
       )
     )
   } else if (length(unique_id) > 1) {
-    if (overwrite_cache | tw_check_cache(cache) == FALSE) {
+    if (overwrite_cache | !tw_check_cache(cache)) {
       pb <- progress::progress_bar$new(total = length(unique_id))
 
       item_df <- purrr::map_dfr(
@@ -395,7 +394,7 @@ tw_get <- function(
           by = "id",
           relationship = "many-to-many"
         ) %>%
-          dplyr::filter(is.na(.data$id) == FALSE)
+          dplyr::filter(!is.na(.data$id))
       }
     }
   }

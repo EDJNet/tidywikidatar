@@ -66,25 +66,19 @@ tw_get_qualifiers_single <- function(
   Sys.sleep(time = wait)
 
   if (!is.null(id_l)) {
-    w <- id_l[
-      purrr::map_chr(
-        .x = id_l,
-        .f = function(x) {
-          purrr::pluck(x, "id")
-        }
-      ) %in%
-        id
-    ]
+    w <- id_l %>%
+      purrr::pluck(id) %>%
+      list()
 
     if (length(w) == 0) {
-      w <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+      w <- tryCatch(tw_get_item(id = id), error = function(e) {
         as.character(e[[1]])
       })
     } else if (length(w) > 1) {
       w <- w[1]
     }
   } else {
-    w <- tryCatch(WikidataR::get_item(id = id), error = function(e) {
+    w <- tryCatch(tw_get_item(id = id), error = function(e) {
       as.character(e[[1]])
     })
   }
@@ -191,7 +185,7 @@ tw_get_qualifiers <- function(
       id_l = id_l
     ))
   } else if (length(id) > 1 | length(p) > 1) {
-    if (overwrite_cache | tw_check_cache(cache) == FALSE) {
+    if (overwrite_cache | !tw_check_cache(cache)) {
       pb <- progress::progress_bar$new(total = length(id) * length(p))
 
       qualifiers_df <- purrr::map2_dfr(
@@ -221,7 +215,7 @@ tw_get_qualifiers <- function(
       return(qualifiers_df)
     }
 
-    if (overwrite_cache == FALSE & tw_check_cache(cache)) {
+    if (!overwrite_cache & tw_check_cache(cache)) {
       qualifiers_from_cache_df <- tw_get_cached_qualifiers(
         id = id,
         p = p,
