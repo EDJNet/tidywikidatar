@@ -14,6 +14,7 @@ tw_search_single(
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
   include_search = FALSE,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -60,6 +61,11 @@ tw_search_single(
 
   Logical, defaults to `FALSE`. If `TRUE`, the search is returned as an
   additional column.
+
+- user_agent:
+
+  Defaults to `NULL`. If not given, implicitly defaults to current
+  package name (`tidywikidatar`) and version.
 
 - cache:
 

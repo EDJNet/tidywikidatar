@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -854,7 +854,7 @@
 <p>You can then pass it to <code><a href="reference/tw_query.html">tw_query()</a></code>, and get a nicely formatted dataframe with all women who are resistance fighters on Wikidata.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/tw_query.html">tw_query</a></span><span class="op">(</span>query <span class="op">=</span> <span class="va">query_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1,545 × 3</span></span>
+<span><span class="co">#&gt; # A tibble: 1,547 × 3</span></span>
 <span><span class="co">#&gt;    id      label                 description                                    </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;                                          </span></span>
 <span><span class="co">#&gt;  1 Q214198 Eva Besnyö            Hungarian photographer (1910-2003)             </span></span>
@@ -867,7 +867,7 @@
 <span><span class="co">#&gt;  8 Q255016 Violette Szabo        French-British SOE spy                         </span></span>
 <span><span class="co">#&gt;  9 Q255271 Änne Meier            German welfare worker and resistance fighter   </span></span>
 <span><span class="co">#&gt; 10 Q255276 Aenne Saefkow         German politician (1902-1962)                  </span></span>
-<span><span class="co">#&gt; # ℹ 1,535 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 1,537 more rows</span></span></code></pre></div>
 <p>Or perhaps, you are interested only in women who are resistance fighters who have “France” (<a href="https://www.wikidata.org/wiki/Q142" class="external-link">Q142</a>) as “country of citizenship” (<a href="https://www.wikidata.org/wiki/Property:P27" class="external-link">P27</a>)? And perhaps you want the description in Italian, and if not available in French, and only then look for other fallback options?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fr_resistance_fighters_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>

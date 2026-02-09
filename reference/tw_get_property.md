@@ -94,11 +94,10 @@ zero rows if no relevant property found.
 # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
-#> # A tibble: 2 × 4
+#> # A tibble: 1 × 4
 #>   id      property value   rank  
 #>   <chr>   <chr>    <chr>   <chr> 
 #> 1 Q180099 P184     Q228822 normal
-#> 2 Q180099 P184     Q76857  normal
 
 # tw_get_label(advisors)
 

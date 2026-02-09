@@ -14,6 +14,7 @@ tw_search_item(
   limit = 10,
   include_search = FALSE,
   wait = 0,
+  user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
   overwrite_cache = FALSE,
   cache_connection = NULL,
@@ -62,6 +63,11 @@ tw_search_item(
   If data are cached locally, wait time is not applied. If you are
   running many queries systematically you may want to add some waiting
   time between queries.
+
+- user_agent:
+
+  Defaults to `NULL`. If not given, implicitly defaults to current
+  package name (`tidywikidatar`) and version.
 
 - cache:
 

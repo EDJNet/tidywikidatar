@@ -1,6 +1,14 @@
 # Changelog
 
+## tidywikidatar 0.6.1
+
+- drop dependency on `WikidataR` and remove references from
+  documentation
+- provide user agent consistently across all functions
+
 ## tidywikidatar 0.6.0
+
+CRAN release: 2026-02-04
 
 - drop dependency on `WikidataQueryServiceR` and remove references from
   documentation

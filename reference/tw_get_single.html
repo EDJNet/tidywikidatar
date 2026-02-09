@@ -9,7 +9,7 @@ Wikidata identifier"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ Wikidata identifier"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Return (most) information from a Wikidata item in a tidy format from a single Wikidata identifier</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_get.R" class="external-link"><code>R/tw_get.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_get.R" class="external-link"><code>R/tw_get.R</code></a></small>
       <div class="d-none name"><code>tw_get_single.Rd</code></div>
     </div>
 
@@ -56,7 +56,8 @@ Wikidata identifier</p>
 <span>  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  wait <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  id_l <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  id_l <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,9 +118,14 @@ between queries.</p></dd>
 
 <dt id="arg-id-l">id_l<a class="anchor" aria-label="anchor" href="#arg-id-l"></a></dt>
 <dd><p>Defaults to <code>NULL</code>. If given, must be an object or list such as
-the one generated with <code><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">WikidataR::get_item()</a></code>. If given, and the requested
+the one generated with <code><a href="tw_get_item.html">tw_get_item()</a></code>. If given, and the requested
 id is actually present in <code>id_l</code>, then no query to Wikidata servers is
 made.</p></dd>
+
+
+<dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
+<dd><p>Defaults to <code>NULL</code>. If not given, implicitly defaults to
+current package name (<code>tidywikidatar</code>) and version.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -147,20 +153,20 @@ attribute, which can be retrieved with <code>attr(output, "warning"))</code></p>
 <span class="r-in"><span>  language <span class="op">=</span> <span class="st">"en"</span>,</span></span>
 <span class="r-in"><span>  id_l <span class="op">=</span> <span class="va">tw_test_items</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 188 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id      property value         rank  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Q180099 label_en Margaret Mead <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Q180099 P21      Q6581072      normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q180099 P214     44302511      normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q180099 P106     Q674426       normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q180099 P106     Q4773904      normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q180099 P106     Q36180        normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q180099 P106     Q2526255      normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q180099 P373     Margaret Mead normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q180099 P244     n78093416     normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q180099 P227     118579789     normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 178 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 202 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id      property value                         rank  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Q180099 label_en Margaret Mead                 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Q180099 P21      Q6581072                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q180099 P214     44302511                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q180099 P106     Q4773904                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q180099 P373     Margaret Mead                 normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q180099 P244     n78093416                     normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q180099 P227     118579789                     normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q180099 P18      Margaret Mead (1901-1978).jpg normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q180099 P509     Q212961                       normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q180099 P19      Q1345                         normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 192 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

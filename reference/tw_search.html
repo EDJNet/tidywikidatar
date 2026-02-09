@@ -9,7 +9,7 @@ tw_search_property() for properties."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ tw_search_property() for properties."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Search for Wikidata items or properties and return Wikidata id, label, and description.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_search.R" class="external-link"><code>R/tw_search.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_search.R" class="external-link"><code>R/tw_search.R</code></a></small>
       <div class="d-none name"><code>tw_search.Rd</code></div>
     </div>
 
@@ -55,6 +55,7 @@ tw_search_property() for properties."></head><body>
 <span>  limit <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  include_search <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  wait <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -109,6 +110,11 @@ running many queries systematically you may want to add some waiting time
 between queries.</p></dd>
 
 
+<dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
+<dd><p>Defaults to <code>NULL</code>. If not given, implicitly defaults to
+current package name (<code>tidywikidatar</code>) and version.</p></dd>
+
+
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
 <dd><p>Defaults to <code>NULL</code>. If given, it should be given either <code>TRUE</code>
 or <code>FALSE.</code> Typically set with <code><a href="tw_enable_cache.html">tw_enable_cache()</a></code> or <code><a href="tw_disable_cache.html">tw_disable_cache()</a></code>.</p></dd>
@@ -145,14 +151,14 @@ to 10). Four columns when <code>include_search</code> is set to <code>TRUE</code
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Q180099    Margaret Mead                                          American a…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Q85724626  Mead &amp; Bateson                                         business o…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q96077616  Margaret Meadows                                       (1718-1781)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q75281958  Lady Margaret Meade-Fetherstonhaugh                    British au…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q76238541  Margaret Meadowe                                       Peerage pe…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q75506638  Margaret Meadows                                       Peerage pe…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q75812372  Margaret Meade-Waldo                                   (died 1954)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q6759717   Margaret Mead Film Festival                            annual fil…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q96617538  Margaret Meador                                        researcher </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q57231017  Margaret Mead Made Me Gay                              2000 hardc…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q138021104 Margaret Mead Made Me Gay: Personal Essays, Public Id… book publi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q96077616  Margaret Meadows                                       (1718-1781)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q75281958  Lady Margaret Meade-Fetherstonhaugh                    British au…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q76238541  Margaret Meadowe                                       Peerage pe…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q75506638  Margaret Meadows                                       Peerage pe…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q75812372  Margaret Meade-Waldo                                   (died 1954)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q6759717   Margaret Mead Film Festival                            annual fil…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q96617538  Margaret Meador                                        researcher </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Q228822    Ruth Benedict                                          American a…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Q28002866  Ruth Benedict Prize                                    LGBT anthr…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Q80896797  Ruth Benedict                                          scientific…</span>

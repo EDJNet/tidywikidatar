@@ -9,7 +9,7 @@ identifier"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ identifier"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Filter search result and keep only items with matching property and Q identifier</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_filter.R" class="external-link"><code>R/tw_filter.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_filter.R" class="external-link"><code>R/tw_filter.R</code></a></small>
       <div class="d-none name"><code>tw_filter.Rd</code></div>
     </div>
 
@@ -148,11 +148,10 @@ filtered by the above criteria.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="tw_search.html">tw_search</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">"Margaret Mead"</span>, limit <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">tw_filter</span><span class="op">(</span>p <span class="op">=</span> <span class="st">"P31"</span>, q <span class="op">=</span> <span class="st">"Q5"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id        label            description                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099   Margaret Mead    American anthropologist (1901-1978)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Q96077616 Margaret Meadows (1718-1781)                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id      label         description                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099 Margaret Mead American anthropologist (1901-1978)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

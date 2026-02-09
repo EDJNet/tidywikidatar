@@ -13,7 +13,8 @@ tw_get(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
-  id_l = NULL
+  id_l = NULL,
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 ```
 
@@ -73,9 +74,14 @@ tw_get(
 
   Defaults to `NULL`. If given, must be an object or list such as the
   one generated with
-  [`WikidataR::get_item()`](https://rdrr.io/pkg/WikidataR/man/get_item.html).
+  [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md).
   If given, and the requested id is actually present in `id_l`, then no
   query to Wikidata servers is made.
+
+- user_agent:
+
+  Defaults to `NULL`. If not given, implicitly defaults to current
+  package name (`tidywikidatar`) and version.
 
 ## Value
 
@@ -100,18 +106,18 @@ tw_get(
   language = "en",
   id_l = tw_test_items
 )
-#> # A tibble: 361 × 4
-#>    id      property value         rank  
-#>    <chr>   <chr>    <chr>         <chr> 
-#>  1 Q180099 label_en Margaret Mead NA    
-#>  2 Q180099 P21      Q6581072      normal
-#>  3 Q180099 P214     44302511      normal
-#>  4 Q180099 P106     Q674426       normal
-#>  5 Q180099 P106     Q4773904      normal
-#>  6 Q180099 P106     Q36180        normal
-#>  7 Q180099 P106     Q2526255      normal
-#>  8 Q180099 P373     Margaret Mead normal
-#>  9 Q180099 P244     n78093416     normal
-#> 10 Q180099 P227     118579789     normal
-#> # ℹ 351 more rows
+#> # A tibble: 373 × 4
+#>    id      property value                         rank  
+#>    <chr>   <chr>    <chr>                         <chr> 
+#>  1 Q180099 label_en Margaret Mead                 NA    
+#>  2 Q180099 P21      Q6581072                      normal
+#>  3 Q180099 P214     44302511                      normal
+#>  4 Q180099 P106     Q4773904                      normal
+#>  5 Q180099 P373     Margaret Mead                 normal
+#>  6 Q180099 P244     n78093416                     normal
+#>  7 Q180099 P227     118579789                     normal
+#>  8 Q180099 P18      Margaret Mead (1901-1978).jpg normal
+#>  9 Q180099 P509     Q212961                       normal
+#> 10 Q180099 P19      Q1345                         normal
+#> # ℹ 363 more rows
 ```

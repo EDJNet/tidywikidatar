@@ -13,7 +13,7 @@ reference calendar)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ reference calendar)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Get Wikidata qualifiers for a given property of a given item</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_get_qualifiers.R" class="external-link"><code>R/tw_get_qualifiers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_get_qualifiers.R" class="external-link"><code>R/tw_get_qualifiers.R</code></a></small>
       <div class="d-none name"><code>tw_get_qualifiers_single.Rd</code></div>
     </div>
 
@@ -122,7 +122,7 @@ between queries.</p></dd>
 
 <dt id="arg-id-l">id_l<a class="anchor" aria-label="anchor" href="#arg-id-l"></a></dt>
 <dd><p>Defaults to <code>NULL</code>. If given, must be an object or list such as
-the one generated with <code><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">WikidataR::get_item()</a></code>. If given, and the requested
+the one generated with <code><a href="tw_get_item.html">tw_get_item()</a></code>. If given, and the requested
 id is actually present in <code>id_l</code>, then no query to Wikidata servers is
 made.</p></dd>
 
@@ -153,12 +153,12 @@ a property is present more than once)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id      property qualifier_id qualifier_property qualifier_value      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3 more variables: qualifier_value_type &lt;chr&gt;, rank &lt;chr&gt;, set &lt;int&gt;</span></span>
 </code></pre></div>
     </div>

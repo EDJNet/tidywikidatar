@@ -13,7 +13,7 @@ tw_extract_single(w, language = tidywikidatar::tw_get_language())
 - w:
 
   An object of class Wikidata created with `WikidataR`, typically
-  created with `WikidataR::get_item(id = id)`
+  created with `tw_get_item(id = id)`
 
 - language:
 
@@ -31,25 +31,22 @@ A data frame (a tibble) with four columns, such as the one created by
 ## Examples
 
 ``` r
-item <- tryCatch(WikidataR::get_item(id = "Q180099"),
-  error = function(e) {
-    as.character(e[[1]])
-  }
-)
+#' Retrieving from tests, but normally:
+# w <- tw_get_item(id = "Q180099")
 
-tidywikidatar:::tw_extract_single(w = item)
-#> # A tibble: 250 × 4
-#>    id      property value                 rank  
-#>    <chr>   <chr>    <chr>                 <chr> 
-#>  1 Q180099 label_en Margaret Mead         NA    
-#>  2 Q180099 alias_en Margaret Bateson      NA    
-#>  3 Q180099 alias_en Margaret Mead Bateson NA    
-#>  4 Q180099 alias_en Margaret Fortune      NA    
-#>  5 Q180099 alias_en Margaret Mead Fortune NA    
-#>  6 Q180099 P21      Q6581072              normal
-#>  7 Q180099 P214     44302511              normal
-#>  8 Q180099 P106     Q4773904              normal
-#>  9 Q180099 P106     Q36180                normal
-#> 10 Q180099 P106     Q2526255              normal
-#> # ℹ 240 more rows
+tidywikidatar:::tw_extract_single(w = list(tw_test_items[["Q180099"]]))
+#> # A tibble: 202 × 4
+#>    id      property value                         rank  
+#>    <chr>   <chr>    <chr>                         <chr> 
+#>  1 Q180099 label_en Margaret Mead                 NA    
+#>  2 Q180099 P21      Q6581072                      normal
+#>  3 Q180099 P214     44302511                      normal
+#>  4 Q180099 P106     Q4773904                      normal
+#>  5 Q180099 P373     Margaret Mead                 normal
+#>  6 Q180099 P244     n78093416                     normal
+#>  7 Q180099 P227     118579789                     normal
+#>  8 Q180099 P18      Margaret Mead (1901-1978).jpg normal
+#>  9 Q180099 P509     Q212961                       normal
+#> 10 Q180099 P19      Q1345                         normal
+#> # ℹ 192 more rows
 ```

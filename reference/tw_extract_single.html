@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Extract item data from an object of class Wikidata created with <code>WikidataR</code></h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_extract.R" class="external-link"><code>R/tw_extract.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_extract.R" class="external-link"><code>R/tw_extract.R</code></a></small>
       <div class="d-none name"><code>tw_extract_single.Rd</code></div>
     </div>
 
@@ -53,7 +53,7 @@
 
 <dl><dt id="arg-w">w<a class="anchor" aria-label="anchor" href="#arg-w"></a></dt>
 <dd><p>An object of class Wikidata created with <code>WikidataR</code>, typically
-created with <code>WikidataR::get_item(id = id)</code></p></dd>
+created with <code>tw_get_item(id = id)</code></p></dd>
 
 
 <dt id="arg-language">language<a class="anchor" aria-label="anchor" href="#arg-language"></a></dt>
@@ -72,27 +72,24 @@ dedicated Wikimedia page</a>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">item</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">WikidataR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">get_item</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"Q180099"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">e</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#' Retrieving from tests, but normally:</span></span></span>
+<span class="r-in"><span><span class="co"># w &lt;- tw_get_item(id = "Q180099")</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">tidywikidatar</span><span class="fu">:::</span><span class="fu">tw_extract_single</span><span class="op">(</span>w <span class="op">=</span> <span class="va">item</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 250 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id      property value                 rank  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Q180099 label_en Margaret Mead         <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Q180099 alias_en Margaret Bateson      <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q180099 alias_en Margaret Mead Bateson <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q180099 alias_en Margaret Fortune      <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q180099 alias_en Margaret Mead Fortune <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q180099 P21      Q6581072              normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q180099 P214     44302511              normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q180099 P106     Q4773904              normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q180099 P106     Q36180                normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q180099 P106     Q2526255              normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 240 more rows</span></span>
+<span class="r-in"><span><span class="fu">tidywikidatar</span><span class="fu">:::</span><span class="fu">tw_extract_single</span><span class="op">(</span>w <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">tw_test_items</span><span class="op">[[</span><span class="st">"Q180099"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 202 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id      property value                         rank  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Q180099 label_en Margaret Mead                 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Q180099 P21      Q6581072                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Q180099 P214     44302511                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Q180099 P106     Q4773904                      normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Q180099 P373     Margaret Mead                 normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Q180099 P244     n78093416                     normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Q180099 P227     118579789                     normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Q180099 P18      Margaret Mead (1901-1978).jpg normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Q180099 P509     Q212961                       normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Q180099 P19      Q1345                         normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 192 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

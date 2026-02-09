@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -321,6 +321,22 @@
 
         </dt>
         <dd>Get all items that have a given property (irrespective of the value)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="function-to-retrieve-all-information-available-in-wikidata-as-a-list">Function to retrieve <em>all</em> information available in Wikidata, as a list<a class="anchor" aria-label="anchor" href="#function-to-retrieve-all-information-available-in-wikidata-as-a-list"></a></h2>
+
+      <div class="section-desc"><p>Mostly used internally, but exported as it may be relevant to deal with edge cases or for troubleshoothing.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="tw_get_item.html">tw_get_item()</a></code>
+
+        </dt>
+        <dd>Retrieve item from the Wikidata API and returns it as a list</dd>
       </dl></div><div class="section level2">
       <h2 id="retrieve-information-about-images">Retrieve information about images<a class="anchor" aria-label="anchor" href="#retrieve-information-about-images"></a></h2>
 
@@ -735,7 +751,7 @@
           <code><a href="tw_extract_qualifier.html">tw_extract_qualifier()</a></code>
 
         </dt>
-        <dd>Extract qualifiers from an object of class Wikidata created with <code>WikidataR</code></dd>
+        <dd>Extract qualifiers from a list created with <code><a href="../reference/tw_get_item.html">tw_get_item()</a></code></dd>
 
         <dt>
 
@@ -937,7 +953,7 @@
           <code><a href="tw_test_items.html">tw_test_items</a></code>
 
         </dt>
-        <dd>A list mostly used for testing with some Wikidata items in the format resulting from <code><a href="https://rdrr.io/pkg/WikidataR/man/get_item.html" class="external-link">WikidataR::get_item()</a></code></dd>
+        <dd>A list mostly used for testing with some Wikidata items in the format resulting from <code><a href="../reference/tw_get_item.html">tw_get_item()</a></code></dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

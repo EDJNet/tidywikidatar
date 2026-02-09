@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Search for Wikidata items or properties and return Wikidata id, label, and description.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/v0.6.0/R/tw_search.R" class="external-link"><code>R/tw_search.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EDJNet/tidywikidatar/blob/master/R/tw_search.R" class="external-link"><code>R/tw_search.R</code></a></small>
       <div class="d-none name"><code>tw_search_single.Rd</code></div>
     </div>
 
@@ -51,6 +51,7 @@
 <span>  response_language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  limit <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  include_search <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -97,6 +98,11 @@ available language codes</a>.</p></dd>
 <dt id="arg-include-search">include_search<a class="anchor" aria-label="anchor" href="#arg-include-search"></a></dt>
 <dd><p>Logical, defaults to <code>FALSE</code>. If <code>TRUE</code>, the search is
 returned as an additional column.</p></dd>
+
+
+<dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
+<dd><p>Defaults to <code>NULL</code>. If not given, implicitly defaults to
+current package name (<code>tidywikidatar</code>) and version.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>

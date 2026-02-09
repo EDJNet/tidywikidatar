@@ -82,7 +82,7 @@ tw_get_qualifiers_single(
 
   Defaults to `NULL`. If given, must be an object or list such as the
   one generated with
-  [`WikidataR::get_item()`](https://rdrr.io/pkg/WikidataR/man/get_item.html).
+  [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md).
   If given, and the requested id is actually present in `id_l`, then no
   query to Wikidata servers is made.
 
@@ -112,11 +112,11 @@ tidywikidatar:::tw_get_qualifiers_single(
 #> # A tibble: 6 × 8
 #>   id      property qualifier_id qualifier_property qualifier_value      
 #>   <chr>   <chr>    <chr>        <chr>              <chr>                
-#> 1 Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z
-#> 2 Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z
-#> 3 Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z
-#> 4 Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z
-#> 5 Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z
-#> 6 Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z
+#> 1 Q180099 P26      Q594736      P582               +1928-00-00T00:00:00Z
+#> 2 Q180099 P26      Q594736      P580               +1923-00-00T00:00:00Z
+#> 3 Q180099 P26      Q2144944     P582               +1935-00-00T00:00:00Z
+#> 4 Q180099 P26      Q2144944     P580               +1928-00-00T00:00:00Z
+#> 5 Q180099 P26      Q314252      P580               +1936-00-00T00:00:00Z
+#> 6 Q180099 P26      Q314252      P582               +1950-00-00T00:00:00Z
 #> # ℹ 3 more variables: qualifier_value_type <chr>, rank <chr>, set <int>
 ```

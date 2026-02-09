@@ -114,6 +114,14 @@ but with less typing.
 - [`tw_get_all_with_p()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_all_with_p.md)
   : Get all items that have a given property (irrespective of the value)
 
+## Function to retrieve *all* information available in Wikidata, as a list
+
+Mostly used internally, but exported as it may be relevant to deal with
+edge cases or for troubleshoothing.
+
+- [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)
+  : Retrieve item from the Wikidata API and returns it as a list
+
 ## Retrieve information about images
 
 Since images are not stored within Wikidata, but often relevant to those
@@ -267,8 +275,8 @@ an object previously downloaded with `WikidataR`
 - [`tw_extract_qualifier()`](https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.md)
   :
 
-  Extract qualifiers from an object of class Wikidata created with
-  `WikidataR`
+  Extract qualifiers from a list created with
+  [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)
 
 - [`tw_extract_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.md)
   :
@@ -415,4 +423,4 @@ used for examples or testing
 
   A list mostly used for testing with some Wikidata items in the format
   resulting from
-  [`WikidataR::get_item()`](https://rdrr.io/pkg/WikidataR/man/get_item.html)
+  [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)

@@ -43,18 +43,6 @@ no relevant property found.
 ``` r
 # Get "female form of label", including language
 tw_get_property_with_details(id = "Q64733534", p = "P2521")
-#> # A tibble: 11 × 4
-#>    id        p     text                                language 
-#>    <chr>     <chr> <chr>                               <chr>    
-#>  1 Q20551564 P2521 sběratelka pohádek                  cs       
-#>  2 Q20551564 P2521 recopiladora de contes fantàstics   ca       
-#>  3 Q20551564 P2521 Märchensammlerin                    de       
-#>  4 Q20551564 P2521 zbieraczka baśni                    pl       
-#>  5 Q20551564 P2521 raccoglitrice di favole             it       
-#>  6 Q20551564 P2521 зьбіральніца казак                  be-tarask
-#>  7 Q20551564 P2521 collectrice de textes traditionnels fr       
-#>  8 Q20551564 P2521 zbiralka pravljic                   sl       
-#>  9 Q20551564 P2521 собирательница народных сказок      ru       
-#> 10 Q20551564 P2521 збирачка казок                      uk       
-#> 11 Q20551564 P2521 recompiladora de contos fantásticos gl       
+#> # A tibble: 0 × 2
+#> # ℹ 2 variables: id <chr>, p <chr>
 ```
