@@ -33,6 +33,9 @@ reference:
   - starts_with("tw_search")
   - tw_query
   - tw_get_all_with_p
+- title: Function to retrieve *all* information available in Wikidata, as a list
+  desc: Mostly used internally, but exported as it may be relevant to deal with edge cases or for troubleshoothing.
+  - tw_get_item
 - title: Retrieve information about images
   desc: Since images are not stored within Wikidata, but often relevant to those working
     with Wikidata, these functions wrap relevant APIs to facilitate getting data about
