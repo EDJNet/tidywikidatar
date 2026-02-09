@@ -9,4 +9,4 @@
 
 ## Comments
 
-* drops dependency on `WikidataQueryServiceR`, due for removal from CRAN
+* drops dependency also on `wikidataR`, now archived on CRAN
