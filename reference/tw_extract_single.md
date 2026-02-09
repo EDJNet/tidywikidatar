@@ -1,4 +1,4 @@
-# Extract item data from an object of class Wikidata created with `WikidataR`
+# Extract item data from a list object retrieved from the Wikidata API
 
 This function is mostly used internally and for testing.
 
@@ -12,8 +12,8 @@ tw_extract_single(w, language = tidywikidatar::tw_get_language())
 
 - w:
 
-  An object of class Wikidata created with `WikidataR`, typically
-  created with `tw_get_item(id = id)`
+  A list, typically retrieved with
+  [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)
 
 - language:
 

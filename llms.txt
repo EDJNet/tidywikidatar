@@ -1454,8 +1454,9 @@ disregarded by most.
 
 ## Extractors
 
-These functions are mostly used internally to extract selected data to
-an object previously downloaded with `WikidataR`
+These functions are mostly used internally to extract selected data from
+a list previously retrieved from the Wikidata API with
+[`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)
 
 - [`tw_extract_qualifier()`](https://edjnet.github.io/tidywikidatar/reference/tw_extract_qualifier.md)
   :
@@ -1464,10 +1465,7 @@ an object previously downloaded with `WikidataR`
   [`tw_get_item()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_item.md)
 
 - [`tw_extract_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.md)
-  :
-
-  Extract item data from an object of class Wikidata created with
-  `WikidataR`
+  : Extract item data from a list object retrieved from the Wikidata API
 
 - [`tw_get_field()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_field.md)
   :
@@ -1482,45 +1480,31 @@ The user can safely rely on the correspondent core functions, these have
 been created separetely mostly for testing and code structure.
 
 - [`tw_extract_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_extract_single.md)
-  :
-
-  Extract item data from an object of class Wikidata created with
-  `WikidataR`
-
+  : Extract item data from a list object retrieved from the Wikidata API
 - [`tw_get_image_metadata_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_image_metadata_single.md)
   : Get metadata for images from Wikimedia Commons
-
 - [`tw_get_property_description_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_description_single.md)
   : Get description of a Wikidata property in a given language
-
 - [`tw_get_property_label_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_label_single.md)
   : Get label of a Wikidata property in a given language
-
 - [`tw_get_property_with_details_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_with_details_single.md)
   : Gets all details of a property
-
 - [`tw_get_qualifiers_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_qualifiers_single.md)
   : Get Wikidata qualifiers for a given property of a given item
-
 - [`tw_get_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_single.md)
   : Return (most) information from a Wikidata item in a tidy format from
   a single Wikidata identifier
-
 - [`tw_get_wikipedia_category_members_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_category_members_single.md)
   : Get all Wikidata Q identifiers of all Wikipedia pages that appear in
   a given page
-
 - [`tw_get_wikipedia_page_links_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_links_single.md)
   : Get all Wikidata Q identifiers of all Wikipedia pages that appear in
   a given page
-
 - [`tw_get_wikipedia_page_qid_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_qid_single.md)
   : Gets the Wikidata id of a Wikipedia page
-
 - [`tw_get_wikipedia_page_sections_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_wikipedia_page_sections_single.md)
   : Get all Wikidata Q identifiers of all Wikipedia pages that appear in
   a given page
-
 - [`tw_search_single()`](https://edjnet.github.io/tidywikidatar/reference/tw_search_single.md)
   : Search for Wikidata items or properties and return Wikidata id,
   label, and description.
