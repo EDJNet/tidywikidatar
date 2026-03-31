@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@
 <span>  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  response_language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  limit <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  retry <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  include_search <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -93,6 +94,15 @@ available language codes</a>.</p></dd>
 
 <dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
 <dd><p>Maximum numbers of responses to be given.</p></dd>
+
+
+<dt id="arg-retry">retry<a class="anchor" aria-label="anchor" href="#arg-retry"></a></dt>
+<dd><p>Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to <code>FALSE</code> if you prefer the API to throw an error
+immediately. Consider adjusting the <code>wait</code> parameter, or customising the
+<code>user_agent</code> if relevant.</p></dd>
 
 
 <dt id="arg-include-search">include_search<a class="anchor" aria-label="anchor" href="#arg-include-search"></a></dt>

@@ -1,6 +1,13 @@
 # Changelog
 
+## tidywikidatar (development version)
+
+- throw meaningful error message when API rate limit hit with
+  [`tw_search()`](https://edjnet.github.io/tidywikidatar/reference/tw_search.md)
+
 ## tidywikidatar 0.6.1
+
+CRAN release: 2026-02-09
 
 - drop dependency on `WikidataR` and remove references from
   documentation

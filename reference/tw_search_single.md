@@ -13,6 +13,7 @@ tw_search_single(
   language = tidywikidatar::tw_get_language(),
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
+  retry = 10,
   include_search = FALSE,
   user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
@@ -56,6 +57,15 @@ tw_search_single(
 - limit:
 
   Maximum numbers of responses to be given.
+
+- retry:
+
+  Defaults to 10. Maximum number of times to retry if the API throws an
+  error, such as "too many requests". Each time, it will wait as much
+  time as requested by the API. Notice that this can be a long time,
+  e.g. 30 minutes. Set to `FALSE` if you prefer the API to throw an
+  error immediately. Consider adjusting the `wait` parameter, or
+  customising the `user_agent` if relevant.
 
 - include_search:
 

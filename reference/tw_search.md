@@ -13,6 +13,7 @@ tw_search(
   language = tidywikidatar::tw_get_language(),
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
+  retry = 10,
   include_search = FALSE,
   wait = 0,
   user_agent = tidywikidatar::tw_get_user_agent(),
@@ -56,6 +57,15 @@ tw_search(
 - limit:
 
   Maximum numbers of responses to be given.
+
+- retry:
+
+  Defaults to 10. Maximum number of times to retry if the API throws an
+  error, such as "too many requests". Each time, it will wait as much
+  time as requested by the API. Notice that this can be a long time,
+  e.g. 30 minutes. Set to `FALSE` if you prefer the API to throw an
+  error immediately. Consider adjusting the `wait` parameter, or
+  customising the `user_agent` if relevant.
 
 - include_search:
 
@@ -114,8 +124,8 @@ tw_search(search = c("Margaret Mead", "Ruth Benedict"))
 #>  3 Q138021104 Margaret Mead Made Me Gay: Personal Essays, Public Id… book publi…
 #>  4 Q96077616  Margaret Meadows                                       (1718-1781)
 #>  5 Q75281958  Lady Margaret Meade-Fetherstonhaugh                    British au…
-#>  6 Q76238541  Margaret Meadowe                                       Peerage pe…
-#>  7 Q75506638  Margaret Meadows                                       Peerage pe…
+#>  6 Q75506638  Margaret Meadows                                       Peerage pe…
+#>  7 Q76238541  Margaret Meadowe                                       Peerage pe…
 #>  8 Q75812372  Margaret Meade-Waldo                                   (died 1954)
 #>  9 Q6759717   Margaret Mead Film Festival                            annual fil…
 #> 10 Q96617538  Margaret Meador                                        researcher 
