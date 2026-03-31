@@ -20,6 +20,12 @@
 #'   \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{all
 #'   available language codes}.
 #' @param limit Maximum numbers of responses to be given.
+#' @param retry Defaults to 10. Maximum number of times to retry if the API
+#'   throws an error, such as "too many requests". Each time, it will wait as
+#'   much time as requested by the API. Notice that this can be a long time,
+#'   e.g. 30 minutes. Set to `FALSE` if you prefer the API to throw an error
+#'   immediately. Consider adjusting the `wait` parameter, or customising the
+#'   `user_agent` if relevant.
 #' @param include_search Logical, defaults to `FALSE`. If `TRUE`, the search is
 #'   returned as an additional column.
 #' @param wait In seconds, defaults to 0. Time to wait between queries to
@@ -51,6 +57,7 @@ tw_search <- function(
   language = tidywikidatar::tw_get_language(),
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
+  retry = 10,
   include_search = FALSE,
   wait = 0,
   user_agent = tidywikidatar::tw_get_user_agent(),
@@ -89,6 +96,7 @@ tw_search <- function(
           language = language,
           response_language = response_language,
           limit = limit,
+          retry = retry,
           include_search = TRUE,
           wait = wait,
           user_agent = user_agent,
@@ -123,6 +131,7 @@ tw_search <- function(
               language = language,
               response_language = response_language,
               limit = limit,
+              retry = retry,
               include_search = TRUE,
               wait = wait,
               user_agent = user_agent,
@@ -202,6 +211,7 @@ tw_search <- function(
               language = language,
               response_language = response_language,
               limit = limit,
+              retry = retry,
               include_search = TRUE,
               wait = wait,
               user_agent = user_agent,
@@ -261,6 +271,7 @@ tw_search_single <- function(
   language = tidywikidatar::tw_get_language(),
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
+  retry = 10,
   include_search = FALSE,
   user_agent = tidywikidatar::tw_get_user_agent(),
   cache = NULL,
@@ -363,7 +374,34 @@ tw_search_single <- function(
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE)
 
-  response_json <- httr2::req_perform(api_request) %>%
+  if (retry) {
+    api_request <- api_request %>%
+      httr2::req_retry(max_tries = retry)
+  }
+
+  response <- httr2::req_perform(api_request)
+
+  if (httr2::resp_status(response) == 429) {
+    wait_time <- httr2::resp_header(response, "Retry-After")
+
+    error_message <- c(
+      "x" = "API rate limit exceeded (HTTP 429), too many requests.",
+      "i" = "Consider increasing your {.arg wait} time, or customising your {.arg user_agent} if relevant."
+    )
+
+    if (!is.null(wait_time)) {
+      error_message <- c(
+        error_message,
+        "*" = "Please wait {wait_time} seconds before trying again."
+      )
+    }
+
+    cli::cli_abort(error_message)
+  } else if (httr2::resp_status(response)) {
+    httr2::resp_check_status(response)
+  }
+
+  response_json <- response %>%
     httr2::resp_body_json()
 
   if (is.null(response_json[["error"]][["info"]]) == FALSE) {

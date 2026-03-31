@@ -1,3 +1,7 @@
+# tidywikidatar (development version)
+
+* throw meaningful error message when API rate limit hit with `tw_search()`
+
 # tidywikidatar 0.6.1
 
 * drop dependency on `WikidataR` and remove references from documentation

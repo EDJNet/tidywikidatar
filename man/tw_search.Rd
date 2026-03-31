@@ -11,6 +11,7 @@ tw_search(
   language = tidywikidatar::tw_get_language(),
   response_language = tidywikidatar::tw_get_language(),
   limit = 10,
+  retry = 10,
   include_search = FALSE,
   wait = 0,
   user_agent = tidywikidatar::tw_get_user_agent(),
@@ -41,6 +42,13 @@ the official documentation}. Can be set once per session with
 available language codes}.}
 
 \item{limit}{Maximum numbers of responses to be given.}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
 
 \item{include_search}{Logical, defaults to \code{FALSE}. If \code{TRUE}, the search is
 returned as an additional column.}
