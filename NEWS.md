@@ -1,6 +1,6 @@
 # tidywikidatar (development version)
 
-* throw meaningful error message when API rate limit hit with `tw_search()`
+* throw meaningful error message when API rate limit hit
 
 # tidywikidatar 0.6.1
 

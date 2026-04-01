@@ -45,7 +45,9 @@ tw_get_property <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -65,7 +67,9 @@ tw_get_property <- function(
       cache_connection = cache_connection,
       language = language,
       wait = wait,
-      disconnect_db = disconnect_db
+      disconnect_db = disconnect_db,
+      retry = retry,
+      user_agent = user_agent
     )
   } else {
     id_df <- id_df %>%
@@ -83,7 +87,9 @@ tw_get_property <- function(
           cache_connection = cache_connection,
           language = language,
           wait = wait,
-          disconnect_db = disconnect_db
+          disconnect_db = disconnect_db,
+          retry = retry,
+          user_agent = user_agent
         )
       )
     }
@@ -196,7 +202,9 @@ tw_get_property_same_length <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -217,7 +225,9 @@ tw_get_property_same_length <- function(
     overwrite_cache = overwrite_cache,
     cache_connection = db,
     disconnect_db = FALSE,
-    wait = wait
+    wait = wait,
+    retry = retry,
+    user_agent = user_agent
   )
 
   if (is.null(property_df)) {
@@ -446,7 +456,9 @@ tw_get_p1 <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   tw_get_property_same_length(
     id = id,
@@ -460,6 +472,8 @@ tw_get_p1 <- function(
     overwrite_cache = overwrite_cache,
     cache_connection = cache_connection,
     disconnect_db = disconnect_db,
-    wait = wait
+    wait = wait,
+    retry = retry,
+    user_agent = user_agent
   )
 }

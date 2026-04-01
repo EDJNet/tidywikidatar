@@ -4,7 +4,7 @@
 \alias{tw_get_item}
 \title{Retrieve item from the Wikidata API and returns it as a list}
 \usage{
-tw_get_item(id, user_agent = tidywikidatar::tw_get_user_agent())
+tw_get_item(id, user_agent = tidywikidatar::tw_get_user_agent(), retry = 10)
 }
 \arguments{
 \item{id}{A character vector, must start with Q, e.g. "Q180099" for the
@@ -14,6 +14,13 @@ and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
 \item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
 current package name (\code{tidywikidatar}) and version.}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
 }
 \value{
 A list, with as many elements as the unique given id.

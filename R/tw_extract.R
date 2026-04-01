@@ -222,11 +222,8 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 #'
 #' This function is mostly used internally and for testing.
 #'
-#' @param id A character vector of length 1, must start with Q, e.g. "Q254" for
-#'   Wolfgang Amadeus Mozart.
-#' @param p A character vector of length 1, a property. Must always start with
-#'   the capital letter "P", e.g. "P31" for "instance of".
 #' @param w A list, typically created with [tw_get_item()]
+#' @inheritParams tw_get_property
 #'
 #' @return A data frame (a tibble) with eight columns: `id` for the input id,
 #'   `property`,  `qualifier_id`, `qualifier_property`, `qualifier_value`,
@@ -238,11 +235,20 @@ tw_extract_single <- function(w, language = tidywikidatar::tw_get_language()) {
 #' # w <- tw_get_item(id = "Q180099")
 #'
 #' tw_extract_qualifier(id = "Q180099", p = "P26", w = list(tw_test_items[["Q180099"]]))
-tw_extract_qualifier <- function(id, p, w = NULL) {
+tw_extract_qualifier <- function(
+  id,
+  p,
+  w = NULL,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
+) {
   if (is.null(w)) {
-    w <- tryCatch(tw_get_item(id = id), error = function(e) {
-      as.character(e[[1]])
-    })
+    w <- tryCatch(
+      tw_get_item(id = id, retry = retry, user_agent = user_agent),
+      error = function(e) {
+        as.character(e[[1]])
+      }
+    )
 
     if (is.character(w)) {
       cli::cli_alert_danger(w)

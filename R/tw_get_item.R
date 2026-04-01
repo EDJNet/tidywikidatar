@@ -14,12 +14,13 @@
 #' }
 tw_get_item <- function(
   id,
-  user_agent = tidywikidatar::tw_get_user_agent()
+  user_agent = tidywikidatar::tw_get_user_agent(),
+  retry = 10
 ) {
   items_l <- tw_check_qid(id = id) %>%
     purrr::set_names() %>%
     purrr::map(.f = function(current_id) {
-      req <- httr2::request("https://www.wikidata.org/w/api.php") %>%
+      api_request <- httr2::request("https://www.wikidata.org/w/api.php") %>%
         httr2::req_url_query(
           action = "wbgetentities",
           ids = current_id,
@@ -27,7 +28,12 @@ tw_get_item <- function(
         ) %>%
         httr2::req_user_agent(string = "user_agent")
 
-      resp <- req %>%
+      if (retry) {
+        api_request <- api_request %>%
+          httr2::req_retry(max_tries = retry)
+      }
+
+      resp <- api_request %>%
         httr2::req_perform()
 
       item_l <- resp %>%

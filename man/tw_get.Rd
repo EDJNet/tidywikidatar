@@ -12,6 +12,7 @@ tw_get(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
+  retry = 10,
   id_l = NULL,
   user_agent = tidywikidatar::tw_get_user_agent()
 )
@@ -47,6 +48,13 @@ cache open.}
 Wikidata. If data are cached locally, wait time is not applied. If you are
 running many queries systematically you may want to add some waiting time
 between queries.}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
 
 \item{id_l}{Defaults to \code{NULL}. If given, must be an object or list such as
 the one generated with \code{\link[=tw_get_item]{tw_get_item()}}. If given, and the requested

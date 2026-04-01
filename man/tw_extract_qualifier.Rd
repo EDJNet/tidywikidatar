@@ -4,16 +4,34 @@
 \alias{tw_extract_qualifier}
 \title{Extract qualifiers from a list created with \code{\link[=tw_get_item]{tw_get_item()}}}
 \usage{
-tw_extract_qualifier(id, p, w = NULL)
+tw_extract_qualifier(
+  id,
+  p,
+  w = NULL,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
+)
 }
 \arguments{
-\item{id}{A character vector of length 1, must start with Q, e.g. "Q254" for
-Wolfgang Amadeus Mozart.}
+\item{id}{A character vector, must start with Q, e.g. "Q180099" for the
+anthropologist Margaret Mead. Can also be a data frame of one row,
+typically generated with \code{\link[=tw_search]{tw_search()}} or a combination of \code{\link[=tw_search]{tw_search()}}
+and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
-\item{p}{A character vector of length 1, a property. Must always start with
-the capital letter "P", e.g. "P31" for "instance of".}
+\item{p}{A character vector, a property. Must always start with the capital
+letter "P", e.g. "P31" for "instance of".}
 
 \item{w}{A list, typically created with \code{\link[=tw_get_item]{tw_get_item()}}}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 }
 \value{
 A data frame (a tibble) with eight columns: \code{id} for the input id,

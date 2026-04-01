@@ -4,7 +4,13 @@
 \alias{tw_get_property_with_details}
 \title{Gets all details of a property for one or more Wikidata items.}
 \usage{
-tw_get_property_with_details(id, p, wait = 0)
+tw_get_property_with_details(
+  id,
+  p,
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
+)
 }
 \arguments{
 \item{id}{A character vector, must start with Q, e.g. "Q180099" for the
@@ -19,6 +25,16 @@ letter "P", e.g. "P31" for "instance of".}
 Wikidata. If data are cached locally, wait time is not applied. If you are
 running many queries systematically you may want to add some waiting time
 between queries.}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 }
 \value{
 A tibble, corresponding to the details for the given property. \code{NULL}

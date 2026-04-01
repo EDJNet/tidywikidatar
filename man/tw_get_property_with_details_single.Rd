@@ -4,7 +4,12 @@
 \alias{tw_get_property_with_details_single}
 \title{Gets all details of a property}
 \usage{
-tw_get_property_with_details_single(id, p)
+tw_get_property_with_details_single(
+  id,
+  p,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
+)
 }
 \arguments{
 \item{id}{A character vector, must start with Q, e.g. "Q180099" for the
@@ -14,6 +19,16 @@ and \code{\link[=tw_filter_first]{tw_filter_first()}}.}
 
 \item{p}{A character vector, a property. Must always start with the capital
 letter "P", e.g. "P31" for "instance of".}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
+
+\item{user_agent}{Defaults to \code{NULL}. If not given, implicitly defaults to
+current package name (\code{tidywikidatar}) and version.}
 }
 \value{
 A tibble, corresponding to the details for the given property. \code{NULL}

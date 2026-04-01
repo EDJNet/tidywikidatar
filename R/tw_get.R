@@ -31,6 +31,7 @@
 tw_get_single <- function(
   id,
   language = tidywikidatar::tw_get_language(),
+  retry = 10,
   cache = NULL,
   overwrite_cache = FALSE,
   read_cache = TRUE,
@@ -97,16 +98,22 @@ tw_get_single <- function(
       list()
 
     if (length(item) == 0) {
-      item <- tryCatch(tw_get_item(id = id), error = function(e) {
-        as.character(e[[1]])
-      })
+      item <- tryCatch(
+        tw_get_item(id = id, retry = retry, user_agent = user_agent),
+        error = function(e) {
+          as.character(e[[1]])
+        }
+      )
     } else if (length(item) > 1) {
       item <- item[1]
     }
   } else {
-    item <- tryCatch(tw_get_item(id = id), error = function(e) {
-      as.character(e[[1]])
-    })
+    item <- tryCatch(
+      tw_get_item(id = id, retry = retry, user_agent = user_agent),
+      error = function(e) {
+        as.character(e[[1]])
+      }
+    )
   }
 
   if (is.character(item)) {
@@ -149,6 +156,8 @@ tw_get_single <- function(
     return(
       tw_get(
         id = id,
+        retry = retry,
+        user_agent = user_agent,
         language = language,
         cache = cache,
         overwrite_cache = overwrite_cache,
@@ -220,6 +229,12 @@ tw_get_single <- function(
 #'   Wikidata. If data are cached locally, wait time is not applied. If you are
 #'   running many queries systematically you may want to add some waiting time
 #'   between queries.
+#' @param retry Defaults to 10. Maximum number of times to retry if the API
+#'   throws an error, such as "too many requests". Each time, it will wait as
+#'   much time as requested by the API. Notice that this can be a long time,
+#'   e.g. 30 minutes. Set to `FALSE` if you prefer the API to throw an error
+#'   immediately. Consider adjusting the `wait` parameter, or customising the
+#'   `user_agent` if relevant.
 #' @param id_l Defaults to `NULL`. If given, must be an object or list such as
 #'   the one generated with [tw_get_item()]. If given, and the requested
 #'   id is actually present in `id_l`, then no query to Wikidata servers is
@@ -256,6 +271,7 @@ tw_get <- function(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 0,
+  retry = 10,
   id_l = NULL,
   user_agent = tidywikidatar::tw_get_user_agent()
 ) {
@@ -287,6 +303,7 @@ tw_get <- function(
           cache_connection = db,
           disconnect_db = disconnect_db,
           wait = wait,
+          retry = retry,
           id_l = id_l,
           user_agent = user_agent
         ),
@@ -309,7 +326,9 @@ tw_get <- function(
             cache_connection = db,
             disconnect_db = FALSE,
             wait = wait,
-            id_l = id_l
+            retry = retry,
+            id_l = id_l,
+            user_agent = user_agent
           )
         }
       )
@@ -373,7 +392,9 @@ tw_get <- function(
               read_cache = FALSE,
               disconnect_db = FALSE,
               wait = wait,
-              id_l = id_l
+              retry = retry,
+              id_l = id_l,
+              user_agent = user_agent
             )
           }
         )

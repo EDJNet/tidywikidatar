@@ -8,6 +8,7 @@ Wikidata identifier}
 tw_get_single(
   id,
   language = tidywikidatar::tw_get_language(),
+  retry = 10,
   cache = NULL,
   overwrite_cache = FALSE,
   read_cache = TRUE,
@@ -29,6 +30,13 @@ set, "en". Use "all_available" to keep all languages. For available
 language values, see
 \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
 dedicated Wikimedia page}.}
+
+\item{retry}{Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to \code{FALSE} if you prefer the API to throw an error
+immediately. Consider adjusting the \code{wait} parameter, or customising the
+\code{user_agent} if relevant.}
 
 \item{cache}{Defaults to \code{NULL}. If given, it should be given either \code{TRUE}
 or \code{FALSE}. Typically set with \code{\link[=tw_enable_cache]{tw_enable_cache()}} or \code{\link[=tw_disable_cache]{tw_disable_cache()}}.}
