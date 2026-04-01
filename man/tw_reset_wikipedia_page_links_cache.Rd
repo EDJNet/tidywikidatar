@@ -28,8 +28,8 @@ details).}
 \item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
 cache open.}
 
-\item{ask}{Logical, defaults to TRUE. If FALSE, and cache folder does not
-exist, it just creates it without asking (useful for non-interactive
+\item{ask}{Logical, defaults to \code{TRUE}. If \code{FALSE}, and cache folder does not
+exist, it just removes it without asking (useful for non-interactive
 sessions).}
 }
 \value{

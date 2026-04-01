@@ -2,7 +2,7 @@
 % Please edit documentation in R/tw_get.R
 \name{tw_reset_item_cache}
 \alias{tw_reset_item_cache}
-\title{Reset qualifiers cache}
+\title{Reset item cache}
 \usage{
 tw_reset_item_cache(
   language = tidywikidatar::tw_get_language(),
@@ -30,15 +30,15 @@ details).}
 \item{disconnect_db}{Defaults to \code{TRUE}. If \code{FALSE}, leaves the connection to
 cache open.}
 
-\item{ask}{Logical, defaults to TRUE. If FALSE, and cache folder does not
-exist, it just creates it without asking (useful for non-interactive
+\item{ask}{Logical, defaults to \code{TRUE}. If \code{FALSE}, and cache folder does not
+exist, it just removes it without asking (useful for non-interactive
 sessions).}
 }
 \value{
 Nothing, used for its side effects.
 }
 \description{
-Removes the table where qualifiers are cached
+Removes the table where items are cached
 }
 \examples{
 if (interactive()) {

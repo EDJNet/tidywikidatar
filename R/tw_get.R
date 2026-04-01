@@ -401,12 +401,12 @@ tw_get <- function(
 }
 
 
-#' Reset qualifiers cache
+#' Reset item cache
 #'
-#' Removes the table where qualifiers are cached
+#' Removes the table where items are cached
 #'
-#' @param ask Logical, defaults to TRUE. If FALSE, and cache folder does not
-#'   exist, it just creates it without asking (useful for non-interactive
+#' @param ask Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
+#'   exist, it just removes it without asking (useful for non-interactive
 #'   sessions).
 #' @inheritParams tw_get
 #'
@@ -435,7 +435,7 @@ tw_reset_item_cache <- function(
     language = language
   )
 
-  if (pool::dbExistsTable(conn = db, name = table_name) == FALSE) {
+  if (!pool::dbExistsTable(conn = db, name = table_name)) {
     # do nothing: if table does not exist, nothing to delete
   } else if (isFALSE(ask)) {
     pool::dbRemoveTable(conn = db, name = table_name)
