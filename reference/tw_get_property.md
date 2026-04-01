@@ -14,7 +14,9 @@ tw_get_property(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 )
 ```
 
@@ -82,6 +84,20 @@ tw_get_property(
   If data are cached locally, wait time is not applied. If you are
   running many queries systematically you may want to add some waiting
   time between queries.
+
+- retry:
+
+  Defaults to 10. Maximum number of times to retry if the API throws an
+  error, such as "too many requests". Each time, it will wait as much
+  time as requested by the API. Notice that this can be a long time,
+  e.g. 30 minutes. Set to `FALSE` if you prefer the API to throw an
+  error immediately. Consider adjusting the `wait` parameter, or
+  customising the `user_agent` if relevant.
+
+- user_agent:
+
+  Defaults to `NULL`. If not given, implicitly defaults to current
+  package name (`tidywikidatar`) and version.
 
 ## Value
 

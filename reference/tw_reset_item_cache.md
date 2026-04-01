@@ -1,6 +1,6 @@
-# Reset qualifiers cache
+# Reset item cache
 
-Removes the table where qualifiers are cached
+Removes the table where items are cached
 
 ## Usage
 
@@ -44,8 +44,8 @@ tw_reset_item_cache(
 
 - ask:
 
-  Logical, defaults to TRUE. If FALSE, and cache folder does not exist,
-  it just creates it without asking (useful for non-interactive
+  Logical, defaults to `TRUE`. If `FALSE`, and cache folder does not
+  exist, it just removes it without asking (useful for non-interactive
   sessions).
 
 ## Value

@@ -1367,7 +1367,7 @@ case of database corruption, these can be used to delete specific cache
 tables. Consider deleting the whole cache if these do not help.
 
 - [`tw_reset_item_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_reset_item_cache.md)
-  : Reset qualifiers cache
+  : Reset item cache
 - [`tw_reset_qualifiers_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_reset_qualifiers_cache.md)
   : Reset qualifiers cache
 - [`tw_reset_wikipedia_category_members_cache()`](https://edjnet.github.io/tidywikidatar/reference/tw_reset_wikipedia_category_members_cache.md)

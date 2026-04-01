@@ -9,7 +9,7 @@ Wikidata identifier"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@ Wikidata identifier</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tw_get_single</span><span class="op">(</span></span>
 <span>  <span class="va">id</span>,</span>
 <span>  language <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_language.html">tw_get_language</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  retry <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  read_cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -78,6 +79,15 @@ set, "en". Use "all_available" to keep all languages. For available
 language values, see
 <a href="https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all" class="external-link">the
 dedicated Wikimedia page</a>.</p></dd>
+
+
+<dt id="arg-retry">retry<a class="anchor" aria-label="anchor" href="#arg-retry"></a></dt>
+<dd><p>Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to <code>FALSE</code> if you prefer the API to throw an error
+immediately. Consider adjusting the <code>wait</code> parameter, or customising the
+<code>user_agent</code> if relevant.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
