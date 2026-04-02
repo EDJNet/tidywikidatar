@@ -2,7 +2,9 @@
 
 ## tidywikidatar (development version)
 
-- throw meaningful error message when API rate limit hit
+- deal with lower API rate limits introduced by Wikidata: by default,
+  wait as long as requested by the API when limits are hit, or throw
+  meaningful error message if retry disabled
 
 ## tidywikidatar 0.6.1
 

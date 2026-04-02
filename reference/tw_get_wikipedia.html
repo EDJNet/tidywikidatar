@@ -9,7 +9,7 @@ given language"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidywikidatar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,9 @@ given language</p>
 <span>  overwrite_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cache_connection <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  disconnect_db <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  wait <span class="op">=</span> <span class="fl">0</span></span>
+<span>  wait <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  retry <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  user_agent <span class="op">=</span> <span class="fu">tidywikidatar</span><span class="fu">::</span><span class="fu"><a href="tw_set_user_agent.html">tw_get_user_agent</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -116,6 +118,20 @@ cache open.</p></dd>
 Wikidata. If data are cached locally, wait time is not applied. If you are
 running many queries systematically you may want to add some waiting time
 between queries.</p></dd>
+
+
+<dt id="arg-retry">retry<a class="anchor" aria-label="anchor" href="#arg-retry"></a></dt>
+<dd><p>Defaults to 10. Maximum number of times to retry if the API
+throws an error, such as "too many requests". Each time, it will wait as
+much time as requested by the API. Notice that this can be a long time,
+e.g. 30 minutes. Set to <code>FALSE</code> if you prefer the API to throw an error
+immediately. Consider adjusting the <code>wait</code> parameter, or customising the
+<code>user_agent</code> if relevant.</p></dd>
+
+
+<dt id="arg-user-agent">user_agent<a class="anchor" aria-label="anchor" href="#arg-user-agent"></a></dt>
+<dd><p>Defaults to <code>NULL</code>. If not given, implicitly defaults to
+current package name (<code>tidywikidatar</code>) and version.</p></dd>
 
 </dl></div>
     <div class="section level2">
