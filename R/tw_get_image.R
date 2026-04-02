@@ -43,7 +43,9 @@ tw_get_image <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -57,7 +59,9 @@ tw_get_image <- function(
     overwrite_cache = overwrite_cache,
     cache_connection = cache_connection,
     disconnect_db = disconnect_db,
-    wait = wait
+    wait = wait,
+    retry = retry,
+    user_agent = user_agent
   )
 
   image_df <- purrr::map2_dfr(
@@ -142,7 +146,9 @@ tw_get_image_same_length <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -158,7 +164,9 @@ tw_get_image_same_length <- function(
     overwrite_cache = overwrite_cache,
     cache_connection = cache_connection,
     disconnect_db = disconnect_db,
-    wait = wait
+    wait = wait,
+    retry = retry,
+    user_agent = user_agent
   )
 
   if (is.null(image_df)) {
@@ -245,8 +253,10 @@ tw_get_image_metadata <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
+  attempts = 10,
   wait = 1,
-  attempts = 10
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -270,7 +280,9 @@ tw_get_image_metadata <- function(
       overwrite_cache = overwrite_cache,
       cache_connection = db,
       disconnect_db = FALSE,
-      wait = wait
+      wait = wait,
+      retry = retry,
+      user_agent = user_agent
     )
   }
 
@@ -297,7 +309,9 @@ tw_get_image_metadata <- function(
           cache_connection = db,
           disconnect_db = disconnect_db,
           wait = wait,
-          attempts = attempts
+          retry = retry,
+          attempts = attempts,
+          user_agent = user_agent
         ),
         by = "id"
       )
@@ -463,7 +477,9 @@ tw_get_image_metadata_single <- function(
   cache_connection = NULL,
   disconnect_db = TRUE,
   wait = 1,
-  attempts = 10
+  attempts = 10,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (length(id) > 1) {
     cli::cli_abort(c(
@@ -489,7 +505,9 @@ tw_get_image_metadata_single <- function(
       overwrite_cache = overwrite_cache,
       cache_connection = db,
       disconnect_db = FALSE,
-      wait = wait
+      wait = wait,
+      retry = retry,
+      user_agent = user_agent
     )
   }
 

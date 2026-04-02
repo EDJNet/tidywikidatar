@@ -39,7 +39,9 @@ tw_get_label <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id[["id"]]
@@ -60,6 +62,8 @@ tw_get_label <- function(
       cache_connection = cache_connection,
       language = language,
       wait = wait,
+      retry = retry,
+      user_agent = user_agent,
       disconnect_db = disconnect_db
     )
   } else {
@@ -79,6 +83,8 @@ tw_get_label <- function(
           cache_connection = cache_connection,
           language = language,
           wait = wait,
+          retry = retry,
+          user_agent = user_agent,
           disconnect_db = disconnect_db
         )
       )
@@ -119,7 +125,9 @@ tw_get_description <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -133,6 +141,8 @@ tw_get_description <- function(
       cache_connection = cache_connection,
       language = language,
       wait = wait,
+      retry = retry,
+      user_agent = user_agent,
       disconnect_db = disconnect_db
     )
   } else {
@@ -152,6 +162,8 @@ tw_get_description <- function(
           cache_connection = cache_connection,
           language = language,
           wait = wait,
+          retry = retry,
+          user_agent = user_agent,
           disconnect_db = disconnect_db
         )
       )
@@ -189,7 +201,9 @@ tw_get_wikipedia <- function(
   overwrite_cache = FALSE,
   cache_connection = NULL,
   disconnect_db = TRUE,
-  wait = 0
+  wait = 0,
+  retry = 10,
+  user_agent = tidywikidatar::tw_get_user_agent()
 ) {
   if (is.data.frame(id)) {
     id <- id$id
@@ -211,7 +225,9 @@ tw_get_wikipedia <- function(
       cache_connection = cache_connection,
       disconnect_db = disconnect_db,
       language = language,
-      wait = wait
+      wait = wait,
+      retry = retry,
+      user_agent = user_agent
     )
   } else {
     current_id <- id
@@ -230,6 +246,8 @@ tw_get_wikipedia <- function(
           cache_connection = cache_connection,
           language = language,
           wait = wait,
+          retry = retry,
+          user_agent = user_agent,
           disconnect_db = disconnect_db
         )
       )
