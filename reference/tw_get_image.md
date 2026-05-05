@@ -109,15 +109,11 @@ reference to the image in the requested format.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 tw_get_image("Q180099",
   format = "filename"
 )
-#> # A tibble: 1 × 2
-#>   id      image                        
-#>   <chr>   <chr>                        
-#> 1 Q180099 Margaret Mead (1901-1978).jpg
 
-if (interactive()) {
   tw_get_image("Q180099",
     format = "commons"
   )
@@ -126,5 +122,5 @@ if (interactive()) {
     format = "embed",
     width = 300
   )
-}
+} # }
 ```
