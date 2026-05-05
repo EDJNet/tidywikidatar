@@ -72,5 +72,7 @@ to 10).
 This search returns only items, use \code{\link[=tw_search_property]{tw_search_property()}} for properties.
 }
 \examples{
-tw_search_item(search = "Sylvia Pankhurst")
+\dontrun{
+  tw_search_item(search = "Sylvia Pankhurst")
+}
 }

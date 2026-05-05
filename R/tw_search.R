@@ -506,7 +506,9 @@ tw_search_single <- function(
 #' @export
 #'
 #' @examples
-#' tw_search_item(search = "Sylvia Pankhurst")
+#' \dontrun{
+#'   tw_search_item(search = "Sylvia Pankhurst")
+#' }
 tw_search_item <- function(
   search,
   language = tidywikidatar::tw_get_language(),

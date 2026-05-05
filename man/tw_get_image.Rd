@@ -80,11 +80,11 @@ Please consult the
 documentation for reusing content outside Wikimedia}.
 }
 \examples{
+\dontrun{
 tw_get_image("Q180099",
   format = "filename"
 )
 
-if (interactive()) {
   tw_get_image("Q180099",
     format = "commons"
   )
