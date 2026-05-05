@@ -119,7 +119,7 @@ advisors
 
 # It is also possible to get one property for many id
 
-if (interactive()) {
+if (FALSE) { # \dontrun{
   tw_get_property(
     id = c(
       "Q180099",
@@ -134,5 +134,5 @@ if (interactive()) {
     id = "Q180099",
     p = c("P21", "P31")
   )
-}
+} # }
 ```

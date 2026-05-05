@@ -117,6 +117,7 @@ A character vector of the same length as the input.
 ## Examples
 
 ``` r
-tw_get_p1(id = "Q180099", "P26")
-#> [1] "Q594736"
+if (FALSE) { # \dontrun{
+  tw_get_p1(id = "Q180099", "P26")
+} # }
 ```

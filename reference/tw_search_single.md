@@ -110,17 +110,12 @@ tw_search_single(
 
 A data frame (a tibble) with three columns (`id`, `label`, and
 `description`), and as many rows as there are results (by default,
-limited to 10). Four columns when `include_search` is set to TRUE.
+limited to 10). Four columns when `include_search` is set to `TRUE`.
 
 ## Examples
 
 ``` r
-tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
-#> # A tibble: 4 × 3
-#>   id         label                                                   description
-#>   <chr>      <chr>                                                   <chr>      
-#> 1 Q298213    Sylvia Pankhurst                                        English fe…
-#> 2 Q24298894  Sylvia Pankhurst                                        sculpture …
-#> 3 Q136209787 Sylvia Pankhurst: Suffragette, Socialist and Scourge o… book 2013  
-#> 4 Q136210335 Sylvia Pankhurst: A Life in Radical Politics            book 1999  
+if (FALSE) { # \dontrun{
+  tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+} # }
 ```
