@@ -69,6 +69,8 @@ the Wikidata description in the requested language.
 Get Wikidata description in given language
 }
 \examples{
+\dontrun{
+
 tw_get_description(
   id = c(
     "Q180099",
@@ -76,4 +78,6 @@ tw_get_description(
   ),
   language = "en"
 )
+
+}
 }

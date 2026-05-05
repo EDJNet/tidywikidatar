@@ -9,7 +9,9 @@
 #'
 #' @examples
 #' # Get "female form of label", including language
-#' tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
+#' \dontrun{
+#'   tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
+#' }
 tw_get_property_with_details_single <- function(
   id,
   p,

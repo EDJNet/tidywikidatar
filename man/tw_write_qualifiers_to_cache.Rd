@@ -47,7 +47,7 @@ Mostly to be used internally by \code{tidywikidatar}, use with caution to keep
 caching consistent.
 }
 \examples{
-
+if (interactive()) {
 q_df <- tw_get_qualifiers(
   id = "Q180099",
   p = "P26",
@@ -60,4 +60,5 @@ tw_write_qualifiers_to_cache(
   language = "en",
   cache = TRUE
 )
+}
 }

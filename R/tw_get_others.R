@@ -109,6 +109,8 @@ tw_get_label <- function(
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'
 #' tw_get_description(
 #'   id = c(
 #'     "Q180099",
@@ -116,6 +118,8 @@ tw_get_label <- function(
 #'   ),
 #'   language = "en"
 #' )
+#'
+#' }
 tw_get_description <- function(
   id,
   language = tidywikidatar::tw_get_language(),

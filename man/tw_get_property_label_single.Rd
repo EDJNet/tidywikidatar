@@ -52,5 +52,7 @@ requested language.
 Get label of a Wikidata property in a given language
 }
 \examples{
-tidywikidatar:::tw_get_property_label_single(property = "P31")
+\dontrun{
+  tidywikidatar:::tw_get_property_label_single(property = "P31")
+}
 }

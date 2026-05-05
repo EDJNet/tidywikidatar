@@ -415,7 +415,7 @@ tw_get_cached_qualifiers <- function(
 #' @export
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #' q_df <- tw_get_qualifiers(
 #'   id = "Q180099",
 #'   p = "P26",
@@ -428,6 +428,7 @@ tw_get_cached_qualifiers <- function(
 #'   language = "en",
 #'   cache = TRUE
 #' )
+#' }
 tw_write_qualifiers_to_cache <- function(
   qualifiers_df,
   language = tidywikidatar::tw_get_language(),

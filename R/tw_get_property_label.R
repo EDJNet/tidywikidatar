@@ -110,7 +110,9 @@ tw_get_property_label <- function(
 #'   requested language.
 #'
 #' @examples
-#' tidywikidatar:::tw_get_property_label_single(property = "P31")
+#' \dontrun{
+#'   tidywikidatar:::tw_get_property_label_single(property = "P31")
+#' }
 tw_get_property_label_single <- function(
   property,
   language = tidywikidatar::tw_get_language(),
