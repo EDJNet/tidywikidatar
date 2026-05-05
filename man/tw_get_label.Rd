@@ -69,7 +69,7 @@ the Wikidata label in the requested language.
 Get Wikidata label in given language
 }
 \examples{
-
+if (interactive()) {
 tw_get_label(
   id = c(
     "Q180099",
@@ -79,7 +79,6 @@ tw_get_label(
 )
 
 # If a label is not available, a NA value is returned
-if (interactive()) {
   tw_get_label(
     id = c(
       "Q64733534",

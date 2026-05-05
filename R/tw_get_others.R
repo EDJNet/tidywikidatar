@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #' tw_get_label(
 #'   id = c(
 #'     "Q180099",
@@ -21,7 +21,6 @@
 #' )
 #'
 #' # If a label is not available, a NA value is returned
-#' if (interactive()) {
 #'   tw_get_label(
 #'     id = c(
 #'       "Q64733534",
@@ -191,7 +190,9 @@ tw_get_description <- function(
 #' @export
 #'
 #' @examples
-#' tw_get_wikipedia(id = "Q180099")
+#' if (interactive()) {
+#'   tw_get_wikipedia(id = "Q180099")
+#' }
 tw_get_wikipedia <- function(
   id,
   full_link = TRUE,

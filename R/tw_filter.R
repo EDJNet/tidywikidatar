@@ -191,10 +191,12 @@ tw_filter_first <- function(
 #' @export
 #'
 #' @examples
+#' if (interactive()) {
 #' tw_search("Ruth Benedict")
 #'
 #' tw_search("Ruth Benedict") %>%
 #'   tw_filter_people()
+#'   }
 tw_filter_people <- function(
   search,
   language = tidywikidatar::tw_get_language(),

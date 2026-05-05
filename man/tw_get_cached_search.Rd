@@ -56,7 +56,7 @@ If data present in cache, returns a data frame with cached data.
 Retrieve cached search
 }
 \examples{
-
+if (interactive()) {
 
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()
@@ -67,4 +67,6 @@ search_from_api
 
 df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 df_from_cache
+
+}
 }

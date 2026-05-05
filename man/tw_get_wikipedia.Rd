@@ -75,5 +75,7 @@ Get URL to a Wikipedia article corresponding to a Wikidata Q identifier in
 given language
 }
 \examples{
-tw_get_wikipedia(id = "Q180099")
+if (interactive()) {
+  tw_get_wikipedia(id = "Q180099")
+}
 }

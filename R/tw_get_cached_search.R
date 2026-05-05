@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#'
+#' if (interactive()) {
 #'
 #' tw_set_cache_folder(path = tempdir())
 #' tw_enable_cache()
@@ -17,6 +17,8 @@
 #'
 #' df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #' df_from_cache
+#'
+#' }
 tw_get_cached_search <- function(
   search,
   type = "item",

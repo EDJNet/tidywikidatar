@@ -68,8 +68,10 @@ A wrapper of \code{\link[=tw_filter]{tw_filter()}} that defaults to keep only "i
 "human being" (Q5).
 }
 \examples{
+if (interactive()) {
 tw_search("Ruth Benedict")
 
 tw_search("Ruth Benedict") \%>\%
   tw_filter_people()
+  }
 }
