@@ -89,11 +89,11 @@ Please consult the
 documentation for reusing content outside Wikimedia}.
 }
 \examples{
-tw_get_image_same_length("Q180099",
-  format = "filename"
-)
+\dontrun{
+  tw_get_image_same_length("Q180099",
+    format = "filename"
+  )
 
-if (interactive()) {
   tw_get_image_same_length("Q180099",
     format = "commons"
   )

@@ -33,7 +33,8 @@ Gets a field such a label or description from a data frame typically generated
 with \code{\link[=tw_get]{tw_get()}}
 }
 \examples{
-
+\dontrun{
 tw_get("Q180099") \%>\%
   tw_get_field(field = "label", id = "Q180099")
+  }
 }

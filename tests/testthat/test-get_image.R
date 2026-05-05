@@ -42,6 +42,8 @@ test_that("check if image returned when valid id given", {
 
 test_that("check if image returned when invalid id given", {
   testthat::skip_if_offline()
+  testthat::skip_on_cran()
+  testthat::skip_on_ci()
 
   test_id_df <- tw_get(
     id = "Q2",
@@ -94,6 +96,7 @@ test_that("check if image returned when invalid id given", {
 test_that("check if image metadata returned correctly with or without cache", {
   testthat::skip_if_offline()
   testthat::skip_on_cran() # to prevent error due to calls to Wikimedia Commons from CRAN server
+  testthat::skip_on_ci()
 
   test_id_df <- tw_get(
     id = "Q2",

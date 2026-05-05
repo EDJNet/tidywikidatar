@@ -120,11 +120,11 @@ tw_get_image <- function(
 #' @export
 #'
 #' @examples
-#' tw_get_image_same_length("Q180099",
-#'   format = "filename"
-#' )
+#' \dontrun{
+#'   tw_get_image_same_length("Q180099",
+#'     format = "filename"
+#'   )
 #'
-#' if (interactive()) {
 #'   tw_get_image_same_length("Q180099",
 #'     format = "commons"
 #'   )
@@ -240,7 +240,7 @@ tw_get_image_same_length <- function(
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'   tw_get_image_metadata("Q180099")
 #' }
 tw_get_image_metadata <- function(

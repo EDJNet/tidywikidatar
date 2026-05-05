@@ -84,7 +84,7 @@ Please consult the
 documentation for reusing content outside Wikimedia}.
 }
 \examples{
-if (interactive()) {
+\dontrun{
   tw_get_image_metadata("Q180099")
 }
 }
