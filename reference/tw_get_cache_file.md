@@ -32,6 +32,7 @@ A character vector of length one with location of item cache file.
 ## Examples
 
 ``` r
+
 tw_set_cache_folder(path = tempdir())
 sqlite_cache_file_location <- tw_get_cache_file() # outputs location of cache file
 ```

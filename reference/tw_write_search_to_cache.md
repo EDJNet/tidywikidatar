@@ -78,6 +78,7 @@ Nothing, used for its side effects.
 ## Examples
 
 ``` r
+
 tw_set_cache_folder(path = fs::path(tempdir(), paste(sample(letters, 24), collapse = "")))
 tw_create_cache_folder(ask = FALSE)
 tw_disable_cache()

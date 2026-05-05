@@ -20,6 +20,7 @@ You can install the released version of `tidywikidatar` from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+
 install.packages("tidywikidatar")
 ```
 
@@ -27,6 +28,7 @@ For the latest fixes and improvements, you can install the development
 version from [Github](https://github.com/EDJNet/tidywikidatar) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("EDJNet/tidywikidatar")
 ```
@@ -127,6 +129,7 @@ English). The first lines of a script using `tidywikidatar` would often
 look like this:
 
 ``` r
+
 library("tidywikidatar")
 tw_enable_cache()
 tw_set_cache_folder(path = fs::path(fs::path_home_r(), "R", "tw_data"))
@@ -153,6 +156,7 @@ actually a number of things that are returned by searching for “Margaret
 Mead” that are not the woman herself.
 
 ``` r
+
 tw_search(search = "Margaret Mead")
 #> # A tibble: 10 × 3
 #>    id        label                               description                    
@@ -176,6 +180,7 @@ only the first result that is associated with “an instance of” (P31) -
 “human” (Q5), I can run:
 
 ``` r
+
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
 #> # A tibble: 1 × 3
@@ -189,6 +194,7 @@ and, as expected, I get a single output: my beloved Margaret Mead.
 Where was she born? I can ask directly for P19, place of birth:
 
 ``` r
+
 tw_get_property(id = "Q180099", p = "P19")
 #> # A tibble: 1 × 4
 #>   id      property value rank  
@@ -200,6 +206,7 @@ which, as expected, will give me another wikidata id. But what does,
 “Q1345” stand for? I should ask for its label.
 
 ``` r
+
 tw_get_label(id = "Q1345")
 #> [1] "Philadelphia"
 ```
@@ -209,6 +216,7 @@ perhaps I’d need to ask in which country it is located. So I would ask
 for the correspondent property, P17.
 
 ``` r
+
 tw_get_property(id = "Q1345", p = "P17")
 #> # A tibble: 1 × 4
 #>   id    property value rank  
@@ -220,6 +228,7 @@ Oh, no, another Wikidata id! That’s the way it works… let’s ask for its
 label:
 
 ``` r
+
 tw_get_label(id = "Q30")
 #> [1] "United States"
 ```
@@ -229,6 +238,7 @@ It takes some time to get used, but I suppose you get the gist of it.
 You can also pipe all of the above, like this:
 
 ``` r
+
 tw_search(search = "Margaret Mead") %>% # search for Margeret Mead
   tw_filter_first(p = "P31", q = "Q5") %>% # keep only the first result that is of a human
   tw_get_property(p = "P19") %>% # ask for the place of birth
@@ -248,6 +258,7 @@ As you would expect, such functions can also be combined, for example,
 like this:
 
 ``` r
+
 get_bio <- function(id, language = "en") {
   tibble::tibble(
     label = tw_get_label(id = id, language = language),
@@ -278,6 +289,7 @@ I can of course get the response in languages other than English, as
 long as those are available on Wikidata.
 
 ``` r
+
 tw_search(search = "Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5") %>%
   get_bio(language = "it")
@@ -300,6 +312,7 @@ and fellow anthropologists and folklorists Ruth Benedict and Zora Neale
 Hurston, we can achieve that in a single call:
 
 ``` r
+
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
@@ -335,6 +348,7 @@ function -
 that will achieve what you want in most such cases.
 
 ``` r
+
 tw_get_property(
   id = c("Q180099", "Q228822", "Q220480"),
   p = "P166",
@@ -401,6 +415,7 @@ questions to be unique, and we may be fine with discarding other values
 that may be recorded in Wikidata.
 
 ``` r
+
 library("dplyr", warn.conflicts = FALSE)
 library("tidyr")
 students <-
@@ -452,6 +467,7 @@ they are universities or not, and then get the coordinates for the given
 institutions.
 
 ``` r
+
 students %>%
   mutate(worked_at_id = tw_get_p(
     id = student_id,
@@ -529,6 +545,7 @@ number of property of a given set of identifiers, and retrieving their
 labels.
 
 ``` r
+
 tw_get_p_wide(
   id = c("Q180099", "Q228822", "Q191095"),
   p = c("P27", "P19", "P20"),
@@ -551,6 +568,7 @@ would get these as lists columns, but there is also an additional
 parameter to facilitate sharing the result, for example, as a csv file.
 
 ``` r
+
 tw_get_p_wide(
   id = c("Q180099", "Q228822", "Q191095"),
   p = c("P108", "P26", "P451"),
@@ -589,6 +607,7 @@ If we look at his “positions held”
 following:
 
 ``` r
+
 purrr::map_chr(
   .x = tw_get_property(id = "Q2391857", p = "P39") %>% dplyr::pull(value),
   .f = tw_get_label
@@ -604,6 +623,7 @@ He has been more than once “member of the European Parliament”, and once
 Wikidata knows about it: each of these properties comes with qualifiers.
 
 ``` r
+
 qualifiers_df <- tw_get_qualifiers(id = "Q2391857", p = "P39")
 qualifiers_df
 #> # A tibble: 28 × 8
@@ -629,6 +649,7 @@ separate each set of information we have about the “positions held” by
 Mr. Sassoli:
 
 ``` r
+
 qualifiers_labelled_df <- qualifiers_df %>%
   dplyr::transmute(
     who = tw_get_label(id = id, language = "en"),
@@ -662,36 +683,36 @@ qualifiers_labelled_df %>%
   knitr::kable()
 ```
 
-| who           | did           | what                                 | how                 | value                                            | set |
-|:--------------|:--------------|:-------------------------------------|:--------------------|:-------------------------------------------------|----:|
-| David Sassoli | position held | President of the European Parliament | start time          | 2019-07-03                                       |   1 |
-| David Sassoli | position held | President of the European Parliament | replaces            | Antonio Tajani                                   |   1 |
-| David Sassoli | position held | President of the European Parliament | end time            | 2022-01-11                                       |   1 |
-| David Sassoli | position held | President of the European Parliament | end cause           | death in office                                  |   1 |
-| David Sassoli | position held | President of the European Parliament | replaced by         | Roberta Metsola                                  |   1 |
-| David Sassoli | position held | Member of the European Parliament    | start time          | 2019-07-02                                       |   2 |
-| David Sassoli | position held | Member of the European Parliament    | end time            | 2022-01-11                                       |   2 |
-| David Sassoli | position held | Member of the European Parliament    | end cause           | death in office                                  |   2 |
-| David Sassoli | position held | Member of the European Parliament    | replaced by         | Camilla Laureti                                  |   2 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary term  | Ninth European Parliament                        |   2 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   2 |
-| David Sassoli | position held | Member of the European Parliament    | electoral district  | Central Italy                                    |   2 |
-| David Sassoli | position held | Member of the European Parliament    | elected in          | 2019 European Parliament election                |   2 |
-| David Sassoli | position held | Member of the European Parliament    | represents          | Democratic Party                                 |   2 |
-| David Sassoli | position held | Member of the European Parliament    | start time          | 2014-07-01                                       |   3 |
-| David Sassoli | position held | Member of the European Parliament    | end time            | 2019-07-01                                       |   3 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary term  | Eighth European Parliament                       |   3 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   3 |
-| David Sassoli | position held | Member of the European Parliament    | electoral district  | Central Italy                                    |   3 |
-| David Sassoli | position held | Member of the European Parliament    | elected in          | 2014 European Parliament election                |   3 |
-| David Sassoli | position held | Member of the European Parliament    | represents          | Democratic Party                                 |   3 |
-| David Sassoli | position held | Member of the European Parliament    | start time          | 2009-07-14                                       |   4 |
-| David Sassoli | position held | Member of the European Parliament    | end time            | 2014-06-30                                       |   4 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary term  | Seventh European Parliament                      |   4 |
-| David Sassoli | position held | Member of the European Parliament    | parliamentary group | Progressive Alliance of Socialists and Democrats |   4 |
-| David Sassoli | position held | Member of the European Parliament    | electoral district  | Central Italy                                    |   4 |
-| David Sassoli | position held | Member of the European Parliament    | elected in          | 2009 European Parliament election                |   4 |
-| David Sassoli | position held | Member of the European Parliament    | represents          | Democratic Party                                 |   4 |
+| who | did | what | how | value | set |
+|:---|:---|:---|:---|:---|---:|
+| David Sassoli | position held | President of the European Parliament | start time | 2019-07-03 | 1 |
+| David Sassoli | position held | President of the European Parliament | replaces | Antonio Tajani | 1 |
+| David Sassoli | position held | President of the European Parliament | end time | 2022-01-11 | 1 |
+| David Sassoli | position held | President of the European Parliament | end cause | death in office | 1 |
+| David Sassoli | position held | President of the European Parliament | replaced by | Roberta Metsola | 1 |
+| David Sassoli | position held | Member of the European Parliament | start time | 2019-07-02 | 2 |
+| David Sassoli | position held | Member of the European Parliament | end time | 2022-01-11 | 2 |
+| David Sassoli | position held | Member of the European Parliament | end cause | death in office | 2 |
+| David Sassoli | position held | Member of the European Parliament | replaced by | Camilla Laureti | 2 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary term | Ninth European Parliament | 2 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary group | Progressive Alliance of Socialists and Democrats | 2 |
+| David Sassoli | position held | Member of the European Parliament | electoral district | Central Italy | 2 |
+| David Sassoli | position held | Member of the European Parliament | elected in | 2019 European Parliament election | 2 |
+| David Sassoli | position held | Member of the European Parliament | represents | Democratic Party | 2 |
+| David Sassoli | position held | Member of the European Parliament | start time | 2014-07-01 | 3 |
+| David Sassoli | position held | Member of the European Parliament | end time | 2019-07-01 | 3 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary term | Eighth European Parliament | 3 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary group | Progressive Alliance of Socialists and Democrats | 3 |
+| David Sassoli | position held | Member of the European Parliament | electoral district | Central Italy | 3 |
+| David Sassoli | position held | Member of the European Parliament | elected in | 2014 European Parliament election | 3 |
+| David Sassoli | position held | Member of the European Parliament | represents | Democratic Party | 3 |
+| David Sassoli | position held | Member of the European Parliament | start time | 2009-07-14 | 4 |
+| David Sassoli | position held | Member of the European Parliament | end time | 2014-06-30 | 4 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary term | Seventh European Parliament | 4 |
+| David Sassoli | position held | Member of the European Parliament | parliamentary group | Progressive Alliance of Socialists and Democrats | 4 |
+| David Sassoli | position held | Member of the European Parliament | electoral district | Central Italy | 4 |
+| David Sassoli | position held | Member of the European Parliament | elected in | 2009 European Parliament election | 4 |
+| David Sassoli | position held | Member of the European Parliament | represents | Democratic Party | 4 |
 
 That’s quite a lot of useful detail. The construction of the request can
 be quite complicated, but keep in mind that if you do this
@@ -724,6 +745,7 @@ If we ask Wikidata in which country London is located, this is the
 response we get:
 
 ``` r
+
 tw_get_property(id = "Q84", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
 #> # A tibble: 8 × 4
@@ -750,6 +772,7 @@ first (or last) and be sure it’s the most recent? As it emerges looking
 at the same for property for Rome, this is not the case.
 
 ``` r
+
 tw_get_property(id = "Q220", p = "P17") %>%
   dplyr::mutate(value = tw_get_label(value))
 #> # A tibble: 11 × 4
@@ -772,6 +795,7 @@ So while we may be tempted to just keep the first statement returned by
 Wikidata for the given property, this is probably not what we want.
 
 ``` r
+
 tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(
     city_label = tw_get_label(city_qid),
@@ -798,6 +822,7 @@ to `TRUE` in
 [`tw_get_p()`](https://edjnet.github.io/tidywikidatar/reference/tw_get_property_same_length.md).
 
 ``` r
+
 tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(
     city_label = tw_get_label(city_qid),
@@ -836,6 +861,7 @@ bit the process as it depends on a call to
 to retrieve and cache relevant details.
 
 ``` r
+
 tibble::tibble(city_qid = c("Q84", "Q220")) %>%
   dplyr::mutate(
     city_label = tw_get_label(city_qid),
@@ -888,6 +914,7 @@ You can then make a data frame with two columns (p and q), and some
 requirements, like this:
 
 ``` r
+
 query_df <- tibble::tribble(
   ~p, ~q,
   "P106", "Q1397808",
@@ -912,6 +939,7 @@ and get a nicely formatted dataframe with all women who are resistance
 fighters on Wikidata.
 
 ``` r
+
 tw_query(query = query_df)
 #> # A tibble: 1,547 × 3
 #>    id      label                 description                                    
@@ -937,6 +965,7 @@ want the description in Italian, and if not available in French, and
 only then look for other fallback options?
 
 ``` r
+
 fr_resistance_fighters_df <- tibble::tribble(
   ~p, ~q,
   "P106", "Q1397808", # Occupation: resistance fighter
@@ -971,6 +1000,7 @@ Wikidata terminology? You can still use the same commands described
 above, e.g.
 
 ``` r
+
 fr_resistance_fighters_df %>%
   dplyr::slice(1) %>%
   get_bio()
@@ -999,6 +1029,7 @@ a Wikipedia page, which give the same result (the user, however, should
 be mindful of redirection if using the title).
 
 ``` r
+
 tw_get_wikipedia_page_qid(title = "Margaret Mead")
 #> # A tibble: 1 × 7
 #>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
@@ -1008,6 +1039,7 @@ tw_get_wikipedia_page_qid(title = "Margaret Mead")
 ```
 
 ``` r
+
 tw_get_wikipedia_page_qid(url = "https://en.wikipedia.org/wiki/Margaret_Mead")
 #> # A tibble: 1 × 7
 #>   title_url     wikipedia_title wikipedia_id qid     description  disambiguation
@@ -1020,6 +1052,7 @@ Depending on the workflow, it is also possible to get the full link to
 the Wikipedia page starting from a given Wikidata identifier.
 
 ``` r
+
 tw_get_wikipedia(id = "Q180099")
 #> [1] "https://en.wikipedia.org/wiki/Margaret Mead"
 ```
@@ -1029,6 +1062,7 @@ out, hundreds of pages, including a variety of people, places, concepts,
 etc.
 
 ``` r
+
 wikipedia_df <- tw_get_wikipedia(id = "Q180099") %>%
   tw_get_wikipedia_page_links()
 
@@ -1056,6 +1090,7 @@ this page? We proceed as usual, checking which of these are “instance
 of” (“P19”) “human” (“Q5”), and take it from there.
 
 ``` r
+
 wikipedia_df %>%
   dplyr::pull(wikidata_id) %>%
   tw_get_property(p = "P31") %>%
@@ -1079,12 +1114,14 @@ details about the image can be found, as well as a direct link to the
 image at the desired resolution for direct embeds.
 
 ``` r
+
 tw_get_image(id = "Q180099", format = "commons") %>%
   dplyr::pull(image)
 #> [1] "https://commons.wikimedia.org/wiki/File:Margaret Mead (1901-1978).jpg"
 ```
 
 ``` r
+
 tw_get_image(id = "Q180099", format = "embed", width = 300) %>%
   dplyr::pull(image)
 #> [1] "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Margaret Mead (1901-1978).jpg&width=300"
@@ -1103,6 +1140,7 @@ commons API. `tidywikidatar` includes a convenience function to get
 access to all such details:
 
 ``` r
+
 tw_get_image_metadata(id = "Q180099") %>%
   tidyr::pivot_longer(
     cols = dplyr::everything(),

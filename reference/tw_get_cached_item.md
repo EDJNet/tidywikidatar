@@ -60,6 +60,7 @@ If data present in cache, returns a data frame with cached data.
 ## Examples
 
 ``` r
+
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()
 tw_create_cache_folder(ask = FALSE)

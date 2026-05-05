@@ -34,6 +34,7 @@ identifiers; possibly shorter than input.
 ## Examples
 
 ``` r
+
 tw_check_qid(id = c("Q180099", "q228822", "Not an id", "00180099", NA, "Q5"))
 #> [1] "Q180099" "Q228822" "Q5"     
 

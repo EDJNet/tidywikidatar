@@ -15,6 +15,7 @@ If the cache folder exists, returns `TRUE`. Otherwise throws an error.
 ## Examples
 
 ``` r
+
 # If cache folder does not exist, it throws an error
 tryCatch(tw_check_cache_folder(),
   error = function(e) {

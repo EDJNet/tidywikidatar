@@ -63,6 +63,7 @@ internally for its side effects.
 ## Examples
 
 ``` r
+
 if (interactive()) {
   df <- tw_get_wikipedia_page_qid(
     title = "Margaret Mead",

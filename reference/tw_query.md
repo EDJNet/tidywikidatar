@@ -67,6 +67,7 @@ value.
 ## Examples
 
 ``` r
+
 if (interactive()) {
   query <- list(
     c(p = "P106", q = "Q1397808"),

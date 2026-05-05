@@ -95,6 +95,7 @@ the Wikidata label in the requested language.
 ## Examples
 
 ``` r
+if (interactive()) {
 tw_get_label(
   id = c(
     "Q180099",
@@ -102,10 +103,8 @@ tw_get_label(
   ),
   language = "en"
 )
-#> [1] "Margaret Mead" "Ruth Benedict"
 
 # If a label is not available, a NA value is returned
-if (interactive()) {
   tw_get_label(
     id = c(
       "Q64733534",

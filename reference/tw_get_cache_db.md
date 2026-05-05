@@ -16,6 +16,7 @@ A list with all database parameters as stored in environment variables.
 ## Examples
 
 ``` r
+
 tw_get_cache_db()
 #> $driver
 #> [1] ""

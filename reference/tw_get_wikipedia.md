@@ -102,6 +102,7 @@ the Wikipedia link in the requested language.
 ## Examples
 
 ``` r
-tw_get_wikipedia(id = "Q180099")
-#> [1] "https://en.wikipedia.org/wiki/Margaret Mead"
+if (interactive()) {
+  tw_get_wikipedia(id = "Q180099")
+}
 ```

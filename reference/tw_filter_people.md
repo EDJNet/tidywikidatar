@@ -93,20 +93,10 @@ rows refer to a human being.
 ## Examples
 
 ``` r
+if (interactive()) {
 tw_search("Ruth Benedict")
-#> # A tibble: 5 × 3
-#>   id         label                                                   description
-#>   <chr>      <chr>                                                   <chr>      
-#> 1 Q228822    Ruth Benedict                                           American a…
-#> 2 Q28002866  Ruth Benedict Prize                                     LGBT anthr…
-#> 3 Q80896797  Ruth Benedict                                           scientific…
-#> 4 Q58589016  Ruth Benedict, Boasian Anthropology, and the Problem o… article by…
-#> 5 Q124712914 Ruth Benedict on Netherlanders                          journal ar…
 
 tw_search("Ruth Benedict") %>%
   tw_filter_people()
-#> # A tibble: 1 × 3
-#>   id      label         description                                           
-#>   <chr>   <chr>         <chr>                                                 
-#> 1 Q228822 Ruth Benedict American anthropologist and folklorologist (1887-1948)
+  }
 ```

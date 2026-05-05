@@ -77,6 +77,7 @@ If data present in cache, returns a data frame with cached data.
 ## Examples
 
 ``` r
+if (interactive()) {
 
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()
@@ -84,16 +85,9 @@ tw_create_cache_folder(ask = FALSE)
 
 search_from_api <- tw_search("Sylvia Pankhurst")
 search_from_api
-#> # A tibble: 4 × 3
-#>   id         label                                                   description
-#>   <chr>      <chr>                                                   <chr>      
-#> 1 Q298213    Sylvia Pankhurst                                        English fe…
-#> 2 Q24298894  Sylvia Pankhurst                                        sculpture …
-#> 3 Q136209787 Sylvia Pankhurst: Suffragette, Socialist and Scourge o… book 2013  
-#> 4 Q136210335 Sylvia Pankhurst: A Life in Radical Politics            book 1999  
 
 df_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 df_from_cache
-#> # A tibble: 0 × 3
-#> # ℹ 3 variables: id <chr>, label <chr>, description <chr>
+
+}
 ```

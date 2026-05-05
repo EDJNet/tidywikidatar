@@ -33,6 +33,7 @@ Most users should be perfectly fine using the default SQLite database
 for caching.
 
 ``` r
+
 library(dplyr, warn.conflicts = FALSE)
 library("tidywikidatar")
 
@@ -47,6 +48,7 @@ Shiny apps, may instead prefer relying on a MySql database, setting up
 the connection at the beginning of each session as follows.
 
 ``` r
+
 library(dplyr, warn.conflicts = FALSE)
 library("tidywikidatar")
 
@@ -80,6 +82,7 @@ national level, the elections themselves, etc.
 This is how we can take it from there with `tidywikidatar`.
 
 ``` r
+
 mep_wiki_df <- tw_get_wikipedia_page_links(
   url = "https://en.wikipedia.org/wiki/List_of_members_of_the_European_Parliament_(2019–2024)")
 
@@ -98,6 +101,7 @@ str(mep_wiki_df)
 What kind of things are mentioned in this page?
 
 ``` r
+
 mep_wiki_df %>%
   pull(qid) %>%
   tw_get_property(p = "P31") %>%
@@ -127,6 +131,7 @@ parties, elections, and other Wikipedia page lists.
 We can filter results in order to keep only humans as follows:
 
 ``` r
+
 humans_df <- mep_wiki_df %>%
   pull(qid) %>%
   tw_get_property(p = "P31")  %>% # instance of
@@ -152,6 +157,7 @@ few qualifiers, including “parliamentary term” which may have value
 “Ninth European Parliament”.
 
 ``` r
+
 meps9_df <- meps_df %>%
   tw_get_qualifiers(p = "P39") %>%
   filter(qualifier_property == "P2937",
@@ -167,6 +173,7 @@ mentioned in the page who *have not* been members of the ninth
 legislature.
 
 ``` r
+
 anti_join(meps_df,
           meps9_df,
           by = "id") %>%
@@ -193,6 +200,7 @@ joined the parliament only in 2021, and with reference to whom did they
 replace:
 
 ``` r
+
 replacing_meps_df <- meps9_df %>%
   tw_get_qualifiers(p = "P39") %>%
   filter(qualifier_id == "Q27169", # member of the european parliament
@@ -228,6 +236,7 @@ confirm in which legislatures those who have replaced a colleague more
 than once have served as MEPs? Of course.
 
 ``` r
+
 replacing_meps_df %>%
   group_by(new_mep_id) %>%
   count(name = "n") %>%
@@ -255,6 +264,7 @@ can easily be replicated taking it from here.
 Let’s make some more examples.
 
 ``` r
+
 meps9_pob_df <- meps9_df %>%
   mutate(mep = tw_get_label(id)) %>%
   mutate(place_of_birth_id = tw_get_p(id = id, p = "P19", only_first = TRUE)) %>%
@@ -286,6 +296,7 @@ We could now easily place these data on a map (code example not run to
 remove dependency on external files and packages).
 
 ``` r
+
 
 world_sf_file <- fs::path("world_geo_data", "world_sf.rds")
 
@@ -338,6 +349,7 @@ as “preferred”), and `latest_start_time` (which checks the qualifiers,
 and selects the one with the most recent “start time”).
 
 ``` r
+
 meps9_pob_df %>%
   mutate(pob_country_id = tw_get_p(id = place_of_birth_id,
                                    p = "P17",
