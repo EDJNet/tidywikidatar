@@ -83,5 +83,7 @@ This function wraps \code{\link[=tw_get_p]{tw_get_p()}}, but always sets \code{o
 \code{preferred} to \code{TRUE} in order to give back always a character vector.
 }
 \examples{
-tw_get_p1(id = "Q180099", "P26")
+\dontrun{
+  tw_get_p1(id = "Q180099", "P26")
+}
 }

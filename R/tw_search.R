@@ -261,10 +261,12 @@ tw_search <- function(
 #'
 #' @return A data frame (a tibble) with three columns (`id`, `label`, and
 #'   `description`), and as many rows as there are results (by default, limited
-#'   to 10). Four columns when `include_search` is set to TRUE.
+#'   to 10). Four columns when `include_search` is set to `TRUE`.
 #'
 #' @examples
-#' tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+#' \dontrun{
+#'   tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+#' }
 tw_search_single <- function(
   search,
   type = "item",

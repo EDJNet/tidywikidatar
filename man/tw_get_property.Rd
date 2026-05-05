@@ -82,7 +82,7 @@ advisors
 
 # It is also possible to get one property for many id
 
-if (interactive()) {
+\dontrun{
   tw_get_property(
     id = c(
       "Q180099",

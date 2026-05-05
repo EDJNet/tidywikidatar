@@ -20,7 +20,7 @@
 #'
 #' # It is also possible to get one property for many id
 #'
-#' if (interactive()) {
+#' \dontrun{
 #'   tw_get_property(
 #'     id = c(
 #'       "Q180099",
@@ -445,7 +445,9 @@ tw_get_p <- tw_get_property_same_length
 #' @export
 #'
 #' @examples
-#' tw_get_p1(id = "Q180099", "P26")
+#' \dontrun{
+#'   tw_get_p1(id = "Q180099", "P26")
+#' }
 tw_get_p1 <- function(
   id,
   p,

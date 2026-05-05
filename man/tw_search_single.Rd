@@ -77,11 +77,13 @@ between queries.}
 \value{
 A data frame (a tibble) with three columns (\code{id}, \code{label}, and
 \code{description}), and as many rows as there are results (by default, limited
-to 10). Four columns when \code{include_search} is set to TRUE.
+to 10). Four columns when \code{include_search} is set to \code{TRUE}.
 }
 \description{
 This search returns only items, use \code{\link[=tw_search_property]{tw_search_property()}} for properties.
 }
 \examples{
-tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+\dontrun{
+  tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+}
 }
