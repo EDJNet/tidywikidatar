@@ -116,6 +116,25 @@ limited to 10). Four columns when `include_search` is set to TRUE.
 
 ``` r
 tidywikidatar:::tw_search_single(search = "Sylvia Pankhurst")
+#> Waiting 53s for retry backoff ■■                              
+#> Waiting 53s for retry backoff ■■                              
+#> Waiting 53s for retry backoff ■■■■                            
+#> Waiting 53s for retry backoff ■■■■■■                          
+#> Waiting 53s for retry backoff ■■■■■■■                         
+#> Waiting 53s for retry backoff ■■■■■■■■■                       
+#> Waiting 53s for retry backoff ■■■■■■■■■■■                     
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■                    
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■                  
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■                
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■               
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■             
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■           
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■        
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■      
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
+#> Waiting 53s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 #> # A tibble: 4 × 3
 #>   id         label                                                   description
 #>   <chr>      <chr>                                                   <chr>      

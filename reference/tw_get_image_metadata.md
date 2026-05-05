@@ -114,7 +114,7 @@ requested format.
 ## Examples
 
 ``` r
-if (interactive()) {
+if (FALSE) { # \dontrun{
   tw_get_image_metadata("Q180099")
-}
+} # }
 ```

@@ -121,12 +121,11 @@ requested format.
 ## Examples
 
 ``` r
-tw_get_image_same_length("Q180099",
-  format = "filename"
-)
-#> [1] "Margaret Mead (1901-1978).jpg"
+if (FALSE) { # \dontrun{
+  tw_get_image_same_length("Q180099",
+    format = "filename"
+  )
 
-if (interactive()) {
   tw_get_image_same_length("Q180099",
     format = "commons"
   )
@@ -135,5 +134,5 @@ if (interactive()) {
     format = "embed",
     width = 300
   )
-}
+} # }
 ```

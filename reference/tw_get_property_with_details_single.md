@@ -55,27 +55,7 @@ no relevant property found.
 
 ``` r
 # Get "female form of label", including language
-tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
-#> Waiting 54s for retry backoff ■■                              
-#> Waiting 54s for retry backoff ■■                              
-#> Waiting 54s for retry backoff ■■■■                            
-#> Waiting 54s for retry backoff ■■■■■                           
-#> Waiting 54s for retry backoff ■■■■■■■                         
-#> Waiting 54s for retry backoff ■■■■■■■■■                       
-#> Waiting 54s for retry backoff ■■■■■■■■■■                      
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■                    
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■                  
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■                 
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■               
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■             
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■            
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■          
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■        
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■       
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-#> # A tibble: 0 × 2
-#> # ℹ 2 variables: id <chr>, p <chr>
+if (FALSE) { # \dontrun{
+  tidywikidatar:::tw_get_property_with_details_single(id = "Q64733534", p = "P2521")
+} # }
 ```
