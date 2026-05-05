@@ -3,6 +3,10 @@ library("tidywikidatar")
 
 test_that("check if image returned when valid id given", {
   testthat::skip_if_offline()
+  testthat::skip_on_cran()
+  testthat::skip_on_ci()
+
+  tw_set_cache_folder(path = tempdir())
 
   test_id_df <- tw_get(
     id = "Q2",
@@ -21,8 +25,6 @@ test_that("check if image returned when valid id given", {
         as.logical()
     }
   )
-
-  tw_set_cache_folder(path = tempdir())
 
   expect_true(
     object = {
