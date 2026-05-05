@@ -49,5 +49,9 @@ as `id`.
 
 tw_get("Q180099") %>%
   tw_get_field(field = "label", id = "Q180099")
+#> Waiting 8s for retry backoff ■■■■                            
+#> Waiting 8s for retry backoff ■■■■■■■■■■■■■■■                 
+#> Waiting 8s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■      
+#> Waiting 8s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 #> [1] "Margaret Mead"
 ```

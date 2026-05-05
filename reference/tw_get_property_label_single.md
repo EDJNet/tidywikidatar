@@ -69,26 +69,7 @@ language.
 ## Examples
 
 ``` r
-tidywikidatar:::tw_get_property_label_single(property = "P31")
-#> Waiting 54s for retry backoff ■■                              
-#> Waiting 54s for retry backoff ■■                              
-#> Waiting 54s for retry backoff ■■■                             
-#> Waiting 54s for retry backoff ■■■■■                           
-#> Waiting 54s for retry backoff ■■■■■■■                         
-#> Waiting 54s for retry backoff ■■■■■■■■                        
-#> Waiting 54s for retry backoff ■■■■■■■■■■                      
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■                    
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■                   
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■                 
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■               
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■              
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■            
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■          
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■       
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
-#> Waiting 54s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-#> [1] "instance of"
+if (FALSE) { # \dontrun{
+  tidywikidatar:::tw_get_property_label_single(property = "P31")
+} # }
 ```

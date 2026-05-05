@@ -95,6 +95,8 @@ the Wikidata description in the requested language.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
+
 tw_get_description(
   id = c(
     "Q180099",
@@ -102,17 +104,6 @@ tw_get_description(
   ),
   language = "en"
 )
-#> Waiting 28s for retry backoff ■■                              
-#> Waiting 28s for retry backoff ■■■■                            
-#> Waiting 28s for retry backoff ■■■■■■■                         
-#> Waiting 28s for retry backoff ■■■■■■■■■■■                     
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■                  
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■               
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■■■■            
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
-#> Waiting 28s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
-#> [1] "American anthropologist (1901-1978)"                   
-#> [2] "American anthropologist and folklorologist (1887-1948)"
+
+} # }
 ```

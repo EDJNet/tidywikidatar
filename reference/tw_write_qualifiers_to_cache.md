@@ -63,36 +63,18 @@ internally for its side effects.
 ## Examples
 
 ``` r
-
+if (interactive()) {
 q_df <- tw_get_qualifiers(
   id = "Q180099",
   p = "P26",
   language = "en",
   cache = FALSE
 )
-#> Waiting 52s for retry backoff ■■                              
-#> Waiting 52s for retry backoff ■■■                             
-#> Waiting 52s for retry backoff ■■■■                            
-#> Waiting 52s for retry backoff ■■■■■■                          
-#> Waiting 52s for retry backoff ■■■■■■■■                        
-#> Waiting 52s for retry backoff ■■■■■■■■■■                      
-#> Waiting 52s for retry backoff ■■■■■■■■■■■                     
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■                   
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■                 
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■                
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■              
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■            
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■          
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■       
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
-#> Waiting 52s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 
 tw_write_qualifiers_to_cache(
   qualifiers_df = q_df,
   language = "en",
   cache = TRUE
 )
+}
 ```
