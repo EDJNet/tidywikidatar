@@ -107,19 +107,15 @@ zero rows if no relevant property found.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
-#> # A tibble: 1 × 4
-#>   id      property value   rank  
-#>   <chr>   <chr>    <chr>   <chr> 
-#> 1 Q180099 P184     Q228822 normal
 
 # tw_get_label(advisors)
 
 # It is also possible to get one property for many id
 
-if (FALSE) { # \dontrun{
   tw_get_property(
     id = c(
       "Q180099",

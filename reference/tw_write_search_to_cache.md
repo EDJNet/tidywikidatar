@@ -78,7 +78,7 @@ Nothing, used for its side effects.
 ## Examples
 
 ``` r
-
+if (FALSE) { # \dontrun{
 tw_set_cache_folder(path = fs::path(tempdir(), paste(sample(letters, 24), collapse = "")))
 tw_create_cache_folder(ask = FALSE)
 tw_disable_cache()
@@ -88,13 +88,11 @@ search_from_api <- tw_search(search = "Sylvia Pankhurst", include_search = TRUE)
 search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 
 nrow(search_from_cache) == 0 # expect TRUE, as nothing has yet been stored in cache
-#> [1] TRUE
 
 tw_write_search_to_cache(search_df = search_from_api)
 
 search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 
 search_from_cache
-#> # A tibble: 0 × 4
-#> # ℹ 4 variables: search <chr>, id <chr>, label <chr>, description <chr>
+} # }
 ```

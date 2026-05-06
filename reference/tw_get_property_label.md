@@ -69,5 +69,24 @@ A character vector, with the Wikidata label in the requested language.
 
 ``` r
 tw_get_property_label(property = "P31")
+#> Waiting 51s for retry backoff ■■                              
+#> Waiting 51s for retry backoff ■■                              
+#> Waiting 51s for retry backoff ■■■                             
+#> Waiting 51s for retry backoff ■■■■■                           
+#> Waiting 51s for retry backoff ■■■■■■■                         
+#> Waiting 51s for retry backoff ■■■■■■■■■                       
+#> Waiting 51s for retry backoff ■■■■■■■■■■                      
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■                    
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■                  
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■                
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■              
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■             
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■           
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■       
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■      
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■    
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
+#> Waiting 51s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 #> [1] "instance of"
 ```
