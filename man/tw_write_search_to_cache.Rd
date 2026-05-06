@@ -57,7 +57,7 @@ Writes search to cache. Typically used internally, but exported to enable
 custom caching solutions.
 }
 \examples{
-
+\dontrun{
 tw_set_cache_folder(path = fs::path(tempdir(), paste(sample(letters, 24), collapse = "")))
 tw_create_cache_folder(ask = FALSE)
 tw_disable_cache()
@@ -73,4 +73,5 @@ tw_write_search_to_cache(search_df = search_from_api)
 search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 
 search_from_cache
+}
 }

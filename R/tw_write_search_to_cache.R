@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' tw_set_cache_folder(path = fs::path(tempdir(), paste(sample(letters, 24), collapse = "")))
 #' tw_create_cache_folder(ask = FALSE)
 #' tw_disable_cache()
@@ -27,6 +27,7 @@
 #' search_from_cache <- tw_get_cached_search("Sylvia Pankhurst")
 #'
 #' search_from_cache
+#' }
 tw_write_search_to_cache <- function(
   search_df,
   type = "item",

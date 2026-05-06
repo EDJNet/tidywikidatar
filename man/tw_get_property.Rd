@@ -74,6 +74,7 @@ A tibble, corresponding to the value for the given property. A tibble of zero ro
 Get Wikidata property of one or more items as a tidy data frame
 }
 \examples{
+\dontrun{
 # Who were the doctoral advisors - P184 - of Margaret Mead - Q180099?
 advisors <- tw_get_property(id = "Q180099", p = "P184")
 advisors
@@ -82,7 +83,6 @@ advisors
 
 # It is also possible to get one property for many id
 
-\dontrun{
   tw_get_property(
     id = c(
       "Q180099",
