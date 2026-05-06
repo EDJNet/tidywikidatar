@@ -45,7 +45,7 @@ language values, see
 \href{https://www.wikidata.org/wiki/Help:Wikimedia_language_codes/lists/all}{the
 dedicated Wikimedia page}.}
 
-\item{id_df}{Default to NULL. If given, it should be a dataframe typically
+\item{id_df}{Default to \code{NULL}. If given, it should be a dataframe typically
 generated with \code{\link[=tw_get]{tw_get()}}, and is used instead of calling Wikidata or
 using SQLite cache. Ignored when \code{id} is of length more than one.}
 

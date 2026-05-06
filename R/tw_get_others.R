@@ -1,6 +1,6 @@
 #' Get Wikidata label in given language
 #'
-#' @param id_df Default to NULL. If given, it should be a dataframe typically
+#' @param id_df Default to `NULL`. If given, it should be a dataframe typically
 #'   generated with [tw_get()], and is used instead of calling Wikidata or
 #'   using SQLite cache. Ignored when `id` is of length more than one.
 #' @inheritParams tw_get_image
@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #' tw_get_label(
 #'   id = c(
 #'     "Q180099",
@@ -194,7 +194,7 @@ tw_get_description <- function(
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'   tw_get_wikipedia(id = "Q180099")
 #' }
 tw_get_wikipedia <- function(

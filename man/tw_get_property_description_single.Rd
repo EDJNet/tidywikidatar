@@ -51,5 +51,7 @@ requested language.
 Get description of a Wikidata property in a given language
 }
 \examples{
+\dontrun{
 tidywikidatar:::tw_get_property_description_single(property = "P31")
+}
 }
