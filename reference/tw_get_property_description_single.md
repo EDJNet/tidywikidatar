@@ -69,6 +69,7 @@ requested language.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 tidywikidatar:::tw_get_property_description_single(property = "P31")
-#> [1] "type to which this subject corresponds/belongs. Different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain"
+} # }
 ```
