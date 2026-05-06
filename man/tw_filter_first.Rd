@@ -76,6 +76,8 @@ Same as \code{\link[=tw_filter]{tw_filter()}}, but consistently returns data fra
 row.
 }
 \examples{
+\dontrun{
 tw_search("Margaret Mead") \%>\%
   tw_filter_first(p = "P31", q = "Q5")
+}
 }

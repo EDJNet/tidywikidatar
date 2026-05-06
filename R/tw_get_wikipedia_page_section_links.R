@@ -176,10 +176,10 @@ tw_get_wikipedia_page_section_links <- function(
 #'   url can be left empty, but language must be provided.
 #' @param section_index Required. It should correspond to the ordinal of a
 #'   section of the relevant Wikipedia page. See also
-#'   `tw_get_wikipedia_page_sections()`.
+#'   [tw_get_wikipedia_page_sections()].
 #' @param language Two-letter language code used to define the Wikipedia version
-#'   to use. Defaults to language set with `tw_set_language()`; if not set,
-#'   "en". If url given, this can be left empty.
+#'   to use. Defaults to language set with [tw_set_language()]; if not set,
+#'   "en". If URL given, this can be left empty.
 #'
 #' @return A character vector of base urls to be used with the MediaWiki API
 #' @export

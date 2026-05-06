@@ -14,8 +14,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' tw_search(search = "Margaret Mead", limit = 3) %>%
 #'   tw_filter(p = "P31", q = "Q5")
+#' }
 tw_filter <- function(
   search,
   p,
@@ -98,8 +100,10 @@ tw_filter <- function(
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' tw_search("Margaret Mead") %>%
 #'   tw_filter_first(p = "P31", q = "Q5")
+#' }
 tw_filter_first <- function(
   search,
   p,
@@ -192,12 +196,12 @@ tw_filter_first <- function(
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
-#' tw_search("Ruth Benedict")
+#' \dontrun{
+#'   tw_search("Ruth Benedict")
 #'
-#' tw_search("Ruth Benedict") %>%
-#'   tw_filter_people()
-#'   }
+#'   tw_search("Ruth Benedict") %>%
+#'     tw_filter_people()
+#' }
 tw_filter_people <- function(
   search,
   language = tidywikidatar::tw_get_language(),

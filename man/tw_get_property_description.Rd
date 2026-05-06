@@ -52,5 +52,7 @@ language.
 Get description of a Wikidata property in a given language
 }
 \examples{
-tw_get_property_description(property = "P31")
+\dontrun{
+  tw_get_property_description(property = "P31")
+}
 }

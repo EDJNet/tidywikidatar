@@ -21,11 +21,11 @@ url can be left empty, but language must be provided.}
 
 \item{section_index}{Required. It should correspond to the ordinal of a
 section of the relevant Wikipedia page. See also
-\code{tw_get_wikipedia_page_sections()}.}
+\code{\link[=tw_get_wikipedia_page_sections]{tw_get_wikipedia_page_sections()}}.}
 
 \item{language}{Two-letter language code used to define the Wikipedia version
-to use. Defaults to language set with \code{tw_set_language()}; if not set,
-"en". If url given, this can be left empty.}
+to use. Defaults to language set with \code{\link[=tw_set_language]{tw_set_language()}}; if not set,
+"en". If URL given, this can be left empty.}
 }
 \value{
 A character vector of base urls to be used with the MediaWiki API

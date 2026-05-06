@@ -149,7 +149,7 @@ tw_get_property <- function(
 #' # no matter how many values for each id/property
 #'
 #'
-#' if (interactive()) {
+#' \dontrun{
 #'   tw_get_property_same_length(
 #'     id = c(
 #'       "Q180099",

@@ -77,6 +77,8 @@ Filter search result and keep only items with matching property and Q
 identifier
 }
 \examples{
+\dontrun{
 tw_search(search = "Margaret Mead", limit = 3) \%>\%
   tw_filter(p = "P31", q = "Q5")
+}
 }

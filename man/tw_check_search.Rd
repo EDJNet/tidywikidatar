@@ -73,6 +73,8 @@ consistent inputs.
 \examples{
 # The following two lines should give the same result.
 
-tw_check_search("Sylvia Pankhurst")
-tw_check_search(tw_search("Sylvia Pankhurst"))
+\dontrun{
+  tw_check_search("Sylvia Pankhurst")
+  tw_check_search(tw_search("Sylvia Pankhurst"))
+}
 }
