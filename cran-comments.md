@@ -1,5 +1,5 @@
 ## Test environments
-* local R installation, R 4.5.2
+* local R installation, R 4.5.3
 * windows, macOS, ubuntu on Github Actions as set with usethis::use_github_action_check_standard() - passing.
 * devtools::check_win_devel()
 
@@ -9,4 +9,4 @@
 
 ## Comments
 
-* drops dependency also on `wikidataR`, now archived on CRAN, after dropping dependency on `WikidataQueryServiceR` (also archived) in the recently released version 0.6.0.
+* reduces calls to API in examples due to more restrictive Wikidata API policies
