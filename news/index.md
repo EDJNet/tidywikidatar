@@ -1,11 +1,11 @@
 # Changelog
 
-## tidywikidatar (development version)
+## tidywikidatar 0.6.2
 
-- deal with lower API rate limits introduced by Wikidata
-- by default, wait as long as requested by the API when limits are hit,
-  or throw meaningful error message if retry disabled
-- don’t run more demanding examples
+- deal with lower API rate limits introduced by Wikidata: by default,
+  wait as long as requested by the API when limits are hit, or throw
+  meaningful error message if retry disabled
+- drop examples hitting API rate limits
 
 ## tidywikidatar 0.6.1
 

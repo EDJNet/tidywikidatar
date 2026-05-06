@@ -108,10 +108,8 @@ A data frame with one row and three columns, `id`, `label`, and
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 tw_search("Margaret Mead") %>%
   tw_filter_first(p = "P31", q = "Q5")
-#> # A tibble: 1 × 3
-#>   id      label         description                        
-#>   <chr>   <chr>         <chr>                              
-#> 1 Q180099 Margaret Mead American anthropologist (1901-1978)
+} # }
 ```

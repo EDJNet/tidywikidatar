@@ -100,20 +100,8 @@ to `TRUE`.
 ``` r
 # The following two lines should give the same result.
 
-tw_check_search("Sylvia Pankhurst")
-#> # A tibble: 4 × 3
-#>   id         label                                                   description
-#>   <chr>      <chr>                                                   <chr>      
-#> 1 Q298213    Sylvia Pankhurst                                        English fe…
-#> 2 Q24298894  Sylvia Pankhurst                                        sculpture …
-#> 3 Q136209787 Sylvia Pankhurst: Suffragette, Socialist and Scourge o… book 2013  
-#> 4 Q136210335 Sylvia Pankhurst: A Life in Radical Politics            book 1999  
-tw_check_search(tw_search("Sylvia Pankhurst"))
-#> # A tibble: 4 × 3
-#>   id         label                                                   description
-#>   <chr>      <chr>                                                   <chr>      
-#> 1 Q298213    Sylvia Pankhurst                                        English fe…
-#> 2 Q24298894  Sylvia Pankhurst                                        sculpture …
-#> 3 Q136209787 Sylvia Pankhurst: Suffragette, Socialist and Scourge o… book 2013  
-#> 4 Q136210335 Sylvia Pankhurst: A Life in Radical Politics            book 1999  
+if (FALSE) { # \dontrun{
+  tw_check_search("Sylvia Pankhurst")
+  tw_check_search(tw_search("Sylvia Pankhurst"))
+} # }
 ```

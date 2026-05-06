@@ -156,7 +156,7 @@ is set to `TRUE`)
 # no matter how many values for each id/property
 
 
-if (interactive()) {
+if (FALSE) { # \dontrun{
   tw_get_property_same_length(
     id = c(
       "Q180099",
@@ -196,7 +196,7 @@ if (interactive()) {
     dplyr::mutate(spouse = tw_get_property_same_length(id, "P26",
       only_first = TRUE
     ))
-}
+} # }
 tw_get_p(id = "Q180099", "P26")
 #> [[1]]
 #> [1] "Q594736"

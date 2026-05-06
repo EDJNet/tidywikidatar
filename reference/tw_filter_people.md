@@ -93,10 +93,10 @@ rows refer to a human being.
 ## Examples
 
 ``` r
-if (interactive()) {
-tw_search("Ruth Benedict")
+if (FALSE) { # \dontrun{
+  tw_search("Ruth Benedict")
 
-tw_search("Ruth Benedict") %>%
-  tw_filter_people()
-  }
+  tw_search("Ruth Benedict") %>%
+    tw_filter_people()
+} # }
 ```

@@ -36,7 +36,7 @@ tw_get_wikipedia_section_links_api_url(
   Two-letter language code used to define the Wikipedia version to use.
   Defaults to language set with
   [`tw_set_language()`](https://edjnet.github.io/tidywikidatar/reference/tw_set_language.md);
-  if not set, "en". If url given, this can be left empty.
+  if not set, "en". If URL given, this can be left empty.
 
 ## Value
 

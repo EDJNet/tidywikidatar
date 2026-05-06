@@ -107,10 +107,8 @@ filtered by the above criteria.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 tw_search(search = "Margaret Mead", limit = 3) %>%
   tw_filter(p = "P31", q = "Q5")
-#> # A tibble: 1 × 3
-#>   id      label         description                        
-#>   <chr>   <chr>         <chr>                              
-#> 1 Q180099 Margaret Mead American anthropologist (1901-1978)
+} # }
 ```
