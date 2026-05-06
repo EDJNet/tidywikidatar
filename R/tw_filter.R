@@ -142,7 +142,7 @@ tw_filter_first <- function(
   first_match_id <- purrr::detect(
     .x = seq_along(search_result$id),
     .f = function(current_row_number) {
-      search_result %>%
+      check_v <- search_result %>%
         dplyr::slice(current_row_number) %>%
         tw_filter(
           p = p,
@@ -157,8 +157,9 @@ tw_filter_first <- function(
           cache_connection = cache_connection,
           disconnect_db = FALSE
         ) %>%
-        nrow() %>%
-        `>`(0)
+        nrow()
+
+      check_v > 0
     }
   )
 
