@@ -132,7 +132,8 @@ test_that("check if image metadata returned correctly with or without cache", {
         id = c("Q2", NA, "not_an_id", "Q5"),
         only_first = TRUE,
         cache = TRUE,
-        id_df = test_id_df
+        id_df = test_id_df,
+        wait = 10
       )
 
       list(
@@ -158,7 +159,8 @@ test_that("check if image metadata returned correctly with or without cache", {
         id = c("Q2", NA, "not_an_id", "Q5"),
         only_first = TRUE,
         cache = FALSE,
-        id_df = test_id_df
+        id_df = test_id_df,
+        wait = 10
       )
 
       list(

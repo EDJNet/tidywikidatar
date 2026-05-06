@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
 #'
 #' tw_set_cache_folder(path = tempdir())
 #' tw_enable_cache()

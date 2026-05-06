@@ -56,7 +56,7 @@ If data present in cache, returns a data frame with cached data.
 Retrieve cached search
 }
 \examples{
-if (interactive()) {
+\dontrun{
 
 tw_set_cache_folder(path = tempdir())
 tw_enable_cache()
