@@ -70,12 +70,15 @@ language.
 
 ``` r
 tw_get_property_description(property = "P31")
-#> Waiting 17s for retry backoff ■■■                             
-#> Waiting 17s for retry backoff ■■■■■                           
-#> Waiting 17s for retry backoff ■■■■■■■■■■■                     
-#> Waiting 17s for retry backoff ■■■■■■■■■■■■■■■■                
-#> Waiting 17s for retry backoff ■■■■■■■■■■■■■■■■■■■■■           
-#> Waiting 17s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■     
-#> Waiting 17s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+#> Waiting 24s for retry backoff ■■                              
+#> Waiting 24s for retry backoff ■■■■                            
+#> Waiting 24s for retry backoff ■■■■■■■■                        
+#> Waiting 24s for retry backoff ■■■■■■■■■■■                     
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■                 
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■■■■■             
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■         
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■      
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
+#> Waiting 24s for retry backoff ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
 #> [1] "type to which this subject corresponds/belongs. Different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain"
 ```
